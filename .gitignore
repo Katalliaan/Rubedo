@@ -5,11 +5,14 @@
 *.war
 *.ear
 
+/assets/forge
 /cpw
 /ibxm
 /net
 /paulscode
-/*cfg
+*cfg
+deobfuscation_data*
+forge_at.cfg~
 fmlversion.properties
 forge_logo.png
 mcp.png
