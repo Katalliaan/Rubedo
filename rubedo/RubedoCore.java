@@ -32,8 +32,12 @@ public class RubedoCore {
 	}
 
 	@EventHandler
-	public void load(FMLInitializationEvent event) {
+	public void initialization(FMLInitializationEvent event) {
 		proxy.registerRenderers();
+		
+		// Adding AI EventHandlers
+		MinecraftForge.EVENT_BUS.register(new rubedo.ai.EntityAnimalEventHandler());
+		MinecraftForge.EVENT_BUS.register(new rubedo.ai.EntityLivingEventHandler());
 	}
 
 	@EventHandler
