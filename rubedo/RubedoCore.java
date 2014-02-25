@@ -19,8 +19,6 @@ public class RubedoCore {
 	// The instance of your mod that Forge uses.
 	@Instance(value = "RubedoID")
 	public static RubedoCore instance;
-
-	public static Item blankRune;
 	
 	// Says where the client and server 'proxy' code is loaded.
 	@SidedProxy(clientSide = "rubedo.client.ClientProxy", serverSide = "rubedo.CommonProxy")
