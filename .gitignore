@@ -26,6 +26,7 @@ version.properties
 
 # Minecraft
 /config/
+/crash-reports/
 /logs/
 /mods/
 /resourcepacks/
@@ -33,7 +34,8 @@ version.properties
 /stats/
 options.txt
 ForgeModLoader*.log*
-output-client.log
+output-client.log*
+output-server.log*
 
 #Remove OS generated garbage
 */.DS_Store
