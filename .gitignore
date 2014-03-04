@@ -27,6 +27,8 @@ version.properties
 # Minecraft
 /config/
 /logs/
+/mods/
+/resourcepacks/
 /saves/
 /stats/
 options.txt
