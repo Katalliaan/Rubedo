@@ -1,0 +1,19 @@
+[
+  {
+    "modid": "rubedo",
+    "name": "Rubedo",
+    "description": "",
+    "version": "${version}",
+    "mcversion": "${MCversion}",
+    "url": "",
+    "updateUrl": "",
+    "authors": [
+      "Gilberreke", "Katalliaan", "WilliamTheTuba"
+    ],
+    "credits": "Gilberreke, Katalliaan, WilliamTheTuba",
+    "logoFile": "",
+    "screenshots": [],
+    "parent":"",
+    "dependencies": []
+  }
+]
