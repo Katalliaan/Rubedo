@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import rubedo.common.Content;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,8 +22,7 @@ public abstract class MultiItem extends Item {
 		super(id);
 		this.maxStackSize = 1;
         this.setUnlocalizedName("MultiItem");
-        //TODO: add our own creative tab
-        //this.setCreativeTab(TabTools);
+        this.setCreativeTab(Content.creativeTab);
         
         renderList = new HashMap<Integer, String>();
         renderListIcons = new HashMap<Integer, Icon>();

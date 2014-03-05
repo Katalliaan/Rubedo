@@ -1,10 +1,15 @@
 package rubedo.common;
 
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import rubedo.items.tools.ToolBase;
 
 public class Content {
+	public static CreativeTabs creativeTab;
+	
 	public Content() {
+		Content.creativeTab = new CreativeTabs("Rubedo");
+		
 		registerItems();
 	}
 
@@ -15,6 +20,9 @@ public class Content {
 		    {
 				getRenderList().put(0, "rubedo:testHead");
 				getRenderList().put(1, "rubedo:testHandle");
+				
+				this.setUnlocalizedName("TestTool");
+				
 				super.registerIcons(iconRegister);
 		    }
 		};

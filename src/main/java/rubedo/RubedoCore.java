@@ -2,6 +2,7 @@ package rubedo;
 
 import java.util.logging.Logger;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import rubedo.common.Content;
 import cpw.mods.fml.common.Mod;
