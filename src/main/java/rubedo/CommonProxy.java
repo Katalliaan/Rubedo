@@ -1,7 +1,5 @@
 package rubedo;
 
-import net.minecraftforge.client.MinecraftForgeClient;
-import rubedo.CommonProxy;
 
 public class CommonProxy {
 

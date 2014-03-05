@@ -1,6 +1,7 @@
 package rubedo.common;
 
-import rubedo.tools.ToolBase;
+import net.minecraft.client.renderer.texture.IconRegister;
+import rubedo.items.tools.ToolBase;
 
 public class Content {
 	public Content() {
@@ -8,8 +9,17 @@ public class Content {
 	}
 
 	private void registerItems() {
-		testTool = new ToolBase(3300, 100);
+		testTool = new ToolBase(3300) {
+			@Override
+		    public void registerIcons (IconRegister iconRegister)
+		    {
+				getRenderList().put(0, "rubedo:testHead");
+				getRenderList().put(1, "rubedo:testHandle");
+				super.registerIcons(iconRegister);
+		    }
+		};
 	}
 	
 	public static ToolBase testTool;
+	public static ToolBase testSpell;
 }

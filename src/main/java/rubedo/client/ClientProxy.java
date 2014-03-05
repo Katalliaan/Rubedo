@@ -1,9 +1,6 @@
 package rubedo.client;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.client.MinecraftForgeClient;
 import rubedo.CommonProxy;
-import rubedo.common.Content;
 
 public class ClientProxy extends CommonProxy {
         

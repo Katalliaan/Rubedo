@@ -1,18 +1,17 @@
 package rubedo.client;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import rubedo.RubedoCore;
-import rubedo.tools.ToolBase;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import rubedo.RubedoCore;
+import rubedo.items.MultiItem;
 
 public class ToolBaseRenderer implements IItemRenderer {
 
@@ -45,7 +44,7 @@ public class ToolBaseRenderer implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		ToolBase 	tool 			= (ToolBase) item.getItem();
+		MultiItem 	tool 			= (MultiItem) item.getItem();
 		Icon[] 		icons 			= null;
 		int			iconsCount		= 0;
 		Entity 		entity 			= (data.length > 1) ? (Entity) data[1] : null;

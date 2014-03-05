@@ -1,10 +1,8 @@
 package rubedo.ai;
 
-import net.minecraft.entity.DataWatcher;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 
 // TODO: Add this as an AI, instead of an event handler
 /**
