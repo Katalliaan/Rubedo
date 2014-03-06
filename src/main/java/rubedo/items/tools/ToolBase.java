@@ -11,7 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import rubedo.common.Content;
+import rubedo.common.ContentTools;
+import rubedo.common.ContentTools.Material;
 import rubedo.items.MultiItem;
 
 //TODO: add getStrVsBlock
@@ -66,17 +67,17 @@ public abstract class ToolBase extends MultiItem {
     {	
 		super.registerIcons(iconRegister);
 		
-		for (Entry<String, ItemStack> headEntry : Content.toolHeadMaterials.entrySet()) {
+		for (Entry<String, Material> headEntry : ContentTools.toolHeadMaterials.entrySet()) {
 			String name = getName() + "_head_" + headEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
 		
-		for (Entry<String, ItemStack> rodEntry : Content.toolRodMaterials.entrySet()) {
+		for (Entry<String, Material> rodEntry : ContentTools.toolRodMaterials.entrySet()) {
 			String name = getName() + "_rod_" + rodEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
 		
-		for (Entry<String, ItemStack> capEntry : Content.toolCapMaterials.entrySet()) {
+		for (Entry<String, Material> capEntry : ContentTools.toolCapMaterials.entrySet()) {
 			String name = getName() + "_cap_" + capEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
@@ -128,9 +129,9 @@ public abstract class ToolBase extends MultiItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
     public void getSubItems(int id, CreativeTabs tabs, List list) {
-    	for (Entry<String, ItemStack> headEntry : Content.toolHeadMaterials.entrySet())
-    	for (Entry<String, ItemStack> rodEntry : Content.toolRodMaterials.entrySet())
-    	for (Entry<String, ItemStack> capEntry : Content.toolCapMaterials.entrySet()) {
+    	for (Entry<String, Material> headEntry : ContentTools.toolHeadMaterials.entrySet())
+    	for (Entry<String, Material> rodEntry : ContentTools.toolRodMaterials.entrySet())
+    	for (Entry<String, Material> capEntry : ContentTools.toolCapMaterials.entrySet()) {
     		list.add(this.buildTool(headEntry.getKey(), rodEntry.getKey(), capEntry.getKey()));
     	}
     }

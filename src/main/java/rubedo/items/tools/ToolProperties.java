@@ -1,5 +1,6 @@
 package rubedo.items.tools;
 
+import rubedo.common.ContentTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -32,5 +33,10 @@ public class ToolProperties {
 	public String getCapMaterial() {
 		return capMaterial;
 	}
-
+	
+	public int getDurability() {
+		int baseDur = ContentTools.toolHeadMaterials.get(headMaterial).durability;
+		float modifier = ContentTools.toolRodMaterials.get(rodMaterial).modifier;
+		return  (int) (baseDur * modifier);
+	}
 }
