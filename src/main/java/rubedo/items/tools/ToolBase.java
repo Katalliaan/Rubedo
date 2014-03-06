@@ -14,6 +14,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import rubedo.common.Content;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentTools.Material;
 import rubedo.items.MultiItem;
@@ -23,6 +24,7 @@ public abstract class ToolBase extends MultiItem {
 	public ToolBase(int id) {
 		super(id);
         this.setUnlocalizedName("ToolBase");
+        this.setCreativeTab(Content.creativeTab);
         
         this.maxStackSize = 1;
         setMaxDamage(100);
@@ -70,7 +72,11 @@ public abstract class ToolBase extends MultiItem {
 			break;
 		}
 		
-    	return getRenderList().get(name);
+		Icon icon = getRenderList().get(name);
+		if (icon == null)
+			icon = getRenderList().get("blank");
+		
+		return icon;
     }
 
 	@Override
