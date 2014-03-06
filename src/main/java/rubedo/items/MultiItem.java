@@ -20,7 +20,7 @@ public abstract class MultiItem extends Item {
 		super(id);
 		this.maxStackSize = 1;
         this.setUnlocalizedName("MultiItem");
-        this.setCreativeTab(Content.creativeTab);
+        //this.setCreativeTab(Content.creativeTab);
         
         registeredIcons = new HashMap<String, Icon>();
 	}
