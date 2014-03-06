@@ -15,7 +15,7 @@ public class SpellProperties {
 		
 		if (tags != null)
 		{
-			tags = tags.getCompoundTag("RubedoTool");
+			tags = tags.getCompoundTag("RubedoSpell");
 			this.baseMaterial = tags.getString("base");
 			this.focusMaterial = tags.getString("focus");
 			this.effectMaterial = tags.getString("effect");
