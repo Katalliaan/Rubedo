@@ -9,13 +9,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import rubedo.common.ContentSpells;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentSpells.Material;
 import rubedo.items.MultiItem;
-import rubedo.items.tools.ToolProperties;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 // TODO: build out more
 public abstract class SpellBase extends MultiItem {
@@ -58,7 +56,11 @@ public abstract class SpellBase extends MultiItem {
 				break;
 		}
 
-		return getRenderList().get(name);
+		Icon icon = getRenderList().get(name);
+		if (icon == null)
+			icon = getRenderList().get("blank");
+		
+		return icon;
 	}
 
 	@Override
