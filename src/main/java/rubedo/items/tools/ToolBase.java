@@ -6,12 +6,14 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import rubedo.common.Content;
 import rubedo.items.MultiItem;
 
+//TODO: add getStrVsBlock
 public abstract class ToolBase extends MultiItem {
 	public ToolBase(int id) {
 		super(id);
@@ -21,7 +23,7 @@ public abstract class ToolBase extends MultiItem {
         canRepair = false;
 	}
 	
-	public abstract String getPrefix();
+	public abstract String getName();
 	
 	protected ToolProperties getToolProperties(ItemStack stack) {
 		return new ToolProperties(stack);
@@ -43,15 +45,15 @@ public abstract class ToolBase extends MultiItem {
 		switch(renderPass) {
 		case 0:
 			//Head
-			name = getPrefix() + "_head_" + properties.getHeadMaterial();
+			name = getName() + "_head_" + properties.getHeadMaterial();
 			break;
 		case 1:
 			//Rod
-			name = getPrefix() + "_rod_" + properties.getRodMaterial();
+			name = getName() + "_rod_" + properties.getRodMaterial();
 			break;
 		case 2:
 			//Cap
-			name = getPrefix() + "_cap_" + properties.getCapMaterial();
+			name = getName() + "_cap_" + properties.getCapMaterial();
 			break;
 		}
 		
@@ -64,17 +66,17 @@ public abstract class ToolBase extends MultiItem {
 		super.registerIcons(iconRegister);
 		
 		for (String head : Content.toolHeadMaterials) {
-			String name = getPrefix() + "_head_" + head;
+			String name = getName() + "_head_" + head;
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
 		
 		for (String rod : Content.toolRodMaterials) {
-			String name = getPrefix() + "_rod_" + rod;
+			String name = getName() + "_rod_" + rod;
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
 		
 		for (String cap : Content.toolCapMaterials) {
-			String name = getPrefix() + "_cap_" + cap;
+			String name = getName() + "_cap_" + cap;
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
     }
@@ -99,9 +101,9 @@ public abstract class ToolBase extends MultiItem {
     {
     	ToolProperties properties = getToolProperties(stack);
     	
-    	list.add("Head:" + properties.getHeadMaterial());
-    	list.add("Rod:" + properties.getRodMaterial());
-    	list.add("Cap:" + properties.getCapMaterial());
+    	list.add("Head: " + properties.getHeadMaterial());
+    	list.add("Rod: " + properties.getRodMaterial());
+    	list.add("Cap: " + properties.getCapMaterial());
     }
     
     @Override
@@ -133,4 +135,24 @@ public abstract class ToolBase extends MultiItem {
     }
     
     public abstract ItemStack buildTool(String head, String rod, String cap);
+    
+    public ItemStack buildTool(ItemStack tool, String head, String rod, String cap) {
+    	// Set the correct tool properties
+		NBTTagCompound compound = new NBTTagCompound();
+		compound.setCompoundTag("RubedoTool", new NBTTagCompound());
+		compound.getCompoundTag("RubedoTool").setString("head", head);
+		compound.getCompoundTag("RubedoTool").setString("rod", rod);
+		compound.getCompoundTag("RubedoTool").setString("cap", cap);
+		
+		// Set the name, capitalized
+		compound.setCompoundTag("display", new NBTTagCompound());
+		compound.getCompoundTag("display")
+			.setString("Name", 
+					head.substring(0, 1).toUpperCase() + head.substring(1) + " " +
+					getName().substring(0, 1).toUpperCase() + getName().substring(1));
+		
+		tool.setTagCompound(compound);
+    	
+    	return tool;
+    }
 }
