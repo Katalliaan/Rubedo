@@ -1,6 +1,7 @@
 package rubedo.items.tools;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -65,18 +66,18 @@ public abstract class ToolBase extends MultiItem {
     {	
 		super.registerIcons(iconRegister);
 		
-		for (String head : Content.toolHeadMaterials) {
-			String name = getName() + "_head_" + head;
+		for (Entry<String, ItemStack> headEntry : Content.toolHeadMaterials.entrySet()) {
+			String name = getName() + "_head_" + headEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
 		
-		for (String rod : Content.toolRodMaterials) {
-			String name = getName() + "_rod_" + rod;
+		for (Entry<String, ItemStack> rodEntry : Content.toolRodMaterials.entrySet()) {
+			String name = getName() + "_rod_" + rodEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
 		
-		for (String cap : Content.toolCapMaterials) {
-			String name = getName() + "_cap_" + cap;
+		for (Entry<String, ItemStack> capEntry : Content.toolCapMaterials.entrySet()) {
+			String name = getName() + "_cap_" + capEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
 		}
     }
@@ -127,10 +128,10 @@ public abstract class ToolBase extends MultiItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
     public void getSubItems(int id, CreativeTabs tabs, List list) {
-    	for (String head : Content.toolHeadMaterials)
-    	for (String rod : Content.toolRodMaterials)
-    	for (String cap : Content.toolCapMaterials) {
-    		list.add(this.buildTool(head, rod, cap));
+    	for (Entry<String, ItemStack> headEntry : Content.toolHeadMaterials.entrySet())
+    	for (Entry<String, ItemStack> rodEntry : Content.toolRodMaterials.entrySet())
+    	for (Entry<String, ItemStack> capEntry : Content.toolCapMaterials.entrySet()) {
+    		list.add(this.buildTool(headEntry.getKey(), rodEntry.getKey(), capEntry.getKey()));
     	}
     }
     
