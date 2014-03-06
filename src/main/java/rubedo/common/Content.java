@@ -1,8 +1,10 @@
 package rubedo.common;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
-import rubedo.items.tools.ToolBase;
+import rubedo.items.tools.ToolSword;
 
 public class Content {
 	public static CreativeTabs creativeTab;
@@ -11,23 +13,30 @@ public class Content {
 		Content.creativeTab = new CreativeTabs("Rubedo");
 		
 		registerItems();
+		registerToolMaterials();
 	}
 
-	private void registerItems() {
-		testTool = new ToolBase(3300) {
-			@Override
-		    public void registerIcons (IconRegister iconRegister)
-		    {
-				getRenderList().put(0, "rubedo:testHead");
-				getRenderList().put(1, "rubedo:testHandle");
-				
-				this.setUnlocalizedName("TestTool");
-				
-				super.registerIcons(iconRegister);
-		    }
-		};
+	private void registerItems() {	
+		toolSword = new ToolSword(3301);
 	}
 	
-	public static ToolBase testTool;
-	public static ToolBase testSpell;
+	private void registerToolMaterials() {
+		toolHeadMaterials = Arrays.asList(new String [] {
+				"flint", "copper", "iron"
+		});
+		
+		toolRodMaterials = Arrays.asList(new String [] {
+				"wood", "leather", "bone", "blazerod"
+		});
+		
+		toolCapMaterials = Arrays.asList(new String [] {
+				"wood", "stone", "copper", "iron"
+		});
+	}
+	
+	public static ToolSword toolSword;
+	
+	public static List<String> toolHeadMaterials;
+	public static List<String> toolRodMaterials;
+	public static List<String> toolCapMaterials;
 }

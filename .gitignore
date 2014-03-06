@@ -31,6 +31,7 @@ version.properties
 /mods/
 /resourcepacks/
 /saves/
+/screenshots/
 /stats/
 options.txt
 ForgeModLoader*.log*

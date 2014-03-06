@@ -2,7 +2,6 @@ package rubedo.items;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import rubedo.common.Content;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -15,8 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class MultiItem extends Item {
 	protected Icon iconBlank;
 	
-	private HashMap<Integer, String> renderList;
-	private HashMap<Integer, Icon> renderListIcons;
+	private HashMap<String, Icon> registeredIcons;
 	
 	public MultiItem(int id) {
 		super(id);
@@ -24,17 +22,14 @@ public abstract class MultiItem extends Item {
         this.setUnlocalizedName("MultiItem");
         this.setCreativeTab(Content.creativeTab);
         
-        renderList = new HashMap<Integer, String>();
-        renderListIcons = new HashMap<Integer, Icon>();
+        registeredIcons = new HashMap<String, Icon>();
 	}
 	
-	public Map<Integer, String> getRenderList() {
-		return renderList;
+	public Map<String, Icon> getRenderList() {
+		return registeredIcons;
 	}
 
-	public int getIconCount() {
-		return renderList.size();
-	}
+	public abstract int getIconCount();
 	
 	@SideOnly(Side.CLIENT)
     @Override
@@ -47,20 +42,12 @@ public abstract class MultiItem extends Item {
     @Override
     public int getRenderPasses (int metadata)
     {
-        return renderList.size();
+        return getIconCount();
     }
 	
 	@Override
     public void registerIcons (IconRegister iconRegister)
-    {
-		renderListIcons.clear();
-		
-		for (Entry<Integer, String> entry : renderList.entrySet()) {
-			renderListIcons.put(
-					entry.getKey(), 
-					iconRegister.registerIcon(entry.getValue()));
-		}
-		
+    {		
 		iconBlank = iconRegister.registerIcon("rubedo:blank");
     }
 	
@@ -73,10 +60,7 @@ public abstract class MultiItem extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon (ItemStack stack, int renderPass)
-    {
-    	return renderListIcons.get(renderPass);
-    }
+    public abstract Icon getIcon (ItemStack stack, int renderPass);
 
     @Override
     public boolean isFull3D ()
