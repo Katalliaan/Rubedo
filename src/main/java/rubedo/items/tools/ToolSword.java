@@ -1,5 +1,7 @@
 package rubedo.items.tools;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +21,44 @@ public class ToolSword extends ToolBase {
 	@Override
 	public String getName() {
 		return "sword";
+	}
+	
+	protected float baseSpeed ()
+    {
+        return 1.5f;
+    }
+
+    protected float effectiveSpeed ()
+    {
+        return 15f;
+    }
+	
+	@Override
+    public float getStrVsBlock (ItemStack stack, Block block, int meta)
+    {
+        if (stack.getTagCompound().getCompoundTag("RubedoTool").getBoolean("broken"))
+            return 0.1f;
+
+        //TODO: set up a better list of things swords are effective against?
+    	if (block.blockID == Block.web.blockID)
+    	{
+            return 15f;
+        }
+    	else
+    	{
+    		Material material = block.blockMaterial;
+            return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.pumpkin ? 1.0F : 1.5F;
+    	}
+    }
+	
+	@Override
+	public int getItemDamageOnHit() {
+		return 1;
+	}
+
+	@Override
+	public int getItemDamageOnBreak() {
+		return 2;
 	}
 	
 	@Override

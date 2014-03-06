@@ -8,6 +8,8 @@ public class ToolProperties {
 	protected String headMaterial;
 	protected String rodMaterial;
 	protected String capMaterial;
+	
+	protected boolean isBroken;
 
 	public ToolProperties(ItemStack stack) {
 		//TODO better error checking?
@@ -19,7 +21,12 @@ public class ToolProperties {
 			this.headMaterial = tags.getString("head");
 			this.rodMaterial = tags.getString("rod");
 			this.capMaterial = tags.getString("cap");
+			this.isBroken = tags.getBoolean("broken");
 		}
+	}
+	
+	public boolean isBroken() {
+		return isBroken;
 	}
 
 	public String getHeadMaterial() {

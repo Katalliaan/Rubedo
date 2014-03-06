@@ -3,12 +3,15 @@ package rubedo.items.tools;
 import java.util.List;
 import java.util.Map.Entry;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import rubedo.common.ContentTools;
@@ -21,11 +24,16 @@ public abstract class ToolBase extends MultiItem {
 		super(id);
         this.setUnlocalizedName("ToolBase");
         
+        this.maxStackSize = 1;
+        setMaxDamage(100);
+        
         setNoRepair();
         canRepair = false;
 	}
 	
 	public abstract String getName();
+	public abstract int getItemDamageOnHit();
+	public abstract int getItemDamageOnBreak();
 	
 	protected ToolProperties getToolProperties(ItemStack stack) {
 		return new ToolProperties(stack);
@@ -47,7 +55,10 @@ public abstract class ToolBase extends MultiItem {
 		switch(renderPass) {
 		case 0:
 			//Head
-			name = getName() + "_head_" + properties.getHeadMaterial();
+			if (!stack.getTagCompound().getCompoundTag("RubedoTool").getBoolean("broken"))
+				name = getName() + "_head_" + properties.getHeadMaterial();
+			else
+				name = getName() + "_head_" + properties.getHeadMaterial() + "_broken";
 			break;
 		case 1:
 			//Rod
@@ -70,6 +81,7 @@ public abstract class ToolBase extends MultiItem {
 		for (Entry<String, Material> headEntry : ContentTools.toolHeadMaterials.entrySet()) {
 			String name = getName() + "_head_" + headEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon("rubedo:tools/" + name));
+			getRenderList().put(name + "_broken", iconRegister.registerIcon("rubedo:tools/" + name + "_broken"));
 		}
 		
 		for (Entry<String, Material> rodEntry : ContentTools.toolRodMaterials.entrySet()) {
@@ -109,10 +121,49 @@ public abstract class ToolBase extends MultiItem {
     }
     
     @Override
-    public boolean isItemTool (ItemStack par1ItemStack)
+	public boolean hitEntity(ItemStack stack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
     {
+        stack.damageItem(getItemDamageOnHit(), par3EntityLivingBase);
+        
+        if (getDamagePercentage(getToolProperties(stack), stack.getItemDamage()) >= 1) {
+        	NBTTagCompound tags = stack.getTagCompound();
+        	tags.getCompoundTag("RubedoTool").setBoolean("broken", true);
+        }
+        
         return true;
     }
+	
+	@Override
+	public boolean onBlockDestroyed(ItemStack stack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase)
+    {
+        if ((double)Block.blocksList[par3].getBlockHardness(par2World, par4, par5, par6) != 0.0D)
+        {
+        	stack.damageItem(getItemDamageOnBreak(), par7EntityLivingBase);
+            
+            if (getDamagePercentage(getToolProperties(stack), stack.getItemDamage()) >= 1) {
+            	stack.getTagCompound().getCompoundTag("RubedoTool").setBoolean("broken", true);
+            }
+        }
+
+        return true;
+    }
+	
+	protected float getDamagePercentage(ToolProperties properties, int itemDamage) {		
+		float baseDur = properties.getDurability();
+		float percentage = itemDamage / baseDur;
+		
+		return percentage;
+	}
+	
+	@Override
+	public int getDisplayDamage(ItemStack stack) {
+		ToolProperties properties = getToolProperties(stack);
+		
+		if (!properties.isBroken())
+			return (int) (getDamagePercentage(properties, stack.getItemDamage()) * 100);
+		else
+			return -1;
+	}
     
     @Override
     public boolean getIsRepairable (ItemStack par1ItemStack, ItemStack par2ItemStack)
