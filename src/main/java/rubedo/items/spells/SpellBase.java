@@ -59,7 +59,7 @@ public abstract class SpellBase extends MultiItem {
 		Icon icon = getRenderList().get(name);
 		if (icon == null)
 			icon = getRenderList().get("blank");
-		
+
 		return icon;
 	}
 
@@ -102,18 +102,21 @@ public abstract class SpellBase extends MultiItem {
 		list.add("Effect: " + properties.getEffectMaterial());
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
-    public void getSubItems(int id, CreativeTabs tabs, List list) {
-    	for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials.entrySet())
-    	for (Entry<String, Material> focusEntry : ContentSpells.spellFocusMaterials.entrySet())
-    	for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials.entrySet()) {
-    		list.add(this.buildSpell(baseEntry.getKey(), focusEntry.getKey(), effectEntry.getKey()));
-		
-		 
-    	}
-    }
-	
+	public void getSubItems(int id, CreativeTabs tabs, List list) {
+		for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials
+				.entrySet())
+			for (Entry<String, Material> focusEntry : ContentSpells.spellFocusMaterials
+					.entrySet())
+				for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials
+						.entrySet()) {
+					list.add(this.buildSpell(baseEntry.getKey(),
+							focusEntry.getKey(), effectEntry.getKey()));
+
+				}
+	}
+
 	public abstract ItemStack buildSpell(String base, String focus,
 			String effect);
 
@@ -126,13 +129,17 @@ public abstract class SpellBase extends MultiItem {
 		compound.getCompoundTag("RubedoSpell").setString("focus", focus);
 		compound.getCompoundTag("RubedoSpell").setString("effect", effect);
 
+		String effectType = ContentSpells.spellEffectMaterials.get(effect).effectType;
+
 		// Set the name, capitalized
 		compound.setCompoundTag("display", new NBTTagCompound());
 		compound.getCompoundTag("display").setString(
 				"Name",
 				base.substring(0, 1).toUpperCase() + base.substring(1) + " "
 						+ getName().substring(0, 1).toUpperCase()
-						+ getName().substring(1));
+						+ getName().substring(1) + " "
+						+ effectType.substring(0, 1).toUpperCase()
+						+ effectType.substring(1));
 
 		spell.setTagCompound(compound);
 
