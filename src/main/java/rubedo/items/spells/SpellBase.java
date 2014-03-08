@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -15,6 +16,7 @@ import rubedo.common.Content;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentSpells.Material;
 import rubedo.items.MultiItem;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -173,9 +175,6 @@ public abstract class SpellBase extends MultiItem {
 		list.add("Effect: " + properties.getEffectMaterial());
 	}
 
-	// FIXME: This ignores the kind of spell, resulting in invalid spell
-	// combinations in the creative tab; crafting works fine
-
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void getSubItems(int id, CreativeTabs tabs, List list) {
@@ -185,9 +184,18 @@ public abstract class SpellBase extends MultiItem {
 					.entrySet())
 				for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials
 						.entrySet()) {
-					list.add(this.buildSpell(baseEntry.getKey(),
-							focusEntry.getKey(), effectEntry.getKey()));
 
+					if (focusEntry.getValue().focusType == "projectile") {
+						list.add(Content.spellProjectile.buildSpell(
+								baseEntry.getKey(), 
+								focusEntry.getKey(),
+								effectEntry.getKey()));
+					} else if (focusEntry.getValue().focusType == "self") {
+						list.add(Content.spellSelf.buildSpell(
+								baseEntry.getKey(), 
+								focusEntry.getKey(),
+								effectEntry.getKey()));
+					}
 				}
 	}
 
