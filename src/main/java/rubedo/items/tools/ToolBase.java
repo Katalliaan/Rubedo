@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -113,64 +114,6 @@ public abstract class ToolBase extends MultiItem {
         return hasEffect(par1ItemStack) && (pass == 0);
     }
     
-    //TODO: replace by proper tooltip system for tools
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean par4)
-    {
-    	ToolProperties properties = getToolProperties(stack);
-    	
-    	list.add("Head: " + properties.getHeadMaterial());
-    	list.add("Rod: " + properties.getRodMaterial());
-    	list.add("Cap: " + properties.getCapMaterial());
-    }
-    
-    @Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
-    {
-        stack.damageItem(getItemDamageOnHit(), par3EntityLivingBase);
-        
-        if (getDamagePercentage(getToolProperties(stack), stack.getItemDamage()) >= 1) {
-        	NBTTagCompound tags = stack.getTagCompound();
-        	tags.getCompoundTag("RubedoTool").setBoolean("broken", true);
-        }
-        
-        return true;
-    }
-	
-	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase)
-    {
-        if ((double)Block.blocksList[par3].getBlockHardness(par2World, par4, par5, par6) != 0.0D)
-        {
-        	stack.damageItem(getItemDamageOnBreak(), par7EntityLivingBase);
-            
-            if (getDamagePercentage(getToolProperties(stack), stack.getItemDamage()) >= 1) {
-            	stack.getTagCompound().getCompoundTag("RubedoTool").setBoolean("broken", true);
-            }
-        }
-
-        return true;
-    }
-	
-	protected float getDamagePercentage(ToolProperties properties, int itemDamage) {		
-		float baseDur = properties.getDurability();
-		float percentage = itemDamage / baseDur;
-		
-		return percentage;
-	}
-	
-	@Override
-	public int getDisplayDamage(ItemStack stack) {
-		ToolProperties properties = getToolProperties(stack);
-		
-		if (!properties.isBroken())
-			return (int) (getDamagePercentage(properties, stack.getItemDamage()) * 100);
-		else
-			return -1;
-	}
-    
     @Override
     public boolean getIsRepairable (ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
@@ -183,6 +126,46 @@ public abstract class ToolBase extends MultiItem {
         return false;
     }
     
+    // Tool interactions
+    
+    @Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
+    {
+        return ToolUtil.hitEntity(this, stack, par3EntityLivingBase);
+    }
+	
+	@Override
+	public boolean onBlockDestroyed(ItemStack stack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase)
+    {
+        return ToolUtil.onBlockDestroyed(this, stack, par2World, par3, par4, par5, par6, par7EntityLivingBase);
+    }
+	
+	@Override
+    public float getStrVsBlock (ItemStack stack, Block block, int meta)
+    {
+        return ToolUtil.getStrVsBlock(this, stack, block, meta);
+    }
+	
+	@Override
+	public int getDisplayDamage(ItemStack stack) {
+		return ToolUtil.getDisplayDamage(this, stack);
+	}
+	
+	@Override
+    public boolean onLeftClickEntity (ItemStack stack, EntityPlayer player, Entity entity)
+    {
+        ToolUtil.onLeftClickEntity(this, stack, player, entity);
+        return false;
+    }
+	
+	public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
+    {
+		ToolUtil.onItemRightClick(this, stack, world, player);
+		return stack;
+    }
+	
+	// Misc
+	
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
     public void getSubItems(int id, CreativeTabs tabs, List list) {
@@ -191,6 +174,19 @@ public abstract class ToolBase extends MultiItem {
     	for (Entry<String, Material> capEntry : ContentTools.toolCapMaterials.entrySet()) {
     		list.add(this.buildTool(headEntry.getKey(), rodEntry.getKey(), capEntry.getKey()));
     	}
+    }
+    
+    //TODO: replace by proper tooltip system for tools
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean par4)
+    {
+    	ToolProperties properties = getToolProperties(stack);
+    	
+    	list.add("Head: " + properties.getHeadMaterial());
+    	list.add("Rod: " + properties.getRodMaterial());
+    	list.add("Cap: " + properties.getCapMaterial());
     }
     
     public abstract ItemStack buildTool(String head, String rod, String cap);
