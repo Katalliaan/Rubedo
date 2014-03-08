@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentThorns;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -14,6 +15,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet70GameEvent;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -41,35 +44,54 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 		super(par1World);
 		this.setSize(1.0F, 1.0F);
 	}
-	
+
 	/**
 	 * Used in casting SpellProjectile
+	 * 
 	 * @param par1World
-	 * @param par2EntityLivingBase Casting Player
-	 * @param speed Initial push imparted by cast
-	 * @param type Type of effect
-	 * @param power Power of effect
+	 * @param par2EntityLivingBase
+	 *            Casting Player
+	 * @param speed
+	 *            Initial push imparted by cast
+	 * @param type
+	 *            Type of effect
+	 * @param power
+	 *            Power of effect
 	 */
-	public EntitySpellProjectile(World par1World, EntityLivingBase par2EntityLivingBase, float speed, String type, int power)
-    {
-        super(par1World);
-        this.renderDistanceWeight = 10.0D;
-        this.shootingEntity = par2EntityLivingBase;
-        this.type = type;
-        this.power = power;
+	public EntitySpellProjectile(World par1World,
+			EntityLivingBase par2EntityLivingBase, float speed, String type,
+			int power) {
+		super(par1World);
+		this.renderDistanceWeight = 10.0D;
+		this.shootingEntity = par2EntityLivingBase;
+		this.type = type;
+		this.power = power;
 
-        this.setSize(1.0F, 1.0F);
-        this.setLocationAndAngles(par2EntityLivingBase.posX, par2EntityLivingBase.posY + (double)par2EntityLivingBase.getEyeHeight(), par2EntityLivingBase.posZ, par2EntityLivingBase.rotationYaw, par2EntityLivingBase.rotationPitch);
-        this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
-        this.posY -= 0.10000000149011612D;
-        this.posZ -= (double)(MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
-        this.setPosition(this.posX, this.posY, this.posZ);
-        this.yOffset = 0.0F;
-        this.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI));
-        this.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI));
-        this.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI));
-        this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, speed * 1.5F, 1.0F);
-    }
+		this.setSize(1.0F, 1.0F);
+		this.setLocationAndAngles(
+				par2EntityLivingBase.posX,
+				par2EntityLivingBase.posY
+						+ (double) par2EntityLivingBase.getEyeHeight(),
+				par2EntityLivingBase.posZ, par2EntityLivingBase.rotationYaw,
+				par2EntityLivingBase.rotationPitch);
+		this.posX -= (double) (MathHelper.cos(this.rotationYaw / 180.0F
+				* (float) Math.PI) * 0.16F);
+		this.posY -= 0.10000000149011612D;
+		this.posZ -= (double) (MathHelper.sin(this.rotationYaw / 180.0F
+				* (float) Math.PI) * 0.16F);
+		this.setPosition(this.posX, this.posY, this.posZ);
+		this.yOffset = 0.0F;
+		this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F
+				* (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F
+				* (float) Math.PI));
+		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F
+				* (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F
+				* (float) Math.PI));
+		this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F
+				* (float) Math.PI));
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ,
+				speed * 1.5F, 1.0F);
+	}
 
 	@Override
 	protected void entityInit() {
@@ -80,6 +102,55 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 	protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
 		if (type == "fire")
 			impactFire(par1MovingObjectPosition);
+		else if (type == "water")
+			impactWater(par1MovingObjectPosition);
+	}
+
+	protected void impactWater(MovingObjectPosition par1MovingObjectPosition) {
+		if (!this.worldObj.isRemote) {
+			if (par1MovingObjectPosition.entityHit != null
+					&& par1MovingObjectPosition.entityHit instanceof EntityLiving) {
+				EntityLiving entityHit = (EntityLiving) par1MovingObjectPosition.entityHit;
+
+				entityHit.addPotionEffect(new PotionEffect(Potion.moveSlowdown
+						.getId(), 100, power, false));
+			} else {
+				int blockX = par1MovingObjectPosition.blockX;
+				int blockY = par1MovingObjectPosition.blockY;
+				int blockZ = par1MovingObjectPosition.blockZ;
+
+				switch (par1MovingObjectPosition.sideHit) {
+					case 0 :
+						--blockY;
+						break;
+					case 1 :
+						++blockY;
+						break;
+					case 2 :
+						--blockZ;
+						break;
+					case 3 :
+						++blockZ;
+						break;
+					case 4 :
+						--blockX;
+						break;
+					case 5 :
+						++blockX;
+				}
+
+				// TODO: figure out why this doesn't behave as expected -
+				// disappears instantly instead of flowing for a bit
+				if (this.worldObj.isAirBlock(blockX, blockY, blockZ)) {
+					this.worldObj.setBlock(blockX, blockY, blockZ,
+							Block.waterMoving.blockID);
+					this.worldObj.setBlockMetadataWithNotify(blockX, blockY,
+							blockZ, 8, 1);
+				}
+			}
+
+			this.setDead();
+		}
 	}
 
 	protected void impactFire(MovingObjectPosition par1MovingObjectPosition) {
@@ -157,8 +228,8 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 		}
 
 		if (this.inGround) {
-			int inBlockId = this.worldObj
-					.getBlockId(this.xTile, this.yTile, this.zTile);
+			int inBlockId = this.worldObj.getBlockId(this.xTile, this.yTile,
+					this.zTile);
 
 			if (inBlockId == this.inTile) {
 				++this.ticksAlive;

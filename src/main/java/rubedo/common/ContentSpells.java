@@ -70,6 +70,13 @@ public class ContentSpells {
 			blazerod.effectMaterial = new ItemStack(Item.blazeRod);
 			blazerod.effectType = "fire";
 		}
+		
+		Material snowball = new Material();
+		{
+			snowball.name = "snowball";
+			snowball.effectMaterial = new ItemStack(Item.snowball);
+			snowball.effectType = "water";
+		}
 
 		spellBaseMaterials = new HashMap<String, Material>();
 		{
@@ -87,6 +94,7 @@ public class ContentSpells {
 		spellEffectMaterials = new HashMap<String, Material>();
 		{
 			spellEffectMaterials.put(blazerod.name, blazerod);
+			spellEffectMaterials.put(snowball.name, snowball);
 		}
 	}
 

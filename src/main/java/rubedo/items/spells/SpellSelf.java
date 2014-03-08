@@ -3,6 +3,8 @@ package rubedo.items.spells;
 import rubedo.common.Content;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class SpellSelf extends SpellBase {
@@ -22,6 +24,9 @@ public class SpellSelf extends SpellBase {
 		if (effectType == "fire") {
 			if (!entityPlayer.isImmuneToFire())
 				entityPlayer.setFire(power);
+		}
+		else if (effectType == "water") {
+			entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 100, power, false));
 		}
 	}
 
