@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import rubedo.common.Content;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentSpells.Material;
 import rubedo.items.MultiItem;
@@ -23,6 +24,7 @@ public abstract class SpellBase extends MultiItem {
 	public SpellBase(int id) {
 		super(id);
 		this.setUnlocalizedName("SpellBase");
+		this.setCreativeTab(Content.creativeTab);
 	}
 
 	public abstract String getName();
@@ -116,12 +118,12 @@ public abstract class SpellBase extends MultiItem {
 				name = "base_" + properties.getBaseMaterial();
 				break;
 			case 1 :
-				// Focus
-				name = "focus_" + properties.getFocusMaterial();
-				break;
-			case 2 :
 				// Effect
 				name = "effect_" + properties.getEffectMaterial();
+				break;
+			case 2 :
+				// Focus
+				name = "focus_" + properties.getFocusMaterial();
 				break;
 		}
 
@@ -170,6 +172,9 @@ public abstract class SpellBase extends MultiItem {
 		list.add("Focus: " + properties.getFocusMaterial());
 		list.add("Effect: " + properties.getEffectMaterial());
 	}
+
+	// FIXME: This ignores the kind of spell, resulting in invalid spell
+	// combinations in the creative tab; crafting works fine
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override

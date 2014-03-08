@@ -46,12 +46,20 @@ public class ContentSpells {
 			arrow.castTime = 1.0f;
 			arrow.focusType = "projectile";
 		}
+		
+		Material bottle = new Material();
+		{
+			bottle.name = "bottle";
+			bottle.focusMaterial = new ItemStack(Item.glassBottle);
+			bottle.castTime = 1.0f;
+			bottle.focusType = "self";
+		}
 
 		Material gunpowder = new Material();
 		{
 			gunpowder.name = "gunpowder";
 			gunpowder.focusMaterial = new ItemStack(Item.gunpowder);
-			gunpowder.castTime = 2.0f;
+			gunpowder.castTime = 1.0f;
 			gunpowder.focusType = "area";
 		}
 
@@ -72,6 +80,7 @@ public class ContentSpells {
 		spellFocusMaterials = new HashMap<String, Material>();
 		{
 			spellFocusMaterials.put(arrow.name, arrow);
+			spellFocusMaterials.put(bottle.name, bottle);
 			spellFocusMaterials.put(gunpowder.name, gunpowder);
 		}
 
@@ -87,7 +96,9 @@ public class ContentSpells {
 					.entrySet())
 				for (Entry<String, Material> effectEntry : spellEffectMaterials
 						.entrySet()) {
-
+					boolean isProjectile = focusEntry.getValue().focusType == "projectile";
+					boolean isSelf = focusEntry.getValue().focusType == "self";
+					
 					if (focusEntry.getValue().focusType == "projectile") {
 						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
 								new ItemStack[]{null,
@@ -99,6 +110,21 @@ public class ContentSpells {
 										null},
 
 								Content.spellProjectile.buildSpell(
+										baseEntry.getKey(),
+										focusEntry.getKey(),
+										effectEntry.getKey())));
+					}
+					else if (focusEntry.getValue().focusType == "self") {
+						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
+								new ItemStack[]{null,
+										baseEntry.getValue().baseMaterial,
+										null, null,
+										focusEntry.getValue().focusMaterial,
+										null, null,
+										effectEntry.getValue().effectMaterial,
+										null},
+
+								Content.spellSelf.buildSpell(
 										baseEntry.getKey(),
 										focusEntry.getKey(),
 										effectEntry.getKey())));

@@ -19,7 +19,6 @@ public class SpellProjectile extends SpellBase {
 
 	public SpellProjectile(int id) {
 		super(id);
-		this.setCreativeTab(Content.creativeTab);
 	}
 
 	@Override

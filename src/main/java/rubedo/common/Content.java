@@ -2,6 +2,7 @@ package rubedo.common;
 
 import net.minecraft.creativetab.CreativeTabs;
 import rubedo.items.spells.SpellProjectile;
+import rubedo.items.spells.SpellSelf;
 import rubedo.items.tools.ToolSword;
 
 public class Content {
@@ -22,9 +23,11 @@ public class Content {
 		toolSword = new ToolSword(3301);
 		
 		spellProjectile = new SpellProjectile(3321);
+		spellSelf = new SpellSelf(3322);
 	}
 	
 	public static ToolSword toolSword;
 	
 	public static SpellProjectile spellProjectile;
+	public static SpellSelf spellSelf;
 }
