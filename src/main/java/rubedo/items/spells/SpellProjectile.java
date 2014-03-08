@@ -27,66 +27,15 @@ public class SpellProjectile extends SpellBase {
 		return "projectile";
 	}
 
-	/**
-	 * called when the player releases the use item button. Args: itemstack,
-	 * world, entityplayer, itemInUseCount
-	 */
-	public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer, int itemInUseCount) {
-		int j = this.getMaxItemUseDuration(par1ItemStack) - itemInUseCount;
+	public void castSpell(World world, EntityPlayer entityPlayer, int power,
+			String effectType, float focusModifier) {
 
-		float chargeTime = (float) j / 20.0F;
-		chargeTime = (chargeTime * chargeTime + chargeTime * 2.0F) / 3.0F;
+		EntitySpellProjectile entitySpellProjectile = new EntitySpellProjectile(
+				world, entityPlayer, focusModifier, effectType, power);
 
-		if ((double) chargeTime < 0.1D) {
-			return;
+		if (!world.isRemote) {
+			world.spawnEntityInWorld(entitySpellProjectile);
 		}
-
-		if (chargeTime >= 1.0F) {			
-			NBTTagCompound tags = par1ItemStack.getTagCompound();
-			
-			int power = ContentSpells.spellBaseMaterials.get(tags.getCompoundTag("RubedoSpell").getString("base")).power;
-			String type = ContentSpells.spellEffectMaterials.get(tags.getCompoundTag("RubedoSpell").getString("effect")).effectType;
-
-			EntitySpellProjectile entitySpellProjectile = new EntitySpellProjectile(
-					par2World, par3EntityPlayer, 2.0F, type, power);
-
-			if (!par2World.isRemote) {
-				par2World.spawnEntityInWorld(entitySpellProjectile);
-			}
-		}
-
-	}
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
-		return par1ItemStack;
-	}
-
-	/**
-	 * How long it takes to use or consume an item
-	 */
-	public int getMaxItemUseDuration(ItemStack par1ItemStack) {
-		return 72000;
-	}
-
-	/**
-	 * returns the action that specifies what animation to play when the items
-	 * is being used
-	 */
-	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
-		return EnumAction.bow;
-	}
-
-	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
-	 */
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
-		par3EntityPlayer.setItemInUse(par1ItemStack,
-				this.getMaxItemUseDuration(par1ItemStack));
-
-		return par1ItemStack;
 	}
 
 	/**

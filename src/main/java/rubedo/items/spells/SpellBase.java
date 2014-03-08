@@ -6,9 +6,11 @@ import java.util.Map.Entry;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
+import net.minecraft.world.World;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentSpells.Material;
 import rubedo.items.MultiItem;
@@ -28,6 +30,73 @@ public abstract class SpellBase extends MultiItem {
 	protected SpellProperties getSpellProperties(ItemStack stack) {
 		return new SpellProperties(stack);
 	}
+
+	/**
+	 * called when the player releases the use item button.
+	 * 
+	 * @param itemStack
+	 *            this item
+	 * @param world
+	 *            world
+	 * @param entityPlayer
+	 *            player casting spell
+	 * @param itemInUseCount
+	 *            ??
+	 */
+	public void onPlayerStoppedUsing(ItemStack itemStack, World world,
+			EntityPlayer entityPlayer, int itemInUseCount) {
+		float castTime = (this.getMaxItemUseDuration(itemStack) - itemInUseCount) / 20.0F;
+
+		NBTTagCompound tags = itemStack.getTagCompound();
+
+		if (castTime >= ContentSpells.spellFocusMaterials.get(tags
+				.getCompoundTag("RubedoSpell").getString("focus")).castTime) {
+			castSpell(
+					world,
+					entityPlayer,
+					ContentSpells.spellBaseMaterials.get(tags.getCompoundTag(
+							"RubedoSpell").getString("base")).power,
+					ContentSpells.spellEffectMaterials.get(tags.getCompoundTag(
+							"RubedoSpell").getString("effect")).effectType,
+					ContentSpells.spellBaseMaterials.get(tags.getCompoundTag(
+							"RubedoSpell").getString("base")).focusModifier);
+		}
+	}
+
+	// TODO: figure out how this works
+	/**
+	 * How long it takes to use or consume an item
+	 */
+	public int getMaxItemUseDuration(ItemStack itemStack) {
+		// NBTTagCompound tags = itemStack.getTagCompound();
+
+		// return (int) (72000 *
+		// ContentSpells.spellFocusMaterials.get(tags.getCompoundTag("RubedoSpell").getString("focus")).castTime);
+		return 72000;
+	}
+
+	/**
+	 * returns the action that specifies what animation to play when the items
+	 * is being used
+	 */
+	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
+		return EnumAction.bow;
+	}
+
+	/**
+	 * Called whenever this item is equipped and the right mouse button is
+	 * pressed. Args: itemStack, world, entityPlayer
+	 */
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
+			EntityPlayer par3EntityPlayer) {
+		par3EntityPlayer.setItemInUse(par1ItemStack,
+				this.getMaxItemUseDuration(par1ItemStack));
+
+		return par1ItemStack;
+	}
+
+	public abstract void castSpell(World world, EntityPlayer entityPlayer,
+			int power, String effectType, float focusModifier);
 
 	@Override
 	public int getIconCount() {

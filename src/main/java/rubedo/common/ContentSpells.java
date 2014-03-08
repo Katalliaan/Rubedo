@@ -33,7 +33,7 @@ public class ContentSpells {
 			iron.name = "iron";
 			iron.cost = 250;
 			iron.power = 2;
-			iron.focusModifier = 6.0f;
+			iron.focusModifier = 0.6f;
 			// TODO: replace by iron base
 			iron.baseMaterial = new ItemStack(Item.ingotIron);
 		}
