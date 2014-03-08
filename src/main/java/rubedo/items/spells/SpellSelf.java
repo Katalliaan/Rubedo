@@ -19,9 +19,9 @@ public class SpellSelf extends SpellBase {
 	@Override
 	public void castSpell(World world, EntityPlayer entityPlayer, int power,
 			String effectType, float focusModifier) {
-		if (effectType == "fire")
-		{
-			entityPlayer.setFire(power);
+		if (effectType == "fire") {
+			if (!entityPlayer.isImmuneToFire())
+				entityPlayer.setFire(power);
 		}
 	}
 
