@@ -28,7 +28,7 @@ public class ContentTools {
 		Material wood = new Material();
 		{
 			wood.name = "wood";
-			wood.modifier = 1.0f;
+			wood.modifier = 0.5f;
 			wood.special = 0;
 			wood.rodMaterial = new ItemStack(Item.stick);
 			wood.capMaterial = new ItemStack(Block.planks);
@@ -42,13 +42,13 @@ public class ContentTools {
 		Material leather = new Material();
 		{
 			leather.name = "leather";
-			leather.modifier = 1.2f;
+			leather.modifier = 1.0f;
 			leather.rodMaterial = new ItemStack(Item.leather);
 		}
 		Material bone = new Material();
 		{
 			bone.name = "bone";
-			bone.modifier = 1.4f;
+			bone.modifier = 1.2f;
 			bone.rodMaterial = new ItemStack(Item.bone);
 		}
 		Material blazerod = new Material();

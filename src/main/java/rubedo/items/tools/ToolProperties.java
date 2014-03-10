@@ -4,46 +4,50 @@ import rubedo.common.ContentTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ToolProperties {
-	protected String headMaterial;
-	protected String rodMaterial;
-	protected String capMaterial;
-	
-	protected boolean isBroken;
+public class ToolProperties {	
+	protected NBTTagCompound tag;
+	protected NBTTagCompound baseTags;
 
 	public ToolProperties(ItemStack stack) {
-		//TODO better error checking?
-		NBTTagCompound tags = stack.getTagCompound();
+		this.baseTags = stack.getTagCompound();
 		
-		if (tags != null)
+		if (this.baseTags != null)
 		{
-			tags = tags.getCompoundTag("RubedoTool");
-			this.headMaterial = tags.getString("head");
-			this.rodMaterial = tags.getString("rod");
-			this.capMaterial = tags.getString("cap");
-			this.isBroken = tags.getBoolean("broken");
+			this.tag = this.baseTags.getCompoundTag("RubedoTool");
 		}
 	}
 	
-	public boolean isBroken() {
-		return isBroken;
-	}
+	public boolean isValid() { return tag != null; }
+	
+	public NBTTagCompound getTag() { return tag; }
+	
+	public boolean isBroken() { return tag.getBoolean("broken"); }
+	public void setBroken(boolean isBroken) { tag.setBoolean("broken", isBroken); }
 
-	public String getHeadMaterial() {
-		return headMaterial;
-	}
-
-	public String getRodMaterial() {
-		return rodMaterial;
-	}
-
-	public String getCapMaterial() {
-		return capMaterial;
-	}
+	public String getHeadMaterial() { return tag.getString("head");	}
+	public void setHeadMaterial(String head) { tag.setString("head", head); }
+	public String getRodMaterial() { return tag.getString("rod"); }
+	public void setRodMaterial(String rod) { tag.setString("rod", rod); }
+	public String getCapMaterial() { return tag.getString("cap"); }
+	public void setCapMaterial(String cap) { tag.setString("cap", cap); }
 	
 	public int getDurability() {
-		int baseDur = ContentTools.toolHeadMaterials.get(headMaterial).durability;
-		float modifier = ContentTools.toolRodMaterials.get(rodMaterial).modifier;
+		int baseDur = ContentTools.toolHeadMaterials.get(getHeadMaterial()).durability;
+		float modifier = ContentTools.toolRodMaterials.get(getRodMaterial()).modifier;
 		return  (int) (baseDur * modifier);
+	}
+	
+	public String getName() { return baseTags.getCompoundTag("display").getString("Name"); }
+	public void setName(String name) { baseTags.getCompoundTag("display").setString("Name", name); }
+	
+	public void resetName(String name) {
+		String broken = "";
+		if (isBroken()) {
+			broken = "§4Broken ";
+		}
+		
+		setName("§r" + broken +
+				getHeadMaterial().substring(0, 1).toUpperCase() + getHeadMaterial().substring(1) + " " +
+				name.substring(0, 1).toUpperCase() + name.substring(1));
 	}
 }

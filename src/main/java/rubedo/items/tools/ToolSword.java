@@ -23,43 +23,23 @@ public class ToolSword extends ToolBase {
 		return "sword";
 	}
 	
-	protected float baseSpeed ()
-    {
-        return 1.5f;
-    }
-
-    protected float effectiveSpeed ()
-    {
-        return 15f;
-    }
+	@Override
+	public int getItemDamageOnHit() { return 1;	}
+	@Override
+	public int getItemDamageOnBreak() {	return 2; }
+	@Override
+	public float getEffectiveSpeed () { return 1.5f; }
+	@Override
+	public Material[] getEffectiveMaterials() {	return new Material[] { Material.plants, Material.vine, Material.coral, Material.leaves, Material.pumpkin }; }
 	
 	@Override
     public float getStrVsBlock (ItemStack stack, Block block, int meta)
     {
-        if (stack.getTagCompound().getCompoundTag("RubedoTool").getBoolean("broken"))
-            return 0.1f;
-
-        //TODO: set up a better list of things swords are effective against?
-    	if (block.blockID == Block.web.blockID)
-    	{
-            return 15f;
-        }
-    	else
-    	{
-    		Material material = block.blockMaterial;
-            return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.pumpkin ? 1.0F : 1.5F;
-    	}
+		if (block.blockMaterial == Material.web)
+			return 15.0f;
+		
+        return super.getStrVsBlock(stack, block, meta);
     }
-	
-	@Override
-	public int getItemDamageOnHit() {
-		return 1;
-	}
-
-	@Override
-	public int getItemDamageOnBreak() {
-		return 2;
-	}
 	
 	@Override
 	public EnumAction getItemUseAction (ItemStack par1ItemStack)
@@ -77,7 +57,7 @@ public class ToolSword extends ToolBase {
 	public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
     {
         player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-        return stack;
+        return super.onItemRightClick(stack, world, player);
     }
 	
 	@Override

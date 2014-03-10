@@ -1,11 +1,8 @@
 package rubedo.items.tools;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class ToolUtil {
@@ -13,13 +10,10 @@ public class ToolUtil {
 			ToolBase toolBase, ItemStack stack, 
 			EntityLivingBase entity) {
 		
-		stack.damageItem(toolBase.getItemDamageOnHit(), entity);
-        
-        if (getDamagePercentage(toolBase.getToolProperties(stack), stack.getItemDamage()) >= 1) {
-        	NBTTagCompound tags = stack.getTagCompound();
-        	tags.getCompoundTag("RubedoTool").setBoolean("broken", true);
-        }
-        
+		damageTool(stack, toolBase, entity, toolBase.getItemDamageOnHit());
+		
+		//TODO: damage entity?
+                
         return true;
 	}
 
@@ -28,49 +22,60 @@ public class ToolUtil {
 			World world, int blockID, 
 			int blockX, int blockY, int blockZ, 
 			EntityLivingBase entity) {
-		
-		if ((double)Block.blocksList[blockID].getBlockHardness(world, blockX, blockY, blockZ) != 0.0D)
-        {
-        	stack.damageItem(toolBase.getItemDamageOnBreak(), entity);
-            
-            if (getDamagePercentage(toolBase.getToolProperties(stack), stack.getItemDamage()) >= 1) {
-            	stack.getTagCompound().getCompoundTag("RubedoTool").setBoolean("broken", true);
-            }
-        }
+
+		damageTool(stack, toolBase, entity, toolBase.getItemDamageOnBreak());
 
         return true;
 	}
 	
 	public static float getStrVsBlock(ToolBase toolBase, ItemStack stack, Block block, int meta) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		ToolProperties properties = toolBase.getToolProperties(stack);
+		
+		if (properties.isValid()) {
+			if (properties.isBroken())
+	            return 0.1f;
+	
+	    	for (int i = 0; i < toolBase.getEffectiveMaterials().length; i++)
+	        {
+	            if (toolBase.getEffectiveMaterials()[i] == block.blockMaterial)
+	            {
+	                return toolBase.getEffectiveSpeed();
+	            }
+	        }
+		}
+		
+    	return toolBase.getBaseSpeed();
 	}
 	
-	public static void onLeftClickEntity(ToolBase toolBase, ItemStack stack,
-			EntityPlayer player, Entity entity) {
-		// TODO Auto-generated method stub
+	public static void damageTool(ItemStack stack, ToolBase toolBase, EntityLivingBase entity, int damage) {
+		ToolProperties properties = toolBase.getToolProperties(stack);
 		
+		if (properties.isValid() && !properties.isBroken()) {
+			stack.damageItem(damage, entity);
+			
+			if (stack.getItemDamage() >= properties.getDurability()) {
+				properties.setBroken(true);
+				properties.resetName(toolBase.getName());
+			}
+		}
 	}
 	
-	public static void onItemRightClick(ToolBase toolBase, ItemStack stack,
-			World world, EntityPlayer player) {
-		// TODO Auto-generated method stub
+	public static boolean isDamaged(ToolBase toolBase, ItemStack stack) {
+		ToolProperties properties = toolBase.getToolProperties(stack);
 		
+		if (properties.isValid())
+			return stack.getItemDamage() > 0 && !properties.isBroken();
+		else
+			return false;
 	}
 	
 	public static int getDisplayDamage(ToolBase toolBase, ItemStack stack) {
 		ToolProperties properties = toolBase.getToolProperties(stack);
 		
-		if (!properties.isBroken())
-			return (int) (getDamagePercentage(properties, stack.getItemDamage()) * 100);
+		if (properties.isValid())
+			return (int) (((float) stack.getItemDamage()) / properties.getDurability() * Integer.MAX_VALUE);
 		else
-			return -1;
-	}
-	
-	protected static float getDamagePercentage(ToolProperties properties, int itemDamage) {		
-		float baseDur = properties.getDurability();
-		float percentage = itemDamage / baseDur;
-		
-		return percentage;
+			return 0;
 	}
 }
