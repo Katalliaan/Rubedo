@@ -21,7 +21,7 @@ public class ContentTools {
 		{
 			flint.name = "flint";
 			flint.durability = 60;
-			flint.damage = 1;
+			flint.damage = 0;
 			flint.speed = 2.0f;
 			flint.headMaterial = new ItemStack(Item.flint);
 		}
@@ -62,7 +62,7 @@ public class ContentTools {
 			copper.name = "copper";
 			copper.durability = 130;
 			copper.special = 2;
-			copper.damage = 2;
+			copper.damage = 1;
 			copper.speed = 4.0f;
 			//TODO: replace by copper head
 			copper.headMaterial = new ItemStack(Item.ingotGold);
@@ -74,7 +74,7 @@ public class ContentTools {
 			iron.name = "iron";
 			iron.durability = 250;
 			iron.special = 3;
-			iron.damage = 3;
+			iron.damage = 2;
 			iron.speed = 6.0f;
 			//TODO: replace by iron head
 			iron.headMaterial = new ItemStack(Item.ingotIron);

@@ -42,7 +42,7 @@ public abstract class ToolBase extends MultiItem {
 	public abstract Material[] getEffectiveMaterials();
 	
 	protected ToolProperties getToolProperties(ItemStack stack) {
-		return new ToolProperties(stack);
+		return new ToolProperties(stack, this);
 	}
 	
 	@Override
@@ -136,15 +136,17 @@ public abstract class ToolBase extends MultiItem {
     @Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
     {
-        return ToolUtil.hitEntity(this, stack, par3EntityLivingBase);
+    	ToolProperties properties = this.getToolProperties(stack);
+        return ToolUtil.hitEntity(properties, par3EntityLivingBase);
     }
 	
 	@Override
-	public boolean onBlockDestroyed(ItemStack itemstack, World world, int blockID, int x, int y, int z, EntityLivingBase player)
+	public boolean onBlockDestroyed(ItemStack stack, World world, int blockID, int x, int y, int z, EntityLivingBase player)
     {
 		if ((double)Block.blocksList[blockID].getBlockHardness(world, x, y, z) != 0.0D)
         {
-			return ToolUtil.onBlockDestroyed(this, itemstack, world, blockID, x, y, z, player);
+			ToolProperties properties = this.getToolProperties(stack);
+			return ToolUtil.onBlockDestroyed(properties, world, blockID, x, y, z, player);
         }
 		return false;
     }
@@ -152,17 +154,20 @@ public abstract class ToolBase extends MultiItem {
 	@Override
     public float getStrVsBlock (ItemStack stack, Block block, int meta)
     {
-        return ToolUtil.getStrVsBlock(this, stack, block, meta);
+		ToolProperties properties = this.getToolProperties(stack);
+        return ToolUtil.getStrVsBlock(properties, block, meta);
     }
 	
 	@Override
 	public boolean isDamaged(ItemStack stack) {
-		return ToolUtil.isDamaged(this, stack);
+		ToolProperties properties = this.getToolProperties(stack);
+		return ToolUtil.isDamaged(properties);
 	}
 	
 	@Override
 	public int getDisplayDamage(ItemStack stack) {
-		return ToolUtil.getDisplayDamage(this, stack);
+		ToolProperties properties = this.getToolProperties(stack);
+		return ToolUtil.getDisplayDamage(properties);
 	}
 	
 	// Misc
@@ -203,6 +208,9 @@ public abstract class ToolBase extends MultiItem {
     	properties.setHeadMaterial(head);
     	properties.setRodMaterial(rod);
     	properties.setCapMaterial(cap);
+    	
+    	if (getWeaponDamage() > 0)
+    		properties.generateAttackDamageNBT();
 		
 		// Set the name, capitalized
 		properties.resetName(getName());
