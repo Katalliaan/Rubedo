@@ -100,98 +100,20 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 	}
 
 	protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
-		if (type == "fire")
-			impactFire(par1MovingObjectPosition);
-		else if (type == "water")
-			impactWater(par1MovingObjectPosition);
-	}
-
-	protected void impactWater(MovingObjectPosition par1MovingObjectPosition) {
-		if (!this.worldObj.isRemote) {
-			if (par1MovingObjectPosition.entityHit != null
-					&& par1MovingObjectPosition.entityHit instanceof EntityLiving) {
-				EntityLiving entityHit = (EntityLiving) par1MovingObjectPosition.entityHit;
-
-				entityHit.addPotionEffect(new PotionEffect(Potion.moveSlowdown
-						.getId(), 100, power, false));
-			} else {
-				int blockX = par1MovingObjectPosition.blockX;
-				int blockY = par1MovingObjectPosition.blockY;
-				int blockZ = par1MovingObjectPosition.blockZ;
-
-				switch (par1MovingObjectPosition.sideHit) {
-					case 0 :
-						--blockY;
-						break;
-					case 1 :
-						++blockY;
-						break;
-					case 2 :
-						--blockZ;
-						break;
-					case 3 :
-						++blockZ;
-						break;
-					case 4 :
-						--blockX;
-						break;
-					case 5 :
-						++blockX;
-				}
-
-				// TODO: figure out why this doesn't behave as expected -
-				// disappears instantly instead of flowing for a bit
-				if (this.worldObj.isAirBlock(blockX, blockY, blockZ)) {
-					this.worldObj.setBlock(blockX, blockY, blockZ,
-							Block.waterMoving.blockID);
-					this.worldObj.setBlockMetadataWithNotify(blockX, blockY,
-							blockZ, 8, 1);
-				}
-			}
-
-			this.setDead();
-		}
-	}
-
-	protected void impactFire(MovingObjectPosition par1MovingObjectPosition) {
 		if (!this.worldObj.isRemote) {
 			if (par1MovingObjectPosition.entityHit != null) {
-				if (!par1MovingObjectPosition.entityHit.isImmuneToFire()) {
-					par1MovingObjectPosition.entityHit.setFire(power);
-				}
-			} else {
-				int blockX = par1MovingObjectPosition.blockX;
-				int blockY = par1MovingObjectPosition.blockY;
-				int blockZ = par1MovingObjectPosition.blockZ;
-
-				switch (par1MovingObjectPosition.sideHit) {
-					case 0 :
-						--blockY;
-						break;
-					case 1 :
-						++blockY;
-						break;
-					case 2 :
-						--blockZ;
-						break;
-					case 3 :
-						++blockZ;
-						break;
-					case 4 :
-						--blockX;
-						break;
-					case 5 :
-						++blockX;
-				}
-
-				if (this.worldObj.isAirBlock(blockX, blockY, blockZ)) {
-					this.worldObj.setBlock(blockX, blockY, blockZ,
-							Block.fire.blockID);
-				}
+				SpellEffects.hitEntity(this.worldObj,
+						par1MovingObjectPosition.entityHit, power, type);
 			}
-
-			this.setDead();
+		} else {
+			SpellEffects.hitBlock(worldObj, type,
+					par1MovingObjectPosition.blockX,
+					par1MovingObjectPosition.blockY,
+					par1MovingObjectPosition.blockZ,
+					par1MovingObjectPosition.sideHit);
 		}
+
+		this.setDead();
 	}
 
 	/**

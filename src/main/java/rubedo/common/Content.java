@@ -1,6 +1,7 @@
 package rubedo.common;
 
 import net.minecraft.creativetab.CreativeTabs;
+import rubedo.items.spells.SpellArea;
 import rubedo.items.spells.SpellProjectile;
 import rubedo.items.spells.SpellSelf;
 import rubedo.items.tools.ToolSword;
@@ -24,10 +25,12 @@ public class Content {
 		
 		spellProjectile = new SpellProjectile(3321);
 		spellSelf = new SpellSelf(3322);
+		spellArea = new SpellArea(3323);
 	}
 	
 	public static ToolSword toolSword;
 	
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
+	public static SpellArea spellArea;
 }

@@ -5,11 +5,16 @@ import java.util.Map.Entry;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import rubedo.common.Content;
@@ -33,6 +38,16 @@ public abstract class SpellBase extends MultiItem {
 
 	protected SpellProperties getSpellProperties(ItemStack stack) {
 		return new SpellProperties(stack);
+	}
+
+	public void hitEntity(Entity entity, int power, String effectType) {
+		if (effectType == "fire") {
+			if (!entity.isImmuneToFire())
+				entity.setFire(power);
+		} else if (effectType == "water" && entity instanceof EntityLiving) {
+			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(
+					Potion.moveSlowdown.getId(), 100, power, false));
+		}
 	}
 
 	/**
@@ -191,6 +206,10 @@ public abstract class SpellBase extends MultiItem {
 									effectEntry.getKey()));
 						} else if (focusEntry.getValue().focusType == "self") {
 							list.add(Content.spellSelf.buildSpell(
+									baseEntry.getKey(), focusEntry.getKey(),
+									effectEntry.getKey()));
+						} else if (focusEntry.getValue().focusType == "area") {
+							list.add(Content.spellArea.buildSpell(
 									baseEntry.getKey(), focusEntry.getKey(),
 									effectEntry.getKey()));
 						}
