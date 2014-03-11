@@ -1,8 +1,12 @@
 package rubedo.items.tools;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -33,6 +37,18 @@ public class ToolSword extends ToolBase {
 	public float getEffectiveSpeed () { return 1.5f; }
 	@Override
 	public Material[] getEffectiveMaterials() {	return new Material[] { Material.plants, Material.vine, Material.coral, Material.leaves, Material.pumpkin }; }
+	
+	@Override
+	public List<Integer> getAllowedEnchantments() {
+		Integer[] allowedEnchants = new Integer[] { 
+				Enchantment.sharpness.effectId, 
+				Enchantment.smite.effectId, 
+				Enchantment.baneOfArthropods.effectId,
+				Enchantment.knockback.effectId,
+				Enchantment.fireAspect.effectId,
+				Enchantment.looting.effectId };
+		return Arrays.asList(allowedEnchants);
+	}
 	
 	@Override
     public float getStrVsBlock (ItemStack stack, Block block, int meta)

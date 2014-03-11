@@ -41,6 +41,8 @@ public abstract class ToolBase extends MultiItem {
 	public float getBaseSpeed() { return 1.0f; }
 	public abstract Material[] getEffectiveMaterials();
 	
+	public abstract List<Integer> getAllowedEnchantments();
+	
 	protected ToolProperties getToolProperties(ItemStack stack) {
 		return new ToolProperties(stack, this);
 	}

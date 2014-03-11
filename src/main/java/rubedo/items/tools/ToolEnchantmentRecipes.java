@@ -1,5 +1,6 @@
 package rubedo.items.tools;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -63,33 +64,55 @@ public class ToolEnchantmentRecipes implements IRecipe {
     	NBTTagList toolList = output.getEnchantmentTagList();
     	NBTTagList bookList = this.enchantedBook.copy().getEnchantmentTagList();
     	
+    	if (toolList == null) {
+    		toolList = new NBTTagList();
+    	}
+    	
     	boolean changed = false;
     	
-    	//TODO: check to make sure tool can accept the enchant
-    	if (toolList == null) {
-    		this.tool.getStack().getTagCompound().setTag("ench", bookList);
-    	} 
-    	else {
-    		for (int iBook = 0; iBook < bookList.tagCount(); iBook++) {
-    			boolean found = false;
-    			NBTTagCompound bookEnchant = (NBTTagCompound) bookList.tagAt(iBook);
-	    		for (int iTool = 0; iTool < toolList.tagCount(); iTool++) {
-	    			NBTTagCompound toolEnchant = (NBTTagCompound) toolList.tagAt(iTool);
-	    			if (toolEnchant.getShort("id") == bookEnchant.getShort("id")) {
-	    				found = true;
-	    				if (toolEnchant.getShort("lvl") < bookEnchant.getShort("lvl")) {
-		    				changed = true;
-		    				toolEnchant.setShort("lvl", bookEnchant.getShort("lvl"));
-	    				}
-	    				break;
-	    			}
-	    		}
-	    		if (!found) {
-	    			changed = true;
-	    			toolList.appendTag(bookEnchant);
-	    		}
+		for (int iBook = 0; iBook < bookList.tagCount(); iBook++) {
+			boolean found = false;
+			NBTTagCompound bookEnchant = (NBTTagCompound) bookList.tagAt(iBook);
+			
+			//Check the tool for allowed enchants
+			if (!this.tool.getTool().getAllowedEnchantments().contains((int)bookEnchant.getShort("id")))
+				continue;
+			
+			//Check if the enchant already exists
+			if (toolList != null)
+    		for (int iTool = 0; iTool < toolList.tagCount(); iTool++) {
+    			NBTTagCompound toolEnchant = (NBTTagCompound) toolList.tagAt(iTool);
+    			if (toolEnchant.getShort("id") == bookEnchant.getShort("id")) {
+    				found = true;
+    				if (toolEnchant.getShort("lvl") < bookEnchant.getShort("lvl")) {
+	    				changed = true;
+	    				toolEnchant.setShort("lvl", bookEnchant.getShort("lvl"));
+    				}
+    				continue;
+    			}
     		}
-    	}
+    		
+    		//It doesn't exist yet, just add it
+    		if (!found) {
+    			boolean allowed = true;
+    			for (int iTool = 0; iTool < toolList.tagCount(); iTool++) {
+        			int toolEnchant = ((NBTTagCompound) toolList.tagAt(iTool)).getShort("id");
+	    			if (!Enchantment.enchantmentsList[toolEnchant]
+	    					.canApplyTogether(Enchantment.enchantmentsList[bookEnchant.getShort("id")])) {
+	    				allowed = false;
+	    			}
+    			}
+    			
+    			if (allowed) {
+    				changed = true;
+    				toolList.appendTag(bookEnchant);
+    			}
+    		}
+		}
+		
+		if (output.getEnchantmentTagList() == null && toolList.tagCount() > 0) {
+			output.getTagCompound().setTag("ench", toolList);
+		}
     	
     	return changed ? output : null;
     }

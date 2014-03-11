@@ -1,5 +1,7 @@
 package rubedo.items.tools;
 
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 
@@ -36,6 +38,12 @@ public class ToolPickaxe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Integer> getAllowedEnchantments() {
 		// TODO Auto-generated method stub
 		return null;
 	}
