@@ -39,8 +39,8 @@ public class SpellArea extends SpellBase {
 	// TODO: figure this out
 	@Override
 	public void castSpell(World world, EntityPlayer entityPlayer, int power,
-			String effectType, float focusModifier) {
-		/*HashSet hashset = new HashSet();
+			String effectType, float focusModifier) {/*
+		HashSet hashset = new HashSet();
 		int testX;
 		int testY;
 		int testZ;

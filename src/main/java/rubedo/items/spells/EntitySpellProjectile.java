@@ -104,15 +104,15 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 			if (par1MovingObjectPosition.entityHit != null) {
 				SpellEffects.hitEntity(this.worldObj,
 						par1MovingObjectPosition.entityHit, power, type);
+			} else {
+				SpellEffects.hitBlock(worldObj, type,
+						par1MovingObjectPosition.blockX,
+						par1MovingObjectPosition.blockY,
+						par1MovingObjectPosition.blockZ,
+						par1MovingObjectPosition.sideHit);
 			}
-		} else {
-			SpellEffects.hitBlock(worldObj, type,
-					par1MovingObjectPosition.blockX,
-					par1MovingObjectPosition.blockY,
-					par1MovingObjectPosition.blockZ,
-					par1MovingObjectPosition.sideHit);
-		}
 
+		}
 		this.setDead();
 	}
 

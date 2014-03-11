@@ -2,7 +2,6 @@ package rubedo.items.spells;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -29,7 +28,7 @@ public class SpellEffects {
 		if (effectType == "fire") {
 			if (!entity.isImmuneToFire())
 				entity.setFire(power);
-		} else if (effectType == "water" && entity instanceof EntityLiving) {
+		} else if (effectType == "water" && entity instanceof EntityLivingBase) {
 			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(
 					Potion.moveSlowdown.getId(), 100, power, false));
 		}
