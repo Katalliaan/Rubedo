@@ -24,6 +24,8 @@ public class ToolSword extends ToolBase {
 	}
 	
 	@Override
+	public float getWeaponDamage() { return 4.0F; }
+	@Override
 	public int getItemDamageOnHit() { return 1;	}
 	@Override
 	public int getItemDamageOnBreak() {	return 2; }

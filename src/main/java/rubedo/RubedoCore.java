@@ -44,7 +44,6 @@ public class RubedoCore {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		// TODO Auto-generated method stub
 	}
 	
 	public Content content;

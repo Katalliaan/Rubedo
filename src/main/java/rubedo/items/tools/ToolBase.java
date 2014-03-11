@@ -190,9 +190,12 @@ public abstract class ToolBase extends MultiItem {
     {
     	ToolProperties properties = getToolProperties(stack);
     	
-    	list.add("Head: " + properties.getHeadMaterial());
-    	list.add("Rod: " + properties.getRodMaterial());
-    	list.add("Cap: " + properties.getCapMaterial());
+    	list.add("§2§o" 
+    			+ properties.getCapMaterial().substring(0, 1).toUpperCase() + properties.getCapMaterial().substring(1)
+    			+ " capped " 
+    			+ properties.getRodMaterial() 
+    			+ " rod§r");
+    	list.add("");
     }
     
     public abstract ItemStack buildTool(String head, String rod, String cap);

@@ -1,10 +1,9 @@
 package rubedo.items.tools;
 
-import rubedo.common.ContentTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
+import rubedo.common.ContentTools;
 
 public class ToolUtil {
 	public static boolean hitEntity(
@@ -35,11 +34,12 @@ public class ToolUtil {
 			if (properties.isBroken())
 	            return 0.1f;
 	
-			//TODO: properly integrate ForgeHooks into everything
-    		if (ForgeHooks.isToolEffective(properties.getStack(), block, meta))
+    		for (int i = 0; i < properties.getTool().getEffectiveMaterials().length; i++)
             {
-                return properties.getTool().getEffectiveSpeed() 
-                		* ContentTools.toolHeadMaterials.get(properties.getHeadMaterial()).speed;
+    			if (properties.getTool().getEffectiveMaterials()[i] == block.blockMaterial) {
+	                return properties.getTool().getEffectiveSpeed() 
+	                		* ContentTools.toolHeadMaterials.get(properties.getHeadMaterial()).speed;
+    			}
             }
 		}
 		

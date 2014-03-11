@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import rubedo.items.ItemMetal;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -23,7 +24,7 @@ public class ContentTools {
 			flint.durability = 60;
 			flint.damage = 0;
 			flint.speed = 2.0f;
-			flint.headMaterial = new ItemStack(Item.flint);
+			flint.swordHeadMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("tools/sword_head_flint"));
 		}
 		Material wood = new Material();
 		{
@@ -64,10 +65,8 @@ public class ContentTools {
 			copper.special = 2;
 			copper.damage = 1;
 			copper.speed = 4.0f;
-			//TODO: replace by copper head
-			copper.headMaterial = new ItemStack(Item.ingotGold);
-			//TODO: replace by copper ingot
-			copper.capMaterial = new ItemStack(Item.ingotGold);
+			copper.swordHeadMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("tools/sword_head_copper"));
+			copper.capMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("copper_ingot"));
 		}
 		Material iron = new Material();
 		{
@@ -76,9 +75,18 @@ public class ContentTools {
 			iron.special = 3;
 			iron.damage = 2;
 			iron.speed = 6.0f;
-			//TODO: replace by iron head
-			iron.headMaterial = new ItemStack(Item.ingotIron);
+			iron.swordHeadMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("tools/sword_head_iron"));
 			iron.capMaterial = new ItemStack(Item.ingotIron);
+		}
+		Material gold = new Material();
+		{
+			gold.name = "gold";
+			gold.durability = 130;
+			gold.special = 3;
+			gold.damage = 2;
+			gold.speed = 6.0f;
+			gold.swordHeadMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("tools/sword_head_gold"));
+			gold.capMaterial = new ItemStack(Item.ingotGold);
 		}
 		
 		toolHeadMaterials = new HashMap<String, Material>();
@@ -86,6 +94,7 @@ public class ContentTools {
 			toolHeadMaterials.put(flint.name, flint);
 			toolHeadMaterials.put(copper.name, copper);
 			toolHeadMaterials.put(iron.name, iron);
+			toolHeadMaterials.put(gold.name, gold);
 		}
 		
 		toolRodMaterials = new HashMap<String, Material>();
@@ -102,6 +111,7 @@ public class ContentTools {
 			toolCapMaterials.put(stone.name, stone);
 			toolCapMaterials.put(copper.name, copper);
 			toolCapMaterials.put(iron.name, iron);
+			toolCapMaterials.put(gold.name, gold);
 		}
 	}
 	
@@ -112,7 +122,7 @@ public class ContentTools {
     		//Sword Recipes
     		GameRegistry.addRecipe(new ShapedRecipes(3, 3, 
     				new ItemStack[] {
-    					null, headEntry.getValue().headMaterial, null,
+    					null, headEntry.getValue().swordHeadMaterial, null,
     					null, rodEntry.getValue().rodMaterial,  null,
     					null, capEntry.getValue().capMaterial,  null
     				},
@@ -135,7 +145,8 @@ public class ContentTools {
 		public int damage;
 		public float speed;
 		public int special;
-		public ItemStack headMaterial;
+		public int miningLevel;
+		public ItemStack swordHeadMaterial;
 		public ItemStack rodMaterial;
 		public ItemStack capMaterial;
 	}
