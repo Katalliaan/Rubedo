@@ -81,12 +81,37 @@ public class SpellEffects {
 					++blockX;
 			}
 
-			// TODO: figure out why this doesn't behave as expected -
-			// disappears instantly instead of flowing for a bit
 			if (world.isAirBlock(blockX, blockY, blockZ)) {
 				world.setBlock(blockX, blockY, blockZ,
 						Block.waterMoving.blockID);
-				world.setBlockMetadataWithNotify(blockX, blockY, blockZ, 8, 1);
+				world.setBlockMetadataWithNotify(blockX, blockY, blockZ, 1, 1);
+
+				for (int i = 0; i < 4; i++) {
+					int secondaryX = blockX;
+					int secondaryZ = blockZ;
+
+					switch (i) {
+						case 0 :
+							--secondaryX;
+							break;
+						case 1 :
+							++secondaryX;
+							break;
+						case 2 :
+							--secondaryZ;
+							break;
+						case 3 :
+							++secondaryZ;
+							break;
+					}
+
+					if (world.isAirBlock(secondaryX, blockY, secondaryZ)) {
+						world.setBlock(secondaryX, blockY, secondaryZ,
+								Block.waterMoving.blockID);
+						world.setBlockMetadataWithNotify(secondaryX, blockY,
+								secondaryZ, 2, 1);
+					}
+				}
 			}
 		}
 	}
