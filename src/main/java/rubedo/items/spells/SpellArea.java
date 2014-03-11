@@ -35,10 +35,12 @@ public class SpellArea extends SpellBase {
 		return "area";
 	}
 
+	
+	// TODO: figure this out
 	@Override
 	public void castSpell(World world, EntityPlayer entityPlayer, int power,
 			String effectType, float focusModifier) {
-		HashSet hashset = new HashSet();
+		/*HashSet hashset = new HashSet();
 		int testX;
 		int testY;
 		int testZ;
@@ -167,7 +169,7 @@ public class SpellArea extends SpellBase {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	@Override
