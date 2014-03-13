@@ -22,5 +22,5 @@ public interface IShapedRayCast {
 	/**
 	 * Cast all rays and return all matched Entities, filtered
 	 */
-	Set<Entity> getEntities(IFilter<Entity> filter);
+	Set<Entity> getEntities(IEntityFilter filter);
 }

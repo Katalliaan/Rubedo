@@ -15,7 +15,7 @@ public abstract class ShapedRayCast implements IShapedRayCast {
 	 * The larger this is, the more rays cast
 	 */
 	protected int boundSize = 16;
-	
+
 	protected World world;
 	protected double originX, originY, originZ;
 	protected double directionX, directionY, directionZ;
@@ -36,6 +36,14 @@ public abstract class ShapedRayCast implements IShapedRayCast {
 		this.directionZ = directionZ;
 		
 		this.range = range;
+	}
+	
+	public int getBoundSize() {
+		return boundSize;
+	}
+
+	public void setBoundSize(int boundSize) {
+		this.boundSize = boundSize;
 	}
 
 	/**
@@ -74,7 +82,7 @@ public abstract class ShapedRayCast implements IShapedRayCast {
 	/**
 	 * convert euler angles in degrees to a directional vector with length 1
 	 */
-	public static Vec3 eulerToVec(float pitch, float yaw) {
+	public static Vec3 eulerToVec(World world, float pitch, float yaw) {
 		// store in valuables to cache calculations
 		float pitchRadians = pitch / 180.0F * (float) Math.PI;
 		float yawRadians   = yaw   / 180.0F * (float) Math.PI;
@@ -88,14 +96,14 @@ public abstract class ShapedRayCast implements IShapedRayCast {
 		double calculatedZ = (double) (cosPitch * cosYaw);
 		double calculatedY = (double) (-sinPitch);
 		
-		return Vec3.createVectorHelper(calculatedX, calculatedY, calculatedZ);
+		return world.getWorldVec3Pool().getVecFromPool(calculatedX, calculatedY, calculatedZ);
 	}
 	
 	/**
 	 * Get the camera position of a player
 	 */
-	public static Vec3 getCameraPosition(EntityPlayer entity) {
-		return Vec3.createVectorHelper(
+	public static Vec3 getCameraPosition(World world, EntityPlayer entity) {
+		return world.getWorldVec3Pool().getVecFromPool(
 				entity.posX, 
 				entity.posY + (double)entity.getEyeHeight() - 0.10000000149011612D, 
 				entity.posZ);
@@ -104,9 +112,9 @@ public abstract class ShapedRayCast implements IShapedRayCast {
 	/**
 	 * Normalize the vector
 	 */
-	public static Vec3 normalizeVector(double x, double y, double z) {
+	public static Vec3 normalizeVector(World world, double x, double y, double z) {
 		double length = MathHelper.sqrt_double(x*x + y*y + z*z);
 		
-		return Vec3.createVectorHelper(x / length, y / length, z / length);
+		return world.getWorldVec3Pool().getVecFromPool(x / length, y / length, z / length);
 	}
 }

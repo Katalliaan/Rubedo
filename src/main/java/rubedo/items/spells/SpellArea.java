@@ -10,6 +10,7 @@ import rubedo.common.Content;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.LinearRayCast;
 import rubedo.raycast.ShapedRayCast;
+import rubedo.raycast.SphericalRayCast;
 
 public class SpellArea extends SpellBase {
 
@@ -28,11 +29,11 @@ public class SpellArea extends SpellBase {
 	public void castSpell(World world, EntityPlayer entityPlayer, int power,
 			String effectType, float focusModifier) {		
 		// get the camera position and direction
-		Vec3 direction = ShapedRayCast.eulerToVec(entityPlayer.rotationPitch, entityPlayer.rotationYaw);
-		Vec3 camera = ShapedRayCast.getCameraPosition(entityPlayer);
+		Vec3 direction = ShapedRayCast.eulerToVec(world, entityPlayer.rotationPitch, entityPlayer.rotationYaw);
+		Vec3 camera = ShapedRayCast.getCameraPosition(world, entityPlayer);
 		
 		// create a new raycaster
-		IShapedRayCast rayCaster = new LinearRayCast(
+		IShapedRayCast rayCaster = new SphericalRayCast(
 				world, 
 				camera.xCoord, camera.yCoord, camera.zCoord, 
 				direction.xCoord, direction.yCoord, direction.zCoord, 

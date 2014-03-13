@@ -26,7 +26,7 @@ public class LinearRayCast extends ShapedRayCast {
 	public Set<ChunkPosition> getBlocks(IBlockRayFilter filter) {
 		Set<ChunkPosition> output = new HashSet<ChunkPosition>();
 		
-		Vec3 direction = ShapedRayCast.normalizeVector(directionX, directionY, directionZ);
+		Vec3 direction = ShapedRayCast.normalizeVector(this.world, directionX, directionY, directionZ);
 		
 		castBlockRay(
 				direction.xCoord, direction.yCoord, direction.zCoord,
@@ -38,7 +38,7 @@ public class LinearRayCast extends ShapedRayCast {
 	@Override
 	public Set<Entity> getEntities() {	return getEntities(null); }
 	@Override
-	public Set<Entity> getEntities(IFilter<Entity> filter) {
+	public Set<Entity> getEntities(IEntityFilter filter) {
 		Set<Entity> output = new HashSet<Entity>();
 		//TODO: cast entity ray: http://www.minecraftforge.net/forum/index.php?topic=8565.0
 		return output;
