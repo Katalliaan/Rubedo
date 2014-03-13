@@ -48,6 +48,7 @@ public class LinearRayCast extends ShapedRayCast {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Set<Entity> getEntitiesExcludingEntity(Entity excludedEntity, IEntityFilter filter) {
+		//TODO: fix me!
 		Set<Entity> output = new HashSet<Entity>();
 		
 		Vec3 direction = ShapedRayCast.normalizeVector(this.world, directionX, directionY, directionZ);
