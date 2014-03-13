@@ -1,8 +1,5 @@
 package rubedo.items.spells;
 
-import java.util.Set;
-
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,7 +9,6 @@ import net.minecraft.world.World;
 import rubedo.common.Content;
 import rubedo.raycast.IBlockRayFilter;
 import rubedo.raycast.IShapedRayCast;
-import rubedo.raycast.LinearRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
 

@@ -1,6 +1,5 @@
 package rubedo.items.spells;
 
-import rubedo.common.ContentSpells;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 

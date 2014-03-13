@@ -1,8 +1,8 @@
 package rubedo.client;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import rubedo.CommonProxy;
 import rubedo.items.spells.EntitySpellProjectile;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
         

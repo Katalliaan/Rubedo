@@ -1,8 +1,8 @@
 package rubedo.items.tools;
 
-import rubedo.common.ContentTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import rubedo.common.ContentTools;
 
 public class ToolProperties {
 	protected String headMaterial;
