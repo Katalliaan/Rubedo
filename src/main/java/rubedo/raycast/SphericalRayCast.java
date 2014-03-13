@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
@@ -51,12 +52,20 @@ public class SphericalRayCast extends ShapedRayCast {
 	public Set<Entity> getEntities() { return getEntities(null); }
 	@Override
 	public Set<Entity> getEntities(IEntityFilter filter) { return getEntitiesExcludingEntity(null, null); }
-	
+	@Override
 	public Set<Entity> getEntitiesExcludingEntity(Entity excludedEntity) { return getEntitiesExcludingEntity(excludedEntity, null); }
-	
 	@SuppressWarnings("unchecked")
+	@Override
 	public Set<Entity> getEntitiesExcludingEntity(Entity excludedEntity, IEntityFilter filter) {
 		Set<Entity> output = new HashSet<Entity>();
+		
+		IEntitySelector selector = filter == null ? 
+				new IEntitySelector() {
+					@Override
+					public boolean isEntityApplicable(Entity entity) {
+						return true;
+					}
+				} : filter.getIEntitySelector();
 		
 		List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(excludedEntity, 
 				AxisAlignedBB.getAABBPool().getAABB(
@@ -65,10 +74,11 @@ public class SphericalRayCast extends ShapedRayCast {
 						this.originZ - this.range,
 						this.originX + this.range,
 						this.originY + this.range,
-						this.originZ + this.range));
+						this.originZ + this.range), 
+						selector);
 		
 		for (Entity entity : entities) {
-			double distance = entity.getDistance(this.originX, this.originX, this.originX);
+			double distance = entity.getDistance(this.originX, this.originY, this.originZ);
 			
 			if (distance <= this.range)
 				output.add(entity);

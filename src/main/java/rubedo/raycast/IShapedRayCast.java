@@ -23,4 +23,13 @@ public interface IShapedRayCast {
 	 * Cast all rays and return all matched Entities, filtered
 	 */
 	Set<Entity> getEntities(IEntityFilter filter);
+	
+	/**
+	 * Cast all rays and return all matched Entities, excluding entity
+	 */
+	Set<Entity> getEntitiesExcludingEntity(Entity excludedEntity);
+	/**
+	 * Cast all rays and return all matched Entities, filtered, excluding entity
+	 */
+	Set<Entity> getEntitiesExcludingEntity(Entity excludedEntity, IEntityFilter filter);
 }

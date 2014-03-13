@@ -1,9 +1,13 @@
 package rubedo.raycast;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
@@ -36,11 +40,53 @@ public class LinearRayCast extends ShapedRayCast {
 	}
 
 	@Override
-	public Set<Entity> getEntities() {	return getEntities(null); }
+	public Set<Entity> getEntities() { return getEntities(null); }
 	@Override
-	public Set<Entity> getEntities(IEntityFilter filter) {
+	public Set<Entity> getEntities(IEntityFilter filter) { return getEntitiesExcludingEntity(null, null); }
+	@Override
+	public Set<Entity> getEntitiesExcludingEntity(Entity excludedEntity) { return getEntitiesExcludingEntity(excludedEntity, null); }
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<Entity> getEntitiesExcludingEntity(Entity excludedEntity, IEntityFilter filter) {
 		Set<Entity> output = new HashSet<Entity>();
-		//TODO: cast entity ray: http://www.minecraftforge.net/forum/index.php?topic=8565.0
+		
+		Vec3 direction = ShapedRayCast.normalizeVector(this.world, directionX, directionY, directionZ);
+		Vec3 origin = this.world.getWorldVec3Pool().getVecFromPool(this.originX, this.originY, this.originZ);
+		Vec3 target = this.world.getWorldVec3Pool().getVecFromPool(
+				this.originX + (direction.xCoord*this.range),
+				this.originY + (direction.yCoord*this.range),
+				this.originZ + (direction.zCoord*this.range));
+		
+		IEntitySelector selector = filter == null ? 
+				new IEntitySelector() {
+					@Override
+					public boolean isEntityApplicable(Entity entity) {
+						return true;
+					}
+				} : filter.getIEntitySelector();
+		
+		List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(excludedEntity, 
+				AxisAlignedBB.getAABBPool().getAABB(
+						origin.xCoord, origin.yCoord, origin.zCoord,
+						target.xCoord, target.yCoord, target.zCoord),
+						selector);
+		
+		for (Entity entity : entities) {
+			double distance = entity.getDistance(this.originX, this.originY, this.originZ);
+			
+			if (distance <= this.range && entity.canBeCollidedWith()) {
+				float entBorder = entity.getCollisionBorderSize();
+				AxisAlignedBB entityBb = entity.boundingBox;
+				if (entityBb != null) {
+					entityBb = entityBb.expand(entBorder, entBorder, entBorder);
+					MovingObjectPosition intercept = entityBb.calculateIntercept(origin, target);
+					if (intercept != null) {
+						output.add(entity);
+					}
+				}
+			}				
+		}
+		
 		return output;
 	}
 }
