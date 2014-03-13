@@ -10,6 +10,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import rubedo.common.Content;
+import rubedo.raycast.IBlockRayFilter;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.LinearRayCast;
 import rubedo.raycast.ShapedRayCast;
@@ -26,47 +27,52 @@ public class SpellArea extends SpellBase {
 		return "area";
 	}
 
-	
 	// TODO: figure this out
 	@Override
 	public void castSpell(World world, EntityPlayer entityPlayer, int power,
-			String effectType, float focusModifier) {		
+			String effectType, float focusModifier) {
 		// get the camera position and direction
-		Vec3 direction = ShapedRayCast.eulerToVec(world, entityPlayer.rotationPitch, entityPlayer.rotationYaw);
+		Vec3 direction = ShapedRayCast.eulerToVec(world,
+				entityPlayer.rotationPitch, entityPlayer.rotationYaw);
 		Vec3 camera = ShapedRayCast.getCameraPosition(world, entityPlayer);
-		
-		// create a new raycaster
-		IShapedRayCast rayCaster = new SphericalRayCast(
-				world, 
-				camera.xCoord, camera.yCoord, camera.zCoord, 
-				direction.xCoord, direction.yCoord, direction.zCoord, 
-				16);
-		
-		ChunkPosition cameraCP = new ChunkPosition(camera);
-		
-		for (ChunkPosition pos : rayCaster.getBlocks()) {
-			//this is how you'd drop the correct items
-			/*int blockId = world.getBlockId(pos.x, pos.y, pos.z);
-			
-			if (blockId > 0)
-            {
-                Block block = Block.blocksList[blockId];
 
-                block.dropBlockAsItemWithChance(
-                		world, pos.x, pos.y, pos.z, 
-                		world.getBlockMetadata(pos.x, pos.y, pos.z), 
-                		1.0F, 0);
-            }*/
-			
-			// isRemote is needed to only run this server-side
-			/*if (!world.isRemote && !pos.equals(cameraCP))
-            	world.setBlock(pos.x, pos.y, pos.z, Block.glass.blockID);*/
+		// create a new raycaster
+		IShapedRayCast rayCaster = new SphericalRayCast(world, camera.xCoord,
+				camera.yCoord, camera.zCoord, direction.xCoord,
+				direction.yCoord, direction.zCoord, 16);
+
+		ChunkPosition cameraCP = new ChunkPosition(camera);
+
+		for (Entity entity : rayCaster.getEntitiesExcludingEntity(entityPlayer)) {
+			SpellEffects.hitEntity(world, entityPlayer, power, effectType);
 		}
-		
-		Set<Entity> entities = rayCaster.getEntities();
-		for (Entity entity : entities)
-		{
-			entity.setFire(100);
+
+		if (SpellEffects.hitsBlocks(effectType)) {
+			IBlockRayFilter filter = new IBlockRayFilter() {
+				@Override
+				public boolean matches(WorldPosition position) {
+					if (position.getBlock() == null)
+						return false;
+					else if (position.getBlock().isAirBlock(position.world,
+							position.position.x, position.position.y,
+							position.position.z))
+						return false;
+					else
+						return true;
+
+				}
+
+				@Override
+				public float getBlockResistance(WorldPosition position) {
+					return 0;
+				}
+
+			};
+
+			for (ChunkPosition pos : rayCaster.getBlocks(filter)) {
+				SpellEffects
+						.hitBlock(world, effectType, pos.x, pos.y, pos.z, 1);
+			}
 		}
 	}
 

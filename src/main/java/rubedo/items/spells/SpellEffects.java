@@ -1,5 +1,7 @@
 package rubedo.items.spells;
 
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,6 +13,16 @@ import net.minecraft.world.World;
  * Helper class for spells
  */
 public class SpellEffects {
+	
+	public static boolean hitsBlocks(String effectType)
+	{
+		ArrayList effects = new ArrayList();
+		
+		effects.add("fire");
+		effects.add("water");
+		
+		return effects.contains(effectType);
+	}
 
 	/**
 	 * Use when targeting entities
