@@ -2,7 +2,6 @@ package rubedo.raycast;
 
 import java.util.Collection;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -62,20 +61,19 @@ public abstract class ShapedRayCast implements IShapedRayCast {
             int blockY = MathHelper.floor_double(this.originY + (directionRayY * length));
             int blockZ = MathHelper.floor_double(this.originZ + (directionRayZ * length));
             
-            int blockId = this.world.getBlockId(blockX, blockY, blockZ);
+            ChunkPosition blockPos = new ChunkPosition(blockX, blockY, blockZ);
             
             boolean allowed = true;
             if (filter != null) {
-            	Block block = Block.blocksList[blockId];
             	
-            	allowed = filter.matches(block);
+            	allowed = filter.matches(new IBlockRayFilter.WorldPosition(this.world, blockPos));
             	
             	if (allowed) {
-            		actualRange -= filter.getBlockResistance(block);
+            		actualRange -= filter.getBlockResistance(new IBlockRayFilter.WorldPosition(this.world, blockPos));
             	}
             }
             
-            if (allowed) collection.add(new ChunkPosition(blockX, blockY, blockZ));
+            if (allowed) collection.add(blockPos);
 		}
 	}
 	
