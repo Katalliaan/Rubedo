@@ -1,6 +1,7 @@
 package rubedo.items.spells;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
@@ -57,7 +58,12 @@ public class SpellArea extends SpellBase {
 			
 			// isRemote is needed to only run this server-side
 			if (!world.isRemote && !pos.equals(cameraCP))
-            	world.setBlock(pos.x, pos.y, pos.z, Block.blockDiamond.blockID);
+            	world.setBlock(pos.x, pos.y, pos.z, Block.glass.blockID);
+		}
+		
+		for (Entity entity : rayCaster.getEntities())
+		{
+			entity.setFire(100);
 		}
 	}
 
