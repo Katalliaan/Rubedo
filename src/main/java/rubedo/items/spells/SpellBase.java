@@ -40,28 +40,6 @@ public abstract class SpellBase extends MultiItem {
 		return new SpellProperties(stack);
 	}
 
-	public void hitEntity(Entity entity, int power, String effectType) {
-		if (effectType == "fire") {
-			if (!entity.isImmuneToFire())
-				entity.setFire(power);
-		} else if (effectType == "water" && entity instanceof EntityLiving) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(
-					Potion.moveSlowdown.getId(), 100, power, false));
-		}
-	}
-
-	/**
-	 * called when the player releases the use item button.
-	 * 
-	 * @param itemStack
-	 *            this item
-	 * @param world
-	 *            world
-	 * @param entityPlayer
-	 *            player casting spell
-	 * @param itemInUseCount
-	 *            ??
-	 */
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer, int itemInUseCount) {
 		float castTime = (this.getMaxItemUseDuration(itemStack) - itemInUseCount) / 20.0F;

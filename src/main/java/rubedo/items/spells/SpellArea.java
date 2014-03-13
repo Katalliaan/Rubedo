@@ -10,8 +10,6 @@ import rubedo.common.Content;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.LinearRayCast;
 import rubedo.raycast.ShapedRayCast;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class SpellArea extends SpellBase {
 
@@ -27,10 +25,8 @@ public class SpellArea extends SpellBase {
 	
 	// TODO: figure this out
 	@Override
-	@SideOnly(Side.CLIENT)
 	public void castSpell(World world, EntityPlayer entityPlayer, int power,
-			String effectType, float focusModifier) {
-		
+			String effectType, float focusModifier) {		
 		// get the camera position and direction
 		Vec3 direction = ShapedRayCast.eulerToVec(entityPlayer.rotationPitch, entityPlayer.rotationYaw);
 		Vec3 camera = ShapedRayCast.getCameraPosition(entityPlayer);
