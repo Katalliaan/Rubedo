@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Property;
 import net.minecraftforge.oredict.OreDictionary;
 import rubedo.RubedoCore;
 import rubedo.blocks.BlockMetal;
@@ -68,12 +69,12 @@ public class ContentWorld implements IContent {
         metalsConfig.load();
         
         for (Metal metal : metals) {
-        	metal.isGenerated = metalsConfig.get(metal.toString(), "Generate", metal.isGenerated).getBoolean(metal.isGenerated);
+        	metal.isGenerated = metalsConfig.get(metal.toString(), "Generate", String.valueOf(metal.isGenerated), "Generate this ore?", Property.Type.BOOLEAN).getBoolean(metal.isGenerated);
         	metal.harvestLevel = metalsConfig.get(metal.toString(), "Harvest Level", metal.harvestLevel).getInt(metal.harvestLevel);
         	metal.oreDensity = metalsConfig.get(metal.toString(), "Ore Density", metal.oreDensity).getInt(metal.oreDensity);
     		metal.oreMinY = metalsConfig.get(metal.toString(), "Ore MinY", metal.oreMinY).getInt(metal.oreMinY);
     		metal.oreMaxY = metalsConfig.get(metal.toString(), "Ore MaxY", metal.oreMaxY).getInt(metal.oreMaxY);
-    		metal.dimensionExclusive = metalsConfig.get(metal.toString(), "Dimensions Exclusive", metal.dimensionExclusive).getBoolean(metal.dimensionExclusive);
+    		metal.dimensionExclusive = metalsConfig.get(metal.toString(), "Dimensions Exclusive", String.valueOf(metal.dimensionExclusive), "Is the list of dimensions the exclude list? (set to false to make it an inclusive list)", Property.Type.BOOLEAN).getBoolean(metal.dimensionExclusive);
     		metal.dimensions = metalsConfig.get(metal.toString(), "Dimensions", metal.dimensions).getIntList();
         }
         
