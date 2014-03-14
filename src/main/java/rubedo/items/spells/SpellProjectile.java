@@ -1,9 +1,11 @@
 package rubedo.items.spells;
 
+import javax.swing.text.AbstractDocument.Content;
+
+import rubedo.common.ContentSpells;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import rubedo.common.Content;
 
 public class SpellProjectile extends SpellBase {
 
@@ -32,7 +34,7 @@ public class SpellProjectile extends SpellBase {
 	 */
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ItemStack spell = new ItemStack(Content.spellProjectile);
+		ItemStack spell = new ItemStack(ContentSpells.spellProjectile);
 
 		super.buildSpell(spell, base, focus, effect);
 

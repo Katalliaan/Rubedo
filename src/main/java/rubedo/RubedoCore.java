@@ -1,10 +1,15 @@
 package rubedo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
-import net.minecraftforge.common.MinecraftForge;
-import rubedo.common.Content;
-import rubedo.items.spells.EntitySpellProjectile;
+import net.minecraft.creativetab.CreativeTabs;
+import rubedo.common.Config;
+import rubedo.common.ContentTools;
+import rubedo.common.ContentWorld;
+import rubedo.common.IContent;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -13,11 +18,14 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.EntityRegistry;
 
 @Mod(modid = "rubedo", name = "Rubedo", version = "0.0.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class RubedoCore {
+	public static String getId() { return RubedoCore.class.getAnnotation(Mod.class).modid(); }
+	public static String getName() { return RubedoCore.class.getAnnotation(Mod.class).name(); }
+	public static String getVersion() { return RubedoCore.class.getAnnotation(Mod.class).version(); }
+	
 	// The instance of your mod that Forge uses.
 	@Instance(value = "rubedo")
 	public static RubedoCore instance;
@@ -29,27 +37,33 @@ public class RubedoCore {
 	// Shared logger
 	public static final Logger logger = Logger.getLogger("Rubedo");
 
+	public static final CreativeTabs creativeTab = new CreativeTabs("Rubedo");
+	
+	// Mod content
+	public static List<IContent> contentUnits;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		content = new Content();
+		contentUnits = new ArrayList<IContent>();
+		contentUnits.addAll(Arrays.asList(new IContent[] {
+				new ContentWorld(),
+				new ContentTools()
+		}));
 		
-		proxy.registerRenderers();
+		// Load the configs
+		Config.load(event);
 	}
 
 	@EventHandler
-	public void initialization(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
 		
-		// Adding AI EventHandlers
-		MinecraftForge.EVENT_BUS.register(new rubedo.ai.EntityAnimalEventHandler());
-		MinecraftForge.EVENT_BUS.register(new rubedo.ai.EntityLivingEventHandler());
+		for (IContent content : contentUnits)
+			content.register();
 		
-		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry.findGlobalUniqueEntityId(), this, 64, 1, true);
+		// Register the renderers
+		RubedoCore.proxy.registerRenderers();
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		// TODO Auto-generated method stub
-	}
-	
-	public Content content;
+	public void postInit(FMLPostInitializationEvent event) {}
 }

@@ -3,6 +3,8 @@ package rubedo.items.spells;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.swing.text.AbstractDocument.Content;
+
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import rubedo.common.Content;
+import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentSpells.Material;
 import rubedo.items.MultiItem;
@@ -24,7 +26,7 @@ public abstract class SpellBase extends MultiItem {
 	public SpellBase(int id) {
 		super(id);
 		this.setUnlocalizedName("SpellBase");
-		this.setCreativeTab(Content.creativeTab);
+		this.setCreativeTab(RubedoCore.creativeTab);
 	}
 
 	public abstract String getName();
@@ -172,15 +174,15 @@ public abstract class SpellBase extends MultiItem {
 						.entrySet()) {
 					if (focusEntry.getValue().focusType == this.getName()) {
 						if (focusEntry.getValue().focusType == "projectile") {
-							list.add(Content.spellProjectile.buildSpell(
+							list.add(ContentSpells.spellProjectile.buildSpell(
 									baseEntry.getKey(), focusEntry.getKey(),
 									effectEntry.getKey()));
 						} else if (focusEntry.getValue().focusType == "self") {
-							list.add(Content.spellSelf.buildSpell(
+							list.add(ContentSpells.spellSelf.buildSpell(
 									baseEntry.getKey(), focusEntry.getKey(),
 									effectEntry.getKey()));
 						} else if (focusEntry.getValue().focusType == "area") {
-							list.add(Content.spellArea.buildSpell(
+							list.add(ContentSpells.spellArea.buildSpell(
 									baseEntry.getKey(), focusEntry.getKey(),
 									effectEntry.getKey()));
 						}

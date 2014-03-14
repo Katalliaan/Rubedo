@@ -4,13 +4,36 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import rubedo.items.spells.EntitySpellProjectile;
+import rubedo.items.spells.SpellArea;
+import rubedo.items.spells.SpellProjectile;
+import rubedo.items.spells.SpellSelf;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraftforge.common.Configuration;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentSpells {
-	public ContentSpells() {
+public class ContentSpells implements IContent {
+	public static SpellProjectile spellProjectile;
+	public static SpellSelf spellSelf;
+	public static SpellArea spellArea;
+	
+	@Override
+	public void config(Configuration config) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void register() {
+		spellProjectile = new SpellProjectile(3321);
+		spellSelf = new SpellSelf(3322);
+		spellArea = new SpellArea(3323);
+		
+		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry.findGlobalUniqueEntityId(), this, 64, 1, true);
+		
 		registerSpellMaterials();
 		registerSpellRecipes();
 	}
@@ -116,7 +139,7 @@ public class ContentSpells {
 										effectEntry.getValue().effectMaterial,
 										null},
 
-								Content.spellProjectile.buildSpell(
+								spellProjectile.buildSpell(
 										baseEntry.getKey(),
 										focusEntry.getKey(),
 										effectEntry.getKey())));
@@ -131,7 +154,7 @@ public class ContentSpells {
 										effectEntry.getValue().effectMaterial,
 										null},
 
-								Content.spellSelf.buildSpell(
+								spellSelf.buildSpell(
 										baseEntry.getKey(),
 										focusEntry.getKey(),
 										effectEntry.getKey())));

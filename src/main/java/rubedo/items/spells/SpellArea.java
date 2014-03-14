@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import rubedo.common.Content;
+import rubedo.common.ContentSpells;
 import rubedo.raycast.IBlockRayFilter;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
@@ -74,7 +74,7 @@ public class SpellArea extends SpellBase {
 
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ItemStack spell = new ItemStack(Content.spellArea);
+		ItemStack spell = new ItemStack(ContentSpells.spellArea);
 
 		super.buildSpell(spell, base, focus, effect);
 

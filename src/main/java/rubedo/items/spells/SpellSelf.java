@@ -1,9 +1,9 @@
 package rubedo.items.spells;
 
+import rubedo.common.ContentSpells;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import rubedo.common.Content;
 
 public class SpellSelf extends SpellBase {
 
@@ -24,7 +24,7 @@ public class SpellSelf extends SpellBase {
 
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ItemStack spell = new ItemStack(Content.spellSelf);
+		ItemStack spell = new ItemStack(ContentSpells.spellSelf);
 
 		super.buildSpell(spell, base, focus, effect);
 

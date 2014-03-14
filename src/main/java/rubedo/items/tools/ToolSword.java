@@ -1,12 +1,18 @@
 package rubedo.items.tools;
 
+import java.util.Arrays;
+import java.util.List;
+
+import rubedo.common.ContentTools;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import rubedo.common.Content;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -19,6 +25,34 @@ public class ToolSword extends ToolBase {
 	@Override
 	public String getName() {
 		return "sword";
+	}
+	
+	@Override
+	public float getWeaponDamage() { return 4.0F; }
+	@Override
+	public int getItemDamageOnHit() { return 1;	}
+	@Override
+	public int getItemDamageOnBreak() {	return 2; }
+	@Override
+	public float getEffectiveBlockSpeed () { return 15.0f; }
+	@Override
+	public Material[] getEffectiveMaterials() {	
+		return new Material[] { Material.plants, Material.vine, 
+				Material.coral, Material.leaves, Material.pumpkin }; 
+	}
+	@Override
+	public Block[] getEffectiveBlocks() { return new Block[] { Block.web }; }
+	
+	@Override
+	public List<Integer> getAllowedEnchantments() {
+		Integer[] allowedEnchants = new Integer[] { 
+				Enchantment.sharpness.effectId, 
+				Enchantment.smite.effectId, 
+				Enchantment.baneOfArthropods.effectId,
+				Enchantment.knockback.effectId,
+				Enchantment.fireAspect.effectId,
+				Enchantment.looting.effectId };
+		return Arrays.asList(allowedEnchants);
 	}
 	
 	@Override
@@ -37,7 +71,7 @@ public class ToolSword extends ToolBase {
 	public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
     {
         player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-        return stack;
+        return super.onItemRightClick(stack, world, player);
     }
 	
 	@Override
@@ -68,7 +102,7 @@ public class ToolSword extends ToolBase {
 	 */
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(Content.toolSword);
+		ItemStack tool = new ItemStack(ContentTools.toolSword);
 		
 		super.buildTool(tool, head, rod, cap);
 		

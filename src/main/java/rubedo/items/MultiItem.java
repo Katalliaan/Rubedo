@@ -3,6 +3,7 @@ package rubedo.items;
 import java.util.HashMap;
 import java.util.Map;
 
+import rubedo.RubedoCore;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -46,7 +47,7 @@ public abstract class MultiItem extends Item {
 	@Override
     public void registerIcons (IconRegister iconRegister)
     {		
-		getRenderList().put("blank", iconRegister.registerIcon("rubedo:blank"));
+		getRenderList().put("blank", iconRegister.registerIcon(RubedoCore.getId() + ":blank"));
     }
 	
 	@Override

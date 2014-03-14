@@ -1,3 +1,24 @@
 itemGroup.Rubedo=Rubedo
 
-item.TestTool.name=Test Tool
+rubedo.materials.flint=Flint
+rubedo.materials.copper=Copper
+rubedo.materials.iron=Iron
+rubedo.materials.gold=Gold
+
+rubedo.materials.wood=Wood
+rubedo.materials.stone=Stone
+rubedo.materials.leather=Leather
+rubedo.materials.bone=Bone
+rubedo.materials.blazerod=Blazerod
+
+rubedo.materials.oreName=$material Ore
+rubedo.materials.nuggetName=$material Nugget
+rubedo.materials.ingotName=$material Ingot
+rubedo.materials.blockName=$material Block
+
+rubedo.tools.toolHead=$material $tool.type Head
+rubedo.tools.toolName=$material $tool.type
+rubedo.tools.toolNameBroken=Broken $material $tool.type
+rubedo.tools.toolRod=$material1 capped $material2 rod
+rubedo.tools.type.pickaxe=Pickaxe
+rubedo.tools.type.sword=Sword
