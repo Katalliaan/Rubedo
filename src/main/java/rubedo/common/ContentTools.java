@@ -4,15 +4,33 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import rubedo.items.ItemMetal;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraftforge.common.Configuration;
+import rubedo.items.tools.ToolEnchantmentRecipes;
+import rubedo.items.tools.ToolPickaxe;
+import rubedo.items.tools.ToolSword;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentTools {
-	public ContentTools() {
+public class ContentTools implements IContent {	
+	
+	public static ToolSword toolSword;
+	public static ToolPickaxe toolPickaxe;
+	
+	@Override
+	public void config(Configuration config) {
+		// Tools
+		Config.initId("ToolSword");
+		Config.initId("ToolPickaxe");
+	}
+
+	@Override
+	public void register() {
+		toolSword = new ToolSword(Config.getId("ToolSword"));
+		toolPickaxe = new ToolPickaxe(Config.getId("ToolPickaxe"));
+		
 		registerToolMaterials();
 		registerToolRecipes();
 	}
@@ -24,7 +42,8 @@ public class ContentTools {
 			flint.durability = 60;
 			flint.damage = 0;
 			flint.speed = 2.0f;
-			flint.swordHeadMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("tools/sword_head_flint"));
+			flint.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_flint"));
+			flint.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_flint"));
 		}
 		Material wood = new Material();
 		{
@@ -65,8 +84,9 @@ public class ContentTools {
 			copper.special = 2;
 			copper.damage = 1;
 			copper.speed = 4.0f;
-			copper.swordHeadMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("tools/sword_head_copper"));
-			copper.capMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("copper_ingot"));
+			copper.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_copper"));
+			copper.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_copper"));
+			copper.capMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("copper_ingot"));
 		}
 		Material iron = new Material();
 		{
@@ -75,7 +95,8 @@ public class ContentTools {
 			iron.special = 3;
 			iron.damage = 2;
 			iron.speed = 6.0f;
-			iron.swordHeadMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("tools/sword_head_iron"));
+			iron.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_iron"));
+			iron.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_iron"));
 			iron.capMaterial = new ItemStack(Item.ingotIron);
 		}
 		Material gold = new Material();
@@ -85,7 +106,8 @@ public class ContentTools {
 			gold.special = 3;
 			gold.damage = 2;
 			gold.speed = 6.0f;
-			gold.swordHeadMaterial = new ItemStack(Content.metalItems, 1, ItemMetal.meta.get("tools/sword_head_gold"));
+			gold.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_gold"));
+			gold.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_gold"));
 			gold.capMaterial = new ItemStack(Item.ingotGold);
 		}
 		
@@ -116,6 +138,8 @@ public class ContentTools {
 	}
 	
 	private void registerToolRecipes() {
+		GameRegistry.addRecipe(new ToolEnchantmentRecipes());
+		
 		for (Entry<String, Material> headEntry : toolHeadMaterials.entrySet())
     	for (Entry<String, Material> rodEntry : toolRodMaterials.entrySet())
     	for (Entry<String, Material> capEntry : toolCapMaterials.entrySet()) {
@@ -126,7 +150,7 @@ public class ContentTools {
     					null, rodEntry.getValue().rodMaterial,  null,
     					null, capEntry.getValue().capMaterial,  null
     				},
-    				Content.toolSword.buildTool(
+    				toolSword.buildTool(
     						headEntry.getKey(), 
     						rodEntry.getKey(), 
     						capEntry.getKey())));
@@ -147,6 +171,7 @@ public class ContentTools {
 		public int special;
 		public int miningLevel;
 		public ItemStack swordHeadMaterial;
+		public ItemStack pickaxeHeadMaterial;
 		public ItemStack rodMaterial;
 		public ItemStack capMaterial;
 	}

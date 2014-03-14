@@ -1,12 +1,24 @@
 itemGroup.Rubedo=Rubedo
 
-rubedo.blocks.ore_copper.name=Copper Ore
-rubedo.items.copper_nugget.name=Copper Nugget
-rubedo.items.copper_ingot.name=Copper Ingot
-rubedo.blocks.copper_block.name=Copper Block
+rubedo.materials.flint=Flint
+rubedo.materials.copper=Copper
+rubedo.materials.iron=Iron
+rubedo.materials.gold=Gold
 
-rubedo.items.iron_nugget.name=Iron Nugget
+rubedo.materials.wood=Wood
+rubedo.materials.stone=Stone
+rubedo.materials.leather=Leather
+rubedo.materials.bone=Bone
+rubedo.materials.blazerod=Blazerod
 
-rubedo.items.tools.sword_head_flint.name=Flint Sword Head
-rubedo.items.tools.sword_head_copper.name=Copper Sword Head
-rubedo.items.tools.sword_head_iron.name=Iron Sword Head
+rubedo.materials.oreName=$material Ore
+rubedo.materials.nuggetName=$material Nugget
+rubedo.materials.ingotName=$material Ingot
+rubedo.materials.blockName=$material Block
+
+rubedo.tools.toolHead=$material $tool.type Head
+rubedo.tools.toolName=$material $tool.type
+rubedo.tools.toolNameBroken=Broken $material $tool.type
+rubedo.tools.toolRod=$material1 capped $material2 rod
+rubedo.tools.type.pickaxe=Pickaxe
+rubedo.tools.type.sword=Sword

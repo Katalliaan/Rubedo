@@ -2,8 +2,10 @@ package rubedo.items.tools;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
+import rubedo.common.ContentTools;
 
 public class ToolPickaxe extends ToolBase {
 
@@ -18,7 +20,7 @@ public class ToolPickaxe extends ToolBase {
 
 	@Override
 	public int getItemDamageOnHit() {
-		return 1;
+		return 2;
 	}
 
 	@Override
@@ -27,19 +29,27 @@ public class ToolPickaxe extends ToolBase {
 	}
 
 	@Override
-	public float getEffectiveSpeed() {
-		return 1.0F;
+	public float getEffectiveBlockSpeed() {
+		return 4.0F;
 	}
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return null;
+		return new Material[0];
+	}
+	
+	@Override
+	public Block[] getEffectiveBlocks() {
+		return new Block[0];
 	}
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		// TODO Auto-generated method stub
-		return null;
+		ItemStack tool = new ItemStack(ContentTools.toolPickaxe);
+		
+		super.buildTool(tool, head, rod, cap);
+		
+		return tool;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package rubedo.items.tools;
 import java.util.Arrays;
 import java.util.List;
 
+import rubedo.common.ContentTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -12,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import rubedo.common.Content;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -34,9 +34,14 @@ public class ToolSword extends ToolBase {
 	@Override
 	public int getItemDamageOnBreak() {	return 2; }
 	@Override
-	public float getEffectiveSpeed () { return 1.5f; }
+	public float getEffectiveBlockSpeed () { return 15.0f; }
 	@Override
-	public Material[] getEffectiveMaterials() {	return new Material[] { Material.plants, Material.vine, Material.coral, Material.leaves, Material.pumpkin }; }
+	public Material[] getEffectiveMaterials() {	
+		return new Material[] { Material.plants, Material.vine, 
+				Material.coral, Material.leaves, Material.pumpkin }; 
+	}
+	@Override
+	public Block[] getEffectiveBlocks() { return new Block[] { Block.web }; }
 	
 	@Override
 	public List<Integer> getAllowedEnchantments() {
@@ -49,15 +54,6 @@ public class ToolSword extends ToolBase {
 				Enchantment.looting.effectId };
 		return Arrays.asList(allowedEnchants);
 	}
-	
-	@Override
-    public float getStrVsBlock (ItemStack stack, Block block, int meta)
-    {
-		if (block.blockMaterial == Material.web)
-			return 15.0f;
-		
-        return super.getStrVsBlock(stack, block, meta);
-    }
 	
 	@Override
 	public EnumAction getItemUseAction (ItemStack par1ItemStack)
@@ -106,7 +102,7 @@ public class ToolSword extends ToolBase {
 	 */
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(Content.toolSword);
+		ItemStack tool = new ItemStack(ContentTools.toolSword);
 		
 		super.buildTool(tool, head, rod, cap);
 		

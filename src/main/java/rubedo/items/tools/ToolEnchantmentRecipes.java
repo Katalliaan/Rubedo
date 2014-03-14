@@ -8,7 +8,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import rubedo.common.Content;
+import rubedo.common.ContentTools;
 
 public class ToolEnchantmentRecipes implements IRecipe {
 	private ToolProperties tool;
@@ -16,7 +16,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 	
     public ItemStack getRecipeOutput()
     {
-        return new ItemStack(Content.toolSword);
+        return new ItemStack(ContentTools.toolSword);
     }
 
     /**

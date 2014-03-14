@@ -1,23 +1,29 @@
 package rubedo.blocks;
 
+import java.util.Arrays;
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import rubedo.RubedoCore;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBase extends Block {
-	private Icon[] icons;
-	private String[] textures;
+	protected Icon[] icons;
+	protected String[] textures;
 
 	public BlockBase(int blockID, Material material, String[] textures) {
 		super(blockID, material);
 		this.textures = textures;
+	}
+	
+	public int getTextureIndex(String name) {
+		return Arrays.asList(this.textures).indexOf(name);
 	}
 
 	@Override
@@ -34,7 +40,7 @@ public class BlockBase extends Block {
 
         for (int i = 0; i < this.icons.length; ++i)
         {
-            this.icons[i] = iconRegister.registerIcon("rubedo:" + textures[i]);
+            this.icons[i] = iconRegister.registerIcon(RubedoCore.getId() + ":" + textures[i]);
         }
     }
 

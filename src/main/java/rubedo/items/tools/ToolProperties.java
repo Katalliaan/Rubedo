@@ -1,10 +1,10 @@
 package rubedo.items.tools;
 
-import rubedo.common.ContentTools;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import rubedo.common.ContentTools;
 
 public class ToolProperties {	
 	protected NBTTagCompound tag;
@@ -61,19 +61,5 @@ public class ToolProperties {
 		int baseDur = ContentTools.toolHeadMaterials.get(getHeadMaterial()).durability;
 		float modifier = ContentTools.toolRodMaterials.get(getRodMaterial()).modifier;
 		return  (int) (baseDur * modifier);
-	}
-	
-	public String getName() { return baseTags.getCompoundTag("display").getString("Name"); }
-	public void setName(String name) { baseTags.getCompoundTag("display").setString("Name", name); }
-	
-	public void resetName(String name) {
-		String broken = "";
-		if (isBroken()) {
-			broken = "§4Broken ";
-		}
-		
-		setName("§r" + broken +
-				getHeadMaterial().substring(0, 1).toUpperCase() + getHeadMaterial().substring(1) + " " +
-				name.substring(0, 1).toUpperCase() + name.substring(1));
 	}
 }
