@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import rubedo.common.Config;
+import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;
 import rubedo.common.IContent;
@@ -47,7 +48,8 @@ public class RubedoCore {
 		contentUnits = new ArrayList<IContent>();
 		contentUnits.addAll(Arrays.asList(new IContent[] {
 				new ContentWorld(),
-				new ContentTools()
+				new ContentTools(),
+				new ContentSpells()
 		}));
 		
 		// Load the configs

@@ -3,8 +3,6 @@ package rubedo.items.spells;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.swing.text.AbstractDocument.Content;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +14,8 @@ import net.minecraft.world.World;
 import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentSpells.Material;
+import rubedo.common.Language;
+import rubedo.common.Language.Formatting;
 import rubedo.items.MultiItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,26 +32,22 @@ public abstract class SpellBase extends MultiItem {
 	public abstract String getName();
 
 	protected SpellProperties getSpellProperties(ItemStack stack) {
-		return new SpellProperties(stack);
+		return new SpellProperties(stack, this);
 	}
 
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer, int itemInUseCount) {
 		float castTime = (this.getMaxItemUseDuration(itemStack) - itemInUseCount) / 20.0F;
 
-		NBTTagCompound tags = itemStack.getTagCompound();
+		SpellProperties properties = getSpellProperties(itemStack);
 
-		if (castTime >= ContentSpells.spellFocusMaterials.get(tags
-				.getCompoundTag("RubedoSpell").getString("focus")).castTime) {
+		if (castTime >= ContentSpells.spellFocusMaterials.get(properties.getFocusMaterial()).castTime) {
 			castSpell(
 					world,
 					entityPlayer,
-					ContentSpells.spellBaseMaterials.get(tags.getCompoundTag(
-							"RubedoSpell").getString("base")).power,
-					ContentSpells.spellEffectMaterials.get(tags.getCompoundTag(
-							"RubedoSpell").getString("effect")).effectType,
-					ContentSpells.spellBaseMaterials.get(tags.getCompoundTag(
-							"RubedoSpell").getString("base")).focusModifier);
+					ContentSpells.spellBaseMaterials.get(properties.getBaseMaterial()).power,
+					ContentSpells.spellEffectMaterials.get(properties.getEffectMaterial()).effectType,
+					ContentSpells.spellBaseMaterials.get(properties.getBaseMaterial()).focusModifier);
 		}
 	}
 
@@ -132,21 +128,21 @@ public abstract class SpellBase extends MultiItem {
 				.entrySet()) {
 			String name = "base_" + baseEntry.getKey();
 			getRenderList().put(name,
-					iconRegister.registerIcon("rubedo:spells/" + name));
+					iconRegister.registerIcon(RubedoCore.getId()+":spells/" + name));
 		}
 
 		for (Entry<String, Material> focusEntry : ContentSpells.spellFocusMaterials
 				.entrySet()) {
 			String name = "focus_" + focusEntry.getKey();
 			getRenderList().put(name,
-					iconRegister.registerIcon("rubedo:spells/" + name));
+					iconRegister.registerIcon(RubedoCore.getId()+":spells/" + name));
 		}
 
 		for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials
 				.entrySet()) {
 			String name = "effect_" + effectEntry.getKey();
 			getRenderList().put(name,
-					iconRegister.registerIcon("rubedo:spells/" + name));
+					iconRegister.registerIcon(RubedoCore.getId()+":spells/" + name));
 		}
 	}
 
@@ -158,20 +154,19 @@ public abstract class SpellBase extends MultiItem {
 			boolean par4) {
 		SpellProperties properties = getSpellProperties(stack);
 
-		list.add("Base: " + properties.getBaseMaterial());
-		list.add("Focus: " + properties.getFocusMaterial());
-		list.add("Effect: " + properties.getEffectMaterial());
+		list.add("§2§o" + Language.getFormattedLocalization("spells.spellBase", true)
+    				.put("$base", "materials." + properties.getBaseMaterial(), Formatting.CAPITALIZED)
+    				.put("$focus", "spells.foci." + properties.getFocusMaterial(), Formatting.LOWERCASE)
+    				.getResult());
+		list.add("");
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void getSubItems(int id, CreativeTabs tabs, List list) {
-		for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials
-				.entrySet())
-			for (Entry<String, Material> focusEntry : ContentSpells.spellFocusMaterials
-					.entrySet())
-				for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials
-						.entrySet()) {
+		for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials.entrySet())
+			for (Entry<String, Material> focusEntry : ContentSpells.spellFocusMaterials.entrySet())
+				for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials.entrySet()) {
 					if (focusEntry.getValue().focusType == this.getName()) {
 						if (focusEntry.getValue().focusType == "projectile") {
 							list.add(ContentSpells.spellProjectile.buildSpell(
@@ -189,32 +184,33 @@ public abstract class SpellBase extends MultiItem {
 					}
 				}
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public String getItemDisplayName(ItemStack stack) {
+    	SpellProperties properties = getSpellProperties(stack);
+    	
+    	// This is how you set teh pretty colors!
+		String modifier = "§4";
+		
+		return modifier + Language.getFormattedLocalization("spells.spellName", true)
+				.put("$focusName", "spells.spellName.foci." + properties.getFocusMaterial(), Formatting.CAPITALIZED)
+				.put("$effect", "spells.effects." + properties.getEffectMaterial(), Formatting.CAPITALIZED)
+				.getResult();
+    }
 
-	public abstract ItemStack buildSpell(String base, String focus,
-			String effect);
+	public abstract ItemStack buildSpell(String base, String focus,	String effect);
 
-	public ItemStack buildSpell(ItemStack spell, String base, String focus,
-			String effect) {
-		// Set the correct tool properties
+	public ItemStack buildSpell(ItemStack spell, String base, String focus, String effect) {
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setCompoundTag("RubedoSpell", new NBTTagCompound());
-		compound.getCompoundTag("RubedoSpell").setString("base", base);
-		compound.getCompoundTag("RubedoSpell").setString("focus", focus);
-		compound.getCompoundTag("RubedoSpell").setString("effect", effect);
-
-		String effectType = ContentSpells.spellEffectMaterials.get(effect).effectType;
-
-		// Set the name, capitalized
-		compound.setCompoundTag("display", new NBTTagCompound());
-		compound.getCompoundTag("display").setString(
-				"Name",
-				base.substring(0, 1).toUpperCase() + base.substring(1) + " "
-						+ getName().substring(0, 1).toUpperCase()
-						+ getName().substring(1) + " "
-						+ effectType.substring(0, 1).toUpperCase()
-						+ effectType.substring(1));
-
 		spell.setTagCompound(compound);
+		
+		// Set the correct tool properties
+		SpellProperties properties = this.getSpellProperties(spell);
+    	properties.setBaseMaterial(base);
+    	properties.setFocusMaterial(focus);
+    	properties.setEffectMaterial(effect);
 
 		return spell;
 	}

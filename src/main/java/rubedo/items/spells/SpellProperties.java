@@ -1,35 +1,22 @@
 package rubedo.items.spells;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import rubedo.items.MultiItemProperties;
 
-public class SpellProperties {
-	protected String baseMaterial;
-	protected String focusMaterial;
-	protected String effectMaterial;
-
-	public SpellProperties(ItemStack stack) {
-		//TODO better error checking?
-		NBTTagCompound tags = stack.getTagCompound();
+public class SpellProperties extends MultiItemProperties<SpellBase> {
+	public SpellProperties(ItemStack stack, SpellBase spell) {
+		super(stack, spell);
 		
-		if (tags != null)
+		if (this.baseTags != null)
 		{
-			tags = tags.getCompoundTag("RubedoSpell");
-			this.baseMaterial = tags.getString("base");
-			this.focusMaterial = tags.getString("focus");
-			this.effectMaterial = tags.getString("effect");
+			this.tag = this.baseTags.getCompoundTag("RubedoSpell");
 		}
 	}
-
-	public String getBaseMaterial() {
-		return baseMaterial;
-	}
-
-	public String getFocusMaterial() {
-		return focusMaterial;
-	}
-
-	public String getEffectMaterial() {
-		return effectMaterial;
-	}
+	
+	public String getBaseMaterial() { return tag.getString("base"); }
+	public void setBaseMaterial(String base) { tag.setString("base", base); }
+	public String getFocusMaterial() { return tag.getString("focus"); }
+	public void setFocusMaterial(String focus) { tag.setString("focus", focus); }
+	public String getEffectMaterial() { return tag.getString("effect");	}
+	public void setEffectMaterial(String effect) { tag.setString("effect", effect); }
 }

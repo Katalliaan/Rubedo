@@ -1,9 +1,9 @@
 package rubedo.items;
 
+import net.minecraft.item.ItemStack;
 import rubedo.RubedoCore;
 import rubedo.common.ContentWorld;
 import rubedo.common.Language;
-import net.minecraft.item.ItemStack;
 
 public class ItemBlockMetalOre extends ItemBlockBase {
 

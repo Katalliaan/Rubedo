@@ -1,11 +1,9 @@
 package rubedo.items.spells;
 
-import javax.swing.text.AbstractDocument.Content;
-
-import rubedo.common.ContentSpells;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import rubedo.common.ContentSpells;
 
 public class SpellProjectile extends SpellBase {
 

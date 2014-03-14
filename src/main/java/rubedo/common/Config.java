@@ -3,8 +3,8 @@ package rubedo.common;
 import java.io.File;
 import java.util.HashMap;
 
-import rubedo.RubedoCore;
 import net.minecraftforge.common.Configuration;
+import rubedo.RubedoCore;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public abstract class Config {

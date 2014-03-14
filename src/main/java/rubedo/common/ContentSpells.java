@@ -4,14 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import rubedo.items.spells.EntitySpellProjectile;
-import rubedo.items.spells.SpellArea;
-import rubedo.items.spells.SpellProjectile;
-import rubedo.items.spells.SpellSelf;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.Configuration;
+import rubedo.RubedoCore;
+import rubedo.items.spells.EntitySpellProjectile;
+import rubedo.items.spells.SpellArea;
+import rubedo.items.spells.SpellProjectile;
+import rubedo.items.spells.SpellSelf;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -22,20 +23,22 @@ public class ContentSpells implements IContent {
 	
 	@Override
 	public void config(Configuration config) {
-		// TODO Auto-generated method stub
-		
+		// Tools
+		Config.initId("SpellProjectile");
+		Config.initId("SpellSelf");
+		Config.initId("SpellArea");
 	}
 
 	@Override
 	public void register() {
-		spellProjectile = new SpellProjectile(3321);
-		spellSelf = new SpellSelf(3322);
-		spellArea = new SpellArea(3323);
-		
-		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry.findGlobalUniqueEntityId(), this, 64, 1, true);
+		spellProjectile = new SpellProjectile(Config.getId("SpellProjectile"));
+		spellSelf = new SpellSelf(Config.getId("SpellSelf"));
+		spellArea = new SpellArea(Config.getId("SpellArea"));
 		
 		registerSpellMaterials();
 		registerSpellRecipes();
+		
+		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry.findGlobalUniqueEntityId(), RubedoCore.instance, 64, 1, true);
 	}
 
 	public void registerSpellMaterials() {
@@ -125,10 +128,7 @@ public class ContentSpells implements IContent {
 			for (Entry<String, Material> focusEntry : spellFocusMaterials
 					.entrySet())
 				for (Entry<String, Material> effectEntry : spellEffectMaterials
-						.entrySet()) {
-					boolean isProjectile = focusEntry.getValue().focusType == "projectile";
-					boolean isSelf = focusEntry.getValue().focusType == "self";
-					
+						.entrySet()) {					
 					if (focusEntry.getValue().focusType == "projectile") {
 						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
 								new ItemStack[]{null,

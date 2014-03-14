@@ -3,11 +3,11 @@ package rubedo.items;
 import java.util.HashMap;
 import java.util.Map;
 
-import rubedo.RubedoCore;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import rubedo.RubedoCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

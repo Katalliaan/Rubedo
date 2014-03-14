@@ -5,29 +5,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import rubedo.common.ContentTools;
+import rubedo.items.MultiItemProperties;
 
-public class ToolProperties {	
-	protected NBTTagCompound tag;
-	protected NBTTagCompound baseTags;
-	protected ItemStack stack;
-	protected ToolBase tool;
-
+public class ToolProperties extends MultiItemProperties<ToolBase> {	
 	public ToolProperties(ItemStack stack, ToolBase tool) {
-		this.baseTags = stack.getTagCompound();
-		this.stack = stack;
-		this.tool = tool;
+		super(stack, tool);
 		
 		if (this.baseTags != null)
 		{
 			this.tag = this.baseTags.getCompoundTag("RubedoTool");
 		}
 	}
-	
-	public boolean isValid() { return tag != null; }
-	
-	public NBTTagCompound getTag() { return tag; }
-	public ItemStack getStack() { return stack; }
-	public ToolBase getTool() { return tool; }
 	
 	public boolean isBroken() { return tag.getBoolean("broken"); }
 	public void setBroken(boolean isBroken) { tag.setBoolean("broken", isBroken); }
@@ -54,7 +42,7 @@ public class ToolProperties {
 	}
 	
 	public float getAttackDamage() {
-		return tool.getWeaponDamage() + ContentTools.toolHeadMaterials.get(getHeadMaterial()).damage;
+		return item.getWeaponDamage() + ContentTools.toolHeadMaterials.get(getHeadMaterial()).damage;
 	}
 	
 	public int getDurability() {

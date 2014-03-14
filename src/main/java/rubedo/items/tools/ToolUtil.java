@@ -10,7 +10,7 @@ public class ToolUtil {
 			ToolProperties properties, 
 			EntityLivingBase entity) {
 		
-		damageTool(properties, entity, properties.getTool().getItemDamageOnHit());
+		damageTool(properties, entity, properties.getItem().getItemDamageOnHit());
 		
 		//TODO: damage entity?
                 
@@ -23,7 +23,7 @@ public class ToolUtil {
 			int blockX, int blockY, int blockZ, 
 			EntityLivingBase entity) {
 
-		damageTool(properties, entity, properties.getTool().getItemDamageOnBreak());
+		damageTool(properties, entity, properties.getItem().getItemDamageOnBreak());
 
         return true;
 	}
@@ -34,23 +34,23 @@ public class ToolUtil {
 			if (properties.isBroken())
 	            return 0.1f;
 			
-			for (int i = 0; i < properties.getTool().getEffectiveBlocks().length; i++)
+			for (int i = 0; i < properties.getItem().getEffectiveBlocks().length; i++)
             {
-				if (properties.getTool().getEffectiveBlocks()[i] == block) {
-					return properties.getTool().getEffectiveBlockSpeed()
+				if (properties.getItem().getEffectiveBlocks()[i] == block) {
+					return properties.getItem().getEffectiveBlockSpeed()
 							* ContentTools.toolHeadMaterials.get(properties.getHeadMaterial()).speed;
 				}
             }
 	
-    		for (int i = 0; i < properties.getTool().getEffectiveMaterials().length; i++)
+    		for (int i = 0; i < properties.getItem().getEffectiveMaterials().length; i++)
             {
-    			if (properties.getTool().getEffectiveMaterials()[i] == block.blockMaterial) {
-	                return properties.getTool().getEffectiveMaterialSpeed();
+    			if (properties.getItem().getEffectiveMaterials()[i] == block.blockMaterial) {
+	                return properties.getItem().getEffectiveMaterialSpeed();
     			}
             }
 		}
 		
-    	return properties.getTool().getBaseSpeed();
+    	return properties.getItem().getBaseSpeed();
 	}
 	
 	public static void damageTool(ToolProperties properties, EntityLivingBase entity, int damage) {	
