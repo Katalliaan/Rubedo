@@ -35,7 +35,7 @@ public class SpellArea extends SpellBase {
 		// create a new raycaster
 		IShapedRayCast rayCaster = new SphericalRayCast(world, camera.xCoord,
 				camera.yCoord, camera.zCoord, direction.xCoord,
-				direction.yCoord, direction.zCoord, 16);
+				direction.yCoord, direction.zCoord, focusModifier);
 
 		ChunkPosition cameraCP = new ChunkPosition(camera);
 
