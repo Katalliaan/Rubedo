@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import rubedo.common.Config;
+import rubedo.common.ContentAI;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;

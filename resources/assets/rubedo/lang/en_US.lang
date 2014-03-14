@@ -4,6 +4,7 @@ rubedo.materials.flint=Flint
 rubedo.materials.copper=Copper
 rubedo.materials.iron=Iron
 rubedo.materials.gold=Gold
+rubedo.materials.silver=Silver
 
 rubedo.materials.wood=Wood
 rubedo.materials.stone=Stone
