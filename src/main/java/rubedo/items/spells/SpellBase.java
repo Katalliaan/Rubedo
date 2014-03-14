@@ -203,8 +203,10 @@ public abstract class SpellBase extends MultiItem {
 
 	public ItemStack buildSpell(ItemStack spell, String base, String focus, String effect) {
 		NBTTagCompound compound = new NBTTagCompound();
-		compound.setCompoundTag("RubedoSpell", new NBTTagCompound());
-		spell.setTagCompound(compound);
+		if (!compound.hasKey("RubedoSpell")) {
+			compound.setCompoundTag("RubedoSpell", new NBTTagCompound());
+			spell.setTagCompound(compound);
+    	}
 		
 		// Set the correct tool properties
 		SpellProperties properties = this.getSpellProperties(spell);
