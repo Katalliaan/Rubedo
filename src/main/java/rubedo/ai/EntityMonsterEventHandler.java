@@ -22,9 +22,9 @@ public class EntityMonsterEventHandler {
 		if (event.entity instanceof EntityZombie) {
 			if (event.entity instanceof EntityPigZombie) {
 
-				ItemStack stack = ContentTools.toolSword.buildTool(
-						new ItemStack(ContentTools.toolSword, 1, 0), "gold",
-						"bone", "gold");
+				//ItemStack stack = ContentTools.toolSword.buildTool(new ItemStack(ContentTools.toolSword, 1, 0), "gold","bone", "gold");
+				
+				ItemStack stack = ContentTools.toolSword.buildTool("gold", "bone", "gold");
 
 				event.entity.setCurrentItemOrArmor(0, stack);
 			}
