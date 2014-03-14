@@ -49,7 +49,8 @@ public class RubedoCore {
 		contentUnits.addAll(Arrays.asList(new IContent[] {
 				new ContentWorld(),
 				new ContentTools(),
-				new ContentSpells()
+				new ContentSpells(),
+				new ContentAI()
 		}));
 		
 		// Load the configs
