@@ -26,7 +26,7 @@ rubedo.tools.type.sword=Sword
 
 rubedo.spells.spellBase=$base ($focus)
 rubedo.spells.spellName=$focusName
-rubedo.spells.spellName.foci.arrow=Ray of $effect 
+rubedo.spells.spellName.foci.arrow=Orb of $effect 
 rubedo.spells.spellName.foci.bottle=Self-$effect
 rubedo.spells.spellName.foci.gunpowder=$effect Blast
 rubedo.spells.foci.arrow=Projectile

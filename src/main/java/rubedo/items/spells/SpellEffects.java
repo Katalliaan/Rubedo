@@ -72,7 +72,7 @@ public class SpellEffects {
 			if (world.isAirBlock(blockX, blockY, blockZ)) {
 				world.setBlock(blockX, blockY, blockZ, Block.fire.blockID);
 			}
-		} else if (effectType == "water") {
+		} else if (effectType == "water" && !world.provider.isHellWorld) {
 			switch (sideHit) {
 				case 0 :
 					--blockY;
