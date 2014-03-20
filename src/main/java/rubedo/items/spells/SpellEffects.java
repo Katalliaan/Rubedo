@@ -1,7 +1,9 @@
 package rubedo.items.spells;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
+import rubedo.RubedoCore;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,14 +15,14 @@ import net.minecraft.world.World;
  * Helper class for spells
  */
 public class SpellEffects {
-	
-	public static boolean hitsBlocks(String effectType)
-	{
+
+	public static boolean hitsBlocks(String effectType) {
 		ArrayList effects = new ArrayList();
-		
+
 		effects.add("fire");
 		effects.add("water");
-		
+		effects.add("break");
+
 		return effects.contains(effectType);
 	}
 
@@ -125,6 +127,17 @@ public class SpellEffects {
 					}
 				}
 			}
+		} // break spells have to test against air blocks in the event of one
+			// block relying on another (signs, vines, torches, etc)
+		else if (effectType == "break"
+				&& world.getBlockId(blockX, blockY, blockZ) != 0) {
+			Block block = Block.blocksList[world.getBlockId(blockX, blockY,
+					blockZ)];
+			
+			// TODO: add tests to determine if a block should be broken
+			block.dropBlockAsItemWithChance(world, blockX, blockY, blockZ,
+					world.getBlockMetadata(blockX, blockY, blockZ), 1.0F, 0);
+			world.setBlock(blockX, blockY, blockZ, 0);
 		}
 	}
 }
