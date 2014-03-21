@@ -20,7 +20,7 @@ public class ContentSpells implements IContent {
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
 	public static SpellArea spellArea;
-	
+
 	@Override
 	public void config(Configuration config) {
 		// Tools
@@ -34,11 +34,14 @@ public class ContentSpells implements IContent {
 		spellProjectile = new SpellProjectile(Config.getId("SpellProjectile"));
 		spellSelf = new SpellSelf(Config.getId("SpellSelf"));
 		spellArea = new SpellArea(Config.getId("SpellArea"));
-		
+
 		registerSpellMaterials();
 		registerSpellRecipes();
-		
-		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry.findGlobalUniqueEntityId(), RubedoCore.instance, 64, 1, true);
+
+		EntityRegistry.registerModEntity(EntitySpellProjectile.class,
+				"SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry
+						.findGlobalUniqueEntityId(), RubedoCore.instance, 64,
+				1, true);
 	}
 
 	public void registerSpellMaterials() {
@@ -48,9 +51,9 @@ public class ContentSpells implements IContent {
 			copper.name = "copper";
 			copper.cost = 130;
 			copper.power = 3;
-			copper.focusModifier = 4.0f;
-			// TODO: replace by copper base
-			copper.baseMaterial = new ItemStack(Item.ingotGold);
+			copper.focusModifier = 2.0f;
+			copper.baseMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("copper_ingot"));
 		}
 
 		Material iron = new Material();
@@ -63,6 +66,25 @@ public class ContentSpells implements IContent {
 			iron.baseMaterial = new ItemStack(Item.ingotIron);
 		}
 
+		Material gold = new Material();
+		{
+			gold.name = "gold";
+			gold.cost = 250;
+			gold.power = 5;
+			gold.focusModifier = 4.0f;
+			gold.baseMaterial = new ItemStack(Item.ingotGold);
+		}
+
+		Material silver = new Material();
+		{
+			silver.name = "silver";
+			silver.cost = 250;
+			silver.power = 10;
+			silver.focusModifier = 1.5f;
+			silver.baseMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
+		}
+
 		// Foci
 		Material arrow = new Material();
 		{
@@ -71,7 +93,7 @@ public class ContentSpells implements IContent {
 			arrow.castTime = 1.0f;
 			arrow.focusType = "projectile";
 		}
-		
+
 		Material bottle = new Material();
 		{
 			bottle.name = "bottle";
@@ -95,14 +117,14 @@ public class ContentSpells implements IContent {
 			blazerod.effectMaterial = new ItemStack(Item.blazeRod);
 			blazerod.effectType = "fire";
 		}
-		
+
 		Material snowball = new Material();
 		{
 			snowball.name = "snowball";
 			snowball.effectMaterial = new ItemStack(Item.snowball);
 			snowball.effectType = "water";
 		}
-		
+
 		Material flint = new Material();
 		{
 			flint.name = "flint";
@@ -114,6 +136,8 @@ public class ContentSpells implements IContent {
 		{
 			spellBaseMaterials.put(copper.name, copper);
 			spellBaseMaterials.put(iron.name, iron);
+			spellBaseMaterials.put(gold.name, gold);
+			spellBaseMaterials.put(silver.name, silver);
 		}
 
 		spellFocusMaterials = new HashMap<String, Material>();
@@ -136,7 +160,7 @@ public class ContentSpells implements IContent {
 			for (Entry<String, Material> focusEntry : spellFocusMaterials
 					.entrySet())
 				for (Entry<String, Material> effectEntry : spellEffectMaterials
-						.entrySet()) {					
+						.entrySet()) {
 					if (focusEntry.getValue().focusType == "projectile") {
 						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
 								new ItemStack[]{null,
@@ -147,12 +171,10 @@ public class ContentSpells implements IContent {
 										effectEntry.getValue().effectMaterial,
 										null},
 
-								spellProjectile.buildSpell(
-										baseEntry.getKey(),
+								spellProjectile.buildSpell(baseEntry.getKey(),
 										focusEntry.getKey(),
 										effectEntry.getKey())));
-					}
-					else if (focusEntry.getValue().focusType == "self") {
+					} else if (focusEntry.getValue().focusType == "self") {
 						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
 								new ItemStack[]{null,
 										baseEntry.getValue().baseMaterial,
@@ -162,8 +184,7 @@ public class ContentSpells implements IContent {
 										effectEntry.getValue().effectMaterial,
 										null},
 
-								spellSelf.buildSpell(
-										baseEntry.getKey(),
+								spellSelf.buildSpell(baseEntry.getKey(),
 										focusEntry.getKey(),
 										effectEntry.getKey())));
 					}
