@@ -62,7 +62,6 @@ public class ContentSpells implements IContent {
 			iron.cost = 250;
 			iron.power = 2;
 			iron.focusModifier = 0.6f;
-			// TODO: replace by iron base
 			iron.baseMaterial = new ItemStack(Item.ingotIron);
 		}
 
