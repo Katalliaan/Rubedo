@@ -5,6 +5,7 @@ import java.util.logging.Level;
 
 import rubedo.RubedoCore;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
@@ -22,6 +23,7 @@ public class SpellEffects {
 		effects.add("fire");
 		effects.add("water");
 		effects.add("break");
+		effects.add("life");
 
 		return effects.contains(effectType);
 	}
@@ -45,6 +47,8 @@ public class SpellEffects {
 		} else if (effectType == "water" && entity instanceof EntityLivingBase) {
 			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(
 					Potion.moveSlowdown.getId(), 100, power, false));
+		} else if (effectType == "life" && entity instanceof EntityLivingBase) {
+			((EntityLivingBase) entity).heal(power);
 		}
 	}
 
@@ -133,11 +137,17 @@ public class SpellEffects {
 				&& world.getBlockId(blockX, blockY, blockZ) != 0) {
 			Block block = Block.blocksList[world.getBlockId(blockX, blockY,
 					blockZ)];
-			
+
 			// TODO: add tests to determine if a block should be broken
 			block.dropBlockAsItemWithChance(world, blockX, blockY, blockZ,
 					world.getBlockMetadata(blockX, blockY, blockZ), 1.0F, 0);
 			world.setBlock(blockX, blockY, blockZ, 0);
+		} else if (effectType == "life") {
+			int l = world.getBlockId(blockX, blockY, blockZ); 
+			if (l > 0 && Block.blocksList[l] instanceof BlockCrops)
+			{
+				world.scheduleBlockUpdate(blockX, blockY, blockZ, l, 0);
+			}
 		}
 	}
 }

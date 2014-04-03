@@ -130,6 +130,13 @@ public class ContentSpells implements IContent {
 			flint.effectMaterial = new ItemStack(Item.flint);
 			flint.effectType = "break";
 		}
+		
+		Material bone = new Material();
+		{
+			bone.name = "bone";
+			bone.effectMaterial = new ItemStack(Item.bone);
+			bone.effectType = "life";
+		}
 
 		spellBaseMaterials = new HashMap<String, Material>();
 		{
@@ -151,6 +158,7 @@ public class ContentSpells implements IContent {
 			spellEffectMaterials.put(blazerod.name, blazerod);
 			spellEffectMaterials.put(snowball.name, snowball);
 			spellEffectMaterials.put(flint.name, flint);
+			spellEffectMaterials.put(bone.name, bone);
 		}
 	}
 
