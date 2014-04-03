@@ -144,7 +144,7 @@ public class SpellEffects {
 			world.setBlock(blockX, blockY, blockZ, 0);
 		} else if (effectType == "life") {
 			int l = world.getBlockId(blockX, blockY, blockZ); 
-			if (l > 0 && Block.blocksList[l] instanceof BlockCrops)
+			if (Block.blocksList[l] instanceof BlockCrops)
 			{
 				world.scheduleBlockUpdate(blockX, blockY, blockZ, l, 0);
 			}
