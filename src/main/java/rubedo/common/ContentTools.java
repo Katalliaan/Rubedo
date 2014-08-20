@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.Configuration;
+import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolEnchantmentRecipes;
 import rubedo.items.tools.ToolPickaxe;
 import rubedo.items.tools.ToolShovel;
@@ -20,6 +21,7 @@ public class ContentTools implements IContent {
 	public static ToolSword toolSword;
 	public static ToolPickaxe toolPickaxe;
 	public static ToolShovel toolShovel;
+	public static ToolAxe toolAxe;
 	
 	@Override
 	public void config(Configuration config) {
@@ -34,6 +36,7 @@ public class ContentTools implements IContent {
 		toolSword = new ToolSword(Config.getId("ToolSword"));
 		toolPickaxe = new ToolPickaxe(Config.getId("ToolPickaxe"));
 		toolShovel = new ToolShovel(Config.getId("ToolShovel"));
+		toolAxe = new ToolAxe(Config.getId("ToolAxe"));
 		
 		registerToolMaterials();
 		registerToolRecipes();
@@ -49,6 +52,7 @@ public class ContentTools implements IContent {
 			flint.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_flint"));
 			flint.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_flint"));
 			flint.shovelHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/shovel_head_flint"));
+			flint.axeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/axe_head_flint"));
 		}
 		Material wood = new Material();
 		{
@@ -92,6 +96,7 @@ public class ContentTools implements IContent {
 			copper.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_copper"));
 			copper.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_copper"));
 			copper.shovelHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/shovel_head_copper"));
+			copper.axeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/axe_head_copper"));
 			copper.capMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("copper_ingot"));
 		}
 		Material iron = new Material();
@@ -104,6 +109,7 @@ public class ContentTools implements IContent {
 			iron.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_iron"));
 			iron.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_iron"));
 			iron.shovelHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/shovel_head_iron"));
+			iron.axeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/axe_head_iron"));
 			iron.capMaterial = new ItemStack(Item.ingotIron);
 		}
 		Material gold = new Material();
@@ -116,6 +122,7 @@ public class ContentTools implements IContent {
 			gold.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_gold"));
 			gold.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_gold"));
 			gold.shovelHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/shovel_head_gold"));
+			gold.axeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/axe_head_gold"));
 			gold.capMaterial = new ItemStack(Item.ingotGold);
 		}
 		
@@ -181,6 +188,7 @@ public class ContentTools implements IContent {
 		public ItemStack swordHeadMaterial;
 		public ItemStack pickaxeHeadMaterial;
 		public ItemStack shovelHeadMaterial;
+		public ItemStack axeHeadMaterial;
 		public ItemStack rodMaterial;
 		public ItemStack capMaterial;
 	}
