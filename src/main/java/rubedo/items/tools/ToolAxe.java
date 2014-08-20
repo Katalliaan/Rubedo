@@ -5,7 +5,10 @@ import java.util.List;
 import rubedo.common.ContentTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 
 public class ToolAxe extends ToolBase {
 
@@ -32,6 +35,15 @@ public class ToolAxe extends ToolBase {
 	public float getEffectiveBlockSpeed() {
 		return 4.0F;
 	}
+	
+	@Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
+    {
+		par2EntityLivingBase.addPotionEffect(new PotionEffect(
+				Potion.wither.getId(), 100, 1, false));
+		
+    	return super.hitEntity(stack, par2EntityLivingBase, par3EntityLivingBase);
+    }
 
 	@Override
 	public Material[] getEffectiveMaterials() {
@@ -44,7 +56,7 @@ public class ToolAxe extends ToolBase {
 		return new Block[]{Block.planks, Block.bookShelf, Block.wood,
 				Block.chest, Block.stoneDoubleSlab, Block.stoneSingleSlab,
 				Block.pumpkin, Block.pumpkinLantern, Block.leaves, Block.vine,
-				Block.cocoaPlant};
+				Block.cocoaPlant, Block.woodSingleSlab, Block.woodDoubleSlab};
 	}
 
 	@Override
