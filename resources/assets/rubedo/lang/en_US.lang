@@ -23,6 +23,7 @@ rubedo.tools.toolNameBroken=Broken $material $tool.type
 rubedo.tools.toolRod=$material1 capped $material2 rod
 rubedo.tools.type.pickaxe=Pickaxe
 rubedo.tools.type.sword=Sword
+rubedo.tools.type.shovel=Shovel
 
 rubedo.spells.spellBase=$base ($focus)
 rubedo.spells.spellName=$focusName
