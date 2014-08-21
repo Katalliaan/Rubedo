@@ -7,6 +7,7 @@ public class ItemBlockBase extends ItemBlock {
 	public ItemBlockBase(int par1) {
 		super(par1);
 		this.setMaxDamage(0);
+        	this.setHasSubtypes(true);
 	}
 	
 	@Override
