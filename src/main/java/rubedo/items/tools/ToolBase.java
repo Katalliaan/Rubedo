@@ -228,8 +228,10 @@ public abstract class ToolBase extends MultiItem {
     
     public ItemStack buildTool(ItemStack tool, String head, String rod, String cap) {
     	NBTTagCompound compound = new NBTTagCompound();
-		compound.setCompoundTag("RubedoTool", new NBTTagCompound());
-		tool.setTagCompound(compound);
+    	if (!compound.hasKey("RubedoTool")) {
+			compound.setCompoundTag("RubedoTool", new NBTTagCompound());
+			tool.setTagCompound(compound);
+    	}
     	
     	// Set the correct tool properties
     	ToolProperties properties = this.getToolProperties(tool);

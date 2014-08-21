@@ -4,6 +4,7 @@ rubedo.materials.flint=Flint
 rubedo.materials.copper=Copper
 rubedo.materials.iron=Iron
 rubedo.materials.gold=Gold
+rubedo.materials.silver=Silver
 
 rubedo.materials.wood=Wood
 rubedo.materials.stone=Stone
@@ -22,10 +23,12 @@ rubedo.tools.toolNameBroken=Broken $material $tool.type
 rubedo.tools.toolRod=$material1 capped $material2 rod
 rubedo.tools.type.pickaxe=Pickaxe
 rubedo.tools.type.sword=Sword
+rubedo.tools.type.shovel=Shovel
+rubedo.tools.type.axe=Axe
 
 rubedo.spells.spellBase=$base ($focus)
 rubedo.spells.spellName=$focusName
-rubedo.spells.spellName.foci.arrow=Ray of $effect 
+rubedo.spells.spellName.foci.arrow=Orb of $effect 
 rubedo.spells.spellName.foci.bottle=Self-$effect
 rubedo.spells.spellName.foci.gunpowder=$effect Blast
 rubedo.spells.foci.arrow=Projectile
@@ -33,3 +36,5 @@ rubedo.spells.foci.bottle=Self
 rubedo.spells.foci.gunpowder=Area
 rubedo.spells.effects.blazerod=Fire
 rubedo.spells.effects.snowball=Water
+rubedo.spells.effects.flint=Break
+rubedo.spells.effects.bone=Life
