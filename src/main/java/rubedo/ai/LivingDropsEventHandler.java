@@ -1,5 +1,6 @@
 package rubedo.ai;
 
+import rubedo.common.Config;
 import rubedo.common.ContentWorld;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityPigZombie;
@@ -17,6 +18,10 @@ public class LivingDropsEventHandler {
 					drop.setEntityItemStack(new ItemStack(ContentWorld.metalItems, drop.getEntityItem().stackSize, ContentWorld.metalItems.getTextureIndex("silver_ingot")));
 				if (drop.getEntityItem().itemID == Item.goldNugget.itemID)
 					drop.setEntityItemStack(new ItemStack(ContentWorld.metalItems, drop.getEntityItem().stackSize, ContentWorld.metalItems.getTextureIndex("silver_nugget")));
+				if (drop.getEntityItem().itemID == Config.getId("ToolSword"))
+				{
+					drop.getEntityItem().setItemDamage(0);
+				}
 			}
 		}
 	}
