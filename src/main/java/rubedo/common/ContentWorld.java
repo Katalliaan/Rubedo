@@ -35,8 +35,9 @@ public class ContentWorld implements IContent {
 	
 	// I think you can add like 16 of these
 	public static final List<Metal> metals = Arrays.asList(new Metal[] {
-			// name, harvestLevel, isGenerated, oreDensity, oreMinY, oreMaxY, dimensionExclude, dimensions
-			new Metal("copper", 1, true, 8, 20, 64, true, new int[] { -1, 1 })
+			// name, harvestLevel, isGenerated, oreSize, oreDensity, oreMinY, oreMaxY, dimensionExclude, dimensions
+			new Metal("copper", 1, true, 8, 8, 20, 64, true, new int[] { -1, 1 }),
+			new Metal("silver", 3, true, 64, 0.5, 0, 128, false, new int[] { -1 })
 	});
 
 	@Override
@@ -71,7 +72,7 @@ public class ContentWorld implements IContent {
         for (Metal metal : metals) {
         	metal.isGenerated = metalsConfig.get(metal.toString(), "Generate", String.valueOf(metal.isGenerated), "Generate this ore?", Property.Type.BOOLEAN).getBoolean(metal.isGenerated);
         	metal.harvestLevel = metalsConfig.get(metal.toString(), "Harvest Level", metal.harvestLevel).getInt(metal.harvestLevel);
-        	metal.oreDensity = metalsConfig.get(metal.toString(), "Ore Density", metal.oreDensity).getInt(metal.oreDensity);
+        	metal.oreDensity = metalsConfig.get(metal.toString(), "Ore Density", metal.oreDensity).getDouble(metal.oreDensity);
     		metal.oreMinY = metalsConfig.get(metal.toString(), "Ore MinY", metal.oreMinY).getInt(metal.oreMinY);
     		metal.oreMaxY = metalsConfig.get(metal.toString(), "Ore MaxY", metal.oreMaxY).getInt(metal.oreMaxY);
     		metal.dimensionExclusive = metalsConfig.get(metal.toString(), "Dimensions Exclusive", String.valueOf(metal.dimensionExclusive), "Is the list of dimensions the exclude list? (set to false to make it an inclusive list)", Property.Type.BOOLEAN).getBoolean(metal.dimensionExclusive);
@@ -119,9 +120,9 @@ public class ContentWorld implements IContent {
 		GameRegistry.addRecipe(new ItemStack(metalBlocks, 1, metalBlocks.getTextureIndex(metal.name+"_block")), patBlock, '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex(metal.name+"_ingot")));
 		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex(metal.name+"_ingot")), "m", 'm', new ItemStack(metalBlocks, 1, metalBlocks.getTextureIndex(metal.name+"_block")));
 	
-		FurnaceRecipes.smelting().addSmelting(oreBlocks.blockID, metalBlocks.getTextureIndex(metal.name+"_ore"), new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), 0.5F);
+		FurnaceRecipes.smelting().addSmelting(oreBlocks.blockID, oreBlocks.getTextureIndex(metal.name+"_ore"), new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), 0.5F);
 	
-		OreDictionary.registerOre("ore"+metal, new ItemStack(oreBlocks, 1, metalBlocks.getTextureIndex(metal.name+"_ore")));
+		OreDictionary.registerOre("ore"+metal, new ItemStack(oreBlocks, 1, oreBlocks.getTextureIndex(metal.name+"_ore")));
 		OreDictionary.registerOre("ingot"+metal, new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")));
 		OreDictionary.registerOre("nugget"+metal, new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_nugget")));
 	}
@@ -132,7 +133,8 @@ public class ContentWorld implements IContent {
 		public boolean isGenerated;
 		public int harvestLevel;
 		
-		public int oreDensity;
+		public int oreSize;
+		public double oreDensity;
 		public int oreMinY;
 		public int oreMaxY;
 		
@@ -142,7 +144,7 @@ public class ContentWorld implements IContent {
 		
 		public Metal(
 				String name, int harvestLevel, boolean isGenerated,
-				int oreDensity, int oreMinY, int oreMaxY,
+				int oreSize, double oreDensity, int oreMinY, int oreMaxY,
 				boolean dimensionExclude, int[] dimensions) 
 		{
 			this.name = name;
@@ -150,6 +152,7 @@ public class ContentWorld implements IContent {
 			this.isGenerated = true;
 			this.harvestLevel = harvestLevel;
 			
+			this.oreSize = oreSize;
 			this.oreDensity = oreDensity;
 			this.oreMinY = oreMinY;
 			this.oreMaxY = oreMaxY;
