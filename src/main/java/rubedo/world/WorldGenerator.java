@@ -29,7 +29,10 @@ public class WorldGenerator implements IWorldGenerator {
         		if (world.provider.dimensionId == 1)
         			idToReplace = Block.whiteStone.blockID;
         		
-        		WorldGenMinable wgm = new WorldGenMinable(ContentWorld.oreBlocks.blockID, 0, 8, idToReplace);
+        		WorldGenMinable wgm = new WorldGenMinable(
+        			ContentWorld.oreBlocks.blockID, 
+        			ContentWorld.oreBlocks.getTextureIndex(metal.name+"_ore"), 
+        			8, idToReplace);
         		
         		int oreDensity = MathHelper.floor_double(metal.oreDensity);
         		double chance = metal.oreDensity - oreDensity;
