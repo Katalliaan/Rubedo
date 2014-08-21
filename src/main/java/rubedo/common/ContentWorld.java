@@ -122,7 +122,7 @@ public class ContentWorld implements IContent {
 	
 		FurnaceRecipes.smelting().addSmelting(oreBlocks.blockID, oreBlocks.getTextureIndex(metal.name+"_ore"), new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), 0.5F);
 	
-		OreDictionary.registerOre("ore"+metal, new ItemStack(oreBlocks, 1, metalBlocks.getTextureIndex(metal.name+"_ore")));
+		OreDictionary.registerOre("ore"+metal, new ItemStack(oreBlocks, 1, oreBlocks.getTextureIndex(metal.name+"_ore")));
 		OreDictionary.registerOre("ingot"+metal, new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")));
 		OreDictionary.registerOre("nugget"+metal, new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_nugget")));
 	}
