@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 
+// TODO: find a way to fire this after mobs get their equipment
 public class LivingSpawnEventHandler {
 	@ForgeSubscribe
 	public void onSpawn(LivingSpawnEvent event) {
@@ -23,9 +24,6 @@ public class LivingSpawnEventHandler {
 			// }
 
 			event.entityLiving.setCurrentItemOrArmor(0, new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("copper_ingot")));
-			
-			RubedoCore.logger.info(Integer.toString(event.entityLiving
-					.getCurrentItemOrArmor(0).itemID));
 		}
 	}
 }

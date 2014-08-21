@@ -14,6 +14,6 @@ public class ContentAI implements IContent {
 		MinecraftForge.EVENT_BUS.register(new rubedo.ai.EntityAnimalEventHandler());
 		MinecraftForge.EVENT_BUS.register(new rubedo.ai.EntityLivingEventHandler());
 		MinecraftForge.EVENT_BUS.register(new rubedo.ai.LivingDropsEventHandler());
-		MinecraftForge.EVENT_BUS.register(new rubedo.ai.LivingSpawnEventHandler());
+		// MinecraftForge.EVENT_BUS.register(new rubedo.ai.LivingSpawnEventHandler());
 	}
 }
