@@ -30,6 +30,7 @@ public class ContentTools implements IContent {
 		Config.initId("ToolSword");
 		Config.initId("ToolPickaxe");
 		Config.initId("ToolShovel");
+		Config.initId("ToolAxe");
 	}
 
 	@Override
