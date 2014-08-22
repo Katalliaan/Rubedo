@@ -42,12 +42,12 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	}
 	
 	public float getAttackDamage() {
-		return item.getWeaponDamage() + ContentTools.toolHeadMaterials.get(getHeadMaterial()).damage;
+		return item.getWeaponDamage() + ContentTools.toolHeads.get(getHeadMaterial()).damage;
 	}
 	
 	public int getDurability() {
-		int baseDur = ContentTools.toolHeadMaterials.get(getHeadMaterial()).durability;
-		float modifier = ContentTools.toolRodMaterials.get(getRodMaterial()).modifier;
+		int baseDur = ContentTools.toolHeads.get(getHeadMaterial()).durability;
+		float modifier = ContentTools.toolRods.get(getRodMaterial()).modifier;
 		return  (int) (baseDur * modifier);
 	}
 }

@@ -94,18 +94,18 @@ public abstract class ToolBase extends MultiItem {
     {	
 		super.registerIcons(iconRegister);
 		
-		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeadMaterials.entrySet()) {
+		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads.entrySet()) {
 			String name = getName() + "_head_" + headEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon(RubedoCore.getId() + ":tools/" + name));
 			getRenderList().put(name + "_broken", iconRegister.registerIcon(RubedoCore.getId() + ":tools/" + name + "_broken"));
 		}
 		
-		for (Entry<String, ContentTools.Material> rodEntry : ContentTools.toolRodMaterials.entrySet()) {
+		for (Entry<String, ContentTools.Material> rodEntry : ContentTools.toolRods.entrySet()) {
 			String name = getName() + "_rod_" + rodEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon(RubedoCore.getId() + ":tools/" + name));
 		}
 		
-		for (Entry<String, ContentTools.Material> capEntry : ContentTools.toolCapMaterials.entrySet()) {
+		for (Entry<String, ContentTools.Material> capEntry : ContentTools.toolCaps.entrySet()) {
 			String name = getName() + "_cap_" + capEntry.getKey();
 			getRenderList().put(name, iconRegister.registerIcon(RubedoCore.getId() + ":tools/" + name));
 		}
@@ -181,9 +181,9 @@ public abstract class ToolBase extends MultiItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
     public void getSubItems(int id, CreativeTabs tabs, List list) {
-    	for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeadMaterials.entrySet())
-    	for (Entry<String, ContentTools.Material> rodEntry : ContentTools.toolRodMaterials.entrySet())
-    	for (Entry<String, ContentTools.Material> capEntry : ContentTools.toolCapMaterials.entrySet()) {
+    	for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads.entrySet())
+    	for (Entry<String, ContentTools.Material> rodEntry : ContentTools.toolRods.entrySet())
+    	for (Entry<String, ContentTools.Material> capEntry : ContentTools.toolCaps.entrySet()) {
     		list.add(this.buildTool(headEntry.getKey(), rodEntry.getKey(), capEntry.getKey()));
     	}
     }

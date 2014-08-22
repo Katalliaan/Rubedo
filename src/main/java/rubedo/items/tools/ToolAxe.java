@@ -33,7 +33,7 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public float getEffectiveBlockSpeed() {
-		return 4.0F;
+		return 2.0F;
 	}
 	
 	@Override

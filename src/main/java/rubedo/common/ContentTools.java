@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.Configuration;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolEnchantmentRecipes;
@@ -16,13 +17,13 @@ import rubedo.items.tools.ToolShovel;
 import rubedo.items.tools.ToolSword;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentTools implements IContent {	
-	
+public class ContentTools implements IContent {
+
 	public static ToolSword toolSword;
 	public static ToolPickaxe toolPickaxe;
 	public static ToolShovel toolShovel;
 	public static ToolAxe toolAxe;
-	
+
 	@Override
 	public void config(Configuration config) {
 		// Tools
@@ -37,11 +38,11 @@ public class ContentTools implements IContent {
 		toolPickaxe = new ToolPickaxe(Config.getId("ToolPickaxe"));
 		toolShovel = new ToolShovel(Config.getId("ToolShovel"));
 		toolAxe = new ToolAxe(Config.getId("ToolAxe"));
-		
+
 		registerToolMaterials();
 		registerToolRecipes();
 	}
-	
+
 	public void registerToolMaterials() {
 		Material flint = new Material();
 		{
@@ -49,10 +50,19 @@ public class ContentTools implements IContent {
 			flint.durability = 60;
 			flint.damage = 0;
 			flint.speed = 2.0f;
-			flint.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_flint"));
-			flint.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_flint"));
-			flint.shovelHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/shovel_head_flint"));
-			flint.axeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/axe_head_flint"));
+			flint.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_flint"));
+			flint.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_flint"));
+			flint.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_flint"));
+			flint.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_flint"));
+			flint.headMaterial = new ItemStack(Item.flint, 1, 0);
 		}
 		Material wood = new Material();
 		{
@@ -93,11 +103,22 @@ public class ContentTools implements IContent {
 			copper.special = 2;
 			copper.damage = 1;
 			copper.speed = 4.0f;
-			copper.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_copper"));
-			copper.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_copper"));
-			copper.shovelHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/shovel_head_copper"));
-			copper.axeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/axe_head_copper"));
-			copper.capMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("copper_ingot"));
+			copper.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_copper"));
+			copper.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_copper"));
+			copper.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_copper"));
+			copper.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_copper"));
+			copper.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("copper_ingot"));
+			copper.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("copper_ingot"));
 		}
 		Material iron = new Material();
 		{
@@ -106,10 +127,19 @@ public class ContentTools implements IContent {
 			iron.special = 3;
 			iron.damage = 2;
 			iron.speed = 6.0f;
-			iron.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_iron"));
-			iron.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_iron"));
-			iron.shovelHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/shovel_head_iron"));
-			iron.axeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/axe_head_iron"));
+			iron.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_iron"));
+			iron.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_iron"));
+			iron.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_iron"));
+			iron.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_iron"));
+			iron.headMaterial = new ItemStack(Item.ingotIron, 1, 0);
 			iron.capMaterial = new ItemStack(Item.ingotIron);
 		}
 		Material gold = new Material();
@@ -119,64 +149,144 @@ public class ContentTools implements IContent {
 			gold.special = 3;
 			gold.damage = 2;
 			gold.speed = 6.0f;
-			gold.swordHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/sword_head_gold"));
-			gold.pickaxeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/pickaxe_head_gold"));
-			gold.shovelHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/shovel_head_gold"));
-			gold.axeHeadMaterial = new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("tools/axe_head_gold"));
+			gold.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_gold"));
+			gold.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_gold"));
+			gold.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_gold"));
+			gold.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_gold"));
+			gold.headMaterial = new ItemStack(Item.ingotGold, 1, 0);
 			gold.capMaterial = new ItemStack(Item.ingotGold);
 		}
-		
-		toolHeadMaterials = new HashMap<String, Material>();
+		Material silver = new Material();
 		{
-			toolHeadMaterials.put(flint.name, flint);
-			toolHeadMaterials.put(copper.name, copper);
-			toolHeadMaterials.put(iron.name, iron);
-			toolHeadMaterials.put(gold.name, gold);
+			silver.name = "silver";
+			silver.durability = 130;
+			silver.special = 2;
+			silver.damage = 1;
+			silver.speed = 4.0f;
+			silver.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_silver"));
+			silver.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_silver"));
+			silver.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_silver"));
+			silver.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_silver"));
+			silver.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
+			silver.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 		}
-		
-		toolRodMaterials = new HashMap<String, Material>();
+
+		toolHeads = new HashMap<String, Material>();
 		{
-			toolRodMaterials.put(wood.name, wood);
-			toolRodMaterials.put(leather.name, leather);
-			toolRodMaterials.put(bone.name, bone);
-			toolRodMaterials.put(blazerod.name, blazerod);
+			toolHeads.put(flint.name, flint);
+			toolHeads.put(copper.name, copper);
+			toolHeads.put(iron.name, iron);
+			toolHeads.put(gold.name, gold);
+			toolHeads.put(silver.name, silver);
 		}
-		
-		toolCapMaterials = new HashMap<String, Material>();
+
+		toolRods = new HashMap<String, Material>();
 		{
-			toolCapMaterials.put(wood.name, wood);
-			toolCapMaterials.put(stone.name, stone);
-			toolCapMaterials.put(copper.name, copper);
-			toolCapMaterials.put(iron.name, iron);
-			toolCapMaterials.put(gold.name, gold);
+			toolRods.put(wood.name, wood);
+			toolRods.put(leather.name, leather);
+			toolRods.put(bone.name, bone);
+			toolRods.put(blazerod.name, blazerod);
+		}
+
+		toolCaps = new HashMap<String, Material>();
+		{
+			toolCaps.put(wood.name, wood);
+			toolCaps.put(stone.name, stone);
+			toolCaps.put(copper.name, copper);
+			toolCaps.put(iron.name, iron);
+			toolCaps.put(gold.name, gold);
 		}
 	}
-	
+
 	private void registerToolRecipes() {
 		GameRegistry.addRecipe(new ToolEnchantmentRecipes());
+
+		Item[] toBeRemoved = {Item.swordDiamond, Item.swordGold,
+				Item.swordIron, Item.swordStone, Item.swordWood,
+				Item.shovelDiamond, Item.shovelGold, Item.shovelIron,
+				Item.shovelStone, Item.shovelWood, Item.axeDiamond,
+				Item.axeGold, Item.axeIron, Item.axeStone, Item.axeWood};
+		for (int i = 0; i < toBeRemoved.length; i++) {
+			RecipeRemover.removeAnyRecipe(new ItemStack(toBeRemoved[i]));
+			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).removeItem(
+					new ItemStack(toBeRemoved[i]));
+		}
+
+		for (Entry<String, Material> headEntry : toolHeads.entrySet())
+			for (Entry<String, Material> rodEntry : toolRods.entrySet())
+				for (Entry<String, Material> capEntry : toolCaps.entrySet()) {
+					// Sword Recipes
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[]{headEntry.getValue().swordHead,
+									rodEntry.getValue().rodMaterial,
+									capEntry.getValue().capMaterial}, toolSword
+									.buildTool(headEntry.getKey(),
+											rodEntry.getKey(),
+											capEntry.getKey())));
+
+					// Shovel Recipes
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[]{headEntry.getValue().shovelHead,
+									rodEntry.getValue().rodMaterial,
+									capEntry.getValue().capMaterial},
+							toolShovel.buildTool(headEntry.getKey(),
+									rodEntry.getKey(), capEntry.getKey())));
+
+					// Axe Recipes
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[]{headEntry.getValue().axeHead,
+									rodEntry.getValue().rodMaterial,
+									capEntry.getValue().capMaterial}, toolAxe
+									.buildTool(headEntry.getKey(),
+											rodEntry.getKey(),
+											capEntry.getKey())));
+					// TODO: add all other recipes
+				}
 		
-		for (Entry<String, Material> headEntry : toolHeadMaterials.entrySet())
-    	for (Entry<String, Material> rodEntry : toolRodMaterials.entrySet())
-    	for (Entry<String, Material> capEntry : toolCapMaterials.entrySet()) {
-    		//Sword Recipes
-    		GameRegistry.addRecipe(new ShapedRecipes(3, 3, 
-    				new ItemStack[] {
-    					null, headEntry.getValue().swordHeadMaterial, null,
-    					null, rodEntry.getValue().rodMaterial,  null,
-    					null, capEntry.getValue().capMaterial,  null
-    				},
-    				toolSword.buildTool(
-    						headEntry.getKey(), 
-    						rodEntry.getKey(), 
-    						capEntry.getKey())));
-    		//TODO: add all other recipes
-    	}
+		// Tool head recipes
+		for (Entry<String, Material> headEntry : toolHeads.entrySet()) {
+			// Sword heads
+			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[]{
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial},
+					headEntry.getValue().swordHead));
+			// Shovel heads
+			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[]{
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial},
+					headEntry.getValue().shovelHead));
+			// Axe heads
+			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[]{
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial, null,
+					headEntry.getValue().headMaterial},
+					headEntry.getValue().axeHead));
+		}
 	}
-	
-	public static Map<String, Material> toolHeadMaterials;
-	public static Map<String, Material> toolRodMaterials;
-	public static Map<String, Material> toolCapMaterials;
-	
+	public static Map<String, Material> toolHeads;
+	public static Map<String, Material> toolRods;
+	public static Map<String, Material> toolCaps;
+
 	public class Material {
 		public String name;
 		public int durability;
@@ -185,10 +295,11 @@ public class ContentTools implements IContent {
 		public float speed;
 		public int special;
 		public int miningLevel;
-		public ItemStack swordHeadMaterial;
-		public ItemStack pickaxeHeadMaterial;
-		public ItemStack shovelHeadMaterial;
-		public ItemStack axeHeadMaterial;
+		public ItemStack swordHead;
+		public ItemStack pickaxeHead;
+		public ItemStack shovelHead;
+		public ItemStack axeHead;
+		public ItemStack headMaterial;
 		public ItemStack rodMaterial;
 		public ItemStack capMaterial;
 	}

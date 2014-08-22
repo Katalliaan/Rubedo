@@ -38,7 +38,7 @@ public class ToolUtil {
             {
 				if (properties.getItem().getEffectiveBlocks()[i] == block) {
 					return properties.getItem().getEffectiveBlockSpeed()
-							* ContentTools.toolHeadMaterials.get(properties.getHeadMaterial()).speed;
+							* ContentTools.toolHeads.get(properties.getHeadMaterial()).speed;
 				}
             }
 	
