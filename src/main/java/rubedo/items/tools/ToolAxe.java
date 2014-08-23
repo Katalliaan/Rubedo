@@ -22,6 +22,9 @@ public class ToolAxe extends ToolBase {
 	}
 
 	@Override
+	public float getWeaponDamage() { return 4.0F; }
+	
+	@Override
 	public int getItemDamageOnHit() {
 		return 2;
 	}

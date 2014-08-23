@@ -19,6 +19,9 @@ public class ToolShovel extends ToolBase {
 	}
 
 	@Override
+	public float getWeaponDamage() { return 2.0F; }
+	
+	@Override
 	public int getItemDamageOnHit() {
 		return 2;
 	}

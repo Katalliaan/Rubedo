@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
@@ -29,6 +30,11 @@ public class ToolScythe extends ToolBase {
 	@Override
 	public String getName() {
 		return "scythe";
+	}
+
+	@Override
+	public float getWeaponDamage() {
+		return 2.0F;
 	}
 
 	@Override
@@ -58,13 +64,20 @@ public class ToolScythe extends ToolBase {
 			IShapedRayCast rayCaster = new SphericalRayCast(
 					attackingEntity.worldObj, hitEntity.posX, hitEntity.posY,
 					hitEntity.posZ, direction.xCoord, direction.yCoord,
-					direction.zCoord, 3);
+					direction.zCoord, 4);
 
 			for (Entity entity : rayCaster
 					.getEntitiesExcludingEntity(attackingEntity)) {
-				if (entity instanceof EntityLivingBase)
+				if (entity instanceof EntityLivingBase) {
+					if (!entity.equals(hitEntity)) {
+						entity.attackEntityFrom(
+								DamageSource
+										.causePlayerDamage((EntityPlayer) attackingEntity),
+								this.getToolProperties(stack).getAttackDamage());
+					}
 					super.hitEntity(stack, (EntityLivingBase) entity,
 							attackingEntity);
+				}
 			}
 		} else
 			super.hitEntity(stack, hitEntity, attackingEntity);
