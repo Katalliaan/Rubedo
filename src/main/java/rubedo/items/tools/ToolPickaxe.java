@@ -19,9 +19,6 @@ public class ToolPickaxe extends ToolBase {
 	}
 
 	@Override
-	public float getWeaponDamage() { return 3.0F; }
-
-	@Override
 	public int getItemDamageOnHit() {
 		return 2;
 	}
@@ -61,24 +58,43 @@ public class ToolPickaxe extends ToolBase {
 		return null;
 	}
 
-	// TODO: implement this
-	/*
-	 * public boolean canHarvestBlock(Block par1Block) { return par1Block ==
-	 * Block.obsidian ? this.toolMaterial.getHarvestLevel() == 3 : (par1Block !=
-	 * Block.blockDiamond && par1Block != Block.oreDiamond ? (par1Block !=
-	 * Block.oreEmerald && par1Block != Block.blockEmerald ? (par1Block !=
-	 * Block.blockGold && par1Block != Block.oreGold ? (par1Block !=
-	 * Block.blockIron && par1Block != Block.oreIron ? (par1Block !=
-	 * Block.blockLapis && par1Block != Block.oreLapis ? (par1Block !=
-	 * Block.oreRedstone && par1Block != Block.oreRedstoneGlowing ?
-	 * (par1Block.blockMaterial == Material.rock ? true :
-	 * (par1Block.blockMaterial == Material.iron ? true :
-	 * par1Block.blockMaterial == Material.anvil)) :
-	 * this.toolMaterial.getHarvestLevel() >= 2) :
-	 * this.toolMaterial.getHarvestLevel() >= 1) :
-	 * this.toolMaterial.getHarvestLevel() >= 1) :
-	 * this.toolMaterial.getHarvestLevel() >= 2) :
-	 * this.toolMaterial.getHarvestLevel() >= 2) :
-	 * this.toolMaterial.getHarvestLevel() >= 2); }
-	 */
+	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+		this.getToolProperties(itemStack).getMiningLevel();
+		
+		
+		
+		return par1Block == Block.obsidian
+				? this.getToolProperties(itemStack).getMiningLevel() == 3
+				: (par1Block != Block.blockDiamond
+						&& par1Block != Block.oreDiamond
+						? (par1Block != Block.oreEmerald
+								&& par1Block != Block.blockEmerald
+								? (par1Block != Block.blockGold
+										&& par1Block != Block.oreGold
+										? (par1Block != Block.blockIron
+												&& par1Block != Block.oreIron
+												? (par1Block != Block.blockLapis
+														&& par1Block != Block.oreLapis
+														? (par1Block != Block.oreRedstone
+																&& par1Block != Block.oreRedstoneGlowing
+																? (par1Block.blockMaterial == Material.rock
+																		? true
+																		: (par1Block.blockMaterial == Material.iron
+																				? true
+																				: par1Block.blockMaterial == Material.anvil))
+																: this.getToolProperties(
+																		itemStack)
+																		.getMiningLevel() >= 2)
+														: this.getToolProperties(
+																itemStack)
+																.getMiningLevel() >= 1)
+												: this.getToolProperties(
+														itemStack)
+														.getMiningLevel() >= 1)
+										: this.getToolProperties(itemStack)
+												.getMiningLevel() >= 2)
+								: this.getToolProperties(itemStack)
+										.getMiningLevel() >= 2)
+						: this.getToolProperties(itemStack).getMiningLevel() >= 2);
+	}
 }

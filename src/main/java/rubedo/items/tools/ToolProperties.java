@@ -50,4 +50,8 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		float modifier = ContentTools.toolRods.get(getRodMaterial()).modifier;
 		return  (int) (baseDur * modifier);
 	}
+	
+	public int getMiningLevel() {
+		return ContentTools.toolHeads.get(getHeadMaterial()).miningLevel;
+	}
 }
