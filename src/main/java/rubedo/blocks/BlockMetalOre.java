@@ -2,7 +2,6 @@ package rubedo.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraftforge.common.MinecraftForge;
 import rubedo.common.ContentWorld;
 
 public class BlockMetalOre extends BlockBase {

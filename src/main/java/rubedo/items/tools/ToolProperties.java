@@ -76,6 +76,6 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		if (!isBroken())
 			return ContentTools.toolHeads.get(getHeadMaterial()).miningLevel;
 		else
-			return 0;
+			return -1;
 	}
 }

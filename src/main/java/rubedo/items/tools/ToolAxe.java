@@ -47,7 +47,7 @@ public class ToolAxe extends ToolBase {
 			EntityLivingBase par3EntityLivingBase) {
 		ToolProperties properties = this.getToolProperties(stack);
 
-		if (!!properties.isBroken())
+		if (!properties.isBroken())
 			par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.wither
 					.getId(), 100, 1, false));
 
