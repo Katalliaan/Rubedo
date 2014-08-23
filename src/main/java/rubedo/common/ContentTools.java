@@ -56,7 +56,7 @@ public class ContentTools implements IContent {
 			flint.durability = 60;
 			flint.damage = 0;
 			flint.speed = 2.0f;
-			//flint.miningLevel = 0;
+			flint.miningLevel = 0;
 			flint.swordHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/sword_head_flint"));
@@ -114,7 +114,7 @@ public class ContentTools implements IContent {
 			copper.special = 2;
 			copper.damage = 1;
 			copper.speed = 4.0f;
-			//copper.miningLevel = 1;
+			copper.miningLevel = 1;
 			copper.swordHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/sword_head_copper"));
@@ -142,7 +142,7 @@ public class ContentTools implements IContent {
 			iron.special = 3;
 			iron.damage = 2;
 			iron.speed = 6.0f;
-			//iron.miningLevel = 2;
+			iron.miningLevel = 2;
 			iron.swordHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/sword_head_iron"));
