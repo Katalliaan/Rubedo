@@ -61,6 +61,8 @@ public class ToolPickaxe extends ToolBase {
 	}
 
 	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-		return MinecraftForge.getBlockHarvestLevel(par1Block, 0, "pickaxe") <= this.getToolProperties(itemStack).getMiningLevel();
+		// TODO: find a way to get metadata so this works properly
+		return MinecraftForge.getBlockHarvestLevel(par1Block, 0, "pickaxe") <= this
+				.getToolProperties(itemStack).getMiningLevel();
 	}
 }

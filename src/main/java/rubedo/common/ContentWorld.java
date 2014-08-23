@@ -36,7 +36,7 @@ public class ContentWorld implements IContent {
 	// I think you can add like 16 of these
 	public static final List<Metal> metals = Arrays.asList(new Metal[] {
 			// name, harvestLevel, isGenerated, oreSize, oreDensity, oreMinY, oreMaxY, dimensionExclude, dimensions
-			new Metal("copper", 1, true, 8, 8, 20, 64, true, new int[] { -1, 1 }),
+			new Metal("copper", 0, true, 8, 8, 20, 64, true, new int[] { -1, 1 }),
 			new Metal("silver", 3, true, 64, 0.5, 0, 128, false, new int[] { -1 })
 	});
 

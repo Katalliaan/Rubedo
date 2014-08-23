@@ -13,8 +13,6 @@ public class ToolUtil {
 		
 		damageTool(properties, attackingEntity, properties.getItem().getItemDamageOnHit());
 		
-		//TODO: damage entity?
-		
         return true;
 	}
 

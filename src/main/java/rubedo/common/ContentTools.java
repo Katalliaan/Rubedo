@@ -250,7 +250,8 @@ public class ContentTools implements IContent {
 				Item.shovelStone, Item.shovelWood, Item.axeDiamond,
 				Item.axeGold, Item.axeIron, Item.axeStone, Item.axeWood,
 				Item.hoeDiamond, Item.hoeGold, Item.hoeIron, Item.hoeStone,
-				Item.hoeWood};
+				Item.hoeWood, Item.pickaxeDiamond, Item.pickaxeGold,
+				Item.pickaxeIron, Item.pickaxeStone, Item.pickaxeWood};
 		for (int i = 0; i < toBeRemoved.length; i++) {
 			RecipeRemover.removeAnyRecipe(new ItemStack(toBeRemoved[i]));
 			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).removeItem(
@@ -293,7 +294,14 @@ public class ContentTools implements IContent {
 									capEntry.getValue().capMaterial},
 							toolScythe.buildTool(headEntry.getKey(),
 									rodEntry.getKey(), capEntry.getKey())));
-					// TODO: add all other recipes
+
+					// Pickaxe Recipes
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[]{headEntry.getValue().pickaxeHead,
+									rodEntry.getValue().rodMaterial,
+									capEntry.getValue().capMaterial},
+							toolPickaxe.buildTool(headEntry.getKey(),
+									rodEntry.getKey(), capEntry.getKey())));
 				}
 
 		// Tool head recipes
@@ -326,6 +334,12 @@ public class ContentTools implements IContent {
 					headEntry.getValue().headMaterial, null, null,
 					headEntry.getValue().headMaterial},
 					headEntry.getValue().scytheHead));
+			// Pick heads
+			GameRegistry.addRecipe(new ShapedRecipes(3, 1, new ItemStack[]{
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial},
+					headEntry.getValue().pickaxeHead));
 		}
 	}
 	public static Map<String, Material> toolHeads;
