@@ -55,7 +55,9 @@ public class ToolScythe extends ToolBase {
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase hitEntity,
 			EntityLivingBase attackingEntity) {
-		if (attackingEntity instanceof EntityPlayer) {
+		ToolProperties properties = this.getToolProperties(stack);
+
+		if (attackingEntity instanceof EntityPlayer && !properties.isBroken()) {
 			// get the camera direction
 			Vec3 direction = ShapedRayCast.eulerToVec(attackingEntity.worldObj,
 					attackingEntity.rotationPitch, attackingEntity.rotationYaw);

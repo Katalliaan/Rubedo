@@ -68,11 +68,4 @@ public class ToolUtil {
 		else
 			return false;
 	}
-	
-	public static int getDisplayDamage(ToolProperties properties) {
-		if (properties.isValid())
-			return (int) (((float) properties.getStack().getItemDamage()) / properties.getDurability() * Integer.MAX_VALUE);
-		else
-			return 0;
-	}
 }

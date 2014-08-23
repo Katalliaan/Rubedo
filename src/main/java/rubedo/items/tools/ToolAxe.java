@@ -22,8 +22,10 @@ public class ToolAxe extends ToolBase {
 	}
 
 	@Override
-	public float getWeaponDamage() { return 4.0F; }
-	
+	public float getWeaponDamage() {
+		return 4.0F;
+	}
+
 	@Override
 	public int getItemDamageOnHit() {
 		return 2;
@@ -43,8 +45,11 @@ public class ToolAxe extends ToolBase {
 	public boolean hitEntity(ItemStack stack,
 			EntityLivingBase par2EntityLivingBase,
 			EntityLivingBase par3EntityLivingBase) {
-		par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.wither
-				.getId(), 100, 1, false));
+		ToolProperties properties = this.getToolProperties(stack);
+
+		if (!!properties.isBroken())
+			par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.wither
+					.getId(), 100, 1, false));
 
 		return super.hitEntity(stack, par2EntityLivingBase,
 				par3EntityLivingBase);
