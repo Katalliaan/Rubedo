@@ -35,20 +35,21 @@ public class ToolAxe extends ToolBase {
 	public float getEffectiveBlockSpeed() {
 		return 2.0F;
 	}
-	
+
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
-    {
-		par2EntityLivingBase.addPotionEffect(new PotionEffect(
-				Potion.wither.getId(), 100, 1, false));
-		
-    	return super.hitEntity(stack, par2EntityLivingBase, par3EntityLivingBase);
-    }
+	public boolean hitEntity(ItemStack stack,
+			EntityLivingBase par2EntityLivingBase,
+			EntityLivingBase par3EntityLivingBase) {
+		par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.wither
+				.getId(), 100, 1, false));
+
+		return super.hitEntity(stack, par2EntityLivingBase,
+				par3EntityLivingBase);
+	}
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[]{Material.leaves, Material.plants,
-				Material.pumpkin, Material.vine, Material.wood};
+		return new Material[]{Material.plants, Material.pumpkin, Material.wood};
 	}
 
 	@Override

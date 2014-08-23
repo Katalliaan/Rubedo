@@ -25,6 +25,7 @@ rubedo.tools.type.pickaxe=Pickaxe
 rubedo.tools.type.sword=Sword
 rubedo.tools.type.shovel=Shovel
 rubedo.tools.type.axe=Axe
+rubedo.tools.type.scythe=Scythe
 
 rubedo.spells.spellBase=$base ($focus)
 rubedo.spells.spellName=$focusName

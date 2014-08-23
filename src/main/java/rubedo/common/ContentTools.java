@@ -10,9 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.Configuration;
+import rubedo.RubedoCore;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolEnchantmentRecipes;
 import rubedo.items.tools.ToolPickaxe;
+import rubedo.items.tools.ToolScythe;
 import rubedo.items.tools.ToolShovel;
 import rubedo.items.tools.ToolSword;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -23,6 +25,7 @@ public class ContentTools implements IContent {
 	public static ToolPickaxe toolPickaxe;
 	public static ToolShovel toolShovel;
 	public static ToolAxe toolAxe;
+	public static ToolScythe toolScythe;
 
 	@Override
 	public void config(Configuration config) {
@@ -31,6 +34,7 @@ public class ContentTools implements IContent {
 		Config.initId("ToolPickaxe");
 		Config.initId("ToolShovel");
 		Config.initId("ToolAxe");
+		Config.initId("ToolScythe");
 	}
 
 	@Override
@@ -39,6 +43,7 @@ public class ContentTools implements IContent {
 		toolPickaxe = new ToolPickaxe(Config.getId("ToolPickaxe"));
 		toolShovel = new ToolShovel(Config.getId("ToolShovel"));
 		toolAxe = new ToolAxe(Config.getId("ToolAxe"));
+		toolScythe = new ToolScythe(Config.getId("ToolScythe"));
 
 		registerToolMaterials();
 		registerToolRecipes();
@@ -63,6 +68,9 @@ public class ContentTools implements IContent {
 			flint.axeHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/axe_head_flint"));
+			flint.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_flint"));
 			flint.headMaterial = new ItemStack(Item.flint, 1, 0);
 		}
 		Material wood = new Material();
@@ -72,6 +80,7 @@ public class ContentTools implements IContent {
 			wood.special = 0;
 			wood.rodMaterial = new ItemStack(Item.stick);
 			wood.capMaterial = new ItemStack(Block.planks);
+			// TODO: make this use ore dictionary so it accepts any plank
 		}
 		Material stone = new Material();
 		{
@@ -116,6 +125,9 @@ public class ContentTools implements IContent {
 			copper.axeHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/axe_head_copper"));
+			copper.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_copper"));
 			copper.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("copper_ingot"));
 			copper.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
@@ -140,6 +152,9 @@ public class ContentTools implements IContent {
 			iron.axeHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/axe_head_iron"));
+			iron.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_iron"));
 			iron.headMaterial = new ItemStack(Item.ingotIron, 1, 0);
 			iron.capMaterial = new ItemStack(Item.ingotIron);
 		}
@@ -162,6 +177,9 @@ public class ContentTools implements IContent {
 			gold.axeHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/axe_head_gold"));
+			gold.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_gold"));
 			gold.headMaterial = new ItemStack(Item.ingotGold, 1, 0);
 			gold.capMaterial = new ItemStack(Item.ingotGold);
 		}
@@ -184,6 +202,9 @@ public class ContentTools implements IContent {
 			silver.axeHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/axe_head_silver"));
+			silver.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_silver"));
 			silver.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 			silver.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
@@ -224,7 +245,9 @@ public class ContentTools implements IContent {
 				Item.swordIron, Item.swordStone, Item.swordWood,
 				Item.shovelDiamond, Item.shovelGold, Item.shovelIron,
 				Item.shovelStone, Item.shovelWood, Item.axeDiamond,
-				Item.axeGold, Item.axeIron, Item.axeStone, Item.axeWood};
+				Item.axeGold, Item.axeIron, Item.axeStone, Item.axeWood,
+				Item.hoeDiamond, Item.hoeGold, Item.hoeIron, Item.hoeStone,
+				Item.hoeWood};
 		for (int i = 0; i < toBeRemoved.length; i++) {
 			RecipeRemover.removeAnyRecipe(new ItemStack(toBeRemoved[i]));
 			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).removeItem(
@@ -259,11 +282,22 @@ public class ContentTools implements IContent {
 									.buildTool(headEntry.getKey(),
 											rodEntry.getKey(),
 											capEntry.getKey())));
+
+					// Scythe Recipes
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[]{headEntry.getValue().scytheHead,
+									rodEntry.getValue().rodMaterial,
+									capEntry.getValue().capMaterial},
+							toolScythe.buildTool(headEntry.getKey(),
+									rodEntry.getKey(), capEntry.getKey())));
 					// TODO: add all other recipes
 				}
-		
+
 		// Tool head recipes
 		for (Entry<String, Material> headEntry : toolHeads.entrySet()) {
+			RubedoCore.logger.info(headEntry.getValue().headMaterial
+					.getDisplayName());
+
 			// Sword heads
 			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[]{
 					headEntry.getValue().headMaterial,
@@ -282,6 +316,13 @@ public class ContentTools implements IContent {
 					headEntry.getValue().headMaterial, null,
 					headEntry.getValue().headMaterial},
 					headEntry.getValue().axeHead));
+			// Scythe heads
+			GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial,
+					headEntry.getValue().headMaterial, null, null,
+					headEntry.getValue().headMaterial},
+					headEntry.getValue().scytheHead));
 		}
 	}
 	public static Map<String, Material> toolHeads;
@@ -300,6 +341,7 @@ public class ContentTools implements IContent {
 		public ItemStack pickaxeHead;
 		public ItemStack shovelHead;
 		public ItemStack axeHead;
+		public ItemStack scytheHead;
 		public ItemStack headMaterial;
 		public ItemStack rodMaterial;
 		public ItemStack capMaterial;

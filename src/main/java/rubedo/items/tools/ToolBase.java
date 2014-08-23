@@ -143,7 +143,7 @@ public abstract class ToolBase extends MultiItem {
 	public boolean hitEntity(ItemStack stack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
     {
     	ToolProperties properties = this.getToolProperties(stack);
-        return ToolUtil.hitEntity(properties, par3EntityLivingBase);
+        return ToolUtil.hitEntity(properties, par2EntityLivingBase, par3EntityLivingBase);
     }
 	
 	@Override

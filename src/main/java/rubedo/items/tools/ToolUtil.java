@@ -2,18 +2,19 @@ package rubedo.items.tools;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import rubedo.common.ContentTools;
 
 public class ToolUtil {
 	public static boolean hitEntity(
 			ToolProperties properties, 
-			EntityLivingBase entity) {
+			EntityLivingBase attackedEntity, EntityLivingBase attackingEntity) {
 		
-		damageTool(properties, entity, properties.getItem().getItemDamageOnHit());
+		damageTool(properties, attackingEntity, properties.getItem().getItemDamageOnHit());
 		
 		//TODO: damage entity?
-                
+		
         return true;
 	}
 

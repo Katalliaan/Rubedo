@@ -34,16 +34,19 @@ public class ItemMetal extends Item {
         textureNames.put("tools/pickaxe_head_flint", "flint tools.type.pickaxe");
         textureNames.put("tools/axe_head_flint", "flint tools.type.axe");
         textureNames.put("tools/shovel_head_flint", "flint tools.type.shovel");
+        textureNames.put("tools/scythe_head_flint", "flint tools.type.scythe");
         
         textureNames.put("tools/sword_head_iron", "iron tools.type.sword");
         textureNames.put("tools/pickaxe_head_iron", "iron tools.type.pickaxe");
         textureNames.put("tools/axe_head_iron", "iron tools.type.axe");
         textureNames.put("tools/shovel_head_iron", "iron tools.type.shovel");
+        textureNames.put("tools/scythe_head_iron", "iron tools.type.scythe");
         
         textureNames.put("tools/sword_head_gold", "gold tools.type.sword");
         textureNames.put("tools/pickaxe_head_gold", "gold tools.type.pickaxe");
         textureNames.put("tools/axe_head_gold", "gold tools.type.axe");
         textureNames.put("tools/shovel_head_gold", "gold tools.type.shovel");
+        textureNames.put("tools/scythe_head_gold", "gold tools.type.scythe");
         
         for (Metal metal : ContentWorld.metals) {
         	textureNames.put(metal.name + "_nugget", metal.name +" materials.nuggetName");
@@ -52,6 +55,7 @@ public class ItemMetal extends Item {
         	textureNames.put("tools/pickaxe_head_" + metal.name, metal.name +" tools.type.pickaxe");
         	textureNames.put("tools/axe_head_" + metal.name, metal.name +" tools.type.axe");
         	textureNames.put("tools/shovel_head_" + metal.name, metal.name +" tools.type.shovel");
+        	textureNames.put("tools/scythe_head_" + metal.name, metal.name +" tools.type.scythe");
         }
         
         this.textures = textureNames.keySet().toArray(new String[textureNames.size()]);
