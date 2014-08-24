@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
@@ -53,6 +54,15 @@ public abstract class ToolBase extends MultiItem {
 
 	protected ToolProperties getToolProperties(ItemStack stack) {
 		return new ToolProperties(stack, this);
+	}
+
+	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+		// TODO: find a way to get metadata so this works properly
+		if (getName() != "scythe")
+			return MinecraftForge.getBlockHarvestLevel(par1Block, 0, getName()) <= this
+					.getToolProperties(itemStack).getMiningLevel();
+		else
+			return super.canHarvestBlock(par1Block, itemStack);
 	}
 
 	@Override

@@ -62,10 +62,7 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public Block[] getEffectiveBlocks() {
-		return new Block[]{Block.planks, Block.bookShelf, Block.wood,
-				Block.chest, Block.stoneDoubleSlab, Block.stoneSingleSlab,
-				Block.pumpkin, Block.pumpkinLantern, Block.leaves, Block.vine,
-				Block.cocoaPlant, Block.woodSingleSlab, Block.woodDoubleSlab};
+		return new Block[0];
 	}
 
 	@Override

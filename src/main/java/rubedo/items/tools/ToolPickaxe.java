@@ -21,6 +21,11 @@ public class ToolPickaxe extends ToolBase {
 	}
 
 	@Override
+	public float getWeaponDamage() {
+		return 3.0F;
+	}
+
+	@Override
 	public int getItemDamageOnHit() {
 		return 2;
 	}
@@ -37,7 +42,7 @@ public class ToolPickaxe extends ToolBase {
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[0];
+		return new Material[]{Material.iron, Material.anvil, Material.rock};
 	}
 
 	@Override
@@ -58,11 +63,5 @@ public class ToolPickaxe extends ToolBase {
 	public List<Integer> getAllowedEnchantments() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-		// TODO: find a way to get metadata so this works properly
-		return MinecraftForge.getBlockHarvestLevel(par1Block, 0, "pickaxe") <= this
-				.getToolProperties(itemStack).getMiningLevel();
 	}
 }

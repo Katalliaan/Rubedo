@@ -94,7 +94,7 @@ public class ToolScythe extends ToolBase {
 
 	@Override
 	public Block[] getEffectiveBlocks() {
-		return new Block[]{Block.vine, Block.leaves};
+		return new Block[0];
 	}
 
 	@Override

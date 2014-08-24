@@ -5,6 +5,10 @@ rubedo.materials.copper=Copper
 rubedo.materials.iron=Iron
 rubedo.materials.gold=Gold
 rubedo.materials.silver=Silver
+rubedo.materials.orichalcum=Orichalcum
+rubedo.materials.steel=Steel
+rubedo.materials.mythril=Mythril
+rubedo.materials.hepatizon=Hepatizon
 
 rubedo.materials.wood=Wood
 rubedo.materials.stone=Stone

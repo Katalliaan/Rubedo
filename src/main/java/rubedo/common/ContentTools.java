@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.Configuration;
 import rubedo.RubedoCore;
@@ -164,10 +165,11 @@ public class ContentTools implements IContent {
 		Material gold = new Material();
 		{
 			gold.name = "gold";
-			gold.durability = 130;
+			gold.durability = 35;
 			gold.special = 3;
-			gold.damage = 2;
+			gold.damage = 0;
 			gold.speed = 6.0f;
+			gold.miningLevel = 0;
 			gold.swordHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/sword_head_gold"));
@@ -186,13 +188,42 @@ public class ContentTools implements IContent {
 			gold.headMaterial = new ItemStack(Item.ingotGold, 1, 0);
 			gold.capMaterial = new ItemStack(Item.ingotGold);
 		}
+		Material orichalcum = new Material();
+		{
+			orichalcum.name = "orichalcum";
+			orichalcum.durability = 500;
+			orichalcum.special = 3;
+			orichalcum.damage = 2;
+			orichalcum.speed = 4.0f;
+			orichalcum.miningLevel = 1;
+			orichalcum.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_orichalcum"));
+			orichalcum.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_orichalcum"));
+			orichalcum.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_orichalcum"));
+			orichalcum.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_orichalcum"));
+			orichalcum.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_orichalcum"));
+			orichalcum.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("orichalcum_ingot"));
+			orichalcum.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("orichalcum_ingot"));
+		}
 		Material silver = new Material();
 		{
 			silver.name = "silver";
-			silver.durability = 130;
+			silver.durability = 75;
 			silver.special = 2;
 			silver.damage = 1;
-			silver.speed = 4.0f;
+			silver.speed = 8.0f;
+			silver.miningLevel = 3;
 			silver.swordHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/sword_head_silver"));
@@ -213,6 +244,90 @@ public class ContentTools implements IContent {
 			silver.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 		}
+		Material steel = new Material();
+		{
+			steel.name = "steel";
+			steel.durability = 1500;
+			steel.special = 2;
+			steel.damage = 3;
+			steel.speed = 9.0f;
+			steel.miningLevel = 3;
+			steel.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_steel"));
+			steel.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_steel"));
+			steel.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_steel"));
+			steel.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_steel"));
+			steel.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_steel"));
+			steel.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("steel_ingot"));
+			steel.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("steel_ingot"));
+		}
+		Material mythril = new Material();
+		{
+			mythril.name = "mythril";
+			mythril.durability = 130;
+			mythril.special = 2;
+			mythril.damage = 1;
+			mythril.speed = 12.0f;
+			mythril.miningLevel = 4;
+			mythril.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_mythril"));
+			mythril.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_mythril"));
+			mythril.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_mythril"));
+			mythril.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_mythril"));
+			mythril.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_mythril"));
+			mythril.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("mythril_ingot"));
+			mythril.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("mythril_ingot"));
+		}
+		Material hepatizon = new Material();
+		{
+			hepatizon.name = "hepatizon";
+			hepatizon.durability = 750;
+			hepatizon.special = 2;
+			hepatizon.damage = 3;
+			hepatizon.speed = 10.0f;
+			hepatizon.miningLevel = 4;
+			hepatizon.swordHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/sword_head_hepatizon"));
+			hepatizon.pickaxeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/pickaxe_head_hepatizon"));
+			hepatizon.shovelHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/shovel_head_hepatizon"));
+			hepatizon.axeHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/axe_head_hepatizon"));
+			hepatizon.scytheHead = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems
+							.getTextureIndex("tools/scythe_head_hepatizon"));
+			hepatizon.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
+			hepatizon.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
+		}
 
 		toolHeads = new HashMap<String, Material>();
 		{
@@ -221,6 +336,9 @@ public class ContentTools implements IContent {
 			toolHeads.put(iron.name, iron);
 			toolHeads.put(gold.name, gold);
 			toolHeads.put(silver.name, silver);
+			toolHeads.put(steel.name, steel);
+			toolHeads.put(mythril.name, mythril);
+			toolHeads.put(hepatizon.name, hepatizon);
 		}
 
 		toolRods = new HashMap<String, Material>();
