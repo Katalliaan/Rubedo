@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeHooks;
@@ -113,6 +114,10 @@ public class ContentWorld implements IContent {
 		// Iron nugget recipes
 		GameRegistry.addRecipe(new ItemStack(Item.ingotIron), "###", "###", "###", '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
 		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")), "m", 'm', new ItemStack(Item.ingotIron));
+		
+		// Bucket change
+		RecipeRemover.removeAnyRecipe(new ItemStack(Item.bucketEmpty));
+		GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null}, new ItemStack(Item.bucketEmpty)));
 		
 		// Temporary alloy recipes
 		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(Item.ingotGold));
