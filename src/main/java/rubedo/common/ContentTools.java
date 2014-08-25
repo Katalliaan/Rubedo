@@ -1,5 +1,8 @@
 package rubedo.common;
 
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -375,7 +378,8 @@ public class ContentTools implements IContent {
 			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).removeItem(
 					new ItemStack(toBeRemoved[i]));
 		}
-
+		
+		//TODO: figure out how to make repair recipes work
 		for (Entry<String, Material> headEntry : toolHeads.entrySet())
 			for (Entry<String, Material> rodEntry : toolRods.entrySet())
 				for (Entry<String, Material> capEntry : toolCaps.entrySet()) {
