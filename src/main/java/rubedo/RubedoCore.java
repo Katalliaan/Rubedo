@@ -72,12 +72,13 @@ public class RubedoCore {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		// Mining balance change
+		// Mining balance changes
 		MinecraftForge.setBlockHarvestLevel(Block.obsidian, "pickaxe", 2);
 		MinecraftForge.setBlockHarvestLevel(Block.netherrack, "pickaxe", 3);
 		Block.netherrack.setHardness(1.5F);
 		MinecraftForge.setBlockHarvestLevel(Block.oreNetherQuartz, "pickaxe", 3);
 		Block.netherrack.setHardness(3.0F);
+		MinecraftForge.setBlockHarvestLevel(Block.netherBrick, "pickaxe", 3);
 		MinecraftForge.setBlockHarvestLevel(Block.whiteStone, "pickaxe", 4);
 	}
 }
