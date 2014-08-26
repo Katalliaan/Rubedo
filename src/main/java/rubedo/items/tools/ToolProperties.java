@@ -7,30 +7,46 @@ import net.minecraft.nbt.NBTTagList;
 import rubedo.common.ContentTools;
 import rubedo.items.MultiItemProperties;
 
-public class ToolProperties extends MultiItemProperties<ToolBase> {	
+public class ToolProperties extends MultiItemProperties<ToolBase> {
 	public ToolProperties(ItemStack stack, ToolBase tool) {
 		super(stack, tool);
-		
-		if (this.baseTags != null)
-		{
+
+		if (this.baseTags != null) {
 			this.tag = this.baseTags.getCompoundTag("RubedoTool");
 		}
 	}
-	
-	public boolean isBroken() { return tag.getBoolean("broken"); }
-	public void setBroken(boolean isBroken) { tag.setBoolean("broken", isBroken); }
 
-	public String getHeadMaterial() { return tag.getString("head");	}
-	public void setHeadMaterial(String head) { tag.setString("head", head); }
-	public String getRodMaterial() { return tag.getString("rod"); }
-	public void setRodMaterial(String rod) { tag.setString("rod", rod); }
-	public String getCapMaterial() { return tag.getString("cap"); }
-	public void setCapMaterial(String cap) { tag.setString("cap", cap); }
-	
+	public boolean isBroken() {
+		return tag.getBoolean("broken");
+	}
+	public void setBroken(boolean isBroken) {
+		tag.setBoolean("broken", isBroken);
+	}
+
+	public String getHeadMaterial() {
+		return tag.getString("head");
+	}
+	public void setHeadMaterial(String head) {
+		tag.setString("head", head);
+	}
+	public String getRodMaterial() {
+		return tag.getString("rod");
+	}
+	public void setRodMaterial(String rod) {
+		tag.setString("rod", rod);
+	}
+	public String getCapMaterial() {
+		return tag.getString("cap");
+	}
+	public void setCapMaterial(String cap) {
+		tag.setString("cap", cap);
+	}
+
 	public void generateAttackDamageNBT() {
 		NBTTagCompound nnbt = new NBTTagCompound();
 		NBTTagList nnbtl = new NBTTagList();
-		AttributeModifier att = new AttributeModifier("generic.attackDamage", getAttackDamage(), 0);
+		AttributeModifier att = new AttributeModifier("generic.attackDamage",
+				getAttackDamage(), 0);
 		nnbt.setLong("UUIDMost", att.getID().getMostSignificantBits());
 		nnbt.setLong("UUIDLeast", att.getID().getLeastSignificantBits());
 		nnbt.setString("Name", att.getName());
@@ -40,14 +56,26 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		nnbtl.appendTag(nnbt);
 		this.baseTags.setTag("AttributeModifiers", nnbtl);
 	}
-	
+
 	public float getAttackDamage() {
-		return item.getWeaponDamage() + ContentTools.toolHeadMaterials.get(getHeadMaterial()).damage;
+		if (!isBroken())
+			return item.getWeaponDamage()
+					+ ContentTools.toolHeads.get(getHeadMaterial()).damage;
+		else
+			return 0;
+
 	}
-	
+
 	public int getDurability() {
-		int baseDur = ContentTools.toolHeadMaterials.get(getHeadMaterial()).durability;
-		float modifier = ContentTools.toolRodMaterials.get(getRodMaterial()).modifier;
-		return  (int) (baseDur * modifier);
+		int baseDur = ContentTools.toolHeads.get(getHeadMaterial()).durability;
+		float modifier = ContentTools.toolRods.get(getRodMaterial()).modifier;
+		return (int) (baseDur * modifier);
+	}
+
+	public int getMiningLevel() {
+		if (!isBroken())
+			return ContentTools.toolHeads.get(getHeadMaterial()).miningLevel;
+		else
+			return -1;
 	}
 }

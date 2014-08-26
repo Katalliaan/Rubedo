@@ -19,6 +19,9 @@ public class ToolShovel extends ToolBase {
 	}
 
 	@Override
+	public float getWeaponDamage() { return 2.0F; }
+	
+	@Override
 	public int getItemDamageOnHit() {
 		return 2;
 	}
@@ -38,12 +41,10 @@ public class ToolShovel extends ToolBase {
 		return new Material[]{Material.craftedSnow, Material.grass,
 				Material.ground, Material.sand, Material.snow};
 	}
-
+	
 	@Override
 	public Block[] getEffectiveBlocks() {
-		return new Block[]{Block.grass, Block.dirt, Block.sand, Block.gravel,
-				Block.snow, Block.blockSnow, Block.blockClay,
-				Block.tilledField, Block.slowSand, Block.mycelium};
+		return new Block[0];
 	}
 
 	@Override

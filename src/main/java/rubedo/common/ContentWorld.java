@@ -6,10 +6,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.reflect.Reflection;
+
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
 import net.minecraftforge.oredict.OreDictionary;
@@ -35,9 +41,12 @@ public class ContentWorld implements IContent {
 	
 	// I think you can add like 16 of these
 	public static final List<Metal> metals = Arrays.asList(new Metal[] {
-			// name, harvestLevel, isGenerated, oreSize, oreDensity, oreMinY, oreMaxY, dimensionExclude, dimensions
-			new Metal("copper", 1, true, 8, 8, 20, 64, true, new int[] { -1, 1 }),
-			new Metal("silver", 3, true, 64, 0.5, 0, 128, false, new int[] { -1 })
+			new Metal("copper", 0, true, 8, 8, 20, 64, true, new int[] { -1, 1 }),
+			new Metal("orichalcum", 2, false, 0, 0, 0, 0, false, new int[]{}),
+			new Metal("steel", 2, false, 0, 0, 0, 0, false, new int[]{}),
+			new Metal("silver", 3, true, 64, 0.5, 0, 128, false, new int[] { -1 }),
+			new Metal("mythril", 3, false, 0, 0, 0, 0, false, new int[]{}),
+			new Metal("hepatizon", 3, false, 0, 0, 0, 0, false, new int[]{})
 	});
 
 	@Override
@@ -105,13 +114,24 @@ public class ContentWorld implements IContent {
 		// Iron nugget recipes
 		GameRegistry.addRecipe(new ItemStack(Item.ingotIron), "###", "###", "###", '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
 		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")), "m", 'm', new ItemStack(Item.ingotIron));
+		
+		// Bucket change
+		RecipeRemover.removeAnyRecipe(new ItemStack(Item.bucketEmpty));
+		GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null}, new ItemStack(Item.bucketEmpty)));
+		
+		// Temporary alloy recipes
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(Item.ingotGold));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), new ItemStack(Item.ingotIron), new ItemStack(Block.slowSand));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("mythril_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("silver_ingot")));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("hepatizon_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("mythril_ingot")), new ItemStack(Block.whiteStone));
 	}
 	
 	private void registerMetal(Metal metal) {
 		String[] patBlock = { "###", "###", "###" };
 		
 		// Harvest levels
-		MinecraftForge.setBlockHarvestLevel(oreBlocks, oreBlocks.getTextureIndex(metal.name+"_ore"), "pickaxe", metal.harvestLevel);
+		if (metal.isGenerated == true)
+			MinecraftForge.setBlockHarvestLevel(oreBlocks, oreBlocks.getTextureIndex(metal.name+"_ore"), "pickaxe", metal.harvestLevel);
 		MinecraftForge.setBlockHarvestLevel(metalBlocks, metalBlocks.getTextureIndex(metal.name+"_block"), "pickaxe", metal.harvestLevel);
 		
 		// Recipes: nugget <-> ingot <-> block
@@ -120,9 +140,11 @@ public class ContentWorld implements IContent {
 		GameRegistry.addRecipe(new ItemStack(metalBlocks, 1, metalBlocks.getTextureIndex(metal.name+"_block")), patBlock, '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex(metal.name+"_ingot")));
 		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex(metal.name+"_ingot")), "m", 'm', new ItemStack(metalBlocks, 1, metalBlocks.getTextureIndex(metal.name+"_block")));
 	
-		FurnaceRecipes.smelting().addSmelting(oreBlocks.blockID, oreBlocks.getTextureIndex(metal.name+"_ore"), new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), 0.5F);
-	
-		OreDictionary.registerOre("ore"+metal, new ItemStack(oreBlocks, 1, oreBlocks.getTextureIndex(metal.name+"_ore")));
+		if (metal.isGenerated == true)
+			FurnaceRecipes.smelting().addSmelting(oreBlocks.blockID, oreBlocks.getTextureIndex(metal.name+"_ore"), new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), 0.5F);
+		
+		if (metal.isGenerated == true)
+			OreDictionary.registerOre("ore"+metal, new ItemStack(oreBlocks, 1, oreBlocks.getTextureIndex(metal.name+"_ore")));
 		OreDictionary.registerOre("ingot"+metal, new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")));
 		OreDictionary.registerOre("nugget"+metal, new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_nugget")));
 	}
@@ -142,6 +164,18 @@ public class ContentWorld implements IContent {
 		public int[] dimensions;
 		private List<Integer> dimensionList;
 		
+		/**
+		 * 
+		 * @param name
+		 * @param harvestLevel
+		 * @param isGenerated
+		 * @param oreSize
+		 * @param oreDensity
+		 * @param oreMinY
+		 * @param oreMaxY
+		 * @param dimensionExclude
+		 * @param dimensions
+		 */
 		public Metal(
 				String name, int harvestLevel, boolean isGenerated,
 				int oreSize, double oreDensity, int oreMinY, int oreMaxY,

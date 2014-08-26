@@ -4,7 +4,6 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
-// TODO: Add this as an AI, instead of an event handler
 /**
  * Allows animals to eat off the ground
  */
