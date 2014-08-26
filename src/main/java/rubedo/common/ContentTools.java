@@ -38,6 +38,7 @@ public class ContentTools implements IContent {
 		Config.initId("ToolPickaxe");
 		Config.initId("ToolShovel");
 		Config.initId("ToolAxe");
+		Config.initId("ToolScythe");
 	}
 
 	@Override
