@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -90,6 +92,7 @@ public class ItemMetal extends Item {
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
 	public String getItemDisplayName(ItemStack stack) {
     	String[] split = textureNames.get(textures[stack.getItemDamage()]).split(" ");
     	
