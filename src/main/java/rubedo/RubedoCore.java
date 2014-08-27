@@ -23,8 +23,8 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
-@Mod(modid = "rubedo", name = "Rubedo", version = "0.0.0")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
+@Mod(modid = "rubedo", name = "Rubedo", version = "0.1.0")
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, packetHandler = PacketHandler.class)
 public class RubedoCore {
 	public static String getId() { return RubedoCore.class.getAnnotation(Mod.class).modid(); }
 	public static String getName() { return RubedoCore.class.getAnnotation(Mod.class).name(); }
@@ -52,7 +52,7 @@ public class RubedoCore {
 		contentUnits.addAll(Arrays.asList(new IContent[] {
 				new ContentWorld(),
 				new ContentTools(),
-				new ContentSpells(),
+				// new ContentSpells(),
 				new ContentAI()
 		}));
 		
