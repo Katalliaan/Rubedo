@@ -339,6 +339,7 @@ public class ContentTools implements IContent {
 			toolHeads.put(iron.name, iron);
 			toolHeads.put(gold.name, gold);
 			toolHeads.put(silver.name, silver);
+			toolHeads.put(orichalcum.name, orichalcum);
 			toolHeads.put(steel.name, steel);
 			toolHeads.put(mythril.name, mythril);
 			toolHeads.put(hepatizon.name, hepatizon);
