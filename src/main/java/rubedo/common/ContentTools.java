@@ -14,6 +14,7 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
 import rubedo.RubedoCore;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolEnchantmentRecipes;
@@ -84,8 +85,7 @@ public class ContentTools implements IContent {
 			wood.modifier = 0.5f;
 			wood.special = 0;
 			wood.rodMaterial = new ItemStack(Item.stick);
-			wood.capMaterial = new ItemStack(Block.planks);
-			// TODO: make this use ore dictionary so it accepts any plank
+			wood.capMaterial = new ItemStack(Block.planks, 1, OreDictionary.WILDCARD_VALUE);
 		}
 		Material stone = new Material();
 		{
