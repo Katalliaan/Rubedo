@@ -78,4 +78,8 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		else
 			return -1;
 	}
+	
+	public int getSpecial() {
+		return ContentTools.toolCaps.get(getCapMaterial()).special;
+	}
 }

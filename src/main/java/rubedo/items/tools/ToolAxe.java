@@ -46,10 +46,12 @@ public class ToolAxe extends ToolBase {
 			EntityLivingBase par2EntityLivingBase,
 			EntityLivingBase par3EntityLivingBase) {
 		ToolProperties properties = this.getToolProperties(stack);
+		
+		int ticks = properties.getSpecial() * 40;
 
 		if (!properties.isBroken())
 			par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.wither
-					.getId(), 100, 1, false));
+					.getId(), ticks, 1, false));
 
 		return super.hitEntity(stack, par2EntityLivingBase,
 				par3EntityLivingBase);

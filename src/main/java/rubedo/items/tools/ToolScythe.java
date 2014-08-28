@@ -67,10 +67,12 @@ public class ToolScythe extends ToolBase {
 					attackingEntity.worldObj, hitEntity.posX, hitEntity.posY,
 					hitEntity.posZ, direction.xCoord, direction.yCoord,
 					direction.zCoord, 4);
+			
+			int mobsHit = 0;
 
 			for (Entity entity : rayCaster
 					.getEntitiesExcludingEntity(attackingEntity)) {
-				if (entity instanceof EntityLivingBase) {
+				if (entity instanceof EntityLivingBase && mobsHit < properties.getSpecial()) {
 					if (!entity.equals(hitEntity)) {
 						entity.attackEntityFrom(
 								DamageSource
