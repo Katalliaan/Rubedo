@@ -226,7 +226,7 @@ public abstract class ToolBase extends MultiItem {
 			boolean par4) {
 		ToolProperties properties = getToolProperties(stack);
 
-		list.add("§2§o"
+		list.add("\u00A72\u00A7o"
 				+ Language
 						.getFormattedLocalization("tools.toolRod", true)
 						.put("$material1",
@@ -246,7 +246,7 @@ public abstract class ToolBase extends MultiItem {
 		String key;
 		String modifier;
 		if (properties.isBroken()) {
-			modifier = "§4";
+			modifier = "\u00A74";
 			key = "tools.toolNameBroken";
 		} else {
 			modifier = "";
