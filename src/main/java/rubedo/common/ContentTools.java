@@ -14,6 +14,7 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import rubedo.RubedoCore;
 import rubedo.items.tools.ToolAxe;
@@ -374,10 +375,9 @@ public class ContentTools implements IContent {
 				Item.hoeDiamond, Item.hoeGold, Item.hoeIron, Item.hoeStone,
 				Item.hoeWood, Item.pickaxeDiamond, Item.pickaxeGold,
 				Item.pickaxeIron, Item.pickaxeStone, Item.pickaxeWood};
+		
 		for (int i = 0; i < toBeRemoved.length; i++) {
-			RecipeRemover.removeAnyRecipe(new ItemStack(toBeRemoved[i]));
-			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).removeItem(
-					new ItemStack(toBeRemoved[i]));
+			toBeRemoved[i].setMaxDamage(1);
 		}
 
 		// TODO: figure out how to make repair recipes work
