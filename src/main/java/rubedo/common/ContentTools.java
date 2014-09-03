@@ -88,12 +88,6 @@ public class ContentTools implements IContent {
 			wood.rodMaterial = new ItemStack(Item.stick);
 			wood.capMaterial = new ItemStack(Block.planks, 1, OreDictionary.WILDCARD_VALUE);
 		}
-		Material stone = new Material();
-		{
-			stone.name = "stone";
-			stone.special = 1;
-			stone.capMaterial = new ItemStack(Block.stone);
-		}
 		Material leather = new Material();
 		{
 			leather.name = "leather";
@@ -144,7 +138,7 @@ public class ContentTools implements IContent {
 		{
 			iron.name = "iron";
 			iron.durability = 250;
-			iron.special = 3;
+			iron.special = 1;
 			iron.damage = 2;
 			iron.speed = 6.0f;
 			iron.miningLevel = 2;
@@ -195,7 +189,7 @@ public class ContentTools implements IContent {
 		Material orichalcum = new Material();
 		{
 			orichalcum.name = "orichalcum";
-			orichalcum.durability = 500;
+			orichalcum.durability = 200;
 			orichalcum.special = 3;
 			orichalcum.damage = 2;
 			orichalcum.speed = 4.0f;
@@ -227,7 +221,7 @@ public class ContentTools implements IContent {
 			silver.special = 2;
 			silver.damage = 1;
 			silver.speed = 8.0f;
-			silver.miningLevel = 3;
+			silver.miningLevel = 2;
 			silver.swordHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
 							.getTextureIndex("tools/sword_head_silver"));
@@ -279,8 +273,8 @@ public class ContentTools implements IContent {
 		Material mythril = new Material();
 		{
 			mythril.name = "mythril";
-			mythril.durability = 130;
-			mythril.special = 2;
+			mythril.durability = 500;
+			mythril.special = 4;
 			mythril.damage = 1;
 			mythril.speed = 12.0f;
 			mythril.miningLevel = 4;
@@ -308,7 +302,7 @@ public class ContentTools implements IContent {
 		{
 			hepatizon.name = "hepatizon";
 			hepatizon.durability = 750;
-			hepatizon.special = 2;
+			hepatizon.special = 5;
 			hepatizon.damage = 3;
 			hepatizon.speed = 10.0f;
 			hepatizon.miningLevel = 4;
@@ -357,10 +351,14 @@ public class ContentTools implements IContent {
 		toolCaps = new HashMap<String, Material>();
 		{
 			toolCaps.put(wood.name, wood);
-			toolCaps.put(stone.name, stone);
 			toolCaps.put(copper.name, copper);
 			toolCaps.put(iron.name, iron);
 			toolCaps.put(gold.name, gold);
+			toolCaps.put(silver.name, silver);
+			toolCaps.put(orichalcum.name, orichalcum);
+			toolCaps.put(steel.name, steel);
+			toolCaps.put(mythril.name, mythril);
+			toolCaps.put(hepatizon.name, hepatizon);
 		}
 	}
 
@@ -429,9 +427,6 @@ public class ContentTools implements IContent {
 
 		// Tool head recipes
 		for (Entry<String, Material> headEntry : toolHeads.entrySet()) {
-			RubedoCore.logger.info(headEntry.getValue().headMaterial
-					.getDisplayName());
-
 			// Sword heads
 			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[]{
 					headEntry.getValue().headMaterial,

@@ -77,7 +77,7 @@ public class RubedoCore {
 		MinecraftForge.setBlockHarvestLevel(Block.netherrack, "pickaxe", 3);
 		Block.netherrack.setHardness(1.5F);
 		MinecraftForge.setBlockHarvestLevel(Block.oreNetherQuartz, "pickaxe", 3);
-		Block.netherrack.setHardness(3.0F);
+		Block.oreNetherQuartz.setHardness(3.0F);
 		MinecraftForge.setBlockHarvestLevel(Block.netherBrick, "pickaxe", 3);
 		MinecraftForge.setBlockHarvestLevel(Block.whiteStone, "pickaxe", 4);
 	}
