@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import rubedo.common.Config;
 import rubedo.common.ContentAI;
@@ -22,50 +24,55 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "rubedo", name = "Rubedo", version = "0.1.2")
+@Mod(modid = "rubedo", name = "Rubedo", version = "0.1.2a")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, packetHandler = PacketHandler.class)
 public class RubedoCore {
-	public static String getId() { return RubedoCore.class.getAnnotation(Mod.class).modid(); }
-	public static String getName() { return RubedoCore.class.getAnnotation(Mod.class).name(); }
-	public static String getVersion() { return RubedoCore.class.getAnnotation(Mod.class).version(); }
-	
+	public static String getId() {
+		return RubedoCore.class.getAnnotation(Mod.class).modid();
+	}
+	public static String getName() {
+		return RubedoCore.class.getAnnotation(Mod.class).name();
+	}
+	public static String getVersion() {
+		return RubedoCore.class.getAnnotation(Mod.class).version();
+	}
+
 	// The instance of your mod that Forge uses.
 	@Instance(value = "rubedo")
 	public static RubedoCore instance;
-	
+
 	// Says where the client and server 'proxy' code is loaded.
 	@SidedProxy(clientSide = "rubedo.client.ClientProxy", serverSide = "rubedo.CommonProxy")
 	public static CommonProxy proxy;
-	
+
 	// Shared logger
 	public static final Logger logger = Logger.getLogger("Rubedo");
 
 	public static final CreativeTabs creativeTab = new CreativeTabs("Rubedo");
-	
+
 	// Mod content
 	public static List<IContent> contentUnits;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		contentUnits = new ArrayList<IContent>();
-		contentUnits.addAll(Arrays.asList(new IContent[] {
-				new ContentWorld(),
+		contentUnits.addAll(Arrays.asList(new IContent[]{new ContentWorld(),
 				new ContentTools(),
 				// new ContentSpells(),
-				new ContentAI()
-		}));
-		
+				new ContentAI()}));
+
 		// Load the configs
 		Config.load(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		
+
 		for (IContent content : contentUnits)
 			content.register();
-		
+
 		// Register the renderers
 		RubedoCore.proxy.registerRenderers();
 	}
@@ -76,9 +83,15 @@ public class RubedoCore {
 		MinecraftForge.setBlockHarvestLevel(Block.obsidian, "pickaxe", 2);
 		MinecraftForge.setBlockHarvestLevel(Block.netherrack, "pickaxe", 3);
 		Block.netherrack.setHardness(1.5F);
-		MinecraftForge.setBlockHarvestLevel(Block.oreNetherQuartz, "pickaxe", 3);
+		MinecraftForge
+				.setBlockHarvestLevel(Block.oreNetherQuartz, "pickaxe", 3);
 		Block.oreNetherQuartz.setHardness(3.0F);
 		MinecraftForge.setBlockHarvestLevel(Block.netherBrick, "pickaxe", 3);
 		MinecraftForge.setBlockHarvestLevel(Block.whiteStone, "pickaxe", 4);
+
+		// Backup flint recipe
+		GameRegistry.addShapelessRecipe(new ItemStack(Item.flint),
+				new ItemStack(Item.bowlEmpty.setContainerItem(Item.bowlEmpty)),
+				new ItemStack(Block.dirt), new ItemStack(Block.sand));
 	}
 }
