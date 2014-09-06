@@ -92,6 +92,6 @@ public class RubedoCore {
 		// Backup flint recipe
 		GameRegistry.addShapelessRecipe(new ItemStack(Item.flint),
 				new ItemStack(Item.bowlEmpty.setContainerItem(Item.bowlEmpty)),
-				new ItemStack(Block.dirt), new ItemStack(Block.sand));
+				new ItemStack(Block.gravel));
 	}
 }
