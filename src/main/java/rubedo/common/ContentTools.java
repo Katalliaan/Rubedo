@@ -92,6 +92,7 @@ public class ContentTools implements IContent {
 		toolHeads = new LinkedHashMap<String, Material>();
 		toolRods = new LinkedHashMap<String, Material>();
 		toolCaps = new LinkedHashMap<String, Material>();
+		materialStacks = new HashMap<ItemStack, Material>();
 		
 		Material flint = new Material();
 		{
