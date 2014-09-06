@@ -2,6 +2,7 @@ package rubedo.items;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
@@ -28,7 +29,7 @@ public class ItemMetal extends Item {
 		this.setMaxDamage(0);
         this.setHasSubtypes(true);
         
-        textureNames = new HashMap<String, String>();
+        textureNames = new LinkedHashMap<String, String>();
         
         textureNames.put("iron_nugget", "iron materials.nuggetName");
         

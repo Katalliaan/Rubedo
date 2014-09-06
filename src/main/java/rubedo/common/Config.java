@@ -2,6 +2,7 @@ package rubedo.common;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import net.minecraftforge.common.Configuration;
 import rubedo.RubedoCore;
@@ -20,7 +21,7 @@ public abstract class Config {
 		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 		
-		ids = new HashMap<String, Integer>();
+		ids = new LinkedHashMap<String, Integer>();
 		
 		for (IContent content : RubedoCore.contentUnits)
 			content.config(config);

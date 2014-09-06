@@ -4,6 +4,7 @@ import java.awt.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -327,7 +328,7 @@ public class ContentTools implements IContent {
 					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
 		}
 
-		toolHeads = new HashMap<String, Material>();
+		toolHeads = new LinkedHashMap<String, Material>();
 		{
 			toolHeads.put(flint.name, flint);
 			toolHeads.put(copper.name, copper);
@@ -340,7 +341,7 @@ public class ContentTools implements IContent {
 			toolHeads.put(hepatizon.name, hepatizon);
 		}
 
-		toolRods = new HashMap<String, Material>();
+		toolRods = new LinkedHashMap<String, Material>();
 		{
 			toolRods.put(wood.name, wood);
 			toolRods.put(leather.name, leather);
@@ -348,7 +349,7 @@ public class ContentTools implements IContent {
 			toolRods.put(blazerod.name, blazerod);
 		}
 
-		toolCaps = new HashMap<String, Material>();
+		toolCaps = new LinkedHashMap<String, Material>();
 		{
 			toolCaps.put(wood.name, wood);
 			toolCaps.put(copper.name, copper);
