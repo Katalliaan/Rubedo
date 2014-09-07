@@ -66,11 +66,11 @@ public class ToolRepairRecipes implements IRecipe {
 						if (material.getItem().equals(itemstack.getItem())
 								&& material.getItemDamage() == itemstack
 										.getItemDamage()) {
-							if ((this.tool.getItem() instanceof ToolAxe && toolMaterial.axeHead == this.modifier)
-									|| (this.tool.getItem() instanceof ToolPickaxe && toolMaterial.pickaxeHead == this.modifier)
-									|| (this.tool.getItem() instanceof ToolScythe && toolMaterial.scytheHead == this.modifier)
-									|| (this.tool.getItem() instanceof ToolShovel && toolMaterial.shovelHead == this.modifier)
-									|| (this.tool.getItem() instanceof ToolSword && toolMaterial.swordHead == this.modifier)) {
+							if ((this.tool.getItem() instanceof ToolAxe && toolMaterial.axeHead == material)
+									|| (this.tool.getItem() instanceof ToolPickaxe && toolMaterial.pickaxeHead == material)
+									|| (this.tool.getItem() instanceof ToolScythe && toolMaterial.scytheHead == material)
+									|| (this.tool.getItem() instanceof ToolShovel && toolMaterial.shovelHead == material)
+									|| (this.tool.getItem() instanceof ToolSword && toolMaterial.swordHead == material)) {
 								this.modifier = material;
 								return true;
 							} else {
