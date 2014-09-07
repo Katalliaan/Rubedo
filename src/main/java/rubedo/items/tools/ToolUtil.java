@@ -61,6 +61,7 @@ public class ToolUtil {
 			if (properties.getStack().getItemDamage() >= properties
 					.getDurability()) {
 				properties.setBroken(true);
+				properties.generateAttackDamageNBT();
 			}
 		}
 	}
