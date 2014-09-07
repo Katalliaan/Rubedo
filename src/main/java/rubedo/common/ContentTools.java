@@ -64,37 +64,65 @@ public class ContentTools implements IContent {
 		
 		if (material.rodMaterial != null) {
 			toolRods.put(material.name, material);
+			
+			if (materialStacks.containsKey(material.rodMaterial))
+				throw new RuntimeException("Duplicate tool material resource");
+				
 			materialStacks.put(material.rodMaterial, material);
 		}
 		
 		if (material.capMaterial != null) {
 			toolCaps.put(material.name, material);
+			
+			if (materialStacks.containsKey(material.capMaterial))
+				throw new RuntimeException("Duplicate tool material resource");
+				
 			materialStacks.put(material.rodMaterial, material);
 		}
 		
 		//TODO: fix this entire file to handle tool types in a dynamic way
 		if (material.axeHead != null) {
 			toolHeads.put(material.name, material);
+			
+			if (materialStacks.containsKey(material.axeHead))
+				throw new RuntimeException("Duplicate tool material resource");
+				
 			materialStacks.put(material.axeHead, material);
 		}
 		
 		if (material.swordHead != null) {
 			toolHeads.put(material.name, material);
+			
+			if (materialStacks.containsKey(material.swordHead))
+				throw new RuntimeException("Duplicate tool material resource");
+				
 			materialStacks.put(material.swordHead, material);
 		}
 		
 		if (material.pickaxeHead != null) {
 			toolHeads.put(material.name, material);
+			
+			if (materialStacks.containsKey(material.pickaxeHead))
+				throw new RuntimeException("Duplicate tool material resource");
+				
 			materialStacks.put(material.pickaxeHead, material);
 		}
 				
 		if (material.shovelHead != null) {
 			toolHeads.put(material.name, material);
+			
+			if (materialStacks.containsKey(material.shovelHead))
+				throw new RuntimeException("Duplicate tool material resource");
+				
 			materialStacks.put(material.shovelHead, material);
 		}
 
 		if (material.scytheHead != null) {
 			toolHeads.put(material.name, material);
+			
+			if (materialStacks.containsKey(material.scytheHead))
+				throw new RuntimeException("Duplicate tool material resource");
+				
 			materialStacks.put(material.scytheHead, material);
 		}
 	}
