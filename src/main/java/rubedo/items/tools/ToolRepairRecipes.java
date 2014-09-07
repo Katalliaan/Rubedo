@@ -49,7 +49,8 @@ public class ToolRepairRecipes implements IRecipe {
                     
                 	//TODO: optimize this, it's slow, though the two step process already 
                 	// ensures this doesn't run until you put a ToolBase in the crafting grid
-        			for (ItemStack material : ContentTools.materialStacks.keySet()) {
+                	//TODO: check if it's the right kind of head
+                	for (ItemStack material : ContentTools.materialStacks.keySet()) {
         				if (material.getItem().equals(itemstack.getItem()) && 
         						material.getItemDamage() == itemstack.getItemDamage()) {
         					this.modifier = material;
@@ -79,6 +80,7 @@ public class ToolRepairRecipes implements IRecipe {
 		}
 		
 		// Bit weird, but at this point we're sure it's a known tool head anyway
+		//TODO: check if it's the right kind of head
 		this.tool.setBroken(false);
 		this.tool.setHeadMaterial(material.name);
 		this.tool.getStack().setItemDamage(0);
