@@ -51,8 +51,10 @@ public class ToolRepairRecipes implements IRecipe {
                 	// ensures this doesn't run until you put a ToolBase in the crafting grid
         			for (ItemStack material : ContentTools.materialStacks.keySet()) {
         				if (material.getItem().equals(itemstack.getItem()) && 
-        						material.getItemDamage() == itemstack.getItemDamage())
+        						material.getItemDamage() == itemstack.getItemDamage()) {
         					this.modifier = material;
+        					break;
+        				}
         			}
             	}
             }

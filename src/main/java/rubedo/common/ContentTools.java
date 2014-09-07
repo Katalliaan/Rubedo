@@ -73,17 +73,28 @@ public class ContentTools implements IContent {
 		}
 		
 		//TODO: fix this entire file to handle tool types in a dynamic way
-		if (
-				material.axeHead != null ||
-				material.swordHead != null ||
-				material.pickaxeHead != null ||
-				material.shovelHead != null ||
-				material.scytheHead != null) {
+		if (material.axeHead != null) {
 			toolHeads.put(material.name, material);
 			materialStacks.put(material.axeHead, material);
+		}
+		
+		if (material.swordHead != null) {
+			toolHeads.put(material.name, material);
 			materialStacks.put(material.swordHead, material);
+		}
+		
+		if (material.pickaxeHead != null) {
+			toolHeads.put(material.name, material);
 			materialStacks.put(material.pickaxeHead, material);
+		}
+				
+		if (material.shovelHead != null) {
+			toolHeads.put(material.name, material);
 			materialStacks.put(material.shovelHead, material);
+		}
+
+		if (material.scytheHead != null) {
+			toolHeads.put(material.name, material);
 			materialStacks.put(material.scytheHead, material);
 		}
 	}
