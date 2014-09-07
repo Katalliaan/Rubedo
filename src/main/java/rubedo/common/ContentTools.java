@@ -56,73 +56,75 @@ public class ContentTools implements IContent {
 		registerToolMaterials();
 		registerToolRecipes();
 	}
-	
+
 	public void registerMaterial(Material material) {
-		// Ensure a certain item only appears in these lists once, to make crafting 
-		// easier to figure out. Players will get confused if a certain item can be
+		// Ensure a certain item only appears in these lists once, to make
+		// crafting
+		// easier to figure out. Players will get confused if a certain item can
+		// be
 		// used to craft a rod and a cap
-		
+
 		if (material.rodMaterial != null) {
 			toolRods.put(material.name, material);
-			
+
 			if (materialStacks.containsKey(material.rodMaterial))
 				throw new RuntimeException("Duplicate tool material resource");
-				
+
 			materialStacks.put(material.rodMaterial, material);
 		}
-		
+
 		if (material.capMaterial != null) {
 			toolCaps.put(material.name, material);
-			
+
 			if (materialStacks.containsKey(material.capMaterial))
 				throw new RuntimeException("Duplicate tool material resource");
-				
+
 			materialStacks.put(material.rodMaterial, material);
 		}
-		
-		//TODO: fix this entire file to handle tool types in a dynamic way
+
+		// TODO: fix this entire file to handle tool types in a dynamic way
 		if (material.axeHead != null) {
 			toolHeads.put(material.name, material);
-			
+
 			if (materialStacks.containsKey(material.axeHead))
 				throw new RuntimeException("Duplicate tool material resource");
-				
+
 			materialStacks.put(material.axeHead, material);
 		}
-		
+
 		if (material.swordHead != null) {
 			toolHeads.put(material.name, material);
-			
+
 			if (materialStacks.containsKey(material.swordHead))
 				throw new RuntimeException("Duplicate tool material resource");
-				
+
 			materialStacks.put(material.swordHead, material);
 		}
-		
+
 		if (material.pickaxeHead != null) {
 			toolHeads.put(material.name, material);
-			
+
 			if (materialStacks.containsKey(material.pickaxeHead))
 				throw new RuntimeException("Duplicate tool material resource");
-				
+
 			materialStacks.put(material.pickaxeHead, material);
 		}
-				
+
 		if (material.shovelHead != null) {
 			toolHeads.put(material.name, material);
-			
+
 			if (materialStacks.containsKey(material.shovelHead))
 				throw new RuntimeException("Duplicate tool material resource");
-				
+
 			materialStacks.put(material.shovelHead, material);
 		}
 
 		if (material.scytheHead != null) {
 			toolHeads.put(material.name, material);
-			
+
 			if (materialStacks.containsKey(material.scytheHead))
 				throw new RuntimeException("Duplicate tool material resource");
-				
+
 			materialStacks.put(material.scytheHead, material);
 		}
 	}
@@ -132,7 +134,7 @@ public class ContentTools implements IContent {
 		toolRods = new LinkedHashMap<String, Material>();
 		toolCaps = new LinkedHashMap<String, Material>();
 		materialStacks = new HashMap<ItemStack, Material>();
-		
+
 		Material flint = new Material();
 		{
 			flint.name = "flint";
@@ -163,7 +165,8 @@ public class ContentTools implements IContent {
 			wood.modifier = 0.5f;
 			wood.special = 0;
 			wood.rodMaterial = new ItemStack(Item.stick);
-			wood.capMaterial = new ItemStack(Block.planks, 1, OreDictionary.WILDCARD_VALUE);
+			wood.capMaterial = new ItemStack(Block.planks, 1,
+					OreDictionary.WILDCARD_VALUE);
 		}
 		Material leather = new Material();
 		{
@@ -403,8 +406,8 @@ public class ContentTools implements IContent {
 			hepatizon.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
 		}
-		
-		//TODO: this is butt ugly, this entire method is, ah well
+
+		// TODO: this is butt ugly, this entire method is, ah well
 		registerMaterial(flint);
 		registerMaterial(wood);
 		registerMaterial(leather);
@@ -424,15 +427,15 @@ public class ContentTools implements IContent {
 		GameRegistry.addRecipe(new ToolEnchantmentRecipes());
 		GameRegistry.addRecipe(new ToolRepairRecipes());
 
-		Item[] toBeRemoved = {Item.swordDiamond, Item.swordGold,
+		Item[] toBeRemoved = { Item.swordDiamond, Item.swordGold,
 				Item.swordIron, Item.swordStone, Item.swordWood,
 				Item.shovelDiamond, Item.shovelGold, Item.shovelIron,
 				Item.shovelStone, Item.shovelWood, Item.axeDiamond,
 				Item.axeGold, Item.axeIron, Item.axeStone, Item.axeWood,
 				Item.hoeDiamond, Item.hoeGold, Item.hoeIron, Item.hoeStone,
 				Item.hoeWood, Item.pickaxeDiamond, Item.pickaxeGold,
-				Item.pickaxeIron, Item.pickaxeStone, Item.pickaxeWood};
-		
+				Item.pickaxeIron, Item.pickaxeStone, Item.pickaxeWood };
+
 		for (int i = 0; i < toBeRemoved.length; i++) {
 			toBeRemoved[i].setMaxDamage(1);
 		}
@@ -442,43 +445,42 @@ public class ContentTools implements IContent {
 				for (Entry<String, Material> capEntry : toolCaps.entrySet()) {
 					// Sword Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
-							new ItemStack[]{headEntry.getValue().rodMaterial,
-									rodEntry.getValue().swordHead,
-									capEntry.getValue().capMaterial}, toolSword
-									.buildTool(headEntry.getKey(),
-											rodEntry.getKey(),
-											capEntry.getKey())));
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().swordHead,
+									rodEntry.getValue().rodMaterial },
+							toolSword.buildTool(headEntry.getKey(),
+									rodEntry.getKey(), capEntry.getKey())));
 
 					// Shovel Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
-							new ItemStack[]{headEntry.getValue().rodMaterial,
-									rodEntry.getValue().shovelHead,
-									capEntry.getValue().capMaterial},
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().shovelHead,
+									rodEntry.getValue().rodMaterial },
 							toolShovel.buildTool(headEntry.getKey(),
 									rodEntry.getKey(), capEntry.getKey())));
 
 					// Axe Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
-							new ItemStack[]{headEntry.getValue().rodMaterial,
-									rodEntry.getValue().axeHead,
-									capEntry.getValue().capMaterial}, toolAxe
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().axeHead,
+									rodEntry.getValue().rodMaterial }, toolAxe
 									.buildTool(headEntry.getKey(),
 											rodEntry.getKey(),
 											capEntry.getKey())));
 
 					// Scythe Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
-							new ItemStack[]{headEntry.getValue().rodMaterial,
-									rodEntry.getValue().scytheHead,
-									capEntry.getValue().capMaterial},
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().scytheHead,
+									rodEntry.getValue().rodMaterial },
 							toolScythe.buildTool(headEntry.getKey(),
 									rodEntry.getKey(), capEntry.getKey())));
 
 					// Pickaxe Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
-							new ItemStack[]{headEntry.getValue().rodMaterial,
-									rodEntry.getValue().pickaxeHead,
-									capEntry.getValue().capMaterial},
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().pickaxeHead,
+									rodEntry.getValue().rodMaterial },
 							toolPickaxe.buildTool(headEntry.getKey(),
 									rodEntry.getKey(), capEntry.getKey())));
 				}
@@ -486,42 +488,43 @@ public class ContentTools implements IContent {
 		// Tool head recipes
 		for (Entry<String, Material> headEntry : toolHeads.entrySet()) {
 			// Sword heads
-			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[] {
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial},
+					headEntry.getValue().headMaterial },
 					headEntry.getValue().swordHead));
 			// Shovel heads
-			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[] {
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial},
+					headEntry.getValue().headMaterial },
 					headEntry.getValue().shovelHead));
 			// Axe heads
-			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[] {
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial, null,
-					headEntry.getValue().headMaterial},
+					headEntry.getValue().headMaterial },
 					headEntry.getValue().axeHead));
 			// Scythe heads
-			GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[] {
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial, null, null,
-					headEntry.getValue().headMaterial},
+					headEntry.getValue().headMaterial },
 					headEntry.getValue().scytheHead));
 			// Pick heads
-			GameRegistry.addRecipe(new ShapedRecipes(3, 1, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(3, 1, new ItemStack[] {
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial},
+					headEntry.getValue().headMaterial },
 					headEntry.getValue().pickaxeHead));
 		}
 	}
+
 	public static Map<String, Material> toolHeads;
 	public static Map<String, Material> toolRods;
 	public static Map<String, Material> toolCaps;
-	
+
 	public static Map<ItemStack, Material> materialStacks;
 
 	public class Material {
