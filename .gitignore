@@ -1,6 +1,3 @@
-# Manual version override
-version.properties
-
 # Gradle
 /.gradle
 /build/
