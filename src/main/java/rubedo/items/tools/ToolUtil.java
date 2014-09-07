@@ -54,8 +54,12 @@ public class ToolUtil {
 	}
 
 	public static void damageTool(ToolProperties properties,
-			EntityLivingBase entity, int damage) {
+			EntityLivingBase entity, int damage) {		
 		if (properties.isValid() && !properties.isBroken()) {
+			// fixes bug that leads to disappearing tools
+			if (properties.getDurability() < properties.getStack().getItemDamage() + damage)
+				damage = properties.getDurability() - properties.getStack().getItemDamage();
+			
 			properties.getStack().damageItem(damage, entity);
 
 			if (properties.getStack().getItemDamage() >= properties
