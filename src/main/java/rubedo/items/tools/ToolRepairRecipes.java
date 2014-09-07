@@ -32,79 +32,74 @@ public class ToolRepairRecipes implements IRecipe {
 
 						this.tool = ((ToolBase) itemstack.getItem())
 								.getToolProperties(itemstack);
+					} else {
+						if (this.modifier != null)
+							return false;
+
+						this.modifier = itemstack;
 					}
 				}
 			}
 
-		if (this.tool == null)
+		if (this.tool == null || this.modifier == null)
 			return false;
 
-		for (int i = 0; i < 3; ++i)
-			for (int j = 0; j < 3; ++j) {
-				ItemStack itemstack = inventorycrafting.getStackInRowAndColumn(
-						j, i);
+		// TODO: optimize this, it's slow, though the two step
+		// process already
+		// ensures this doesn't run until you put a ToolBase in the
+		// crafting grid
+		for (ItemStack material : ContentTools.materialStacks.keySet()) {
+			// TODO: This is just so WTF I don't even words, but
+			// apparently there's a null key
+			if (material == null)
+				continue;
 
-				if (itemstack != null
-						&& !(itemstack.getItem() instanceof ToolBase)) {
-					if (this.modifier != null)
-						return false;
-
-					// TODO: optimize this, it's slow, though the two step
-					// process already
-					// ensures this doesn't run until you put a ToolBase in the
-					// crafting grid
-					for (ItemStack material : ContentTools.materialStacks
-							.keySet()) {
-						// TODO: This is just so WTF I don't even words, but
-						// apparently there's a null key
-						if (material == null)
-							continue;
-
-						Material toolMaterial = ContentTools.materialStacks
-								.get(this.modifier);
-
-						if (material.getItem().equals(itemstack.getItem())
-								&& material.getItemDamage() == itemstack
-										.getItemDamage()) {
-							if ((this.tool.getItem() instanceof ToolAxe && toolMaterial.axeHead == material)
-									|| (this.tool.getItem() instanceof ToolPickaxe && toolMaterial.pickaxeHead == material)
-									|| (this.tool.getItem() instanceof ToolScythe && toolMaterial.scytheHead == material)
-									|| (this.tool.getItem() instanceof ToolShovel && toolMaterial.shovelHead == material)
-									|| (this.tool.getItem() instanceof ToolSword && toolMaterial.swordHead == material)) {
-								this.modifier = material;
-								return true;
-							} else {
-								return false;
-							}
-						}
-					}
+			if (material.getItem().equals(this.modifier.getItem())
+					&& material.getItemDamage() == this.modifier.getItemDamage()) {
+				this.modifier = material;
+				
+				Material toolMaterial = ContentTools.materialStacks
+						.get(material);
+				
+				if ((this.tool.getItem() instanceof ToolAxe && toolMaterial.axeHead == material)
+						|| (this.tool.getItem() instanceof ToolPickaxe && toolMaterial.pickaxeHead == material)
+						|| (this.tool.getItem() instanceof ToolScythe && toolMaterial.scytheHead == material)
+						|| (this.tool.getItem() instanceof ToolShovel && toolMaterial.shovelHead == material)
+						|| (this.tool.getItem() instanceof ToolSword && toolMaterial.swordHead == material)) {
+					return true;
+				} else {
+					return false;
 				}
 			}
-
-		return this.modifier != null && this.tool != null;
+		}
+		return false;
 	}
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
 		Material material = ContentTools.materialStacks.get(this.modifier);
+		
+		ToolProperties copy = ((ToolBase) this.tool.getItem())
+				.getToolProperties(this.tool.getStack().copy());
 
 		if (ContentTools.toolCaps.containsKey(material.name)
 				&& ContentTools.toolCaps.get(material.name).capMaterial == this.modifier) {
-			this.tool.setCapMaterial(material.name);
-			return this.tool.getStack();
+			copy.setCapMaterial(material.name);
+			return copy.getStack();
 		}
 
 		if (ContentTools.toolRods.containsKey(material.name)
 				&& ContentTools.toolRods.get(material.name).rodMaterial == this.modifier) {
-			this.tool.setRodMaterial(material.name);
-			return this.tool.getStack();
+			copy.setRodMaterial(material.name);
+			return copy.getStack();
 		}
 
 		// Bit weird, but at this point we're sure it's a known tool head anyway
-		this.tool.setBroken(false);
-		this.tool.setHeadMaterial(material.name);
-		this.tool.getStack().setItemDamage(0);
-		return this.tool.getStack().copy();
+		
+		copy.setBroken(false);
+		copy.setHeadMaterial(material.name);
+		copy.getStack().setItemDamage(0);
+		return copy.getStack();
 	}
 
 	@Override
