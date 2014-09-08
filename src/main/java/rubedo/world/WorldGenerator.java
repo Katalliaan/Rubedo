@@ -37,19 +37,20 @@ public class WorldGenerator implements IWorldGenerator {
         		int oreDensity = MathHelper.floor_double(metal.oreDensity);
         		double chance = metal.oreDensity - oreDensity;
 
-        		if (metal.dimensionExclusive == !metal.getDimensionList().contains(world.provider.dimensionId))
-    			for (int q = 0; q <= oreDensity; q++)
-                {
-                    xPos = chunkX*16 + random.nextInt(16);
-                    yPos = metal.oreMinY + random.nextInt(metal.oreMaxY - metal.oreMinY);
-                    zPos = chunkZ*16 + random.nextInt(16);
-                    wgm.generate(world, random, xPos, yPos, zPos);
-                }
-        		if (random.nextDouble() <= chance) {
-        			xPos = chunkX*16 + random.nextInt(16);
-                    yPos = metal.oreMinY + random.nextInt(metal.oreMaxY - metal.oreMinY);
-                    zPos = chunkZ*16 + random.nextInt(16);
-                    wgm.generate(world, random, xPos, yPos, zPos);
+        		if (metal.dimensionExclusive != metal.getDimensionList().contains(world.provider.dimensionId)) {
+					for (int q = 0; q <= oreDensity; q++)
+		            {
+		                xPos = chunkX*16 + random.nextInt(16);
+		                yPos = metal.oreMinY + random.nextInt(metal.oreMaxY - metal.oreMinY);
+		                zPos = chunkZ*16 + random.nextInt(16);
+		                wgm.generate(world, random, xPos, yPos, zPos);
+		            }
+		    		if (random.nextDouble() <= chance) {
+		    			xPos = chunkX*16 + random.nextInt(16);
+		                yPos = metal.oreMinY + random.nextInt(metal.oreMaxY - metal.oreMinY);
+		                zPos = chunkZ*16 + random.nextInt(16);
+		                wgm.generate(world, random, xPos, yPos, zPos);
+		    		}
         		}
     		}
         }

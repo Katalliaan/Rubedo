@@ -35,6 +35,16 @@ ForgeModLoader*.log*
 output-client.log*
 output-server.log*
 
+# Minecraft Server
+/world/
+banned-ips.txt
+banned-players.txt
+ops.txt
+server.log
+server.properties
+servers.dat
+white-list.txt
+
 #Remove OS generated garbage
 */.DS_Store
 .DS_Store
