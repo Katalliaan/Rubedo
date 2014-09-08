@@ -140,7 +140,7 @@ public class ContentTools implements IContent {
 			flint.name = "flint";
 			flint.durability = 60;
 			flint.damage = 0;
-			flint.speed = 2.0f;
+			flint.speed = 4.0f;
 			flint.miningLevel = 0;
 			flint.swordHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
@@ -192,7 +192,7 @@ public class ContentTools implements IContent {
 			copper.durability = 130;
 			copper.special = 2;
 			copper.damage = 1;
-			copper.speed = 4.0f;
+			copper.speed = 2.0f;
 			copper.miningLevel = 1;
 			copper.swordHead = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems
