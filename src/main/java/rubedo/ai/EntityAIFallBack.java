@@ -8,12 +8,12 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.Vec3;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class EntityAIFallBack extends EntityAIBase {
 	public final IEntitySelector selector = new EntityAIFallBackSelector(
 			this);
@@ -56,7 +56,7 @@ public class EntityAIFallBack extends EntityAIBase {
 				return false;
 			}
 		} else {
-			List list = this.theEntity.worldObj.selectEntitiesWithinAABB(
+			List<Entity> list = this.theEntity.worldObj.selectEntitiesWithinAABB(
 					this.targetEntityClass, this.theEntity.boundingBox.expand(
 							(double) this.distanceFromEntity, 3.0D,
 							(double) this.distanceFromEntity),
