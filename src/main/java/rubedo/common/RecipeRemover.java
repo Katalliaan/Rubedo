@@ -3,6 +3,7 @@ package rubedo.common;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -13,6 +14,7 @@ import net.minecraft.item.crafting.IRecipe;
  * @author iguanaman
  *
  */
+@SuppressWarnings("unchecked")
 public class RecipeRemover {
 	public static void removeAnyRecipe(ItemStack resultItem) {
 		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
