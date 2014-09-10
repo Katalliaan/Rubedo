@@ -17,7 +17,10 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	}
 
 	public boolean isBroken() {
-		return tag.getBoolean("broken");
+		if (tag.hasKey("broken"))
+			return tag.getBoolean("broken");
+		else
+			return false;
 	}
 	public void setBroken(boolean isBroken) {
 		tag.setBoolean("broken", isBroken);
@@ -78,7 +81,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		else
 			return -1;
 	}
-	
+
 	public int getSpecial() {
 		return ContentTools.toolCaps.get(getCapMaterial()).special;
 	}
