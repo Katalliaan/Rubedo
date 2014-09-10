@@ -74,14 +74,16 @@ public abstract class ToolBase extends MultiItem {
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(ItemStack stack, int renderPass) {
 		ToolProperties properties = getToolProperties(stack);
+		
+		if (properties == null)
+			return getRenderList().get("blank");
 
 		String name = "blank";
 
 		switch (renderPass) {
 			case 0 :
 				// Head
-				if (!stack.getTagCompound().getCompoundTag("RubedoTool")
-						.getBoolean("broken"))
+				if (!properties.isBroken())
 					name = getName() + "_head_" + properties.getHeadMaterial();
 				else
 					name = getName() + "_head_" + properties.getHeadMaterial()
