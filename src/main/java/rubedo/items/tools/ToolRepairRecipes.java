@@ -4,9 +4,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
-import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
-import rubedo.common.ContentWorld;
 import rubedo.common.ContentTools.Material;
 
 public class ToolRepairRecipes implements IRecipe {

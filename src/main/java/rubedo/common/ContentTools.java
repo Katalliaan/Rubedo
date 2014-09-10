@@ -12,7 +12,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.oredict.OreDictionary;
-import rubedo.RubedoCore;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolEnchantmentRecipes;
