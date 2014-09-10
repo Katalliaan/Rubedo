@@ -4,6 +4,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;
 import rubedo.common.ContentTools.Material;
@@ -57,42 +58,13 @@ public class ToolRepairRecipes implements IRecipe {
 							.getItemDamage()) {
 				this.modifier = material;
 
-				Material toolMaterial = ContentTools.materialStacks
-						.get(material);
-
-				new ItemStack(ContentWorld.metalItems, 1,
-						ContentWorld.metalItems
-								.getTextureIndex("tools/sword_head_"
-										+ toolMaterial.name));
-
+				Material toolMaterial = ContentTools.materialStacks.get(material);
+				
+				// TODO: find alternate way to compare tool heads
 				if (toolMaterial.rodMaterial == material
 						|| toolMaterial.capMaterial == material) {
 					return true;
-				} else if ((this.tool.getItem() instanceof ToolAxe && new ItemStack(
-						ContentWorld.metalItems, 1,
-						ContentWorld.metalItems
-								.getTextureIndex("tools/axe_head_"
-										+ toolMaterial.name)) == material)
-						|| (this.tool.getItem() instanceof ToolPickaxe && new ItemStack(
-								ContentWorld.metalItems, 1,
-								ContentWorld.metalItems
-										.getTextureIndex("tools/pickaxe_head_"
-												+ toolMaterial.name)) == material)
-						|| (this.tool.getItem() instanceof ToolScythe && new ItemStack(
-								ContentWorld.metalItems, 1,
-								ContentWorld.metalItems
-										.getTextureIndex("tools/scythe_head_"
-												+ toolMaterial.name)) == material)
-						|| (this.tool.getItem() instanceof ToolShovel && new ItemStack(
-								ContentWorld.metalItems, 1,
-								ContentWorld.metalItems
-										.getTextureIndex("tools/shovel_head_"
-												+ toolMaterial.name)) == material)
-						|| (this.tool.getItem() instanceof ToolSword && new ItemStack(
-								ContentWorld.metalItems, 1,
-								ContentWorld.metalItems
-										.getTextureIndex("tools/sword_head_"
-												+ toolMaterial.name)) == material)) {
+				} else if ((toolMaterial.getToolHead(this.tool.getItem().getName()) == material)) {
 					return true;
 				} else {
 					return false;

@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.oredict.OreDictionary;
+import rubedo.RubedoCore;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolEnchantmentRecipes;
@@ -78,6 +79,11 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 				throw new RuntimeException("Duplicate tool material resource");
 
 			materialStacks.put(material.headMaterial, material);
+			materialStacks.put(material.getToolHead("sword"), material);
+			materialStacks.put(material.getToolHead("pickaxe"), material);
+			materialStacks.put(material.getToolHead("shovel"), material);
+			materialStacks.put(material.getToolHead("axe"), material);
+			materialStacks.put(material.getToolHead("scythe"), material);
 		}
 	}
 
@@ -267,12 +273,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 									3,
 									new ItemStack[]{
 											capEntry.getValue().capMaterial,
-											new ItemStack(
-													ContentWorld.metalItems,
-													1,
-													ContentWorld.metalItems
-															.getTextureIndex("tools/sword_head_"
-																	+ headEntry.getValue().name)),
+											headEntry.getValue().getToolHead("sword"),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolSword.class).buildTool(
 											headEntry.getKey(),
@@ -286,12 +287,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 									3,
 									new ItemStack[]{
 											capEntry.getValue().capMaterial,
-											new ItemStack(
-													ContentWorld.metalItems,
-													1,
-													ContentWorld.metalItems
-															.getTextureIndex("tools/shovel_head_"
-																	+ headEntry.getValue().name)),
+											headEntry.getValue().getToolHead("shovel"),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolShovel.class).buildTool(
 											headEntry.getKey(),
@@ -305,12 +301,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 									3,
 									new ItemStack[]{
 											capEntry.getValue().capMaterial,
-											new ItemStack(
-													ContentWorld.metalItems,
-													1,
-													ContentWorld.metalItems
-															.getTextureIndex("tools/axe_head_"
-																	+ headEntry.getValue().name)),
+											headEntry.getValue().getToolHead("axe"),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolAxe.class).buildTool(
 											headEntry.getKey(),
@@ -324,12 +315,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 									3,
 									new ItemStack[]{
 											capEntry.getValue().capMaterial,
-											new ItemStack(
-													ContentWorld.metalItems,
-													1,
-													ContentWorld.metalItems
-															.getTextureIndex("tools/scythe_head_"
-																	+ headEntry.getValue().name)),
+											headEntry.getValue().getToolHead("scythe"),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolScythe.class).buildTool(
 											headEntry.getKey(),
@@ -343,12 +329,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 									3,
 									new ItemStack[]{
 											capEntry.getValue().capMaterial,
-											new ItemStack(
-													ContentWorld.metalItems,
-													1,
-													ContentWorld.metalItems
-															.getTextureIndex("tools/pickaxe_head_"
-																	+ headEntry.getValue().name)),
+											headEntry.getValue().getToolHead("pickaxe"),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolPickaxe.class).buildTool(
 											headEntry.getKey(),
@@ -361,44 +342,29 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			// Sword heads
 			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[]{
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial}, new ItemStack(
-					ContentWorld.metalItems, 1, ContentWorld.metalItems
-							.getTextureIndex("tools/sword_head_"
-									+ headEntry.getValue().name))));
+					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("sword")));
 			// Shovel heads
 			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[]{
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial}, new ItemStack(
-					ContentWorld.metalItems, 1, ContentWorld.metalItems
-							.getTextureIndex("tools/shovel_head_"
-									+ headEntry.getValue().name))));
+					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("shovel")));
 			// Axe heads
 			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[]{
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial, null,
-					headEntry.getValue().headMaterial}, new ItemStack(
-					ContentWorld.metalItems, 1, ContentWorld.metalItems
-							.getTextureIndex("tools/axe_head_"
-									+ headEntry.getValue().name))));
+					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("axe")));
 			// Scythe heads
 			GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial, null, null,
-					headEntry.getValue().headMaterial}, new ItemStack(
-					ContentWorld.metalItems, 1, ContentWorld.metalItems
-							.getTextureIndex("tools/scythe_head_"
-									+ headEntry.getValue().name))));
+					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("scythe")));
 			// Pick heads
 			GameRegistry.addRecipe(new ShapedRecipes(3, 1, new ItemStack[]{
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial}, new ItemStack(
-					ContentWorld.metalItems, 1, ContentWorld.metalItems
-							.getTextureIndex("tools/pickaxe_head_"
-									+ headEntry.getValue().name))));
+					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("pickaxe")));
 		}
 	}
 
@@ -419,5 +385,11 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 		public ItemStack headMaterial;
 		public ItemStack rodMaterial;
 		public ItemStack capMaterial;
+
+		public ItemStack getToolHead(String tool) {
+			return new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("tools/" + tool
+							+ "_head_" + name));
+		}
 	}
 }
