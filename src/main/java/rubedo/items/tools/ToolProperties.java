@@ -11,7 +11,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	public ToolProperties(ItemStack stack, ToolBase tool) {
 		super(stack, tool);
 
-		if (this.baseTags != null) {
+		if (stack.getItem() instanceof ToolBase && this.baseTags != null) {
 			this.tag = this.baseTags.getCompoundTag("RubedoTool");
 			this.baseTags.setCompoundTag("RubedoTool", this.tag);
 		}
