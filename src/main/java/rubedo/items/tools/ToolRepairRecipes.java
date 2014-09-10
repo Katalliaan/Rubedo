@@ -50,24 +50,29 @@ public class ToolRepairRecipes implements IRecipe {
 		// crafting grid
 		for (ItemStack material : ContentTools.materialStacks.keySet()) {
 			// TODO: This is just so WTF I don't even words, but
-			// apparently there's a null key
+			// apparently there's a null key (something to do with ingots apparently)
 			if (material == null)
 				continue;
 
 			if (material.getItem().equals(this.modifier.getItem())
-					&& material.getItemDamage() == this.modifier.getItemDamage()) {
+					&& material.getItemDamage() == this.modifier
+							.getItemDamage()) {
 				this.modifier = material;
-				
+
 				Material toolMaterial = ContentTools.materialStacks
 						.get(material);
-				
-				if ((this.tool.getItem() instanceof ToolAxe && toolMaterial.axeHead == material)
+
+				if (toolMaterial.rodMaterial == material || toolMaterial.capMaterial == material) {
+					return true;
+				}
+				else if ((this.tool.getItem() instanceof ToolAxe && toolMaterial.axeHead == material)
 						|| (this.tool.getItem() instanceof ToolPickaxe && toolMaterial.pickaxeHead == material)
 						|| (this.tool.getItem() instanceof ToolScythe && toolMaterial.scytheHead == material)
 						|| (this.tool.getItem() instanceof ToolShovel && toolMaterial.shovelHead == material)
 						|| (this.tool.getItem() instanceof ToolSword && toolMaterial.swordHead == material)) {
 					return true;
-				} else {
+				}
+				else {
 					return false;
 				}
 			}
@@ -78,7 +83,7 @@ public class ToolRepairRecipes implements IRecipe {
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
 		Material material = ContentTools.materialStacks.get(this.modifier);
-		
+
 		ToolProperties copy = ((ToolBase) this.tool.getItem())
 				.getToolProperties(this.tool.getStack().copy());
 
@@ -95,7 +100,7 @@ public class ToolRepairRecipes implements IRecipe {
 		}
 
 		// Bit weird, but at this point we're sure it's a known tool head anyway
-		
+
 		copy.setBroken(false);
 		copy.setHeadMaterial(material.name);
 		copy.getStack().setItemDamage(0);

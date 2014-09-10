@@ -1,8 +1,5 @@
 package rubedo.common;
 
-import java.awt.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,12 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
-import rubedo.RubedoCore;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolEnchantmentRecipes;
 import rubedo.items.tools.ToolPickaxe;
