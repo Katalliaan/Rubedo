@@ -10,9 +10,12 @@ public abstract class MultiItemProperties <I extends MultiItem> {
 	protected I item;
 
 	public MultiItemProperties(ItemStack stack, I item) {
-		this.baseTags = stack.getTagCompound();
-		this.stack = stack;
-		this.item = item;
+		if (stack.getItem() instanceof MultiItem) {
+			this.baseTags = stack.getTagCompound();
+			this.stack = stack;
+			this.item = item;
+		}
+		else throw new RuntimeException("Passed the wrong stack type to properties");
 	}
 	
 	public boolean isValid() { return tag != null; }
