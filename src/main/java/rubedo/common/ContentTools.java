@@ -272,7 +272,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 													1,
 													ContentWorld.metalItems
 															.getTextureIndex("tools/sword_head_"
-																	+ headEntry)),
+																	+ headEntry.getValue().name)),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolSword.class).buildTool(
 											headEntry.getKey(),
@@ -291,7 +291,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 													1,
 													ContentWorld.metalItems
 															.getTextureIndex("tools/shovel_head_"
-																	+ headEntry)),
+																	+ headEntry.getValue().name)),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolShovel.class).buildTool(
 											headEntry.getKey(),
@@ -310,7 +310,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 													1,
 													ContentWorld.metalItems
 															.getTextureIndex("tools/axe_head_"
-																	+ headEntry)),
+																	+ headEntry.getValue().name)),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolAxe.class).buildTool(
 											headEntry.getKey(),
@@ -329,7 +329,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 													1,
 													ContentWorld.metalItems
 															.getTextureIndex("tools/scythe_head_"
-																	+ headEntry)),
+																	+ headEntry.getValue().name)),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolScythe.class).buildTool(
 											headEntry.getKey(),
@@ -348,7 +348,7 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 													1,
 													ContentWorld.metalItems
 															.getTextureIndex("tools/pickaxe_head_"
-																	+ headEntry)),
+																	+ headEntry.getValue().name)),
 											rodEntry.getValue().rodMaterial},
 									getItem(ToolPickaxe.class).buildTool(
 											headEntry.getKey(),
