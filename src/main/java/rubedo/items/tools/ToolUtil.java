@@ -2,7 +2,6 @@ package rubedo.items.tools;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import rubedo.common.ContentTools;
 

@@ -1,5 +1,6 @@
 package util;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -37,4 +38,17 @@ public class ReflectionHelper {
 			e.printStackTrace();
 		}
 	}
+	
+	public static <T> T getInstance(Class<T> clazz) {
+		try {
+	        Constructor<T> constructor;
+	        constructor = clazz.getDeclaredConstructor();
+	        constructor.setAccessible(true);
+        
+			return constructor.newInstance("arg1");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+    }  
 }
