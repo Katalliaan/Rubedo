@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import rubedo.common.ContentTools;
+import rubedo.common.ContentWorld;
 import rubedo.common.ContentTools.Material;
 
 public class ToolRepairRecipes implements IRecipe {
@@ -46,7 +47,8 @@ public class ToolRepairRecipes implements IRecipe {
 		// crafting grid
 		for (ItemStack material : ContentTools.materialStacks.keySet()) {
 			// TODO: This is just so WTF I don't even words, but
-			// apparently there's a null key (something to do with ingots apparently)
+			// apparently there's a null key (something to do with ingots
+			// apparently)
 			if (material == null)
 				continue;
 
@@ -58,17 +60,41 @@ public class ToolRepairRecipes implements IRecipe {
 				Material toolMaterial = ContentTools.materialStacks
 						.get(material);
 
-				if (toolMaterial.rodMaterial == material || toolMaterial.capMaterial == material) {
+				new ItemStack(ContentWorld.metalItems, 1,
+						ContentWorld.metalItems
+								.getTextureIndex("tools/sword_head_"
+										+ toolMaterial.name));
+
+				if (toolMaterial.rodMaterial == material
+						|| toolMaterial.capMaterial == material) {
 					return true;
-				}
-				else if ((this.tool.getItem() instanceof ToolAxe && toolMaterial.axeHead == material)
-						|| (this.tool.getItem() instanceof ToolPickaxe && toolMaterial.pickaxeHead == material)
-						|| (this.tool.getItem() instanceof ToolScythe && toolMaterial.scytheHead == material)
-						|| (this.tool.getItem() instanceof ToolShovel && toolMaterial.shovelHead == material)
-						|| (this.tool.getItem() instanceof ToolSword && toolMaterial.swordHead == material)) {
+				} else if ((this.tool.getItem() instanceof ToolAxe && new ItemStack(
+						ContentWorld.metalItems, 1,
+						ContentWorld.metalItems
+								.getTextureIndex("tools/axe_head_"
+										+ toolMaterial.name)) == material)
+						|| (this.tool.getItem() instanceof ToolPickaxe && new ItemStack(
+								ContentWorld.metalItems, 1,
+								ContentWorld.metalItems
+										.getTextureIndex("tools/pickaxe_head_"
+												+ toolMaterial.name)) == material)
+						|| (this.tool.getItem() instanceof ToolScythe && new ItemStack(
+								ContentWorld.metalItems, 1,
+								ContentWorld.metalItems
+										.getTextureIndex("tools/scythe_head_"
+												+ toolMaterial.name)) == material)
+						|| (this.tool.getItem() instanceof ToolShovel && new ItemStack(
+								ContentWorld.metalItems, 1,
+								ContentWorld.metalItems
+										.getTextureIndex("tools/shovel_head_"
+												+ toolMaterial.name)) == material)
+						|| (this.tool.getItem() instanceof ToolSword && new ItemStack(
+								ContentWorld.metalItems, 1,
+								ContentWorld.metalItems
+										.getTextureIndex("tools/sword_head_"
+												+ toolMaterial.name)) == material)) {
 					return true;
-				}
-				else {
+				} else {
 					return false;
 				}
 			}
