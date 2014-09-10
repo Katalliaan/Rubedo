@@ -1,7 +1,6 @@
 package rubedo.items.tools;
 
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -9,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraftforge.common.MinecraftForge;
+import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 
 public class ToolPickaxe extends ToolBase {
@@ -74,7 +73,8 @@ public class ToolPickaxe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(ContentTools.toolPickaxe);
+		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ItemStack tool = new ItemStack(contentTools.getItem(ToolPickaxe.class));
 
 		super.buildTool(tool, head, rod, cap);
 

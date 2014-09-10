@@ -40,9 +40,7 @@ output-server.log*
 banned-ips.txt
 banned-players.txt
 ops.txt
-server.log
-server.properties
-servers.dat
+server*
 white-list.txt
 
 #Remove OS generated garbage

@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -102,7 +103,8 @@ public class ToolSword extends ToolBase {
 	 */
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(ContentTools.toolSword);
+		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ItemStack tool = new ItemStack(contentTools.getItem(ToolSword.class));
 		
 		super.buildTool(tool, head, rod, cap);
 		

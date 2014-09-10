@@ -1,12 +1,7 @@
 package rubedo.items.tools;
 
 import java.util.List;
-import java.util.Set;
 
-import rubedo.common.ContentTools;
-import rubedo.raycast.IShapedRayCast;
-import rubedo.raycast.ShapedRayCast;
-import rubedo.raycast.SphericalRayCast;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -15,11 +10,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
+import rubedo.RubedoCore;
+import rubedo.common.ContentTools;
+import rubedo.raycast.IShapedRayCast;
+import rubedo.raycast.ShapedRayCast;
+import rubedo.raycast.SphericalRayCast;
 
 public class ToolScythe extends ToolBase {
 
@@ -158,7 +157,8 @@ public class ToolScythe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(ContentTools.toolScythe);
+		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ItemStack tool = new ItemStack(contentTools.getItem(ToolScythe.class));
 
 		super.buildTool(tool, head, rod, cap);
 

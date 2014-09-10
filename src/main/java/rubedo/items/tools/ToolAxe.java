@@ -2,6 +2,7 @@ package rubedo.items.tools;
 
 import java.util.List;
 
+import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -75,7 +76,8 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(ContentTools.toolAxe);
+		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ItemStack tool = new ItemStack(contentTools.getItem(ToolAxe.class));
 
 		super.buildTool(tool, head, rod, cap);
 

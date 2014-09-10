@@ -1,8 +1,7 @@
 package rubedo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
@@ -55,15 +54,15 @@ public class RubedoCore {
 	public static final CreativeTabs creativeTab = new CreativeTabs("Rubedo");
 
 	// Mod content
-	public static List<IContent> contentUnits;
+	public static Map<Class<? extends IContent>, IContent> contentUnits;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		contentUnits = new ArrayList<IContent>();
-		contentUnits.addAll(Arrays.asList(new IContent[]{new ContentWorld(),
-				new ContentTools(),
-				// new ContentSpells(),
-				new ContentAI()}));
+		contentUnits = new LinkedHashMap<Class<? extends IContent>, IContent>();
+		contentUnits.put(ContentWorld.class, new ContentWorld());
+		contentUnits.put(ContentTools.class, new ContentTools());
+		//contentUnits.put(ContentSpells.class, new ContentSpells());
+		contentUnits.put(ContentAI.class, new ContentAI());
 
 		// Load the configs
 		Config.load(event);
@@ -72,7 +71,7 @@ public class RubedoCore {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
-		for (IContent content : contentUnits)
+		for (IContent content : contentUnits.values())
 			content.register();
 
 		// Register the renderers

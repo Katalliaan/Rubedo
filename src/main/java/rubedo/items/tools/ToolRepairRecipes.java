@@ -1,15 +1,11 @@
 package rubedo.items.tools;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
-import rubedo.common.ContentTools;
-import rubedo.common.ContentTools.Material;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import rubedo.common.ContentTools;
+import rubedo.common.ContentTools.Material;
 
 public class ToolRepairRecipes implements IRecipe {
 	private ToolProperties tool;
@@ -114,6 +110,6 @@ public class ToolRepairRecipes implements IRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return new ItemStack(ContentTools.toolSword);
+		return null;
 	}
 }

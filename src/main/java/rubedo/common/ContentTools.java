@@ -2,6 +2,8 @@ package rubedo.common;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,9 +11,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import rubedo.items.tools.ToolAxe;
+import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolEnchantmentRecipes;
 import rubedo.items.tools.ToolPickaxe;
 import rubedo.items.tools.ToolRepairRecipes;
@@ -20,31 +22,24 @@ import rubedo.items.tools.ToolShovel;
 import rubedo.items.tools.ToolSword;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentTools implements IContent {
+public class ContentTools extends ContentMultiItem<ToolBase> implements
+		IContent {
 
-	public static ToolSword toolSword;
-	public static ToolPickaxe toolPickaxe;
-	public static ToolShovel toolShovel;
-	public static ToolAxe toolAxe;
-	public static ToolScythe toolScythe;
+	public ContentTools() {
+		List<Class<? extends ToolBase>> toolKinds = new LinkedList<Class<? extends ToolBase>>();
+		
+		toolKinds.add(ToolSword.class);
+		toolKinds.add(ToolPickaxe.class);
+		toolKinds.add(ToolShovel.class);
+		toolKinds.add(ToolAxe.class);
+		toolKinds.add(ToolScythe.class);
 
-	@Override
-	public void config(Configuration config) {
-		// Tools
-		Config.initId("ToolSword");
-		Config.initId("ToolPickaxe");
-		Config.initId("ToolShovel");
-		Config.initId("ToolAxe");
-		Config.initId("ToolScythe");
+		setItems(toolKinds);
 	}
 
 	@Override
 	public void register() {
-		toolSword = new ToolSword(Config.getId("ToolSword"));
-		toolPickaxe = new ToolPickaxe(Config.getId("ToolPickaxe"));
-		toolShovel = new ToolShovel(Config.getId("ToolShovel"));
-		toolAxe = new ToolAxe(Config.getId("ToolAxe"));
-		toolScythe = new ToolScythe(Config.getId("ToolScythe"));
+		super.register();
 
 		registerToolMaterials();
 		registerToolRecipes();
@@ -440,42 +435,46 @@ public class ContentTools implements IContent {
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
 							new ItemStack[] { capEntry.getValue().capMaterial,
 									headEntry.getValue().swordHead,
-									rodEntry.getValue().rodMaterial },
-							toolSword.buildTool(headEntry.getKey(),
-									rodEntry.getKey(), capEntry.getKey())));
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolSword.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 
 					// Shovel Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
 							new ItemStack[] { capEntry.getValue().capMaterial,
 									headEntry.getValue().shovelHead,
-									rodEntry.getValue().rodMaterial },
-							toolShovel.buildTool(headEntry.getKey(),
-									rodEntry.getKey(), capEntry.getKey())));
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolShovel.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 
 					// Axe Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
 							new ItemStack[] { capEntry.getValue().capMaterial,
 									headEntry.getValue().axeHead,
-									rodEntry.getValue().rodMaterial }, toolAxe
-									.buildTool(headEntry.getKey(),
-											rodEntry.getKey(),
-											capEntry.getKey())));
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolAxe.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 
 					// Scythe Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
 							new ItemStack[] { capEntry.getValue().capMaterial,
 									headEntry.getValue().scytheHead,
-									rodEntry.getValue().rodMaterial },
-							toolScythe.buildTool(headEntry.getKey(),
-									rodEntry.getKey(), capEntry.getKey())));
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolScythe.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 
 					// Pickaxe Recipes
 					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
 							new ItemStack[] { capEntry.getValue().capMaterial,
 									headEntry.getValue().pickaxeHead,
-									rodEntry.getValue().rodMaterial },
-							toolPickaxe.buildTool(headEntry.getKey(),
-									rodEntry.getKey(), capEntry.getKey())));
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolPickaxe.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 				}
 
 		// Tool head recipes

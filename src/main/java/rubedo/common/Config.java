@@ -23,7 +23,7 @@ public abstract class Config {
 		
 		ids = new LinkedHashMap<String, Integer>();
 		
-		for (IContent content : RubedoCore.contentUnits)
+		for (IContent content : RubedoCore.contentUnits.values())
 			content.config(config);
 		
 		config.save();
