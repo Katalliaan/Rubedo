@@ -6,16 +6,18 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPortal;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import rubedo.common.Config;
 import rubedo.common.ContentAI;
-import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;
 import rubedo.common.IContent;
+import util.ReflectionHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -93,5 +95,18 @@ public class RubedoCore {
 		GameRegistry.addShapelessRecipe(new ItemStack(Item.flint),
 				new ItemStack(Item.bowlEmpty.setContainerItem(Item.bowlEmpty)),
 				new ItemStack(Block.gravel));
+		
+		// Remove nether portals
+		Config.initId("BlockPortal");
+		BlockPortal portal = new BlockPortal(Config.getId("BlockPortal")) {
+			public boolean tryToCreatePortal(World world, int x, int y, int z)
+		    {
+				//return super.tryToCreatePortal(world, x, y, z);
+				return false;
+		    }
+		};
+		portal.setHardness(-1.0F).setStepSound(Block.soundGlassFootstep).setLightValue(0.75F).setUnlocalizedName("portal").setTextureName("portal");
+		
+		ReflectionHelper.setStatic(Block.class, "portal", portal);
 	}
 }
