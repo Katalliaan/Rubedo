@@ -13,6 +13,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 
 		if (this.baseTags != null) {
 			this.tag = this.baseTags.getCompoundTag("RubedoTool");
+			this.baseTags.setCompoundTag("RubedoTool", this.tag);
 		}
 	}
 
