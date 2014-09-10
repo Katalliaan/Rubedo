@@ -5,7 +5,10 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import rubedo.common.ContentTools;
 
@@ -41,6 +44,25 @@ public class ToolPickaxe extends ToolBase {
 	}
 
 	@Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase hitEntity,
+			EntityLivingBase attackingEntity) {
+		ToolProperties properties = this.getToolProperties(stack);
+
+		if (!properties.isBroken()) {
+			// need the attack damage as well to get around hurt resist timer
+			// MC will allow any damage greater than the previous attack when
+			// in hurt mode
+			float damage = properties.getAttackDamage()
+					+ properties.getSpecial();
+
+			hitEntity.attackEntityFrom(new DamageSourceArmorBreak("arpen",
+					attackingEntity), damage);
+		}
+
+		return super.hitEntity(stack, hitEntity, attackingEntity);
+	}
+
+	@Override
 	public Material[] getEffectiveMaterials() {
 		return new Material[]{Material.iron, Material.anvil, Material.rock};
 	}
@@ -63,5 +85,12 @@ public class ToolPickaxe extends ToolBase {
 	public List<Integer> getAllowedEnchantments() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public static class DamageSourceArmorBreak extends EntityDamageSource {
+		public DamageSourceArmorBreak(String name, Entity entity) {
+			super(name, entity);
+			setDamageBypassesArmor();
+		}
 	}
 }
