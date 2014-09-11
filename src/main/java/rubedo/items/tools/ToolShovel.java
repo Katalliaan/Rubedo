@@ -2,6 +2,7 @@ package rubedo.items.tools;
 
 import java.util.List;
 
+import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -18,6 +19,9 @@ public class ToolShovel extends ToolBase {
 		return "shovel";
 	}
 
+	@Override
+	public float getWeaponDamage() { return 2.0F; }
+	
 	@Override
 	public int getItemDamageOnHit() {
 		return 2;
@@ -38,12 +42,10 @@ public class ToolShovel extends ToolBase {
 		return new Material[]{Material.craftedSnow, Material.grass,
 				Material.ground, Material.sand, Material.snow};
 	}
-
+	
 	@Override
 	public Block[] getEffectiveBlocks() {
-		return new Block[]{Block.grass, Block.dirt, Block.sand, Block.gravel,
-				Block.snow, Block.blockSnow, Block.blockClay,
-				Block.tilledField, Block.slowSand, Block.mycelium};
+		return new Block[0];
 	}
 
 	@Override
@@ -54,7 +56,8 @@ public class ToolShovel extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(ContentTools.toolShovel);
+		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ItemStack tool = new ItemStack(contentTools.getItem(ToolShovel.class));
 
 		super.buildTool(tool, head, rod, cap);
 

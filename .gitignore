@@ -1,6 +1,3 @@
-# Manual version override
-version.properties
-
 # Gradle
 /.gradle
 /build/
@@ -37,6 +34,14 @@ options.txt
 ForgeModLoader*.log*
 output-client.log*
 output-server.log*
+
+# Minecraft Server
+/world/
+banned-ips.txt
+banned-players.txt
+ops.txt
+server*
+white-list.txt
 
 #Remove OS generated garbage
 */.DS_Store

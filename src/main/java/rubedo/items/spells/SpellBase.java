@@ -154,7 +154,7 @@ public abstract class SpellBase extends MultiItem {
 			boolean par4) {
 		SpellProperties properties = getSpellProperties(stack);
 
-		list.add("§2§o" + Language.getFormattedLocalization("spells.spellBase", true)
+		list.add("\u00A72\u00A7o" + Language.getFormattedLocalization("spells.spellBase", true)
     				.put("$base", "materials." + properties.getBaseMaterial(), Formatting.CAPITALIZED)
     				.put("$focus", "spells.foci." + properties.getFocusMaterial(), Formatting.LOWERCASE)
     				.getResult());
@@ -191,7 +191,7 @@ public abstract class SpellBase extends MultiItem {
     	SpellProperties properties = getSpellProperties(stack);
     	
     	// This is how you set teh pretty colors!
-		String modifier = "§4";
+		String modifier = "\u00A74";
 		
 		return modifier + Language.getFormattedLocalization("spells.spellName", true)
 				.put("$focusName", "spells.spellName.foci." + properties.getFocusMaterial(), Formatting.CAPITALIZED)

@@ -51,7 +51,7 @@ if (configFile2.exists()){
         prop2.load(it)
         ext.GIVersionFL = new ConfigSlurper().parse prop2
         if (GIVersionFL != null){
-            project.artifact_version_override = GIVersionFL.artifact_version_override
+            project.artifact_version_override = GIVersionFL.version
         }
     }
 }

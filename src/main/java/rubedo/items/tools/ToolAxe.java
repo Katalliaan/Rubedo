@@ -2,6 +2,7 @@ package rubedo.items.tools;
 
 import java.util.List;
 
+import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -22,6 +23,11 @@ public class ToolAxe extends ToolBase {
 	}
 
 	@Override
+	public float getWeaponDamage() {
+		return 4.0F;
+	}
+
+	@Override
 	public int getItemDamageOnHit() {
 		return 2;
 	}
@@ -33,30 +39,33 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public float getEffectiveBlockSpeed() {
-		return 4.0F;
+		return 2.0F;
 	}
-	
+
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
-    {
-		par2EntityLivingBase.addPotionEffect(new PotionEffect(
-				Potion.wither.getId(), 100, 1, false));
+	public boolean hitEntity(ItemStack stack,
+			EntityLivingBase par2EntityLivingBase,
+			EntityLivingBase par3EntityLivingBase) {
+		ToolProperties properties = this.getToolProperties(stack);
 		
-    	return super.hitEntity(stack, par2EntityLivingBase, par3EntityLivingBase);
-    }
+		int ticks = properties.getSpecial() * 40;
+
+		if (!properties.isBroken())
+			par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.wither
+					.getId(), ticks, 1, false));
+
+		return super.hitEntity(stack, par2EntityLivingBase,
+				par3EntityLivingBase);
+	}
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[]{Material.leaves, Material.plants,
-				Material.pumpkin, Material.vine, Material.wood};
+		return new Material[]{Material.plants, Material.pumpkin, Material.wood};
 	}
 
 	@Override
 	public Block[] getEffectiveBlocks() {
-		return new Block[]{Block.planks, Block.bookShelf, Block.wood,
-				Block.chest, Block.stoneDoubleSlab, Block.stoneSingleSlab,
-				Block.pumpkin, Block.pumpkinLantern, Block.leaves, Block.vine,
-				Block.cocoaPlant, Block.woodSingleSlab, Block.woodDoubleSlab};
+		return new Block[0];
 	}
 
 	@Override
@@ -67,7 +76,8 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(ContentTools.toolAxe);
+		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ItemStack tool = new ItemStack(contentTools.getItem(ToolAxe.class));
 
 		super.buildTool(tool, head, rod, cap);
 

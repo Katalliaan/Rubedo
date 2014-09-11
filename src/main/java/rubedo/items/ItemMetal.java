@@ -2,8 +2,11 @@ package rubedo.items;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -26,16 +29,36 @@ public class ItemMetal extends Item {
 		this.setMaxDamage(0);
         this.setHasSubtypes(true);
         
-        textureNames = new HashMap<String, String>();
+        textureNames = new LinkedHashMap<String, String>();
         
         textureNames.put("iron_nugget", "iron materials.nuggetName");
+        
         textureNames.put("tools/sword_head_flint", "flint tools.type.sword");
         textureNames.put("tools/pickaxe_head_flint", "flint tools.type.pickaxe");
+        textureNames.put("tools/axe_head_flint", "flint tools.type.axe");
+        textureNames.put("tools/shovel_head_flint", "flint tools.type.shovel");
+        textureNames.put("tools/scythe_head_flint", "flint tools.type.scythe");
+        
+        textureNames.put("tools/sword_head_iron", "iron tools.type.sword");
+        textureNames.put("tools/pickaxe_head_iron", "iron tools.type.pickaxe");
+        textureNames.put("tools/axe_head_iron", "iron tools.type.axe");
+        textureNames.put("tools/shovel_head_iron", "iron tools.type.shovel");
+        textureNames.put("tools/scythe_head_iron", "iron tools.type.scythe");
+        
+        textureNames.put("tools/sword_head_gold", "gold tools.type.sword");
+        textureNames.put("tools/pickaxe_head_gold", "gold tools.type.pickaxe");
+        textureNames.put("tools/axe_head_gold", "gold tools.type.axe");
+        textureNames.put("tools/shovel_head_gold", "gold tools.type.shovel");
+        textureNames.put("tools/scythe_head_gold", "gold tools.type.scythe");
+        
         for (Metal metal : ContentWorld.metals) {
         	textureNames.put(metal.name + "_nugget", metal.name +" materials.nuggetName");
         	textureNames.put(metal.name + "_ingot", metal.name +" materials.ingotName");
         	textureNames.put("tools/sword_head_" + metal.name, metal.name +" tools.type.sword");
         	textureNames.put("tools/pickaxe_head_" + metal.name, metal.name +" tools.type.pickaxe");
+        	textureNames.put("tools/axe_head_" + metal.name, metal.name +" tools.type.axe");
+        	textureNames.put("tools/shovel_head_" + metal.name, metal.name +" tools.type.shovel");
+        	textureNames.put("tools/scythe_head_" + metal.name, metal.name +" tools.type.scythe");
         }
         
         this.textures = textureNames.keySet().toArray(new String[textureNames.size()]);
@@ -70,6 +93,7 @@ public class ItemMetal extends Item {
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
 	public String getItemDisplayName(ItemStack stack) {
     	String[] split = textureNames.get(textures[stack.getItemDamage()]).split(" ");
     	

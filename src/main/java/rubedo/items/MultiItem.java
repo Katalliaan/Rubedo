@@ -1,6 +1,7 @@
 package rubedo.items;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -21,7 +22,7 @@ public abstract class MultiItem extends Item {
 		this.maxStackSize = 1;
         this.setUnlocalizedName("MultiItem");
         
-        registeredIcons = new HashMap<String, Icon>();
+        registeredIcons = new LinkedHashMap<String, Icon>();
 	}
 	
 	public Map<String, Icon> getRenderList() {

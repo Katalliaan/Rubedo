@@ -4,7 +4,11 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EntityDamageSource;
+import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 
 public class ToolPickaxe extends ToolBase {
@@ -16,6 +20,11 @@ public class ToolPickaxe extends ToolBase {
 	@Override
 	public String getName() {
 		return "pickaxe";
+	}
+
+	@Override
+	public float getWeaponDamage() {
+		return 3.0F;
 	}
 
 	@Override
@@ -34,10 +43,29 @@ public class ToolPickaxe extends ToolBase {
 	}
 
 	@Override
-	public Material[] getEffectiveMaterials() {
-		return new Material[0];
+	public boolean hitEntity(ItemStack stack, EntityLivingBase hitEntity,
+			EntityLivingBase attackingEntity) {
+		ToolProperties properties = this.getToolProperties(stack);
+
+		if (!properties.isBroken()) {
+			// need the attack damage as well to get around hurt resist timer
+			// MC will allow any damage greater than the previous attack when
+			// in hurt mode
+			float damage = properties.getAttackDamage()
+					+ properties.getSpecial();
+
+			hitEntity.attackEntityFrom(new DamageSourceArmorBreak("arpen",
+					attackingEntity), damage);
+		}
+
+		return super.hitEntity(stack, hitEntity, attackingEntity);
 	}
-	
+
+	@Override
+	public Material[] getEffectiveMaterials() {
+		return new Material[]{Material.iron, Material.anvil, Material.rock};
+	}
+
 	@Override
 	public Block[] getEffectiveBlocks() {
 		return new Block[0];
@@ -45,10 +73,11 @@ public class ToolPickaxe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ItemStack tool = new ItemStack(ContentTools.toolPickaxe);
-		
+		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ItemStack tool = new ItemStack(contentTools.getItem(ToolPickaxe.class));
+
 		super.buildTool(tool, head, rod, cap);
-		
+
 		return tool;
 	}
 
@@ -58,9 +87,10 @@ public class ToolPickaxe extends ToolBase {
 		return null;
 	}
 
-	//TODO: implement this
-	/*public boolean canHarvestBlock(Block par1Block)
-    {
-        return par1Block == Block.obsidian ? this.toolMaterial.getHarvestLevel() == 3 : (par1Block != Block.blockDiamond && par1Block != Block.oreDiamond ? (par1Block != Block.oreEmerald && par1Block != Block.blockEmerald ? (par1Block != Block.blockGold && par1Block != Block.oreGold ? (par1Block != Block.blockIron && par1Block != Block.oreIron ? (par1Block != Block.blockLapis && par1Block != Block.oreLapis ? (par1Block != Block.oreRedstone && par1Block != Block.oreRedstoneGlowing ? (par1Block.blockMaterial == Material.rock ? true : (par1Block.blockMaterial == Material.iron ? true : par1Block.blockMaterial == Material.anvil)) : this.toolMaterial.getHarvestLevel() >= 2) : this.toolMaterial.getHarvestLevel() >= 1) : this.toolMaterial.getHarvestLevel() >= 1) : this.toolMaterial.getHarvestLevel() >= 2) : this.toolMaterial.getHarvestLevel() >= 2) : this.toolMaterial.getHarvestLevel() >= 2);
-    }*/
+	public static class DamageSourceArmorBreak extends EntityDamageSource {
+		public DamageSourceArmorBreak(String name, Entity entity) {
+			super(name, entity);
+			setDamageBypassesArmor();
+		}
+	}
 }

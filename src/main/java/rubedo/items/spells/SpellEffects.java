@@ -1,9 +1,7 @@
 package rubedo.items.spells;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
-import rubedo.RubedoCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.Entity;
@@ -18,7 +16,7 @@ import net.minecraft.world.World;
 public class SpellEffects {
 
 	public static boolean hitsBlocks(String effectType) {
-		ArrayList effects = new ArrayList();
+		ArrayList<String> effects = new ArrayList<String>();
 
 		effects.add("fire");
 		effects.add("water");

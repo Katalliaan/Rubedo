@@ -5,40 +5,41 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.entity.boss.*;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 /**
  * Allows mobs to use EntityAITweakedWandering
  */
-public class EntityLivingEventHandler 
-{
+public class EntityLivingEventHandler {
 	@ForgeSubscribe
-	public void entitySpawning(EntityJoinWorldEvent event)
-	{
-		if (event.entity instanceof EntityLiving) 
-			updateLivingAI((EntityLiving)event.entity);
+	public void entitySpawning(EntityJoinWorldEvent event) {
+		if (event.entity instanceof EntityLiving)
+			updateLivingAI((EntityLiving) event.entity);
 	}
 
-	private void updateLivingAI(EntityLiving entity)
-	{
+	private void updateLivingAI(EntityLiving entity) {
 		EntityAITaskEntry wanderTask = null;
 
-		for (Object task: entity.tasks.taskEntries)
-		{
-			EntityAITaskEntry taskEntry = (EntityAITaskEntry)task;
+		for (Object task : entity.tasks.taskEntries) {
+			EntityAITaskEntry taskEntry = (EntityAITaskEntry) task;
 
 			if (taskEntry.action instanceof EntityAIWander)
 				wanderTask = taskEntry;
 		}
 
-		if (wanderTask != null)
-		{
+		if (entity instanceof EntitySkeleton && ((EntitySkeleton) entity).getSkeletonType() != 1) {
+			entity.tasks.addTask(3, new EntityAIFallBack(
+					(EntitySkeleton) entity, EntityPlayer.class, 7.0F, 1.8D));
+		}
+
+		if (wanderTask != null) {
 			entity.tasks.taskEntries.remove(wanderTask);
 			float moveSpeed = 1.0F;
 			if (entity instanceof EntityChicken)
 				moveSpeed = 1.0F;
-			else if	(entity instanceof EntityCow)
+			else if (entity instanceof EntityCow)
 				moveSpeed = 1.0F;
 			else if (entity instanceof EntityCreeper)
 				moveSpeed = 0.8F;
@@ -69,7 +70,9 @@ public class EntityLivingEventHandler
 			else
 				moveSpeed = 0.85F;
 
-			entity.tasks.addTask(((EntityAITaskEntry)wanderTask).priority, new EntityAITweakedWandering((EntityCreature)entity, moveSpeed));
+			entity.tasks.addTask(((EntityAITaskEntry) wanderTask).priority,
+					new EntityAITweakedWandering((EntityCreature) entity,
+							moveSpeed));
 		}
 	}
 }
