@@ -53,6 +53,9 @@ public abstract class ToolBase extends MultiItem {
 	public abstract List<Integer> getAllowedEnchantments();
 
 	protected ToolProperties getToolProperties(ItemStack stack) {
+		if (!(stack.getItem() instanceof ToolBase))
+			return null;
+		
 		return new ToolProperties(stack, this);
 	}
 
@@ -74,34 +77,31 @@ public abstract class ToolBase extends MultiItem {
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(ItemStack stack, int renderPass) {
 		ToolProperties properties = getToolProperties(stack);
-		
-		if (properties == null)
-			return getRenderList().get("blank");
 
 		String name = "blank";
 
-		switch (renderPass) {
-			case 0 :
-				// Head
-				if (!properties.isBroken())
-					name = getName() + "_head_" + properties.getHeadMaterial();
-				else
-					name = getName() + "_head_" + properties.getHeadMaterial()
-							+ "_broken";
-				break;
-			case 1 :
-				// Rod
-				name = getName() + "_rod_" + properties.getRodMaterial();
-				break;
-			case 2 :
-				// Cap
-				name = getName() + "_cap_" + properties.getCapMaterial();
-				break;
+		if (properties.isValid()) {
+			switch (renderPass) {
+				case 0 :
+					// Head
+					if (!properties.isBroken())
+						name = getName() + "_head_" + properties.getHeadMaterial();
+					else
+						name = getName() + "_head_" + properties.getHeadMaterial()
+								+ "_broken";
+					break;
+				case 1 :
+					// Rod
+					name = getName() + "_rod_" + properties.getRodMaterial();
+					break;
+				case 2 :
+					// Cap
+					name = getName() + "_cap_" + properties.getCapMaterial();
+					break;
+			}
 		}
 
 		Icon icon = getRenderList().get(name);
-		if (icon == null)
-			icon = getRenderList().get("blank");
 
 		return icon;
 	}
@@ -189,20 +189,17 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	public float getStrVsBlock(ItemStack stack, Block block, int meta) {
-		ToolProperties properties = this.getToolProperties(stack);
-		return ToolUtil.getStrVsBlock(properties, block, meta);
+		return ToolUtil.getStrVsBlock(this.getToolProperties(stack), block, meta);
 	}
 
 	@Override
 	public boolean isDamaged(ItemStack stack) {
-		ToolProperties properties = this.getToolProperties(stack);
-		return ToolUtil.isDamaged(properties);
+		return ToolUtil.isDamaged(this.getToolProperties(stack));
 	}
 
 	@Override
 	public int getMaxDamage(ItemStack stack) {
-		ToolProperties properties = this.getToolProperties(stack);
-		return properties.getDurability();
+		return this.getToolProperties(stack).getDurability();
 	}
 
 	// Misc
@@ -270,10 +267,8 @@ public abstract class ToolBase extends MultiItem {
 	public ItemStack buildTool(ItemStack tool, String head, String rod,
 			String cap) {
 		NBTTagCompound compound = new NBTTagCompound();
-		if (!compound.hasKey("RubedoTool")) {
-			compound.setCompoundTag("RubedoTool", new NBTTagCompound());
-			tool.setTagCompound(compound);
-		}
+		compound.setCompoundTag("RubedoTool", new NBTTagCompound());
+		tool.setTagCompound(compound);
 
 		// Set the correct tool properties
 		ToolProperties properties = this.getToolProperties(tool);
