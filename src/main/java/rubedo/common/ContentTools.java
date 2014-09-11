@@ -384,11 +384,15 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 		public ItemStack headMaterial;
 		public ItemStack rodMaterial;
 		public ItemStack capMaterial;
+		
+		private Map<String, ItemStack> toolHeads = new LinkedHashMap<String, ItemStack>();
 
 		public ItemStack getToolHead(String tool) {
-			return new ItemStack(ContentWorld.metalItems, 1,
-					ContentWorld.metalItems.getTextureIndex("tools/" + tool
-							+ "_head_" + name));
+			if (!toolHeads.containsKey(tool))
+				toolHeads.put(tool, new ItemStack(ContentWorld.metalItems, 1,
+						ContentWorld.metalItems.getTextureIndex("tools/" + tool
+								+ "_head_" + name)));
+			return toolHeads.get(tool);
 		}
 	}
 }

@@ -4,6 +4,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentTools.Material;
 
@@ -62,7 +63,7 @@ public class ToolRepairRecipes implements IRecipe {
 				if (toolMaterial.rodMaterial == material
 						|| toolMaterial.capMaterial == material) {
 					return true;
-				} else if ((toolMaterial.getToolHead(this.tool.getItem().getName()) == material)) {
+				} else if (OreDictionary.itemMatches(toolMaterial.getToolHead(this.tool.getItem().getName()), material, true)) {
 					return true;
 				} else {
 					return false;
