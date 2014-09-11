@@ -1,6 +1,6 @@
 package rubedo.common;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -142,7 +142,7 @@ public class ContentSpells implements IContent {
 			bone.effectType = "life";
 		}
 
-		spellBaseMaterials = new HashMap<String, Material>();
+		spellBaseMaterials = new LinkedHashMap<String, Material>();
 		{
 			spellBaseMaterials.put(copper.name, copper);
 			spellBaseMaterials.put(iron.name, iron);
@@ -150,14 +150,14 @@ public class ContentSpells implements IContent {
 			spellBaseMaterials.put(silver.name, silver);
 		}
 
-		spellFocusMaterials = new HashMap<String, Material>();
+		spellFocusMaterials = new LinkedHashMap<String, Material>();
 		{
 			spellFocusMaterials.put(arrow.name, arrow);
 			spellFocusMaterials.put(bottle.name, bottle);
 			spellFocusMaterials.put(gunpowder.name, gunpowder);
 		}
 
-		spellEffectMaterials = new HashMap<String, Material>();
+		spellEffectMaterials = new LinkedHashMap<String, Material>();
 		{
 			spellEffectMaterials.put(blazerod.name, blazerod);
 			spellEffectMaterials.put(snowball.name, snowball);
