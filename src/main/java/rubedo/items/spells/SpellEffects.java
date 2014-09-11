@@ -20,7 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class SpellEffects {
 
 	public static boolean hitsBlocks(String effectType) {
-		ArrayList effects = new ArrayList();
+		ArrayList<String> effects = new ArrayList<String>();
 
 		effects.add("fire");
 		effects.add("water");
