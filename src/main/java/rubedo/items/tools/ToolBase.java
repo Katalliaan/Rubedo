@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BlockEvent;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
@@ -55,17 +56,30 @@ public abstract class ToolBase extends MultiItem {
 	protected ToolProperties getToolProperties(ItemStack stack) {
 		if (!(stack.getItem() instanceof ToolBase))
 			return null;
-		
+
 		return new ToolProperties(stack, this);
 	}
 
-	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-		// TODO: find a way to get metadata so this works properly
-		if (getName() != "scythe")
-			return MinecraftForge.getBlockHarvestLevel(par1Block, 0, getName()) <= this
-					.getToolProperties(itemStack).getMiningLevel();
-		else
-			return super.canHarvestBlock(par1Block, itemStack);
+	@Override
+	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z,
+			EntityPlayer player) {
+		ToolProperties properties = getToolProperties(stack);
+		World world = player.worldObj;
+		Block block = Block.blocksList[world.getBlockId(x, y, z)];
+		int meta = world.getBlockMetadata(x, y, z);
+
+		boolean canHarvest = properties.getMiningLevel() >= MinecraftForge
+				.getBlockHarvestLevel(block, meta, getName());
+
+		if (canHarvest)
+			return super.onBlockStartBreak(stack, x, y, z, player);
+		else {
+			BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(x, y, z,
+					world, block, meta, player);
+			event.setCanceled(true);
+			MinecraftForge.EVENT_BUS.post(event);
+			return event.isCanceled();
+		}
 	}
 
 	@Override
@@ -85,10 +99,11 @@ public abstract class ToolBase extends MultiItem {
 				case 0 :
 					// Head
 					if (!properties.isBroken())
-						name = getName() + "_head_" + properties.getHeadMaterial();
+						name = getName() + "_head_"
+								+ properties.getHeadMaterial();
 					else
-						name = getName() + "_head_" + properties.getHeadMaterial()
-								+ "_broken";
+						name = getName() + "_head_"
+								+ properties.getHeadMaterial() + "_broken";
 					break;
 				case 1 :
 					// Rod
@@ -189,7 +204,8 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	public float getStrVsBlock(ItemStack stack, Block block, int meta) {
-		return ToolUtil.getStrVsBlock(this.getToolProperties(stack), block, meta);
+		return ToolUtil.getStrVsBlock(this.getToolProperties(stack), block,
+				meta);
 	}
 
 	@Override
