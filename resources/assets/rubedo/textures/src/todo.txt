@@ -1,0 +1,37 @@
+Vanilla
+=======
+
+  * Swords: 	[2, 3]
+  * Scythes: 	[2, 3]
+  * Pickaxes: 	[1, 2, 3]
+  * Axes: 	[1, 2, 3]
+  * Shovels: 	[1, 2, 3]
+  
+  - [0] Add all vanilla metals
+  - [1] All iron tools with iron cap and wooden rod should look exactly like their vanilla counterpart.
+  - [2] Add diamond and wooden tool heads for potential use.
+  - [3] Add broken tools for all vanilla heads
+
+Rubedo
+======
+
+  * Swords: 	[]
+  * Scythes: 	[0, 1]
+  * Pickaxes: 	[0, 1]
+  * Axes: 	[0, 1]
+  * Shovels: 	[0, 1]
+    
+  - [0] Add all Rubedo metals
+  - [1] Add broken tools for all Rubedo heads
+
+Thaumcraft
+==========
+
+  * Swords: 	[]
+  * Scythes: 	[0, 1]
+  * Pickaxes: 	[0, 1]
+  * Axes: 	[0, 1]
+  * Shovels: 	[0, 1]
+  
+  - [0] Add thaumium heads and caps
+  - [1] Add broken tools for all Thaumcraft heads
