@@ -41,13 +41,8 @@ public abstract class SpellBase extends MultiItem {
 
 		SpellProperties properties = getSpellProperties(itemStack);
 
-		if (castTime >= ContentSpells.spellFocusMaterials.get(properties.getFocusMaterial()).castTime) {
-			castSpell(
-					world,
-					entityPlayer,
-					ContentSpells.spellBaseMaterials.get(properties.getBaseMaterial()).power,
-					ContentSpells.spellEffectMaterials.get(properties.getEffectMaterial()).effectType,
-					ContentSpells.spellBaseMaterials.get(properties.getBaseMaterial()).focusModifier);
+		if (castTime >= properties.getCastTime()) {
+			castSpell(world, entityPlayer, itemStack);
 		}
 	}
 
@@ -84,7 +79,7 @@ public abstract class SpellBase extends MultiItem {
 	}
 
 	public abstract void castSpell(World world, EntityPlayer entityPlayer,
-			int power, String effectType, float focusModifier);
+			ItemStack itemStack);
 
 	@Override
 	public int getIconCount() {
@@ -127,22 +122,28 @@ public abstract class SpellBase extends MultiItem {
 		for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials
 				.entrySet()) {
 			String name = "base_" + baseEntry.getKey();
-			getRenderList().put(name,
-					iconRegister.registerIcon(RubedoCore.getId()+":spells/" + name));
+			getRenderList().put(
+					name,
+					iconRegister.registerIcon(RubedoCore.getId() + ":spells/"
+							+ name));
 		}
 
 		for (Entry<String, Material> focusEntry : ContentSpells.spellFocusMaterials
 				.entrySet()) {
 			String name = "focus_" + focusEntry.getKey();
-			getRenderList().put(name,
-					iconRegister.registerIcon(RubedoCore.getId()+":spells/" + name));
+			getRenderList().put(
+					name,
+					iconRegister.registerIcon(RubedoCore.getId() + ":spells/"
+							+ name));
 		}
 
 		for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials
 				.entrySet()) {
 			String name = "effect_" + effectEntry.getKey();
-			getRenderList().put(name,
-					iconRegister.registerIcon(RubedoCore.getId()+":spells/" + name));
+			getRenderList().put(
+					name,
+					iconRegister.registerIcon(RubedoCore.getId() + ":spells/"
+							+ name));
 		}
 	}
 
@@ -154,19 +155,27 @@ public abstract class SpellBase extends MultiItem {
 			boolean par4) {
 		SpellProperties properties = getSpellProperties(stack);
 
-		list.add("\u00A72\u00A7o" + Language.getFormattedLocalization("spells.spellBase", true)
-    				.put("$base", "materials." + properties.getBaseMaterial(), Formatting.CAPITALIZED)
-    				.put("$focus", "spells.foci." + properties.getFocusMaterial(), Formatting.LOWERCASE)
-    				.getResult());
+		list.add("§2§o"
+				+ Language
+						.getFormattedLocalization("spells.spellBase", true)
+						.put("$base",
+								"materials." + properties.getBaseMaterial(),
+								Formatting.CAPITALIZED)
+						.put("$focus",
+								"spells.foci." + properties.getFocusMaterial(),
+								Formatting.LOWERCASE).getResult());
 		list.add("");
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void getSubItems(int id, CreativeTabs tabs, List list) {
-		for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials.entrySet())
-			for (Entry<String, Material> focusEntry : ContentSpells.spellFocusMaterials.entrySet())
-				for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials.entrySet()) {
+		for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials
+				.entrySet())
+			for (Entry<String, Material> focusEntry : ContentSpells.spellFocusMaterials
+					.entrySet())
+				for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials
+						.entrySet()) {
 					if (focusEntry.getValue().focusType == this.getName()) {
 						if (focusEntry.getValue().focusType == "projectile") {
 							list.add(ContentSpells.spellProjectile.buildSpell(
@@ -184,35 +193,44 @@ public abstract class SpellBase extends MultiItem {
 					}
 				}
 	}
-	
+
 	@Override
-    @SideOnly(Side.CLIENT)
-    public String getItemDisplayName(ItemStack stack) {
-    	SpellProperties properties = getSpellProperties(stack);
-    	
-    	// This is how you set teh pretty colors!
-		String modifier = "\u00A74";
-		
-		return modifier + Language.getFormattedLocalization("spells.spellName", true)
-				.put("$focusName", "spells.spellName.foci." + properties.getFocusMaterial(), Formatting.CAPITALIZED)
-				.put("$effect", "spells.effects." + properties.getEffectMaterial(), Formatting.CAPITALIZED)
-				.getResult();
-    }
+	@SideOnly(Side.CLIENT)
+	public String getItemDisplayName(ItemStack stack) {
+		SpellProperties properties = getSpellProperties(stack);
 
-	public abstract ItemStack buildSpell(String base, String focus,	String effect);
+		// This is how you set teh pretty colors!
+		String modifier = "§4";
 
-	public ItemStack buildSpell(ItemStack spell, String base, String focus, String effect) {
+		return modifier
+				+ Language
+						.getFormattedLocalization("spells.spellName", true)
+						.put("$focusName",
+								"spells.spellName.foci."
+										+ properties.getFocusMaterial(),
+								Formatting.CAPITALIZED)
+						.put("$effect",
+								"spells.effects."
+										+ properties.getEffectMaterial(),
+								Formatting.CAPITALIZED).getResult();
+	}
+
+	public abstract ItemStack buildSpell(String base, String focus,
+			String effect);
+
+	public ItemStack buildSpell(ItemStack spell, String base, String focus,
+			String effect) {
 		NBTTagCompound compound = new NBTTagCompound();
 		if (!compound.hasKey("RubedoSpell")) {
 			compound.setCompoundTag("RubedoSpell", new NBTTagCompound());
 			spell.setTagCompound(compound);
-    	}
-		
+		}
+
 		// Set the correct tool properties
 		SpellProperties properties = this.getSpellProperties(spell);
-    	properties.setBaseMaterial(base);
-    	properties.setFocusMaterial(focus);
-    	properties.setEffectMaterial(effect);
+		properties.setBaseMaterial(base);
+		properties.setFocusMaterial(focus);
+		properties.setEffectMaterial(effect);
 
 		return spell;
 	}

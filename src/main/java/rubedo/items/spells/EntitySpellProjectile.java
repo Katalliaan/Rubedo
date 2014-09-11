@@ -29,8 +29,7 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 	private int ticksInAir;
 
 	// Related to spell
-	private int power;
-	private String type;
+	private SpellProperties properties;
 
 	public EntitySpellProjectile(World par1World) {
 		super(par1World);
@@ -51,13 +50,12 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 	 *            Power of effect
 	 */
 	public EntitySpellProjectile(World par1World,
-			EntityLivingBase par2EntityLivingBase, float speed, String type,
-			int power) {
+			EntityLivingBase par2EntityLivingBase, SpellProperties properties) {
 		super(par1World);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = par2EntityLivingBase;
-		this.type = type;
-		this.power = power;
+		this.properties = properties;
+		float speed = properties.getFocusModifier();
 
 		this.setSize(1.0F, 1.0F);
 		this.setLocationAndAngles(
@@ -92,12 +90,13 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 	}
 
 	protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
+
 		if (!this.worldObj.isRemote) {
 			if (par1MovingObjectPosition.entityHit != null) {
 				SpellEffects.hitEntity(this.worldObj,
-						par1MovingObjectPosition.entityHit, power, type);
+						par1MovingObjectPosition.entityHit, properties);
 			} else {
-				SpellEffects.hitBlock(worldObj, type,
+				SpellEffects.hitBlock(worldObj, properties,
 						par1MovingObjectPosition.blockX,
 						par1MovingObjectPosition.blockY,
 						par1MovingObjectPosition.blockZ,

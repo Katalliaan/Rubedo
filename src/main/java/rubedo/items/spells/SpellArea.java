@@ -22,11 +22,14 @@ public class SpellArea extends SpellBase {
 	public String getName() {
 		return "area";
 	}
-
-	// TODO: figure this out
+	
 	@Override
-	public void castSpell(World world, EntityPlayer entityPlayer, int power,
-			String effectType, float focusModifier) {
+	public void castSpell(World world, EntityPlayer entityPlayer, ItemStack itemStack) {
+		SpellProperties properties = getSpellProperties(itemStack);
+		float focusModifier = properties.getFocusModifier();
+		int power = properties.getPower();
+		String effectType = properties.getEffectType();
+		
 		// get the camera position and direction
 		Vec3 direction = ShapedRayCast.eulerToVec(world,
 				entityPlayer.rotationPitch, entityPlayer.rotationYaw);
@@ -40,7 +43,7 @@ public class SpellArea extends SpellBase {
 		ChunkPosition cameraCP = new ChunkPosition(camera);
 
 		for (Entity entity : rayCaster.getEntitiesExcludingEntity(entityPlayer)) {
-			SpellEffects.hitEntity(world, entityPlayer, power, effectType);
+			SpellEffects.hitEntity(world, entityPlayer, properties);
 		}
 
 		if (SpellEffects.hitsBlocks(effectType)) {
@@ -67,7 +70,7 @@ public class SpellArea extends SpellBase {
 
 			for (ChunkPosition pos : rayCaster.getBlocks(filter)) {
 				SpellEffects
-						.hitBlock(world, effectType, pos.x, pos.y, pos.z, 1);
+						.hitBlock(world, properties, pos.x, pos.y, pos.z, 1);
 			}
 		}
 	}

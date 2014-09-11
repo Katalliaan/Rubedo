@@ -1,6 +1,6 @@
 package rubedo.common;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -36,7 +36,7 @@ public class ContentSpells implements IContent {
 		spellArea = new SpellArea(Config.getId("SpellArea"));
 
 		registerSpellMaterials();
-		registerSpellRecipes();
+		// registerSpellRecipes();
 
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class,
 				"SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry
@@ -51,6 +51,7 @@ public class ContentSpells implements IContent {
 			copper.name = "copper";
 			copper.cost = 130;
 			copper.power = 3;
+			copper.miningLevel = 1;
 			copper.focusModifier = 2.0f;
 			copper.baseMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("copper_ingot"));
@@ -61,6 +62,7 @@ public class ContentSpells implements IContent {
 			iron.name = "iron";
 			iron.cost = 250;
 			iron.power = 2;
+			iron.miningLevel = 2;
 			iron.focusModifier = 0.6f;
 			iron.baseMaterial = new ItemStack(Item.ingotIron);
 		}
@@ -70,6 +72,7 @@ public class ContentSpells implements IContent {
 			gold.name = "gold";
 			gold.cost = 250;
 			gold.power = 5;
+			gold.miningLevel = 0;
 			gold.focusModifier = 4.0f;
 			gold.baseMaterial = new ItemStack(Item.ingotGold);
 		}
@@ -79,6 +82,7 @@ public class ContentSpells implements IContent {
 			silver.name = "silver";
 			silver.cost = 250;
 			silver.power = 10;
+			silver.miningLevel = 2;
 			silver.focusModifier = 1.5f;
 			silver.baseMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
@@ -138,7 +142,7 @@ public class ContentSpells implements IContent {
 			bone.effectType = "life";
 		}
 
-		spellBaseMaterials = new LinkedHashMap<String, Material>();
+		spellBaseMaterials = new HashMap<String, Material>();
 		{
 			spellBaseMaterials.put(copper.name, copper);
 			spellBaseMaterials.put(iron.name, iron);
@@ -146,14 +150,14 @@ public class ContentSpells implements IContent {
 			spellBaseMaterials.put(silver.name, silver);
 		}
 
-		spellFocusMaterials = new LinkedHashMap<String, Material>();
+		spellFocusMaterials = new HashMap<String, Material>();
 		{
 			spellFocusMaterials.put(arrow.name, arrow);
 			spellFocusMaterials.put(bottle.name, bottle);
 			spellFocusMaterials.put(gunpowder.name, gunpowder);
 		}
 
-		spellEffectMaterials = new LinkedHashMap<String, Material>();
+		spellEffectMaterials = new HashMap<String, Material>();
 		{
 			spellEffectMaterials.put(blazerod.name, blazerod);
 			spellEffectMaterials.put(snowball.name, snowball);
@@ -208,6 +212,7 @@ public class ContentSpells implements IContent {
 		public String effectType;
 		public int cost;
 		public int power;
+		public int miningLevel; // needed for "break" spells
 		public float focusModifier;
 		public float castTime;
 		public ItemStack baseMaterial;
