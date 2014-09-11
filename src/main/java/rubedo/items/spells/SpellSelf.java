@@ -17,9 +17,11 @@ public class SpellSelf extends SpellBase {
 	}
 
 	@Override
-	public void castSpell(World world, EntityPlayer entityPlayer, int power,
-			String effectType, float focusModifier) {
-		SpellEffects.hitEntity(world, entityPlayer, power, effectType);
+	public void castSpell(World world, EntityPlayer entityPlayer,
+			ItemStack itemStack) {
+		SpellProperties properties = getSpellProperties(itemStack);
+
+		SpellEffects.hitEntity(world, entityPlayer, properties);
 	}
 
 	@Override
@@ -30,5 +32,4 @@ public class SpellSelf extends SpellBase {
 
 		return spell;
 	}
-
 }

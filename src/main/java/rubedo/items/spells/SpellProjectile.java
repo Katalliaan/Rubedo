@@ -16,11 +16,14 @@ public class SpellProjectile extends SpellBase {
 		return "projectile";
 	}
 
-	public void castSpell(World world, EntityPlayer entityPlayer, int power,
-			String effectType, float focusModifier) {
+	public void castSpell(World world, EntityPlayer entityPlayer, ItemStack itemStack) {
+		SpellProperties properties = getSpellProperties(itemStack);
+		float focusModifier = properties.getFocusModifier();
+		String effectType = properties.getEffectType();
+		int power = properties.getPower();
 
 		EntitySpellProjectile entitySpellProjectile = new EntitySpellProjectile(
-				world, entityPlayer, focusModifier, effectType, power);
+				world, entityPlayer, properties);
 
 		if (!world.isRemote) {
 			world.spawnEntityInWorld(entitySpellProjectile);

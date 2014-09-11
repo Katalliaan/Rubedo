@@ -1,14 +1,18 @@
 package rubedo.items.spells;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
+import rubedo.RubedoCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
 /**
  * Helper class for spells
@@ -37,8 +41,11 @@ public class SpellEffects {
 	 * @param effectType
 	 *            type of spell
 	 */
-	public static void hitEntity(World world, Entity entity, int power,
-			String effectType) {
+	public static void hitEntity(World world, Entity entity,
+			SpellProperties properties) {
+		String effectType = properties.getEffectType();
+		int power = properties.getPower();
+
 		if (effectType == "fire") {
 			if (!entity.isImmuneToFire())
 				entity.setFire(power);
@@ -50,8 +57,10 @@ public class SpellEffects {
 		}
 	}
 
-	public static void hitBlock(World world, String effectType, int blockX,
-			int blockY, int blockZ, int sideHit) {
+	public static void hitBlock(World world, SpellProperties properties,
+			int blockX, int blockY, int blockZ, int sideHit) {
+		String effectType = properties.getEffectType();
+
 		if (effectType == "fire") {
 			switch (sideHit) {
 				case 0 :
@@ -135,15 +144,34 @@ public class SpellEffects {
 				&& world.getBlockId(blockX, blockY, blockZ) != 0) {
 			Block block = Block.blocksList[world.getBlockId(blockX, blockY,
 					blockZ)];
+			int metadata = world.getBlockMetadata(blockX, blockY, blockZ);
 
-			// TODO: add tests to determine if a block should be broken
-			block.dropBlockAsItemWithChance(world, blockX, blockY, blockZ,
-					world.getBlockMetadata(blockX, blockY, blockZ), 1.0F, 0);
-			world.setBlock(blockX, blockY, blockZ, 0);
+			// TODO: see if this can be cleaned up a bit
+			boolean canHarvest = false;
+			int miningLevel = properties.getMiningLevel();
+
+			if (MinecraftForge.getBlockHarvestLevel(block, metadata, "pickaxe") <= miningLevel && MinecraftForge.getBlockHarvestLevel(block, metadata, "pickaxe") != -1)
+				canHarvest = true;
+			else if (MinecraftForge.getBlockHarvestLevel(block, metadata,
+					"shovel") <= miningLevel && MinecraftForge.getBlockHarvestLevel(block, metadata, "shovel") != -1)
+				canHarvest = true;
+			else if (MinecraftForge
+					.getBlockHarvestLevel(block, metadata, "axe") <= miningLevel && MinecraftForge.getBlockHarvestLevel(block, metadata, "axe") != -1)
+				canHarvest = true;
+			else if (MinecraftForge.getBlockHarvestLevel(block, metadata,
+					"sword") <= miningLevel  && MinecraftForge.getBlockHarvestLevel(block, metadata, "sword") != -1)
+				canHarvest = true;
+			else if (block.blockMaterial.isToolNotRequired())
+				canHarvest = true;
+
+			if (canHarvest) {
+				block.dropBlockAsItemWithChance(world, blockX, blockY, blockZ,
+						world.getBlockMetadata(blockX, blockY, blockZ), 1.0F, 0);
+				world.setBlock(blockX, blockY, blockZ, 0);
+			}
 		} else if (effectType == "life") {
-			int l = world.getBlockId(blockX, blockY, blockZ); 
-			if (Block.blocksList[l] instanceof BlockCrops)
-			{
+			int l = world.getBlockId(blockX, blockY, blockZ);
+			if (Block.blocksList[l] instanceof BlockCrops) {
 				world.scheduleBlockUpdate(blockX, blockY, blockZ, l, 0);
 			}
 		}
