@@ -81,6 +81,10 @@ public abstract class ToolBase extends MultiItem {
 			return event.isCanceled();
 		}
 	}
+	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+		return MinecraftForge.getBlockHarvestLevel(par1Block, 0, getName()) <= this
+				.getToolProperties(itemStack).getMiningLevel();
+	}
 
 	@Override
 	public int getIconCount() {
