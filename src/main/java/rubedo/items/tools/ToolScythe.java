@@ -103,8 +103,16 @@ public class ToolScythe extends ToolBase {
 	@Override
 	public List<Integer> getAllowedEnchantments() {
 		Integer[] allowedEnchants = new Integer[]{
-				Enchantment.efficiency.effectId, Enchantment.fortune.effectId,
-				Enchantment.fireAspect.effectId, Enchantment.unbreaking.effectId};
+				Enchantment.efficiency.effectId, 
+				Enchantment.fortune.effectId,
+				Enchantment.unbreaking.effectId,
+				
+				Enchantment.sharpness.effectId, 
+				Enchantment.smite.effectId, 
+				Enchantment.baneOfArthropods.effectId,
+				Enchantment.knockback.effectId,
+				Enchantment.fireAspect.effectId,
+				Enchantment.looting.effectId };
 		return Arrays.asList(allowedEnchants);
 	}
 
