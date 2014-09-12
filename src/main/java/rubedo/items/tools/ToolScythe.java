@@ -1,9 +1,11 @@
 package rubedo.items.tools;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -100,8 +102,10 @@ public class ToolScythe extends ToolBase {
 
 	@Override
 	public List<Integer> getAllowedEnchantments() {
-		// TODO Auto-generated method stub
-		return null;
+		Integer[] allowedEnchants = new Integer[]{
+				Enchantment.efficiency.effectId, Enchantment.fortune.effectId,
+				Enchantment.silkTouch.effectId, Enchantment.unbreaking.effectId};
+		return Arrays.asList(allowedEnchants);
 	}
 
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer,
