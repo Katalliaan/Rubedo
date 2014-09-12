@@ -34,7 +34,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 
                 if (itemstack != null)
                 {
-                    if (itemstack.getItem().itemID == Item.enchantedBook.itemID && itemstack.getEnchantmentTagList() != null) {
+                    if (itemstack.getItem().itemID == Item.enchantedBook.itemID) {
                     	if (this.enchantedBook != null)
                     		return false;
                     	
@@ -60,12 +60,9 @@ public class ToolEnchantmentRecipes implements IRecipe {
     public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
     {
     	ItemStack output = this.tool.getStack().copy();
-    	NBTTagList toolList = output.getEnchantmentTagList();
-    	NBTTagList bookList = this.enchantedBook.copy().getEnchantmentTagList();
     	
-    	if (toolList == null) {
-    		toolList = new NBTTagList();
-    	}
+		NBTTagList toolList = getEnchantmentTagList(output);
+		NBTTagList bookList = getEnchantmentTagList(this.enchantedBook.copy());
     	
     	boolean changed = false;
     	
@@ -78,7 +75,6 @@ public class ToolEnchantmentRecipes implements IRecipe {
 				continue;
 			
 			//Check if the enchant already exists
-			if (toolList != null)
     		for (int iTool = 0; iTool < toolList.tagCount(); iTool++) {
     			NBTTagCompound toolEnchant = (NBTTagCompound) toolList.tagAt(iTool);
     			if (toolEnchant.getShort("id") == bookEnchant.getShort("id")) {
@@ -122,5 +118,14 @@ public class ToolEnchantmentRecipes implements IRecipe {
     public int getRecipeSize()
     {
         return 2;
+    }
+    
+    public static NBTTagList getEnchantmentTagList(ItemStack itemStack) {
+    	NBTTagList nbttaglist = itemStack.getEnchantmentTagList();
+    	
+    	if (nbttaglist == null || (nbttaglist.tagCount() == 0 && itemStack.itemID == Item.enchantedBook.itemID))
+    		nbttaglist = Item.enchantedBook.func_92110_g(itemStack);
+    	
+    	return nbttaglist != null ? nbttaglist : new NBTTagList();
     }
 }
