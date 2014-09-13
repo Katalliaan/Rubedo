@@ -1,9 +1,9 @@
 Vanilla
 =======
 
-  * Swords: 	[]
-  * Scythes: 	[]
-  * Pickaxes: 	[1, 2, 3]
+  * Swords: 	[2]
+  * Scythes: 	[2]
+  * Pickaxes: 	[2]
   * Axes: 	[1, 2, 3]
   * Shovels: 	[1, 2, 3]
   
@@ -17,7 +17,7 @@ Rubedo
 
   * Swords: 	[]
   * Scythes: 	[]
-  * Pickaxes: 	[0, 1]
+  * Pickaxes: 	[]
   * Axes: 	[0, 1]
   * Shovels: 	[0, 1]
     
@@ -29,7 +29,7 @@ Thaumcraft
 
   * Swords: 	[]
   * Scythes: 	[]
-  * Pickaxes: 	[0, 1]
+  * Pickaxes: 	[]
   * Axes: 	[0, 1]
   * Shovels: 	[0, 1]
   
