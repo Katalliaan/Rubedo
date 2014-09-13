@@ -173,8 +173,6 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			orichalcum.miningLevel = 1;
 			orichalcum.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("orichalcum_ingot"));
-			orichalcum.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
-					ContentWorld.metalItems.getTextureIndex("orichalcum_ingot"));
 		}
 		Material silver = new Material();
 		{
@@ -185,8 +183,6 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			silver.speed = 8.0f;
 			silver.miningLevel = 2;
 			silver.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
-					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
-			silver.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 		}
 		Material steel = new Material();
@@ -199,8 +195,6 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			steel.miningLevel = 3;
 			steel.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("steel_ingot"));
-			steel.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
-					ContentWorld.metalItems.getTextureIndex("steel_ingot"));
 		}
 		Material mythril = new Material();
 		{
@@ -212,8 +206,6 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			mythril.miningLevel = 4;
 			mythril.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("mythril_ingot"));
-			mythril.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
-					ContentWorld.metalItems.getTextureIndex("mythril_ingot"));
 		}
 		Material hepatizon = new Material();
 		{
@@ -224,8 +216,6 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			hepatizon.speed = 10.0f;
 			hepatizon.miningLevel = 4;
 			hepatizon.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
-					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
-			hepatizon.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
 		}
 
