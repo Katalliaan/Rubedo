@@ -110,6 +110,7 @@ public class ContentWorld implements IContent {
 		// Iron nugget recipes
 		GameRegistry.addRecipe(new ItemStack(Item.ingotIron), "###", "###", "###", '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
 		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")), "m", 'm', new ItemStack(Item.ingotIron));
+		OreDictionary.registerOre("nuggetIron", new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
 		
 		// Bucket change
 		RecipeRemover.removeAnyRecipe(new ItemStack(Item.bucketEmpty));
