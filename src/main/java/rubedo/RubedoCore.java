@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import rubedo.common.Config;
 import rubedo.common.ContentAI;
+import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;
 import rubedo.common.IContent;
@@ -61,7 +62,7 @@ public class RubedoCore {
 		contentUnits = new LinkedHashMap<Class<? extends IContent>, IContent>();
 		contentUnits.put(ContentWorld.class, new ContentWorld());
 		contentUnits.put(ContentTools.class, new ContentTools());
-		//contentUnits.put(ContentSpells.class, new ContentSpells());
+		contentUnits.put(ContentSpells.class, new ContentSpells());
 		contentUnits.put(ContentAI.class, new ContentAI());
 
 		// Load the configs
