@@ -1,16 +1,24 @@
 package rubedo.items.tools;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -68,17 +76,66 @@ public class ToolScythe extends ToolBase {
 					attackingEntity.worldObj, hitEntity.posX, hitEntity.posY,
 					hitEntity.posZ, direction.xCoord, direction.yCoord,
 					direction.zCoord, 4);
-			
+
 			int mobsHit = 0;
+
+			Map<Integer, Integer> enchants = EnchantmentHelper
+					.getEnchantments(stack);
+			int smiteLevel = 0;
+			int sharpnessLevel = 0;
+			int baneLevel = 0;
+			int fireAspectLevel = 0;
+			int knockbackLevel = 0;
+
+			for (Entry<Integer, Integer> entry : enchants.entrySet()) {
+				if (entry.getKey() == Enchantment.smite.effectId)
+					smiteLevel = entry.getValue() / 2;
+				if (entry.getKey() == Enchantment.sharpness.effectId)
+					sharpnessLevel = entry.getValue() / 2;
+				if (entry.getKey() == Enchantment.baneOfArthropods.effectId)
+					baneLevel = entry.getValue() / 2;
+				if (entry.getKey() == Enchantment.fireAspect.effectId)
+					fireAspectLevel = entry.getValue() / 2;
+				if (entry.getKey() == Enchantment.knockback.effectId)
+					knockbackLevel = entry.getValue() / 2;
+			}
 
 			for (Entity entity : rayCaster
 					.getEntitiesExcludingEntity(attackingEntity)) {
-				if (entity instanceof EntityLivingBase && mobsHit < properties.getSpecial()) {
+				if (entity instanceof EntityLivingBase
+						&& mobsHit < properties.getSpecial()) {
 					if (!entity.equals(hitEntity)) {
+						float attackDamage = this.getToolProperties(stack)
+								.getAttackDamage();
+
+						attackDamage += Enchantment.smite.calcModifierLiving(
+								smiteLevel, hitEntity);
+						attackDamage += Enchantment.sharpness
+								.calcModifierLiving(sharpnessLevel, hitEntity);
+						attackDamage += Enchantment.baneOfArthropods
+								.calcModifierLiving(baneLevel, hitEntity);
+						entity.setFire(fireAspectLevel * 4);
+						if (knockbackLevel > 0) {
+							entity.addVelocity(
+									(double) (-MathHelper
+											.sin(attackingEntity.rotationYaw
+													* (float) Math.PI / 180.0F)
+											* (float) knockbackLevel * 0.5F),
+									0.1D,
+									(double) (MathHelper
+											.cos(attackingEntity.rotationYaw
+													* (float) Math.PI / 180.0F)
+											* (float) knockbackLevel * 0.5F));
+							attackingEntity.motionX *= 0.6D;
+							attackingEntity.motionZ *= 0.6D;
+						}
+
 						entity.attackEntityFrom(
 								DamageSource
 										.causePlayerDamage((EntityPlayer) attackingEntity),
-								this.getToolProperties(stack).getAttackDamage());
+								attackDamage);
+
+						mobsHit++;
 					}
 					super.hitEntity(stack, (EntityLivingBase) entity,
 							attackingEntity);
@@ -103,16 +160,13 @@ public class ToolScythe extends ToolBase {
 	@Override
 	public List<Integer> getAllowedEnchantments() {
 		Integer[] allowedEnchants = new Integer[]{
-				Enchantment.efficiency.effectId, 
-				Enchantment.fortune.effectId,
+				Enchantment.efficiency.effectId, Enchantment.fortune.effectId,
 				Enchantment.unbreaking.effectId,
-				
-				Enchantment.sharpness.effectId, 
-				Enchantment.smite.effectId, 
+
+				Enchantment.sharpness.effectId, Enchantment.smite.effectId,
 				Enchantment.baneOfArthropods.effectId,
 				Enchantment.knockback.effectId,
-				Enchantment.fireAspect.effectId,
-				Enchantment.looting.effectId };
+				Enchantment.fireAspect.effectId, Enchantment.looting.effectId};
 		return Arrays.asList(allowedEnchants);
 	}
 
@@ -169,12 +223,12 @@ public class ToolScythe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits
+				.get(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolScythe.class));
 
 		super.buildTool(tool, head, rod, cap);
 
 		return tool;
 	}
-
 }
