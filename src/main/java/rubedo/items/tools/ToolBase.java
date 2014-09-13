@@ -108,18 +108,27 @@ public abstract class ToolBase extends MultiItem {
 					else
 						name = getName() + "_head_"
 								+ properties.getHeadMaterial() + "_broken";
+					if (!getRenderList().containsKey(name))
+						name = getName() + "_head_flint_broken";
 					break;
 				case 1 :
 					// Rod
 					name = getName() + "_rod_" + properties.getRodMaterial();
+					if (!getRenderList().containsKey(name))
+						name = getName() + "_rod_wood";
 					break;
 				case 2 :
 					// Cap
 					name = getName() + "_cap_" + properties.getCapMaterial();
+					if (!getRenderList().containsKey(name))
+						name = getName() + "_cap_wood";
 					break;
 			}
 		}
 
+		if (!getRenderList().containsKey(name))
+			name = "blank";
+		
 		Icon icon = getRenderList().get(name);
 
 		return icon;
