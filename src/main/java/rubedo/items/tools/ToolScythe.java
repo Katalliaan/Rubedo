@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -13,6 +14,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,7 +24,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
@@ -108,12 +109,14 @@ public class ToolScythe extends ToolBase {
 						float attackDamage = this.getToolProperties(stack)
 								.getAttackDamage();
 
-						attackDamage += Enchantment.smite.calcModifierLiving(
-								smiteLevel, hitEntity);
-						attackDamage += Enchantment.sharpness
-								.calcModifierLiving(sharpnessLevel, hitEntity);
+						attackDamage += Enchantment.smite.func_152376_a(
+								smiteLevel, hitEntity.getCreatureAttribute());
+						attackDamage += Enchantment.sharpness.func_152376_a(
+								sharpnessLevel,
+								hitEntity.getCreatureAttribute());
 						attackDamage += Enchantment.baneOfArthropods
-								.calcModifierLiving(baneLevel, hitEntity);
+								.func_152376_a(baneLevel,
+										hitEntity.getCreatureAttribute());
 						entity.setFire(fireAspectLevel * 4);
 						if (knockbackLevel > 0) {
 							entity.addVelocity(
@@ -183,32 +186,32 @@ public class ToolScythe extends ToolBase {
 				return false;
 			}
 
-			if (event.getResult() == Result.ALLOW) {
+			if (event.getResult() == Event.Result.ALLOW) {
 				ToolProperties properties = this.getToolProperties(itemStack);
 				ToolUtil.damageTool(properties, entityPlayer, properties
 						.getItem().getItemDamageOnBreak());
 				return true;
 			}
 
-			int blockId = world.getBlockId(xCoord, yCoord, zCoord);
+			int blockId = Block.getIdFromBlock(world.getBlock(xCoord, yCoord,
+					zCoord));
 			boolean airAbove = world.isAirBlock(xCoord, yCoord + 1, zCoord);
 
 			if (par7 != 0
 					&& airAbove
-					&& (blockId == Block.grass.blockID || blockId == Block.dirt.blockID)) {
-				world.playSoundEffect(
-						(double) ((float) xCoord + 0.5F),
+					&& (blockId == Block.getIdFromBlock(Blocks.grass) || blockId == Block
+							.getIdFromBlock(Blocks.dirt))) {
+				world.playSoundEffect((double) ((float) xCoord + 0.5F),
 						(double) ((float) yCoord + 0.5F),
 						(double) ((float) zCoord + 0.5F),
-						Block.tilledField.stepSound.getStepSound(),
-						(Block.tilledField.stepSound.getVolume() + 1.0F) / 2.0F,
-						Block.tilledField.stepSound.getPitch() * 0.8F);
+						Blocks.farmland.stepSound.soundName,
+						(Blocks.farmland.stepSound.getVolume() + 1.0F) / 2.0F,
+						Blocks.farmland.stepSound.getPitch() * 0.8F);
 
 				if (world.isRemote) {
 					return true;
 				} else {
-					world.setBlock(xCoord, yCoord, zCoord,
-							Block.tilledField.blockID);
+					world.setBlock(xCoord, yCoord, zCoord, Blocks.farmland);
 					ToolProperties properties = this
 							.getToolProperties(itemStack);
 					ToolUtil.damageTool(properties, entityPlayer, properties

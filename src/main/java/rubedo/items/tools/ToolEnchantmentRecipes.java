@@ -1,6 +1,7 @@
 package rubedo.items.tools;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 
                 if (itemstack != null)
                 {
-                    if (itemstack.getItem().itemID == Item.enchantedBook.itemID) {
+                    if (Item.getIdFromItem(itemstack.getItem()) == Item.getIdFromItem(Items.enchanted_book)) {
                     	if (this.enchantedBook != null)
                     		return false;
                     	
@@ -123,8 +124,8 @@ public class ToolEnchantmentRecipes implements IRecipe {
     public static NBTTagList getEnchantmentTagList(ItemStack itemStack) {
     	NBTTagList nbttaglist = itemStack.getEnchantmentTagList();
     	
-    	if (nbttaglist == null || (nbttaglist.tagCount() == 0 && itemStack.itemID == Item.enchantedBook.itemID))
-    		nbttaglist = Item.enchantedBook.func_92110_g(itemStack);
+    	if (nbttaglist == null || (nbttaglist.tagCount() == 0 && Item.getIdFromItem(itemStack.getItem()) == Item.getIdFromItem(Items.enchanted_book)))
+    		nbttaglist = Items.enchanted_book.func_92110_g(itemStack);
     	
     	return nbttaglist != null ? nbttaglist : new NBTTagList();
     }

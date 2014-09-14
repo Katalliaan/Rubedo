@@ -41,7 +41,7 @@ public class ToolUtil {
 			}
 
 			for (int i = 0; i < properties.getItem().getEffectiveMaterials().length; i++) {
-				if (properties.getItem().getEffectiveMaterials()[i] == block.blockMaterial) {
+				if (properties.getItem().getEffectiveMaterials()[i] == block.getMaterial()) {
 					return properties.getItem().getEffectiveMaterialSpeed()
 							* ContentTools.toolHeads.get(properties
 									.getHeadMaterial()).speed;

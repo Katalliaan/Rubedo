@@ -9,6 +9,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -39,10 +40,10 @@ public class ToolSword extends ToolBase {
 	@Override
 	public Material[] getEffectiveMaterials() {	
 		return new Material[] { Material.plants, Material.vine, 
-				Material.coral, Material.leaves, Material.pumpkin }; 
+				Material.coral, Material.leaves }; 
 	}
 	@Override
-	public Block[] getEffectiveBlocks() { return new Block[] { Block.web }; }
+	public Block[] getEffectiveBlocks() { return new Block[] { Blocks.web }; }
 	
 	@Override
 	public List<Integer> getAllowedEnchantments() {

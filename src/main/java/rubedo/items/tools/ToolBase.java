@@ -60,31 +60,44 @@ public abstract class ToolBase extends MultiItem {
 		return new ToolProperties(stack, this);
 	}
 
+	// TODO: determine if these are unnecessary
+//	@Override
+//	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z,
+//			EntityPlayer player) {
+//		ToolProperties properties = getToolProperties(stack);
+//		World world = player.worldObj;
+//		Block block = world.getBlock(x, y, z);
+//		
+//		int meta = world.getBlockMetadata(x, y, z);
+//
+//		boolean canHarvest = properties.getMiningLevel() >= MinecraftForge
+//				.getBlockHarvestLevel(block, meta, getName());
+//
+//		if (canHarvest)
+//			return super.onBlockStartBreak(stack, x, y, z, player);
+//		else {
+//			BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(x, y, z,
+//					world, block, meta, player);
+//			event.setCanceled(true);
+//			MinecraftForge.EVENT_BUS.post(event);
+//			return event.isCanceled();
+//		}
+//	}
+//	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+//		return MinecraftForge.getBlockHarvestLevel(par1Block, 0, getName()) <= this
+//				.getToolProperties(itemStack).getMiningLevel();
+//	}
+	
 	@Override
-	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z,
-			EntityPlayer player) {
+	public int getHarvestLevel(ItemStack stack, String toolClass)
+    {
+        if (!toolClass.equals(getName()))
+        	return -1;
+        
 		ToolProperties properties = getToolProperties(stack);
-		World world = player.worldObj;
-		Block block = Block.blocksList[world.getBlockId(x, y, z)];
-		int meta = world.getBlockMetadata(x, y, z);
-
-		boolean canHarvest = properties.getMiningLevel() >= MinecraftForge
-				.getBlockHarvestLevel(block, meta, getName());
-
-		if (canHarvest)
-			return super.onBlockStartBreak(stack, x, y, z, player);
-		else {
-			BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(x, y, z,
-					world, block, meta, player);
-			event.setCanceled(true);
-			MinecraftForge.EVENT_BUS.post(event);
-			return event.isCanceled();
-		}
-	}
-	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-		return MinecraftForge.getBlockHarvestLevel(par1Block, 0, getName()) <= this
-				.getToolProperties(itemStack).getMiningLevel();
-	}
+		
+		return properties.getMiningLevel();
+    }
 
 	@Override
 	public int getIconCount() {
@@ -205,11 +218,11 @@ public abstract class ToolBase extends MultiItem {
 	}
 
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World world, int blockID,
+	public boolean onBlockDestroyed(ItemStack stack, World world, Block block,
 			int x, int y, int z, EntityLivingBase player) {
-		if ((double) Block.blocksList[blockID].getBlockHardness(world, x, y, z) != 0.0D) {
+		if ((double) block.getBlockHardness(world, x, y, z) != 0.0D) {
 			ToolProperties properties = this.getToolProperties(stack);
-			return ToolUtil.onBlockDestroyed(properties, world, blockID, x, y,
+			return ToolUtil.onBlockDestroyed(properties, world, Block.getIdFromBlock(block), x, y,
 					z, player);
 		}
 		return false;
