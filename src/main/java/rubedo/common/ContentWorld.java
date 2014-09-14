@@ -6,14 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.oredict.OreDictionary;
@@ -123,8 +119,8 @@ public class ContentWorld implements IContent {
 		
 		// Harvest levels
 		if (metal.isGenerated == true)
-			MinecraftForge.setBlockHarvestLevel(oreBlocks.setBlockHarvestLevel(oreBlocks.getTextureIndex(metal.name+"_ore"), "pickaxe", metal.harvestLevel));
-		MinecraftForge.setBlockHarvestLevel(metalBlocks, metalBlocks.getTextureIndex(metal.name+"_block"), "pickaxe", metal.harvestLevel);
+			oreBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, oreBlocks.getTextureIndex(metal.name+"_ore"));
+		metalBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, metalBlocks.getTextureIndex(metal.name+"_ore"));
 		
 		// Recipes: nugget <-> ingot <-> block
 		GameRegistry.addRecipe(new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), patBlock, '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex(metal.name+"_nugget")));

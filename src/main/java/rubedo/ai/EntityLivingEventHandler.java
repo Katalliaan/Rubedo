@@ -1,19 +1,20 @@
 package rubedo.ai;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.boss.*;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 /**
  * Allows mobs to use EntityAITweakedWandering
  */
 public class EntityLivingEventHandler {
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void entitySpawning(EntityJoinWorldEvent event) {
 		if (event.entity instanceof EntityLiving)
 			updateLivingAI((EntityLiving) event.entity);
