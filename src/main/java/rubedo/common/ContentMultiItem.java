@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.config.Configuration;
 import rubedo.items.MultiItem;
 
@@ -35,6 +36,7 @@ public class ContentMultiItem<T extends MultiItem> implements IContent {
 				T instance = constructor.newInstance();
 
 				multiItems.put(clazz, instance);
+				GameRegistry.registerItem(instance, clazz.getSimpleName());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

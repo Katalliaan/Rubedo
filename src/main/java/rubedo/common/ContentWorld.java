@@ -93,6 +93,7 @@ public class ContentWorld implements IContent {
 		// Register blocks
 		GameRegistry.registerBlock(oreBlocks, ItemBlockMetalOre.class, "MetalOre");
 		GameRegistry.registerBlock(metalBlocks, ItemBlockMetal.class, "MetalBlock");
+		GameRegistry.registerItem(metalItems, "MetalItems");
 		
 		// Register metals
 		for (Metal metal : metals)

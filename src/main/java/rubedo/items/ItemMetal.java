@@ -14,6 +14,7 @@ import rubedo.RubedoCore;
 import rubedo.common.ContentWorld;
 import rubedo.common.ContentWorld.Metal;
 import rubedo.common.Language;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

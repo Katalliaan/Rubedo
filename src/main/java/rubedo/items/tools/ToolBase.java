@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -294,13 +295,11 @@ public abstract class ToolBase extends MultiItem {
 		}
 
 		return modifier
-				+ Language
-						.getFormattedLocalization(key, true)
-						.put("$material",
+				+ I18n.format(key, true, "$material",
 								"materials." + properties.getHeadMaterial(),
-								Formatting.CAPITALIZED)
-						.put("$tool.type", "tools.type." + getName(),
-								Formatting.CAPITALIZED).getResult();
+								Formatting.CAPITALIZED, 
+								"$tool.type", "tools.type." + getName(),
+								Formatting.CAPITALIZED);
 	}
 
 	public abstract ItemStack buildTool(String head, String rod, String cap);
