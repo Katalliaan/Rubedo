@@ -3,6 +3,7 @@ package rubedo.world;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -23,16 +24,16 @@ public class WorldGenerator implements IWorldGenerator {
     		{
         		Metal metal = ContentWorld.metals.get(i);
 
-        		int idToReplace = Block.stone.blockID;
+        		Block target = Blocks.stone;
         		if (world.provider.isHellWorld)
-        			idToReplace = Block.netherrack.blockID;
+        			target = Blocks.netherrack;
         		if (world.provider.dimensionId == 1)
-        			idToReplace = Block.whiteStone.blockID;
+        			target = Blocks.end_stone;
         		
         		WorldGenMinable wgm = new WorldGenMinable(
-        			ContentWorld.oreBlocks.blockID, 
+        			ContentWorld.oreBlocks, 
         			ContentWorld.oreBlocks.getTextureIndex(metal.name+"_ore"), 
-        			8, idToReplace);
+        			8, target);
         		
         		int oreDensity = MathHelper.floor_double(metal.oreDensity);
         		double chance = metal.oreDensity - oreDensity;
