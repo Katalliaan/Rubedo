@@ -120,7 +120,7 @@ public class ContentWorld implements IContent {
 		// Harvest levels
 		if (metal.isGenerated == true)
 			oreBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, oreBlocks.getTextureIndex(metal.name+"_ore"));
-		metalBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, metalBlocks.getTextureIndex(metal.name+"_ore"));
+		metalBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, metalBlocks.getTextureIndex(metal.name+"_block"));
 		
 		// Recipes: nugget <-> ingot <-> block
 		GameRegistry.addRecipe(new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), patBlock, '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex(metal.name+"_nugget")));
