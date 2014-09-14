@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -23,7 +24,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
@@ -186,7 +186,7 @@ public class ToolScythe extends ToolBase {
 				return false;
 			}
 
-			if (event.getResult() == Result.ALLOW) {
+			if (event.getResult() == Event.Result.ALLOW) {
 				ToolProperties properties = this.getToolProperties(itemStack);
 				ToolUtil.damageTool(properties, entityPlayer, properties
 						.getItem().getItemDamageOnBreak());
