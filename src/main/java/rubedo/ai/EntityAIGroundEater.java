@@ -2,6 +2,7 @@ package rubedo.ai;
 
 import java.util.List;
 
+import util.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.item.EntityItem;
@@ -75,7 +76,7 @@ public class EntityAIGroundEater extends EntityAIBase
         				if (((EntityItem)e).getEntityItem().stackSize >= 1)
         				{
         					// making the love time higher, due to the fact that other AI might need to catch up
-        					entity.inLove = 2400; 
+        					ReflectionHelper.setField(entity, "inlove", 2400);
                 	        
 
         					((EntityItem)e).getEntityItem().stackSize--;
