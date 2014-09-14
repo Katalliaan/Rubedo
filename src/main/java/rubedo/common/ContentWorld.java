@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -108,19 +110,19 @@ public class ContentWorld implements IContent {
 			registerMetal(metal);
 		
 		// Iron nugget recipes
-		GameRegistry.addRecipe(new ItemStack(Item.ingotIron), "###", "###", "###", '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
-		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")), "m", 'm', new ItemStack(Item.ingotIron));
+		GameRegistry.addRecipe(new ItemStack(Items.iron_ingot), "###", "###", "###", '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
+		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")), "m", 'm', new ItemStack(Items.iron_ingot));
 		OreDictionary.registerOre("nuggetIron", new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
 		
 		// Bucket change
-		RecipeRemover.removeAnyRecipe(new ItemStack(Item.bucketEmpty));
-		GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null}, new ItemStack(Item.bucketEmpty)));
+		RecipeRemover.removeAnyRecipe(new ItemStack(Items.bucket));
+		GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null}, new ItemStack(Items.bucket)));
 		
 		// Temporary alloy recipes
-		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(Item.ingotGold));
-		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), new ItemStack(Item.ingotIron), new ItemStack(Block.slowSand));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(Items.gold_ingot));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), new ItemStack(Items.iron_ingot), new ItemStack(Blocks.soul_sand));
 		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("mythril_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("silver_ingot")));
-		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("hepatizon_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("mythril_ingot")), new ItemStack(Block.whiteStone));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("hepatizon_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("mythril_ingot")), new ItemStack(Blocks.end_stone));
 	}
 	
 	private void registerMetal(Metal metal) {
@@ -128,8 +130,8 @@ public class ContentWorld implements IContent {
 		
 		// Harvest levels
 		if (metal.isGenerated == true)
-			MinecraftForge.setBlockHarvestLevel(oreBlocks, oreBlocks.getTextureIndex(metal.name+"_ore"), "pickaxe", metal.harvestLevel);
-		MinecraftForge.setBlockHarvestLevel(metalBlocks, metalBlocks.getTextureIndex(metal.name+"_block"), "pickaxe", metal.harvestLevel);
+			oreBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, oreBlocks.getTextureIndex(metal.name+"_ore"));
+		metalBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, metalBlocks.getTextureIndex(metal.name+"_ore"));
 		
 		// Recipes: nugget <-> ingot <-> block
 		GameRegistry.addRecipe(new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), patBlock, '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex(metal.name+"_nugget")));
