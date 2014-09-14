@@ -17,13 +17,20 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.1.4c"
+version = file "version.properties"
+version.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.version = new ConfigSlurper().parse prop
+    project.version = project.version.version
+}
+
 group= "org.github.Katalliaan.Rubedo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "rubedo"
 
 minecraft {
     version = "1.7.10-10.13.0.1180"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse"
 }
 
 dependencies {

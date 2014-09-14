@@ -28,7 +28,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class RubedoCore {
 	public static final String modid = "rubedo";
 	public static final String name = "rubedo";
-	public static final String version = "0.1.4c";
+	public static final String version = "0.2.0";
 
 	// The instance of your mod that Forge uses.
 	@Instance(value = "rubedo")
