@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
@@ -99,34 +100,34 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			flint.damage = 0;
 			flint.speed = 4.0f;
 			flint.miningLevel = 0;
-			flint.headMaterial = new ItemStack(Item.flint, 1, 0);
+			flint.headMaterial = new ItemStack(Items.flint, 1, 0);
 		}
 		Material wood = new Material();
 		{
 			wood.name = "wood";
 			wood.modifier = 0.5f;
 			wood.special = 0;
-			wood.rodMaterial = new ItemStack(Item.stick);
-			wood.capMaterial = new ItemStack(Block.planks, 1,
+			wood.rodMaterial = new ItemStack(Items.stick);
+			wood.capMaterial = new ItemStack(Blocks.planks, 1,
 					OreDictionary.WILDCARD_VALUE);
 		}
 		Material leather = new Material();
 		{
 			leather.name = "leather";
 			leather.modifier = 1.0f;
-			leather.rodMaterial = new ItemStack(Item.leather);
+			leather.rodMaterial = new ItemStack(Items.leather);
 		}
 		Material bone = new Material();
 		{
 			bone.name = "bone";
 			bone.modifier = 1.2f;
-			bone.rodMaterial = new ItemStack(Item.bone);
+			bone.rodMaterial = new ItemStack(Items.bone);
 		}
 		Material blazerod = new Material();
 		{
 			blazerod.name = "blazerod";
 			blazerod.modifier = 2.0f;
-			blazerod.rodMaterial = new ItemStack(Item.blazeRod);
+			blazerod.rodMaterial = new ItemStack(Items.blaze_rod);
 		}
 		Material copper = new Material();
 		{
@@ -149,8 +150,8 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			iron.damage = 2;
 			iron.speed = 6.0f;
 			iron.miningLevel = 2;
-			iron.headMaterial = new ItemStack(Item.ingotIron, 1, 0);
-			iron.capMaterial = new ItemStack(Item.ingotIron);
+			iron.headMaterial = new ItemStack(Items.iron_ingot, 1, 0);
+			iron.capMaterial = new ItemStack(Items.iron_ingot);
 		}
 		Material gold = new Material();
 		{
@@ -160,8 +161,8 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 			gold.damage = 0;
 			gold.speed = 6.0f;
 			gold.miningLevel = 0;
-			gold.headMaterial = new ItemStack(Item.ingotGold, 1, 0);
-			gold.capMaterial = new ItemStack(Item.ingotGold);
+			gold.headMaterial = new ItemStack(Items.gold_ingot, 1, 0);
+			gold.capMaterial = new ItemStack(Items.gold_ingot);
 		}
 		Material orichalcum = new Material();
 		{
@@ -239,14 +240,14 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 		GameRegistry.addRecipe(new ToolEnchantmentRecipes());
 		GameRegistry.addRecipe(new ToolRepairRecipes());
 
-		Item[] toBeRemoved = {Item.swordDiamond, Item.swordGold,
-				Item.swordIron, Item.swordStone, Item.swordWood,
-				Item.shovelDiamond, Item.shovelGold, Item.shovelIron,
-				Item.shovelStone, Item.shovelWood, Item.axeDiamond,
-				Item.axeGold, Item.axeIron, Item.axeStone, Item.axeWood,
-				Item.hoeDiamond, Item.hoeGold, Item.hoeIron, Item.hoeStone,
-				Item.hoeWood, Item.pickaxeDiamond, Item.pickaxeGold,
-				Item.pickaxeIron, Item.pickaxeStone, Item.pickaxeWood};
+		Item[] toBeRemoved = {Items.diamond_sword, Items.golden_sword,
+				Items.iron_sword, Items.stone_sword, Items.wooden_sword,
+				Items.diamond_sword, Items.golden_sword, Items.iron_shovel,
+				Items.stone_shovel, Items.wooden_shovel, Items.diamond_axe,
+				Items.golden_axe, Items.iron_axe, Items.stone_axe, Items.wooden_axe,
+				Items.diamond_hoe, Items.golden_hoe, Items.iron_hoe, Items.stone_hoe,
+				Items.wooden_hoe, Items.diamond_pickaxe, Items.golden_pickaxe,
+				Items.iron_pickaxe, Items.stone_pickaxe, Items.wooden_pickaxe};
 
 		for (int i = 0; i < toBeRemoved.length; i++) {
 			toBeRemoved[i].setMaxDamage(1);
