@@ -19,19 +19,29 @@ buildscript {
 
 apply plugin: 'forge'
 
-metaClass.mcmod = new JsonSlurper().parse(new FileReader(new File("src/main/resources/mcmod.info")))[0]
-version = mcmod.version
+// Load mcmod.info into config
+for(srcDir in sourceSets.main.resources.srcDirs) {
+	def configFile = file "${srcDir}/mcmod.info"
+	
+	if ( configFile.exists() )
+	configFile.withReader {
+		def json = new JsonSlurper().parse it
+		project.ext.config = new ConfigObject()
+		project.ext.config.putAll json[0]
+		project.version = config.version
+	}
+}
 
-group= mcmod.namespace
-archivesBaseName = mcmod.modid + "-" + mcmod.mcversion.tokenize('-')[0]
+group= config.namespace
+archivesBaseName = config.modid + "-" + config.mcversion.tokenize('-')[0]
 
 minecraft {
-    version = mcmod.mcversion
+    version = config.mcversion
     runDir = "eclipse"
     
     // replacing
-    replace "@NAME@", mcmod.name
-    replace "@VERSION@", project.version
+    replace "@NAME@", config.name
+    replace "@VERSION@", config.version
     replaceIn "rubedo/RubedoCore.java"
 }
 
@@ -41,7 +51,6 @@ processResources
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
         
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs)
 }
 
