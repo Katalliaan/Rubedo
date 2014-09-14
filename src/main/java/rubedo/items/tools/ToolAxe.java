@@ -15,8 +15,8 @@ import net.minecraft.potion.PotionEffect;
 
 public class ToolAxe extends ToolBase {
 
-	public ToolAxe(int id) {
-		super(id);
+	public ToolAxe() {
+		super();
 	}
 
 	@Override

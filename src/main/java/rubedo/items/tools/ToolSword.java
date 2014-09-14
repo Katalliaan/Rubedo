@@ -20,8 +20,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ToolSword extends ToolBase {
 
-	public ToolSword(int id) {
-		super(id);
+	public ToolSword() {
+		super();
 	}
 
 	@Override

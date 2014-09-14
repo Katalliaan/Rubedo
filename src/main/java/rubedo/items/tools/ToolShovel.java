@@ -13,8 +13,8 @@ import net.minecraft.item.ItemStack;
 
 public class ToolShovel extends ToolBase {
 
-	public ToolShovel(int id) {
-		super(id);
+	public ToolShovel() {
+		super();
 	}
 
 	@Override

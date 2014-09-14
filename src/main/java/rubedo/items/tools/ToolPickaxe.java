@@ -15,8 +15,8 @@ import rubedo.common.ContentTools;
 
 public class ToolPickaxe extends ToolBase {
 
-	public ToolPickaxe(int id) {
-		super(id);
+	public ToolPickaxe() {
+		super();
 	}
 
 	@Override

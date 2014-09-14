@@ -5,16 +5,15 @@ import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
@@ -25,8 +24,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 //TODO: add getStrVsBlock
 public abstract class ToolBase extends MultiItem {
-	public ToolBase(int id) {
-		super(id);
+	public ToolBase() {
+		super();
 		this.setUnlocalizedName("ToolBase");
 		this.setCreativeTab(RubedoCore.creativeTab);
 
@@ -106,7 +105,7 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getIcon(ItemStack stack, int renderPass) {
+	public IIcon getIcon(ItemStack stack, int renderPass) {
 		ToolProperties properties = getToolProperties(stack);
 
 		String name = "blank";
@@ -142,13 +141,13 @@ public abstract class ToolBase extends MultiItem {
 		if (!getRenderList().containsKey(name))
 			name = "blank";
 		
-		Icon icon = getRenderList().get(name);
+		IIcon icon = getRenderList().get(name);
 
 		return icon;
 	}
 
 	@Override
-	public void registerIcons(IconRegister iconRegister) {
+	public void registerIcons(IIconRegister iconRegister) {
 		super.registerIcons(iconRegister);
 
 		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads
@@ -156,11 +155,11 @@ public abstract class ToolBase extends MultiItem {
 			String name = getName() + "_head_" + headEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":tools/"
+					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
 							+ name));
 			getRenderList().put(
 					name + "_broken",
-					iconRegister.registerIcon(RubedoCore.getId() + ":tools/"
+					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
 							+ name + "_broken"));
 		}
 
@@ -169,7 +168,7 @@ public abstract class ToolBase extends MultiItem {
 			String name = getName() + "_rod_" + rodEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":tools/"
+					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
 							+ name));
 		}
 
@@ -178,7 +177,7 @@ public abstract class ToolBase extends MultiItem {
 			String name = getName() + "_cap_" + capEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":tools/"
+					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
 							+ name));
 		}
 	}
@@ -229,7 +228,7 @@ public abstract class ToolBase extends MultiItem {
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack stack, Block block, int meta) {
+	public float getDigSpeed(ItemStack stack, Block block, int meta) {
 		return ToolUtil.getStrVsBlock(this.getToolProperties(stack), block,
 				meta);
 	}
@@ -248,7 +247,7 @@ public abstract class ToolBase extends MultiItem {
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
-	public void getSubItems(int id, CreativeTabs tabs, List list) {
+	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads
 				.entrySet())
 			for (Entry<String, ContentTools.Material> rodEntry : ContentTools.toolRods
@@ -281,7 +280,7 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public String getItemDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack) {
 		ToolProperties properties = getToolProperties(stack);
 
 		String key;
