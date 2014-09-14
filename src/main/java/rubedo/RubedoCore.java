@@ -26,7 +26,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = RubedoCore.modid, name = RubedoCore.name, version = RubedoCore.version)
 public class RubedoCore {
-	public static final String modid = "@MODID@";
+	public static final String modid = "rubedo";
 	public static final String name = "@NAME@";
 	public static final String version = "@VERSION@";
 

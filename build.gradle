@@ -30,7 +30,6 @@ minecraft {
     runDir = "eclipse"
     
     // replacing
-    replace "@MODID@", mcmod.modid
     replace "@NAME@", mcmod.name
     replace "@VERSION@", project.version
     replaceIn "rubedo/RubedoCore.java"
@@ -43,16 +42,7 @@ processResources
     inputs.property "mcversion", project.minecraft.version
         
     // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        
-    }
-}
-
-repositories {
-     maven { // the repo from which to get NEI and stuff
-         name 'CB Repo'
-         url "http://chickenbones.net/maven/"
-     }
+    from(sourceSets.main.resources.srcDirs)
 }
 
 // because the normal output has been made to be obfuscated
