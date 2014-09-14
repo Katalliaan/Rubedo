@@ -5,20 +5,20 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import rubedo.RubedoCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBase extends Block {
-	protected Icon[] icons;
+	protected IIcon[] icons;
 	protected String[] textures;
 
-	public BlockBase(int blockID, Material material, String[] textures) {
-		super(blockID, material);
+	public BlockBase(Material material, String[] textures) {
+		super(material);
 		this.textures = textures;
 	}
 	
@@ -34,7 +34,7 @@ public class BlockBase extends Block {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons (IconRegister iconRegister)
+    public void registerIcons (IIconRegister iconRegister)
     {
         this.icons = new Icon[textures.length];
 

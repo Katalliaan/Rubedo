@@ -1,11 +1,12 @@
 package rubedo.items;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 
 public class ItemBlockBase extends ItemBlock {
 
-	public ItemBlockBase(int par1) {
-		super(par1);
+	public ItemBlockBase(Block block) {
+		super(block);
 		this.setMaxDamage(0);
         	this.setHasSubtypes(true);
 	}

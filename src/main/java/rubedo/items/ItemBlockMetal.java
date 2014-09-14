@@ -1,5 +1,6 @@
 package rubedo.items;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import rubedo.RubedoCore;
 import rubedo.common.ContentWorld;
@@ -7,8 +8,8 @@ import rubedo.common.Language;
 
 public class ItemBlockMetal extends ItemBlockBase {
 	
-	public ItemBlockMetal(int itemID) {
-		super(itemID);
+	public ItemBlockMetal(Block metal) {
+		super(metal);
 		this.setCreativeTab(RubedoCore.creativeTab);
 	}
 	
