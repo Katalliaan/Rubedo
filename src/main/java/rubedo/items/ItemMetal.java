@@ -5,26 +5,26 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import rubedo.RubedoCore;
 import rubedo.common.ContentWorld;
 import rubedo.common.ContentWorld.Metal;
 import rubedo.common.Language;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMetal extends Item {
 		
 	private String[] textures;
-	private Icon[] icons;
+	private IIcon[] icons;
 	private HashMap<String, String> textureNames;
 	
-	public ItemMetal(int id) {
-		super(id);
+	public ItemMetal() {
+		super();
 		this.setCreativeTab(RubedoCore.creativeTab);
 		this.setMaxDamage(0);
         this.setHasSubtypes(true);
@@ -68,20 +68,20 @@ public class ItemMetal extends Item {
 		return Arrays.asList(this.textures).indexOf(name);
 	}
 	
-    public Icon getIconFromDamage (int meta)
+    public IIcon getIconFromDamage (int meta)
     {
         return icons[meta];
     }
 
     @Override
-    public void registerIcons (IconRegister iconRegister)
+    public void registerIcons (IIconRegister iconRegister)
     {
-        this.icons = new Icon[textures.length];
+        this.icons = new IIcon[textures.length];
 
         for (int i = 0; i < this.icons.length; ++i)
         {
             if (!(textures[i].equals(""))) {
-                this.icons[i] = iconRegister.registerIcon(RubedoCore.getId() + ":" + textures[i]);
+                this.icons[i] = iconRegister.registerIcon(RubedoCore.modid + ":" + textures[i]);
             }
         }
     }
@@ -89,12 +89,12 @@ public class ItemMetal extends Item {
     @Override
     public String getUnlocalizedName (ItemStack stack)
     {
-        return RubedoCore.getId() + ".items." + textures[stack.getItemDamage()].replace('/', '.');
+        return RubedoCore.modid + ".items." + textures[stack.getItemDamage()].replace('/', '.');
     }
     
     @Override
     @SideOnly(Side.CLIENT)
-	public String getItemDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack) {
     	String[] split = textureNames.get(textures[stack.getItemDamage()]).split(" ");
     	
     	if (split[1].contains("tools.type."))
@@ -112,10 +112,10 @@ public class ItemMetal extends Item {
 
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	public void getSubItems (int id, CreativeTabs tab, List list)
+	public void getSubItems (Item item, CreativeTabs tab, List list)
     {
         for (int i = 0; i < textures.length; i++)
             if (!(textures[i].equals("")))
-                list.add(new ItemStack(id, 1, i));
+                list.add(new ItemStack(item, 1, i));
     }
 }
