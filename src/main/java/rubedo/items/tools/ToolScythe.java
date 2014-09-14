@@ -1,12 +1,10 @@
 package rubedo.items.tools;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -15,10 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -30,11 +25,12 @@ import rubedo.common.ContentTools;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
+import cpw.mods.fml.common.eventhandler.Event;
 
 public class ToolScythe extends ToolBase {
 
-	public ToolScythe(int id) {
-		super(id);
+	public ToolScythe() {
+		super();
 	}
 
 	@Override
@@ -80,6 +76,7 @@ public class ToolScythe extends ToolBase {
 
 			int mobsHit = 0;
 
+			@SuppressWarnings("unchecked")
 			Map<Integer, Integer> enchants = EnchantmentHelper
 					.getEnchantments(stack);
 			int smiteLevel = 0;
