@@ -1,14 +1,14 @@
 package rubedo.ai;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import rubedo.common.ContentWorld;
 
 // TODO: find a way to fire this after mobs get their equipment
 public class LivingSpawnEventHandler {
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void onSpawn(LivingSpawnEvent event) {
 		if (event.entityLiving instanceof EntityPigZombie) {
 						// if (event.entityLiving.getCurrentItemOrArmor(0).itemID ==
