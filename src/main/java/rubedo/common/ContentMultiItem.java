@@ -1,5 +1,6 @@
 package rubedo.common;
 
+import java.lang.reflect.Constructor;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,15 @@ public class ContentMultiItem<T extends MultiItem> implements IContent {
 
 	@Override
 	public void register() {
-		// TODO Auto-generated method stub
-		
+		try {
+			for (Class<? extends T> clazz : multiItems.keySet()) {
+				Constructor<? extends T> constructor = clazz.getConstructor();
+				T instance = constructor.newInstance();
+
+				multiItems.put(clazz, instance);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
