@@ -52,8 +52,8 @@ public class LinearRayCast extends ShapedRayCast {
 		Set<Entity> output = new HashSet<Entity>();
 		
 		Vec3 direction = ShapedRayCast.normalizeVector(this.world, directionX, directionY, directionZ);
-		Vec3 origin = this.world.getWorldVec3Pool().getVecFromPool(this.originX, this.originY, this.originZ);
-		Vec3 target = this.world.getWorldVec3Pool().getVecFromPool(
+		Vec3 origin = Vec3.createVectorHelper(this.originX, this.originY, this.originZ);
+		Vec3 target = Vec3.createVectorHelper(
 				this.originX + (direction.xCoord*this.range),
 				this.originY + (direction.yCoord*this.range),
 				this.originZ + (direction.zCoord*this.range));
@@ -67,7 +67,7 @@ public class LinearRayCast extends ShapedRayCast {
 				} : filter.getIEntitySelector();
 		
 		List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(excludedEntity, 
-				AxisAlignedBB.getAABBPool().getAABB(
+				AxisAlignedBB.getBoundingBox(
 						origin.xCoord, origin.yCoord, origin.zCoord,
 						target.xCoord, target.yCoord, target.zCoord),
 						selector);

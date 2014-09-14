@@ -94,14 +94,14 @@ public abstract class ShapedRayCast implements IShapedRayCast {
 		double calculatedZ = (double) (cosPitch * cosYaw);
 		double calculatedY = (double) (-sinPitch);
 		
-		return world.getWorldVec3Pool().getVecFromPool(calculatedX, calculatedY, calculatedZ);
+		return Vec3.createVectorHelper(calculatedX, calculatedY, calculatedZ);
 	}
 	
 	/**
 	 * Get the camera position of a player
 	 */
 	public static Vec3 getCameraPosition(World world, EntityPlayer entity) {
-		return world.getWorldVec3Pool().getVecFromPool(
+		return Vec3.createVectorHelper(
 				entity.posX, 
 				entity.posY + (double)entity.getEyeHeight() - 0.10000000149011612D, 
 				entity.posZ);
@@ -113,6 +113,6 @@ public abstract class ShapedRayCast implements IShapedRayCast {
 	public static Vec3 normalizeVector(World world, double x, double y, double z) {
 		double length = MathHelper.sqrt_double(x*x + y*y + z*z);
 		
-		return world.getWorldVec3Pool().getVecFromPool(x / length, y / length, z / length);
+		return Vec3.createVectorHelper(x / length, y / length, z / length);
 	}
 }

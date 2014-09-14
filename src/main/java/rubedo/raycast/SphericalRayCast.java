@@ -68,7 +68,7 @@ public class SphericalRayCast extends ShapedRayCast {
 				} : filter.getIEntitySelector();
 		
 		List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(excludedEntity, 
-				AxisAlignedBB.getAABBPool().getAABB(
+				AxisAlignedBB.getBoundingBox(
 						this.originX - this.range,
 						this.originY - this.range,
 						this.originZ - this.range,
