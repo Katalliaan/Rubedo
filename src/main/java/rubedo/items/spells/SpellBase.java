@@ -222,7 +222,7 @@ public abstract class SpellBase extends MultiItem {
 			String effect) {
 		NBTTagCompound compound = new NBTTagCompound();
 		if (!compound.hasKey("RubedoSpell")) {
-			compound.setCompoundTag("RubedoSpell", new NBTTagCompound());
+			compound.setTag("RubedoSpell", new NBTTagCompound());
 			spell.setTagCompound(compound);
 		}
 
