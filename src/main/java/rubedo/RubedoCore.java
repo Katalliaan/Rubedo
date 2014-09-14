@@ -25,7 +25,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = RubedoCore.modid, name = RubedoCore.name, version = RubedoCore.version)
-//@NetworkMod(clientSideRequired = true, serverSideRequired = true, packetHandler = PacketHandler.class)
 public class RubedoCore {
 	public static final String modid = "rubedo";
 	public static final String name = "rubedo";
