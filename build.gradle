@@ -23,7 +23,6 @@ apply plugin: 'forge'
 for(srcDir in sourceSets.main.resources.srcDirs) {
 	def configFile = file "${srcDir}/mcmod.info"
 	
-	if ( configFile.exists() )
 	configFile.withReader {
 		def json = new JsonSlurper().parse it
 		project.ext.config = new ConfigObject()
