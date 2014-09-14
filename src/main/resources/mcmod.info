@@ -7,7 +7,10 @@
   "mcversion": "${mcversion}",
   "url": "https://github.com/Katalliaan/Rubedo/",
   "updateUrl": "https://github.com/Katalliaan/Rubedo/releases",
-  "authorList": ["Katalliaan", "Gilberreke"],
+  "authorList": [
+  	"Katalliaan", 
+  	"Gilberreke"
+  	],
   "credits": "Gilberreke, Katalliaan, MagikEh, KaitoCain, WilliamTheTuba",
   "logoFile": "",
   "screenshots": [],
