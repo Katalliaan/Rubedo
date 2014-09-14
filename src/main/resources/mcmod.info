@@ -3,8 +3,8 @@
   "modid": "rubedo",
   "name": "Rubedo",
   "description": "",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "version": "0.2.0",
+  "mcversion": "1.7.10-10.13.0.1180",
   "url": "https://github.com/Katalliaan/Rubedo/",
   "updateUrl": "https://github.com/Katalliaan/Rubedo/releases",
   "authorList": [
@@ -14,6 +14,7 @@
   "credits": "Gilberreke, Katalliaan, MagikEh, KaitoCain, WilliamTheTuba",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": [],
+  "namespace": "com.github.Katalliaan.Rubedo"
 }
 ]
