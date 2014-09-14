@@ -14,7 +14,7 @@ public class ItemBlockMetal extends ItemBlockBase {
 	}
 	
 	@Override
-	public String getItemDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack) {
 		return Language.getFormattedLocalization("materials.blockName", true)
 				.put("$material", "materials." + ContentWorld.metals.get(stack.getItemDamage()).name)
 				.getResult();
