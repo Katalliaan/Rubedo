@@ -62,7 +62,7 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[]{Material.plants, Material.pumpkin, Material.wood};
+		return new Material[]{Material.plants, Material.gourd, Material.wood};
 	}
 
 	@Override
