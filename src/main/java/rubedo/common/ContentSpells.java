@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import rubedo.RubedoCore;
 import rubedo.items.spells.EntitySpellProjectile;
 import rubedo.items.spells.SpellArea;

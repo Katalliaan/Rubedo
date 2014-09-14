@@ -1,12 +1,11 @@
 package rubedo.common;
 
-import java.lang.reflect.Constructor;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraftforge.common.config.Configuration;
 import rubedo.items.MultiItem;
-import net.minecraftforge.common.Configuration;
 
 public class ContentMultiItem<T extends MultiItem> implements IContent {
 
@@ -23,23 +22,13 @@ public class ContentMultiItem<T extends MultiItem> implements IContent {
 
 	@Override
 	public void config(Configuration config) {
-		for (Class<? extends T> clazz : multiItems.keySet()) {
-			Config.initId(clazz.getSimpleName());
-		}
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void register() {
-		try {
-			for (Class<? extends T> clazz : multiItems.keySet()) {
-				Constructor<? extends T> constructor = clazz.getConstructor(int.class);
-				T instance = constructor.newInstance(Config.getId(clazz
-						.getSimpleName()));
-
-				multiItems.put(clazz, instance);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// TODO Auto-generated method stub
+		
 	}
 }

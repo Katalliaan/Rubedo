@@ -24,7 +24,7 @@ public class Language {
 	
 	@SideOnly(Side.CLIENT)
 	public static Formatter getFormattedLocalization(String key, boolean cached) {
-		String formatted = I18n.getString(RubedoCore.getId() + "." + key);
+		String formatted = I18n.format(RubedoCore.modid + "." + key);
 				
 		if (cached) {
 			if (!formatterCache.containsKey(formatted))
@@ -39,7 +39,7 @@ public class Language {
 	
 	@SideOnly(Side.CLIENT)
 	public static String getLocalization(String key) {
-		return I18n.getString(RubedoCore.getId() + "." + key);
+		return I18n.format(RubedoCore.modid + "." + key);
 	}
 	
 	/**
