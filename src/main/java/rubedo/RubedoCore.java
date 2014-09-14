@@ -4,20 +4,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockPortal;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import rubedo.common.Config;
 import rubedo.common.ContentAI;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;
 import rubedo.common.IContent;
-import util.ReflectionHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -25,21 +22,14 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "rubedo", name = "Rubedo", version = "0.1.4c")
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, packetHandler = PacketHandler.class)
+@Mod(modid = RubedoCore.modid, name = RubedoCore.name, version = RubedoCore.version)
+//@NetworkMod(clientSideRequired = true, serverSideRequired = true, packetHandler = PacketHandler.class)
 public class RubedoCore {
-	public static String getId() {
-		return RubedoCore.class.getAnnotation(Mod.class).modid();
-	}
-	public static String getName() {
-		return RubedoCore.class.getAnnotation(Mod.class).name();
-	}
-	public static String getVersion() {
-		return RubedoCore.class.getAnnotation(Mod.class).version();
-	}
+	public static final String modid = "rubedo";
+	public static final String name = "rubedo";
+	public static final String version = "0.1.4c";
 
 	// The instance of your mod that Forge uses.
 	@Instance(value = "rubedo")
@@ -52,7 +42,12 @@ public class RubedoCore {
 	// Shared logger
 	public static final Logger logger = Logger.getLogger("Rubedo");
 
-	public static final CreativeTabs creativeTab = new CreativeTabs("Rubedo");
+	public static final CreativeTabs creativeTab = new CreativeTabs("Rubedo") {
+		@Override
+		public Item getTabIconItem() {
+			return Item.getItemFromBlock(Blocks.bedrock);
+		}
+	};
 
 	// Mod content
 	public static Map<Class<? extends IContent>, IContent> contentUnits;
@@ -82,31 +77,30 @@ public class RubedoCore {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		// Mining balance changes
-		MinecraftForge.setBlockHarvestLevel(Block.obsidian, "pickaxe", 2);
-		MinecraftForge.setBlockHarvestLevel(Block.netherrack, "pickaxe", 3);
-		Block.netherrack.setHardness(1.5F);
-		MinecraftForge
-				.setBlockHarvestLevel(Block.oreNetherQuartz, "pickaxe", 3);
-		Block.oreNetherQuartz.setHardness(3.0F);
-		MinecraftForge.setBlockHarvestLevel(Block.netherBrick, "pickaxe", 3);
-		MinecraftForge.setBlockHarvestLevel(Block.whiteStone, "pickaxe", 4);
+		Blocks.obsidian.setHarvestLevel("pickaxe", 2);
+		Blocks.netherrack.setHarvestLevel("pickaxe", 3);
+		Blocks.netherrack.setHardness(1.5F);
+		Blocks.quartz_ore.setHarvestLevel("pickaxe", 3);
+		Blocks.quartz_ore.setHardness(3.0F);
+		Blocks.nether_brick.setHarvestLevel("pickaxe", 3);
+		Blocks.end_stone.setHarvestLevel("pickaxe", 4);
 
 		// Backup flint recipe
-		GameRegistry.addShapelessRecipe(new ItemStack(Item.flint),
-				new ItemStack(Item.bowlEmpty.setContainerItem(Item.bowlEmpty)),
-				new ItemStack(Block.gravel));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.flint),
+				new ItemStack(Items.bowl.setContainerItem(Items.bowl)),
+				new ItemStack(Blocks.gravel));
 		
-		// Remove nether portals
-		Config.initId("BlockPortal");
-		BlockPortal portal = new BlockPortal(Config.getId("BlockPortal")) {
+		//TODO: figure out how Nether Portals are made
+		/*BlockPortal portal = new BlockPortal() {
+			@Override
 			public boolean tryToCreatePortal(World world, int x, int y, int z)
 		    {
 				//return super.tryToCreatePortal(world, x, y, z);
 				return false;
 		    }
 		};
-		portal.setHardness(-1.0F).setStepSound(Block.soundGlassFootstep).setLightValue(0.75F).setUnlocalizedName("portal").setTextureName("portal");
+		portal.setHardness(-1.0F).setStepSound(Block.soundTypeGlass).setLightLevel(0.75F).setBlockName("portal").setBlockTextureName("portal");
 		
-		ReflectionHelper.setStatic(Block.class, "portal", portal);
+		ReflectionHelper.setStatic(Block.class, "portal", portal);*/
 	}
 }
