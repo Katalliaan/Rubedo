@@ -26,7 +26,7 @@ version.withReader {
 }
 
 group= "org.github.Katalliaan.Rubedo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "rubedo"
+archivesBaseName = "rubedo-1.7.10"
 
 minecraft {
     version = "1.7.10-10.13.0.1180"
