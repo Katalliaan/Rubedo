@@ -14,8 +14,8 @@ import rubedo.raycast.SphericalRayCast;
 
 public class SpellArea extends SpellBase {
 
-	public SpellArea(int id) {
-		super(id);
+	public SpellArea() {
+		super();
 	}
 
 	@Override

@@ -132,8 +132,7 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 							this.yTile, this.zTile);
 
 			if (axisalignedbb != null
-					&& axisalignedbb.isVecInside(this.worldObj
-							.getWorldVec3Pool().getVecFromPool(this.posX,
+					&& axisalignedbb.isVecInside(Vec3.createVectorHelper(this.posX,
 									this.posY, this.posZ))) {
 				this.inGround = true;
 			}
@@ -160,21 +159,21 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 			this.ticksInAir = 0;
 		} else {
 			++this.ticksInAir;
-			Vec3 vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(
+			Vec3 vec3 = Vec3.createVectorHelper(
 					this.posX, this.posY, this.posZ);
-			Vec3 vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(
+			Vec3 vec31 = Vec3.createVectorHelper(
 					this.posX + this.motionX, this.posY + this.motionY,
 					this.posZ + this.motionZ);
 			MovingObjectPosition movingobjectposition = this.worldObj
-					.rayTraceBlocks_do_do(vec3, vec31, false, true);
-			vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX,
+					.rayTraceBlocks(vec3, vec31);
+			vec3 = Vec3.createVectorHelper(this.posX,
 					this.posY, this.posZ);
-			vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(
+			vec31 = Vec3.createVectorHelper(
 					this.posX + this.motionX, this.posY + this.motionY,
 					this.posZ + this.motionZ);
 
 			if (movingobjectposition != null) {
-				vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(
+				vec31 = Vec3.createVectorHelper(
 						movingobjectposition.hitVec.xCoord,
 						movingobjectposition.hitVec.yCoord,
 						movingobjectposition.hitVec.zCoord);
@@ -286,7 +285,7 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 			this.motionZ *= (double) f4;
 			this.motionY -= (double) f1;
 			this.setPosition(this.posX, this.posY, this.posZ);
-			this.doBlockCollisions();
+			//this.doBlockCollisions();
 		}
 	}
 	@Override
@@ -298,10 +297,10 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 		this.inGround = nbttagcompound.getByte("inGround") == 1;
 
 		if (nbttagcompound.hasKey("direction")) {
-			NBTTagList nbttaglist = nbttagcompound.getTagList("direction");
-			this.motionX = ((NBTTagDouble) nbttaglist.tagAt(0)).data;
-			this.motionY = ((NBTTagDouble) nbttaglist.tagAt(1)).data;
-			this.motionZ = ((NBTTagDouble) nbttaglist.tagAt(2)).data;
+			NBTTagList nbttaglist = nbttagcompound.getTagList("direction", 6);
+			this.motionX = nbttaglist.func_150309_d(0);
+			this.motionY = nbttaglist.func_150309_d(1);
+			this.motionZ = nbttaglist.func_150309_d(2);
 		} else {
 			this.setDead();
 		}

@@ -3,14 +3,14 @@ package rubedo.items.spells;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
@@ -24,8 +24,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 // TODO: build out more
 public abstract class SpellBase extends MultiItem {
 
-	public SpellBase(int id) {
-		super(id);
+	public SpellBase() {
+		super();
 		this.setUnlocalizedName("SpellBase");
 		this.setCreativeTab(RubedoCore.creativeTab);
 	}
@@ -89,7 +89,7 @@ public abstract class SpellBase extends MultiItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getIcon(ItemStack stack, int renderPass) {
+	public IIcon getIcon(ItemStack stack, int renderPass) {
 		SpellProperties properties = getSpellProperties(stack);
 
 		String name = "blank";
@@ -109,7 +109,7 @@ public abstract class SpellBase extends MultiItem {
 				break;
 		}
 
-		Icon icon = getRenderList().get(name);
+		IIcon icon = getRenderList().get(name);
 		if (icon == null)
 			icon = getRenderList().get("blank");
 
@@ -117,7 +117,7 @@ public abstract class SpellBase extends MultiItem {
 	}
 
 	@Override
-	public void registerIcons(IconRegister iconRegister) {
+	public void registerIcons(IIconRegister iconRegister) {
 		super.registerIcons(iconRegister);
 
 		for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials
@@ -125,7 +125,7 @@ public abstract class SpellBase extends MultiItem {
 			String name = "base_" + baseEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":spells/"
+					iconRegister.registerIcon(RubedoCore.modid + ":spells/"
 							+ name));
 		}
 
@@ -134,7 +134,7 @@ public abstract class SpellBase extends MultiItem {
 			String name = "focus_" + focusEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":spells/"
+					iconRegister.registerIcon(RubedoCore.modid + ":spells/"
 							+ name));
 		}
 
@@ -143,7 +143,7 @@ public abstract class SpellBase extends MultiItem {
 			String name = "effect_" + effectEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":spells/"
+					iconRegister.registerIcon(RubedoCore.modid + ":spells/"
 							+ name));
 		}
 	}
