@@ -2,7 +2,7 @@ package rubedo.ai;
 
 import java.util.List;
 
-import util.ReflectionHelper;
+import rubedo.util.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.item.EntityItem;
