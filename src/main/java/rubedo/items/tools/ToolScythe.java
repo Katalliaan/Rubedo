@@ -193,14 +193,12 @@ public class ToolScythe extends ToolBase {
 				return true;
 			}
 
-			int blockId = Block.getIdFromBlock(world.getBlock(xCoord, yCoord,
-					zCoord));
+			Block block = world.getBlock(xCoord, yCoord, zCoord);
 			boolean airAbove = world.isAirBlock(xCoord, yCoord + 1, zCoord);
 
 			if (par7 != 0
 					&& airAbove
-					&& (blockId == Block.getIdFromBlock(Blocks.grass) || blockId == Block
-							.getIdFromBlock(Blocks.dirt))) {
+					&& (block == Blocks.grass || block == Blocks.dirt)) {
 				world.playSoundEffect((double) ((float) xCoord + 0.5F),
 						(double) ((float) yCoord + 0.5F),
 						(double) ((float) zCoord + 0.5F),
