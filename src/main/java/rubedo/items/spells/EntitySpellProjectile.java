@@ -121,14 +121,13 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(
 					this.motionY, (double) motion) * 180.0D / Math.PI);
 		}
+		
+		Block currentTile = worldObj.getBlock(xTile, yTile, zTile);
 
-		int currentTile = this.worldObj.getBlockId(this.xTile, this.yTile,
-				this.zTile);
-
-		if (currentTile > 0) {
-			Block.blocksList[currentTile].setBlockBoundsBasedOnState(
+		if (!worldObj.isAirBlock(xTile, yTile, zTile)) {
+			currentTile.setBlockBoundsBasedOnState(
 					this.worldObj, this.xTile, this.yTile, this.zTile);
-			AxisAlignedBB axisalignedbb = Block.blocksList[currentTile]
+			AxisAlignedBB axisalignedbb = currentTile
 					.getCollisionBoundingBoxFromPool(this.worldObj, this.xTile,
 							this.yTile, this.zTile);
 
@@ -141,10 +140,9 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 		}
 
 		if (this.inGround) {
-			int inBlockId = this.worldObj.getBlockId(this.xTile, this.yTile,
-					this.zTile);
+			Block inBlock = worldObj.getBlock(xTile, yTile, zTile);
 
-			if (inBlockId == this.inTile) {
+			if (Block.getIdFromBlock(inBlock) == this.inTile) {
 				++this.ticksAlive;
 
 				if (this.ticksAlive == 600) {
