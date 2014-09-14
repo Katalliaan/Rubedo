@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -46,14 +48,7 @@ public class ContentWorld implements IContent {
 	});
 
 	@Override
-	public void config(Configuration config) {
-		// Blocks
-		Config.initId("BlockOres");
-		Config.initId("BlockMetals");
-		
-		// Items
-		Config.initId("ItemMetals");
-		
+	public void config(Configuration config) {		
 		// Generation
 		configMetals();
 	}
@@ -91,13 +86,13 @@ public class ContentWorld implements IContent {
 	public void register() {
 		registerMetals();
 				
-		GameRegistry.registerWorldGenerator(new WorldGenerator());
+		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
 	}
 	
 	private void registerMetals() {
-		oreBlocks = new BlockMetalOre(Config.getId("BlockOres"));
-		metalBlocks = new BlockMetal(Config.getId("BlockMetals"));
-		metalItems = new ItemMetal(Config.getId("ItemMetals"));
+		oreBlocks = new BlockMetalOre();
+		metalBlocks = new BlockMetal();
+		metalItems = new ItemMetal();
 		
 		// Register blocks
 		GameRegistry.registerBlock(oreBlocks, ItemBlockMetalOre.class, "MetalOre");
@@ -108,19 +103,19 @@ public class ContentWorld implements IContent {
 			registerMetal(metal);
 		
 		// Iron nugget recipes
-		GameRegistry.addRecipe(new ItemStack(Item.ingotIron), "###", "###", "###", '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
-		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")), "m", 'm', new ItemStack(Item.ingotIron));
+		GameRegistry.addRecipe(new ItemStack(Items.iron_ingot), "###", "###", "###", '#', new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
+		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")), "m", 'm', new ItemStack(Items.iron_ingot));
 		OreDictionary.registerOre("nuggetIron", new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
 		
 		// Bucket change
-		RecipeRemover.removeAnyRecipe(new ItemStack(Item.bucketEmpty));
-		GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null}, new ItemStack(Item.bucketEmpty)));
+		RecipeRemover.removeAnyRecipe(new ItemStack(Items.bucket));
+		GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null}, new ItemStack(Items.bucket)));
 		
 		// Temporary alloy recipes
-		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(Item.ingotGold));
-		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), new ItemStack(Item.ingotIron), new ItemStack(Block.slowSand));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(Items.gold_ingot));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), new ItemStack(Items.iron_ingot), new ItemStack(Blocks.soul_sand));
 		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("mythril_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("copper_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("silver_ingot")));
-		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("hepatizon_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("mythril_ingot")), new ItemStack(Block.whiteStone));
+		GameRegistry.addShapelessRecipe(new ItemStack(metalItems, 2, metalItems.getTextureIndex("hepatizon_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("orichalcum_ingot")), new ItemStack(metalItems, 1, metalItems.getTextureIndex("mythril_ingot")), new ItemStack(Blocks.end_stone));
 	}
 	
 	private void registerMetal(Metal metal) {
@@ -128,7 +123,7 @@ public class ContentWorld implements IContent {
 		
 		// Harvest levels
 		if (metal.isGenerated == true)
-			MinecraftForge.setBlockHarvestLevel(oreBlocks, oreBlocks.getTextureIndex(metal.name+"_ore"), "pickaxe", metal.harvestLevel);
+			MinecraftForge.setBlockHarvestLevel(oreBlocks.setBlockHarvestLevel(oreBlocks.getTextureIndex(metal.name+"_ore"), "pickaxe", metal.harvestLevel));
 		MinecraftForge.setBlockHarvestLevel(metalBlocks, metalBlocks.getTextureIndex(metal.name+"_block"), "pickaxe", metal.harvestLevel);
 		
 		// Recipes: nugget <-> ingot <-> block
@@ -138,7 +133,15 @@ public class ContentWorld implements IContent {
 		GameRegistry.addRecipe(new ItemStack(metalItems, 9, metalItems.getTextureIndex(metal.name+"_ingot")), "m", 'm', new ItemStack(metalBlocks, 1, metalBlocks.getTextureIndex(metal.name+"_block")));
 	
 		if (metal.isGenerated == true)
-			FurnaceRecipes.smelting().addSmelting(oreBlocks.blockID, oreBlocks.getTextureIndex(metal.name+"_ore"), new ItemStack(metalItems, 1, metalItems.getTextureIndex(metal.name+"_ingot")), 0.5F);
+			GameRegistry.addSmelting(
+					new ItemStack(oreBlocks, 1,
+					oreBlocks.getTextureIndex(metal.name+"_ore")), 
+					new ItemStack(
+							metalItems, 
+							1, 
+							metalItems.getTextureIndex(metal.name+"_ingot")
+					), 
+					0.5F);
 		
 		if (metal.isGenerated == true)
 			OreDictionary.registerOre("ore"+metal, new ItemStack(oreBlocks, 1, oreBlocks.getTextureIndex(metal.name+"_ore")));
