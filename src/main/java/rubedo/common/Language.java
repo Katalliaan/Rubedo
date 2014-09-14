@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 import net.minecraft.client.resources.I18n;
 import rubedo.RubedoCore;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -85,9 +84,7 @@ public class Language {
 				if (formatting.containsKey(parameter.getKey())) {
 					switch (formatting.get(parameter.getKey())) {
 					case CAPITALIZED:
-						if (FMLCommonHandler.instance().getCurrentLanguage() == "en_US"
-						 || FMLCommonHandler.instance().getCurrentLanguage() == "en_UK")
-							value = value.substring(0, 1).toUpperCase() + value.substring(1);
+						value = value.substring(0, 1).toUpperCase() + value.substring(1);
 						break;
 					case LOWERCASE:
 						value = value.toLowerCase();
