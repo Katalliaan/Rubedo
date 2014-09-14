@@ -4,28 +4,28 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import rubedo.RubedoCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class MultiItem extends Item {
-	protected Icon iconBlank;
+	protected IIcon iconBlank;
 	
-	private HashMap<String, Icon> registeredIcons;
+	private HashMap<String, IIcon> registeredIcons;
 	
-	public MultiItem(int id) {
-		super(id);
+	public MultiItem() {
+		super();
 		this.maxStackSize = 1;
         this.setUnlocalizedName("MultiItem");
         
-        registeredIcons = new LinkedHashMap<String, Icon>();
+        registeredIcons = new LinkedHashMap<String, IIcon>();
 	}
 	
-	public Map<String, Icon> getRenderList() {
+	public Map<String, IIcon> getRenderList() {
 		return registeredIcons;
 	}
 
@@ -46,21 +46,21 @@ public abstract class MultiItem extends Item {
     }
 	
 	@Override
-    public void registerIcons (IconRegister iconRegister)
+    public void registerIcons (IIconRegister iconRegister)
     {		
-		getRenderList().put("blank", iconRegister.registerIcon(RubedoCore.getId() + ":blank"));
+		getRenderList().put("blank", iconRegister.registerIcon(RubedoCore.modid + ":blank"));
     }
 	
 	@Override
     @SideOnly(Side.CLIENT)
-    public Icon getIconFromDamage (int meta)
+    public IIcon getIconFromDamage (int meta)
     {
         return iconBlank;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public abstract Icon getIcon (ItemStack stack, int renderPass);
+    public abstract IIcon getIcon (ItemStack stack, int renderPass);
 
     @Override
     public boolean isFull3D ()

@@ -1,7 +1,7 @@
 package rubedo.common;
 
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 
 public class ContentAI implements IContent {
 

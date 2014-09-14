@@ -6,12 +6,12 @@ import rubedo.common.ContentWorld;
 
 public class BlockMetalOre extends BlockBase {
 
-	public BlockMetalOre(int blockID) {
-		super(blockID, Material.rock, new String[ContentWorld.metals.size()]);
+	public BlockMetalOre() {
+		super(Material.rock, new String[ContentWorld.metals.size()]);
 
 		setHardness(3.0F);
 		setResistance(5.0F);
-		setStepSound(Block.soundStoneFootstep);
+		setStepSound(Block.soundTypeStone);
 
 		for (int i = 0; i < ContentWorld.metals.size(); i++) {
 			if (ContentWorld.metals.get(i).isGenerated == true)

@@ -15,8 +15,8 @@ import net.minecraft.potion.PotionEffect;
 
 public class ToolAxe extends ToolBase {
 
-	public ToolAxe(int id) {
-		super(id);
+	public ToolAxe() {
+		super();
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[]{Material.plants, Material.pumpkin, Material.wood};
+		return new Material[]{Material.plants, Material.gourd, Material.wood};
 	}
 
 	@Override

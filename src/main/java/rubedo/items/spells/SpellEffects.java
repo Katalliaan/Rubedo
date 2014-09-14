@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -60,6 +61,7 @@ public class SpellEffects {
 	public static void hitBlock(World world, SpellProperties properties,
 			int blockX, int blockY, int blockZ, int sideHit) {
 		String effectType = properties.getEffectType();
+		Block block = world.getBlock(blockX, blockY, blockZ);
 
 		if (effectType == "fire") {
 			switch (sideHit) {
@@ -83,7 +85,7 @@ public class SpellEffects {
 			}
 
 			if (world.isAirBlock(blockX, blockY, blockZ)) {
-				world.setBlock(blockX, blockY, blockZ, Block.fire.blockID);
+				world.setBlock(blockX, blockY, blockZ, Blocks.fire);
 			}
 		} else if (effectType == "water" && !world.provider.isHellWorld) {
 			switch (sideHit) {
@@ -108,7 +110,7 @@ public class SpellEffects {
 
 			if (world.isAirBlock(blockX, blockY, blockZ)) {
 				world.setBlock(blockX, blockY, blockZ,
-						Block.waterMoving.blockID);
+						Blocks.flowing_water);
 				world.setBlockMetadataWithNotify(blockX, blockY, blockZ, 1, 1);
 
 				for (int i = 0; i < 4; i++) {
@@ -132,7 +134,7 @@ public class SpellEffects {
 
 					if (world.isAirBlock(secondaryX, blockY, secondaryZ)) {
 						world.setBlock(secondaryX, blockY, secondaryZ,
-								Block.waterMoving.blockID);
+								Blocks.flowing_water);
 						world.setBlockMetadataWithNotify(secondaryX, blockY,
 								secondaryZ, 2, 1);
 					}
@@ -141,38 +143,26 @@ public class SpellEffects {
 		} // break spells have to test against air blocks in the event of one
 			// block relying on another (signs, vines, torches, etc)
 		else if (effectType == "break"
-				&& world.getBlockId(blockX, blockY, blockZ) != 0) {
-			Block block = Block.blocksList[world.getBlockId(blockX, blockY,
-					blockZ)];
+				&& world.getBlock(blockX, blockY, blockZ) != Blocks.air) {
 			int metadata = world.getBlockMetadata(blockX, blockY, blockZ);
 
 			// TODO: see if this can be cleaned up a bit
 			boolean canHarvest = false;
 			int miningLevel = properties.getMiningLevel();
 
-			if (MinecraftForge.getBlockHarvestLevel(block, metadata, "pickaxe") <= miningLevel && MinecraftForge.getBlockHarvestLevel(block, metadata, "pickaxe") != -1)
+			if (block.getHarvestLevel(metadata) <= miningLevel && block.getHarvestLevel(metadata) != -1)
 				canHarvest = true;
-			else if (MinecraftForge.getBlockHarvestLevel(block, metadata,
-					"shovel") <= miningLevel && MinecraftForge.getBlockHarvestLevel(block, metadata, "shovel") != -1)
-				canHarvest = true;
-			else if (MinecraftForge
-					.getBlockHarvestLevel(block, metadata, "axe") <= miningLevel && MinecraftForge.getBlockHarvestLevel(block, metadata, "axe") != -1)
-				canHarvest = true;
-			else if (MinecraftForge.getBlockHarvestLevel(block, metadata,
-					"sword") <= miningLevel  && MinecraftForge.getBlockHarvestLevel(block, metadata, "sword") != -1)
-				canHarvest = true;
-			else if (block.blockMaterial.isToolNotRequired())
+			else if (block.getMaterial().isToolNotRequired())
 				canHarvest = true;
 
 			if (canHarvest) {
 				block.dropBlockAsItemWithChance(world, blockX, blockY, blockZ,
 						world.getBlockMetadata(blockX, blockY, blockZ), 1.0F, 0);
-				world.setBlock(blockX, blockY, blockZ, 0);
+				world.setBlock(blockX, blockY, blockZ, Blocks.air);
 			}
 		} else if (effectType == "life") {
-			int l = world.getBlockId(blockX, blockY, blockZ);
-			if (Block.blocksList[l] instanceof BlockCrops) {
-				world.scheduleBlockUpdate(blockX, blockY, blockZ, l, 0);
+			if (block instanceof BlockCrops) {
+				world.scheduleBlockUpdate(blockX, blockY, blockZ, block, 0);
 			}
 		}
 	}

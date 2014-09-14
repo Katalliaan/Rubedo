@@ -204,7 +204,7 @@ public class SoulNetworkHandler
 
         if (item.stackTagCompound.getString("ownerName").equals(""))
         {
-            item.stackTagCompound.setString("ownerName", player.getEntityName());
+            item.stackTagCompound.setString("ownerName", SoulNetworkHandler.getUsername(player));
         }
     }
 
@@ -220,4 +220,9 @@ public class SoulNetworkHandler
             item.stackTagCompound.setString("ownerName", ownerName);
         }
     }
+    
+    public static String getUsername(EntityPlayer player)
+	{
+		return player.getDisplayName();
+	}
 }

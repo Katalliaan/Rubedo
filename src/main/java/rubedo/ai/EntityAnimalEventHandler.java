@@ -1,7 +1,7 @@
 package rubedo.ai;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 /**
@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 public class EntityAnimalEventHandler 
 {
 
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void entitySpawning(EntityJoinWorldEvent event)
 	{
 		if (!(event.entity instanceof EntityAnimal)) 

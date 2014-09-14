@@ -5,16 +5,15 @@ import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
@@ -25,8 +24,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 //TODO: add getStrVsBlock
 public abstract class ToolBase extends MultiItem {
-	public ToolBase(int id) {
-		super(id);
+	public ToolBase() {
+		super();
 		this.setUnlocalizedName("ToolBase");
 		this.setCreativeTab(RubedoCore.creativeTab);
 
@@ -36,19 +35,27 @@ public abstract class ToolBase extends MultiItem {
 	}
 
 	public abstract String getName();
+
 	public float getWeaponDamage() {
 		return 0.0F;
 	}
+
 	public abstract int getItemDamageOnHit();
+
 	public abstract int getItemDamageOnBreak();
+
 	public abstract float getEffectiveBlockSpeed();
+
 	public float getEffectiveMaterialSpeed() {
 		return 1.5F;
 	}
+
 	public float getBaseSpeed() {
 		return 1.0f;
 	}
+
 	public abstract Material[] getEffectiveMaterials();
+
 	public abstract Block[] getEffectiveBlocks();
 
 	public abstract List<Integer> getAllowedEnchantments();
@@ -60,30 +67,43 @@ public abstract class ToolBase extends MultiItem {
 		return new ToolProperties(stack, this);
 	}
 
+	// TODO: determine if these are unnecessary
+	// @Override
+	// public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z,
+	// EntityPlayer player) {
+	// ToolProperties properties = getToolProperties(stack);
+	// World world = player.worldObj;
+	// Block block = world.getBlock(x, y, z);
+	//
+	// int meta = world.getBlockMetadata(x, y, z);
+	//
+	// boolean canHarvest = properties.getMiningLevel() >= MinecraftForge
+	// .getBlockHarvestLevel(block, meta, getName());
+	//
+	// if (canHarvest)
+	// return super.onBlockStartBreak(stack, x, y, z, player);
+	// else {
+	// BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(x, y, z,
+	// world, block, meta, player);
+	// event.setCanceled(true);
+	// MinecraftForge.EVENT_BUS.post(event);
+	// return event.isCanceled();
+	// }
+	// }
+	// public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+	// return MinecraftForge.getBlockHarvestLevel(par1Block, 0, getName()) <=
+	// this
+	// .getToolProperties(itemStack).getMiningLevel();
+	// }
+
 	@Override
-	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z,
-			EntityPlayer player) {
+	public int getHarvestLevel(ItemStack stack, String toolClass) {
+		if (!toolClass.equals(getName()))
+			return -1;
+
 		ToolProperties properties = getToolProperties(stack);
-		World world = player.worldObj;
-		Block block = Block.blocksList[world.getBlockId(x, y, z)];
-		int meta = world.getBlockMetadata(x, y, z);
 
-		boolean canHarvest = properties.getMiningLevel() >= MinecraftForge
-				.getBlockHarvestLevel(block, meta, getName());
-
-		if (canHarvest)
-			return super.onBlockStartBreak(stack, x, y, z, player);
-		else {
-			BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(x, y, z,
-					world, block, meta, player);
-			event.setCanceled(true);
-			MinecraftForge.EVENT_BUS.post(event);
-			return event.isCanceled();
-		}
-	}
-	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-		return MinecraftForge.getBlockHarvestLevel(par1Block, 0, getName()) <= this
-				.getToolProperties(itemStack).getMiningLevel();
+		return properties.getMiningLevel();
 	}
 
 	@Override
@@ -93,49 +113,48 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getIcon(ItemStack stack, int renderPass) {
+	public IIcon getIcon(ItemStack stack, int renderPass) {
 		ToolProperties properties = getToolProperties(stack);
 
 		String name = "blank";
 
 		if (properties.isValid()) {
 			switch (renderPass) {
-				case 0 :
-					// Head
-					if (!properties.isBroken())
-						name = getName() + "_head_"
-								+ properties.getHeadMaterial();
-					else
-						name = getName() + "_head_"
-								+ properties.getHeadMaterial() + "_broken";
-					if (!getRenderList().containsKey(name))
-						name = getName() + "_head_flint_broken";
-					break;
-				case 1 :
-					// Rod
-					name = getName() + "_rod_" + properties.getRodMaterial();
-					if (!getRenderList().containsKey(name))
-						name = getName() + "_rod_wood";
-					break;
-				case 2 :
-					// Cap
-					name = getName() + "_cap_" + properties.getCapMaterial();
-					if (!getRenderList().containsKey(name))
-						name = getName() + "_cap_wood";
-					break;
+			case 0:
+				// Head
+				if (!properties.isBroken())
+					name = getName() + "_head_" + properties.getHeadMaterial();
+				else
+					name = getName() + "_head_" + properties.getHeadMaterial()
+							+ "_broken";
+				if (!getRenderList().containsKey(name))
+					name = getName() + "_head_flint_broken";
+				break;
+			case 1:
+				// Rod
+				name = getName() + "_rod_" + properties.getRodMaterial();
+				if (!getRenderList().containsKey(name))
+					name = getName() + "_rod_wood";
+				break;
+			case 2:
+				// Cap
+				name = getName() + "_cap_" + properties.getCapMaterial();
+				if (!getRenderList().containsKey(name))
+					name = getName() + "_cap_wood";
+				break;
 			}
 		}
 
 		if (!getRenderList().containsKey(name))
 			name = "blank";
-		
-		Icon icon = getRenderList().get(name);
+
+		IIcon icon = getRenderList().get(name);
 
 		return icon;
 	}
 
 	@Override
-	public void registerIcons(IconRegister iconRegister) {
+	public void registerIcons(IIconRegister iconRegister) {
 		super.registerIcons(iconRegister);
 
 		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads
@@ -143,11 +162,11 @@ public abstract class ToolBase extends MultiItem {
 			String name = getName() + "_head_" + headEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":tools/"
+					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
 							+ name));
 			getRenderList().put(
 					name + "_broken",
-					iconRegister.registerIcon(RubedoCore.getId() + ":tools/"
+					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
 							+ name + "_broken"));
 		}
 
@@ -156,7 +175,7 @@ public abstract class ToolBase extends MultiItem {
 			String name = getName() + "_rod_" + rodEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":tools/"
+					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
 							+ name));
 		}
 
@@ -165,7 +184,7 @@ public abstract class ToolBase extends MultiItem {
 			String name = getName() + "_cap_" + capEntry.getKey();
 			getRenderList().put(
 					name,
-					iconRegister.registerIcon(RubedoCore.getId() + ":tools/"
+					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
 							+ name));
 		}
 	}
@@ -205,18 +224,18 @@ public abstract class ToolBase extends MultiItem {
 	}
 
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World world, int blockID,
+	public boolean onBlockDestroyed(ItemStack stack, World world, Block block,
 			int x, int y, int z, EntityLivingBase player) {
-		if ((double) Block.blocksList[blockID].getBlockHardness(world, x, y, z) != 0.0D) {
+		if ((double) block.getBlockHardness(world, x, y, z) != 0.0D) {
 			ToolProperties properties = this.getToolProperties(stack);
-			return ToolUtil.onBlockDestroyed(properties, world, blockID, x, y,
-					z, player);
+			return ToolUtil.onBlockDestroyed(properties, world,
+					Block.getIdFromBlock(block), x, y, z, player);
 		}
 		return false;
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack stack, Block block, int meta) {
+	public float getDigSpeed(ItemStack stack, Block block, int meta) {
 		return ToolUtil.getStrVsBlock(this.getToolProperties(stack), block,
 				meta);
 	}
@@ -233,9 +252,9 @@ public abstract class ToolBase extends MultiItem {
 
 	// Misc
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void getSubItems(int id, CreativeTabs tabs, List list) {
+	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads
 				.entrySet())
 			for (Entry<String, ContentTools.Material> rodEntry : ContentTools.toolRods
@@ -247,7 +266,7 @@ public abstract class ToolBase extends MultiItem {
 				}
 	}
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list,
@@ -268,7 +287,7 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public String getItemDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack) {
 		ToolProperties properties = getToolProperties(stack);
 
 		String key;
@@ -296,7 +315,7 @@ public abstract class ToolBase extends MultiItem {
 	public ItemStack buildTool(ItemStack tool, String head, String rod,
 			String cap) {
 		NBTTagCompound compound = new NBTTagCompound();
-		compound.setCompoundTag("RubedoTool", new NBTTagCompound());
+		compound.setTag("RubedoTool", new NBTTagCompound());
 		tool.setTagCompound(compound);
 
 		// Set the correct tool properties

@@ -7,8 +7,8 @@ import rubedo.common.ContentSpells;
 
 public class SpellSelf extends SpellBase {
 
-	public SpellSelf(int id) {
-		super(id);
+	public SpellSelf() {
+		super();
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public interface IBlockRayFilter extends IFilter<IBlockRayFilter.WorldPosition> 
 		public ChunkPosition position;
 		
 		public Block getBlock() {
-			return Block.blocksList[this.world.getBlockId(this.position.x, this.position.y, this.position.z)];
+			return this.world.getBlock(this.position.chunkPosX, this.position.chunkPosY, this.position.chunkPosZ);
 		}
 	}
 }

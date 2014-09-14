@@ -1,55 +1,10 @@
-# Gradle
-/.gradle
-/build/
-/run/
-
-# ANT files
-/bin/
-/download/
-
-# IDEA from Gradle
-.idea/
-/*.iml
-/*.ipr
-/*.iws
-
-# Eclipse
-/.classpath
-/.metadata/
-/.project
-/.settings/
-/debug/
-*.lock
-
-# Minecraft
-/config/
-/crash-reports/
-/logs/
-/mods/
-/resourcepacks/
-/saves/
-/screenshots/
-/stats/
-options.txt
-optionsof.txt
-ForgeModLoader*.log*
-output-client.log*
-output-server.log*
-
-# Minecraft Server
-/world/
-banned-ips.txt
-banned-players.txt
-ops.txt
-server*
-white-list.txt
-
-#Remove OS generated garbage
-*/.DS_Store
-.DS_Store
-.DS_Store?
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
+# keep root directory clean
+/*
+!/*/*
+!/src/
+!.gitignore
+!gradlew*
+!/gradle/
+!build.gradle
+!/LICENSE
+!/README.md

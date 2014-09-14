@@ -1,6 +1,7 @@
 package rubedo.items.tools;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 
                 if (itemstack != null)
                 {
-                    if (itemstack.getItem().itemID == Item.enchantedBook.itemID) {
+                    if (Item.getIdFromItem(itemstack.getItem()) == Item.getIdFromItem(Items.enchanted_book)) {
                     	if (this.enchantedBook != null)
                     		return false;
                     	
@@ -68,7 +69,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
     	
 		for (int iBook = 0; iBook < bookList.tagCount(); iBook++) {
 			boolean found = false;
-			NBTTagCompound bookEnchant = (NBTTagCompound) bookList.tagAt(iBook);
+			NBTTagCompound bookEnchant = (NBTTagCompound) bookList.getCompoundTagAt(iBook);
 			
 			//Check the tool for allowed enchants
 			if (!this.tool.getItem().getAllowedEnchantments().contains((int)bookEnchant.getShort("id")))
@@ -76,7 +77,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 			
 			//Check if the enchant already exists
     		for (int iTool = 0; iTool < toolList.tagCount(); iTool++) {
-    			NBTTagCompound toolEnchant = (NBTTagCompound) toolList.tagAt(iTool);
+    			NBTTagCompound toolEnchant = (NBTTagCompound) toolList.getCompoundTagAt(iTool);
     			if (toolEnchant.getShort("id") == bookEnchant.getShort("id")) {
     				found = true;
     				if (toolEnchant.getShort("lvl") < bookEnchant.getShort("lvl")) {
@@ -91,7 +92,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
     		if (!found) {
     			boolean allowed = true;
     			for (int iTool = 0; iTool < toolList.tagCount(); iTool++) {
-        			int toolEnchant = ((NBTTagCompound) toolList.tagAt(iTool)).getShort("id");
+        			int toolEnchant = ((NBTTagCompound) toolList.getCompoundTagAt(iTool)).getShort("id");
 	    			if (!Enchantment.enchantmentsList[toolEnchant]
 	    					.canApplyTogether(Enchantment.enchantmentsList[bookEnchant.getShort("id")])) {
 	    				allowed = false;
@@ -123,8 +124,8 @@ public class ToolEnchantmentRecipes implements IRecipe {
     public static NBTTagList getEnchantmentTagList(ItemStack itemStack) {
     	NBTTagList nbttaglist = itemStack.getEnchantmentTagList();
     	
-    	if (nbttaglist == null || (nbttaglist.tagCount() == 0 && itemStack.itemID == Item.enchantedBook.itemID))
-    		nbttaglist = Item.enchantedBook.func_92110_g(itemStack);
+    	if (nbttaglist == null || (nbttaglist.tagCount() == 0 && Item.getIdFromItem(itemStack.getItem()) == Item.getIdFromItem(Items.enchanted_book)))
+    		nbttaglist = Items.enchanted_book.func_92110_g(itemStack);
     	
     	return nbttaglist != null ? nbttaglist : new NBTTagList();
     }

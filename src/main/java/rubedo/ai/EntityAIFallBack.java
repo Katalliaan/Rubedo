@@ -72,8 +72,8 @@ public class EntityAIFallBack extends EntityAIBase {
 		Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockAwayFrom(
 				this.theEntity,
 				6,
-				7,
-				this.theEntity.worldObj.getWorldVec3Pool().getVecFromPool(
+				0,
+				Vec3.createVectorHelper(
 						this.closestLivingEntity.posX,
 						this.closestLivingEntity.posY,
 						this.closestLivingEntity.posZ));

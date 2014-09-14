@@ -4,10 +4,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import rubedo.RubedoCore;
 import rubedo.items.spells.EntitySpellProjectile;
 import rubedo.items.spells.SpellArea;
@@ -23,17 +23,13 @@ public class ContentSpells implements IContent {
 
 	@Override
 	public void config(Configuration config) {
-		// Tools
-		Config.initId("SpellProjectile");
-		Config.initId("SpellSelf");
-		Config.initId("SpellArea");
 	}
 
 	@Override
 	public void register() {
-		spellProjectile = new SpellProjectile(Config.getId("SpellProjectile"));
-		spellSelf = new SpellSelf(Config.getId("SpellSelf"));
-		spellArea = new SpellArea(Config.getId("SpellArea"));
+		spellProjectile = new SpellProjectile();
+		spellSelf = new SpellSelf();
+		spellArea = new SpellArea();
 
 		registerSpellMaterials();
 		// registerSpellRecipes();
@@ -64,7 +60,7 @@ public class ContentSpells implements IContent {
 			iron.power = 2;
 			iron.miningLevel = 2;
 			iron.focusModifier = 0.6f;
-			iron.baseMaterial = new ItemStack(Item.ingotIron);
+			iron.baseMaterial = new ItemStack(Items.iron_ingot);
 		}
 
 		Material gold = new Material();
@@ -74,7 +70,7 @@ public class ContentSpells implements IContent {
 			gold.power = 5;
 			gold.miningLevel = 0;
 			gold.focusModifier = 4.0f;
-			gold.baseMaterial = new ItemStack(Item.ingotGold);
+			gold.baseMaterial = new ItemStack(Items.gold_ingot);
 		}
 
 		Material silver = new Material();
@@ -92,7 +88,7 @@ public class ContentSpells implements IContent {
 		Material arrow = new Material();
 		{
 			arrow.name = "arrow";
-			arrow.focusMaterial = new ItemStack(Item.arrow);
+			arrow.focusMaterial = new ItemStack(Items.arrow);
 			arrow.castTime = 1.0f;
 			arrow.focusType = "projectile";
 		}
@@ -100,7 +96,7 @@ public class ContentSpells implements IContent {
 		Material bottle = new Material();
 		{
 			bottle.name = "bottle";
-			bottle.focusMaterial = new ItemStack(Item.glassBottle);
+			bottle.focusMaterial = new ItemStack(Items.glass_bottle);
 			bottle.castTime = 1.0f;
 			bottle.focusType = "self";
 		}
@@ -108,7 +104,7 @@ public class ContentSpells implements IContent {
 		Material gunpowder = new Material();
 		{
 			gunpowder.name = "gunpowder";
-			gunpowder.focusMaterial = new ItemStack(Item.gunpowder);
+			gunpowder.focusMaterial = new ItemStack(Items.gunpowder);
 			gunpowder.castTime = 1.0f;
 			gunpowder.focusType = "area";
 		}
@@ -117,28 +113,28 @@ public class ContentSpells implements IContent {
 		Material blazerod = new Material();
 		{
 			blazerod.name = "blazerod";
-			blazerod.effectMaterial = new ItemStack(Item.blazeRod);
+			blazerod.effectMaterial = new ItemStack(Items.blaze_rod);
 			blazerod.effectType = "fire";
 		}
 
 		Material snowball = new Material();
 		{
 			snowball.name = "snowball";
-			snowball.effectMaterial = new ItemStack(Item.snowball);
+			snowball.effectMaterial = new ItemStack(Items.snowball);
 			snowball.effectType = "water";
 		}
 
 		Material flint = new Material();
 		{
 			flint.name = "flint";
-			flint.effectMaterial = new ItemStack(Item.flint);
+			flint.effectMaterial = new ItemStack(Items.flint);
 			flint.effectType = "break";
 		}
 		
 		Material bone = new Material();
 		{
 			bone.name = "bone";
-			bone.effectMaterial = new ItemStack(Item.bone);
+			bone.effectMaterial = new ItemStack(Items.bone);
 			bone.effectType = "life";
 		}
 

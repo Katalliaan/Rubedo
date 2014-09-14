@@ -1,130 +1,63 @@
-/*
- * Rubedo
- * Master build file
- */
-
 buildscript {
     repositories {
         mavenCentral()
         maven {
-            name = 'ForgeFS'
-            url = 'http://files.minecraftforge.net/maven'
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
-repositories {
-    ivy {
-        name 'Forge FS legacy'
-        artifactPattern "http://files.minecraftforge.net/[module]/[module]-dev-[revision].[ext]"
-    }
-    maven {
-        name 'ForgeFS'
-        url 'http://files.minecraftforge.net/maven'
-     }
-}
-
-// Load ForgeGradle
 apply plugin: 'forge'
 
-// Define properties file
-ext.configFile = file "build.properties"
+version = "0.1.4c"
+group= "org.github.Katalliaan.Rubedo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "rubedo"
 
-configFile.withReader {
-    // Load config.  It shall from now be referenced as simply config or project.config
-    def prop = new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
-}
-
-ext.artifact_version_override = 'NotUsed'
-//gitignored config file -- if this has the entry for override it will override the version for local builds
-//create a file called version.properties with the line artifact_version_override=NotUsed
-//replace not used w/ version #'s for manual local overrides
-ext.configFile2 = file "version.properties"
-if (configFile2.exists()){
-    configFile2.withReader {
-        def prop2 = new Properties()
-        prop2.load(it)
-        ext.GIVersionFL = new ConfigSlurper().parse prop2
-        if (GIVersionFL != null){
-            project.artifact_version_override = GIVersionFL.version
-        }
-    }
+minecraft {
+    version = "1.7.10-10.13.0.1180"
+    assetDir = "eclipse/assets"
 }
 
 dependencies {
-    //compile name: 'CodeChickenCore', version: "${config.minecraft_version}-${config.CCLIB_version}", ext: 'jar'
-    //compile files( 'mods/CodeChickenCore-dev 0.9.0.9.jar', 'mods/NotEnoughItems-dev 1.6.1.9.jar' )
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+      
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
 }
 
-// Finds and sets version data
-task buildInfo {
-    def cmd = "git rev-parse --short HEAD"
-    def proc = cmd.execute()
-    proc.waitFor()
-    if (proc.exitValue() == 0) {
-        ext.revision = proc.text.trim()
-    } else {
-        ext.revision = "GITBORK"
-    }
-
-    if (System.getenv().BUILD_NUMBER != null) {
-        ext.buildNum = System.getenv().BUILD_NUMBER
-    } else {
-        ext.buildNum = "DEV"
-    }
-}
-ext.artifact_version = 'NFG'
-if (System.getenv().ARTIFACT_VERSION == null && artifact_version_override == 'NotUsed') {
-    artifact_version = "${project.buildInfo.buildNum}.${project.buildInfo.revision}"
-}
-if (System.getenv().ARTIFACT_VERSION != null && artifact_version_override == 'NotUsed') {
-    artifact_version = "${system.getenv().ARTIFACT_VERSION}"
-}
-if (artifact_version_override != 'NotUsed') {
-    artifact_version = "${artifact_version_override}"
-}
-version = "${config.minecraft_version}-${artifact_version}"
-
-minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
-    assetDir = 'run/assets'
-    replace '${version}', project.version
-}
-
-
-sourceSets {
-    main {
-        resources {
-            srcDir 'resources'
-        }
-    }
-}
 processResources
 {
-    // Replace stuff in text files, not binaries.
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include '**/*.info'
-        // Replace version and MCversion
-        expand 'version':artifact_version,'MCversion':config.minecraft_version
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
-    // Copy everything else that's not text
+    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude '**/*.info'
+        exclude 'mcmod.info'
     }
-}
-
-// Create deobf dev jars
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
-}
-
-artifacts {
-    archives deobfJar
 }

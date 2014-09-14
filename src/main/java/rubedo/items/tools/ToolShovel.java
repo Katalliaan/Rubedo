@@ -8,12 +8,13 @@ import rubedo.common.ContentTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public class ToolShovel extends ToolBase {
 
-	public ToolShovel(int id) {
-		super(id);
+	public ToolShovel() {
+		super();
 	}
 
 	@Override
@@ -78,6 +79,6 @@ public class ToolShovel extends ToolBase {
 	}
 
 	public boolean canHarvestBlock(Block par1Block) {
-		return par1Block == Block.snow ? true : par1Block == Block.blockSnow;
+		return par1Block == Blocks.snow_layer ? true : par1Block == Blocks.snow;
 	}
 }

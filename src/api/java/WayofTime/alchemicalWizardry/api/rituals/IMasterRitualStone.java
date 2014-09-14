@@ -4,7 +4,7 @@ import net.minecraft.world.World;
 
 public interface IMasterRitualStone 
 {
-	public void performRitual(World world, int x, int y, int z, int ritualID);
+	public void performRitual(World world, int x, int y, int z, String ritualID);
 	
     public String getOwner();
 

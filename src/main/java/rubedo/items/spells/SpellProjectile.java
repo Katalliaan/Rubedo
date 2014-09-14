@@ -7,8 +7,8 @@ import rubedo.common.ContentSpells;
 
 public class SpellProjectile extends SpellBase {
 
-	public SpellProjectile(int id) {
-		super(id);
+	public SpellProjectile() {
+		super();
 	}
 
 	@Override
