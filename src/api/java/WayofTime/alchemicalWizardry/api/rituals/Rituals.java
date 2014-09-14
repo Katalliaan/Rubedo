@@ -1,11 +1,13 @@
 package WayofTime.alchemicalWizardry.api.rituals;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import scala.reflect.internal.Trees.This;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Rituals
 {
@@ -14,41 +16,86 @@ public class Rituals
     private RitualEffect effect;
     private String name;
 
-    public static List<Rituals> ritualList = new ArrayList();
+    public static Map<String,Rituals> ritualMap = new HashMap();
+    @Deprecated
+    public static List<Rituals> ritualList = new LinkedList();
+   	public static List<String> keyList = new LinkedList();
 
     public Rituals(int crystalLevel, int actCost, RitualEffect effect, String name)
     {
-        this.crystalLevel = crystalLevel;
+        this.crystalLevel = crystalLevel; //For a test commit
         this.actCost = actCost;
         this.effect = effect;
         this.name = name;
+        keyList.add(name);
+        ritualMap.put(name, this);
     }
-
-    public static int checkValidRitual(World world, int x, int y, int z)
+    
+    /**
+     * Static method to register a ritual to the Ritual Registry
+     * @param key	Unique identification key - must be different from all others to properly register
+     * @param crystalLevel	Crystal level required to activate
+     * @param actCost	LP amount required to activate
+     * @param effect	The effect that will be ticked
+     * @param name	The name of the ritual
+     * @return	Returns true if properly registered, or false if the key is already used
+     */
+    public static boolean registerRitual(String key, int crystalLevel, int actCost, RitualEffect effect, String name)
     {
-        for (int i = 1; i <= ritualList.size(); i++)
-        {
-            if (checkRitualIsValid(world, x, y, z, i))
-            {
-                return i;
-            }
-        }
-
-        return 0;
+    	if(ritualMap.containsKey(key))
+    	{
+    		return false;
+    	}
+    	else
+    	{
+    		Rituals ritual = new Rituals(crystalLevel, actCost, effect, name);
+    		ritual.removeRitualFromList();
+    		ritualMap.put(key, ritual);
+    		keyList.add(key);
+    		return true;
+    	}
     }
-
-    public static boolean canCrystalActivate(int ritual, int crystalLevel)
+    
+    public void removeRitualFromList()
     {
-        if (ritual <= ritualList.size())
-        {
-            return ritualList.get(ritual - 1).crystalLevel <= crystalLevel;
-        } else
-        {
-            return false;
-        }
+    	if(ritualMap.containsValue(this))
+    	{
+    		ritualMap.remove(ritualMap.remove(this.name));
+    	}
+    	if(keyList.contains(this.name))
+    	{
+    		keyList.remove(this.name);
+    	}
     }
 
-    public static boolean checkRitualIsValid(World world, int x, int y, int z, int ritualID)
+    public static String checkValidRitual(World world, int x, int y, int z)
+    {
+    	for(String key : ritualMap.keySet())
+    	{
+    		if(checkRitualIsValid(world,x,y,z,key))
+    		{
+    			return key;
+    		}
+    	}
+    	
+    	return "";
+    }
+
+    public static boolean canCrystalActivate(String ritualID, int crystalLevel)
+    {
+    	if(ritualMap.containsKey(ritualID))
+    	{
+    		Rituals ritual = ritualMap.get(ritualID);
+    		if(ritual != null)
+    		{
+    			return ritual.getCrystalLevel() <= crystalLevel;
+    		}
+    	}
+    	
+    	return false;
+    }
+
+    public static boolean checkRitualIsValid(World world, int x, int y, int z, String ritualID)
     {
         int direction = Rituals.getDirectionOfRitual(world, x, y, z, ritualID);
 
@@ -66,7 +113,7 @@ public class Rituals
      * 3 - SOUTH
      * 4 - WEST
      */
-    public static boolean checkDirectionOfRitualValid(World world, int x, int y, int z, int ritualID, int direction)
+    public static boolean checkDirectionOfRitualValid(World world, int x, int y, int z, String ritualID, int direction)
     {
         List<RitualComponent> ritual = Rituals.getRitualList(ritualID);
 
@@ -82,7 +129,7 @@ public class Rituals
             case 1:
                 for (RitualComponent rc : ritual)
                 {
-                    test = Block.blocksList[world.getBlockId(x + rc.getX(), y + rc.getY(), z + rc.getZ())];
+                    test = world.getBlock(x + rc.getX(), y + rc.getY(), z + rc.getZ());
 
                     if (!(test instanceof IRitualStone))
                     {
@@ -100,8 +147,8 @@ public class Rituals
             case 2:
                 for (RitualComponent rc : ritual)
                 {
-                    test = Block.blocksList[world.getBlockId(x - rc.getZ(), y + rc.getY(), z + rc.getX())];
-
+                	test = world.getBlock(x - rc.getZ(), y + rc.getY(), z + rc.getX());
+                	
                     if (!(test instanceof IRitualStone))
                     {
                         return false;
@@ -118,8 +165,8 @@ public class Rituals
             case 3:
                 for (RitualComponent rc : ritual)
                 {
-                    test = Block.blocksList[world.getBlockId(x - rc.getX(), y + rc.getY(), z - rc.getZ())];
-
+                	test = world.getBlock(x - rc.getX(), y + rc.getY(), z - rc.getZ());
+                	
                     if (!(test instanceof IRitualStone))
                     {
                         return false;
@@ -136,9 +183,9 @@ public class Rituals
             case 4:
                 for (RitualComponent rc : ritual)
                 {
-                    test = Block.blocksList[world.getBlockId(x + rc.getZ(), y + rc.getY(), z - rc.getX())];
-
-                    if (!(test instanceof IRitualStone))
+                	test = world.getBlock(x + rc.getZ(), y + rc.getY(), z - rc.getX());
+                	
+                	if (!(test instanceof IRitualStone))
                     {
                         return false;
                     }
@@ -155,7 +202,7 @@ public class Rituals
         return false;
     }
 
-    public static int getDirectionOfRitual(World world, int x, int y, int z, int ritualID)
+    public static int getDirectionOfRitual(World world, int x, int y, int z, String ritualID)
     {
         for (int i = 1; i <= 4; i++)
         {
@@ -168,42 +215,50 @@ public class Rituals
         return -1;
     }
 
-    public static int getCostForActivation(int ritualID)
+    public static int getCostForActivation(String ritualID)
     {
-        if (ritualID <= ritualList.size())
-        {
-            return ritualList.get(ritualID - 1).actCost;
-        } else
-        {
-            return 0;
-        }
+    	if(ritualMap.containsKey(ritualID))
+    	{
+    		Rituals ritual = ritualMap.get(ritualID);
+    		if(ritual != null)
+    		{
+    			return ritual.actCost;
+    		}
+    	}
+    	
+    	return 0;
     }
 
-    public static int getInitialCooldown(int ritualID)
+    public static int getInitialCooldown(String ritualID)
     {
-        if (ritualID <= ritualList.size())
-        {
-            RitualEffect ef = ritualList.get(ritualID - 1).effect;
-
-            if (ef != null)
-            {
-                OreDictionary d;
-                return ef.getInitialCooldown();
-            }
-        }
-
-        return 0;
+    	if(ritualMap.containsKey(ritualID))
+    	{
+    		Rituals ritual = ritualMap.get(ritualID);
+    		if(ritual != null && ritual.effect != null)
+    		{
+    			return ritual.effect.getInitialCooldown();
+    		}
+    	}
+    	
+    	return 0;
     }
 
-    public static List<RitualComponent> getRitualList(int ritualID)
+    public static List<RitualComponent> getRitualList(String ritualID)
     {
-        if (ritualID <= ritualList.size())
-        {
-            return ritualList.get(ritualID - 1).obtainComponents();
-        } else
-        {
-            return null;
-        }
+    	if(ritualMap.containsKey(ritualID))
+    	{
+    		Rituals ritual = ritualMap.get(ritualID);
+    		if(ritual != null)
+    		{
+    			return ritual.obtainComponents();
+    		}else
+    		{
+    			return null;
+    		}
+    	}else
+    	{
+    		return null;
+    	}
     }
 
     private List<RitualComponent> obtainComponents()
@@ -216,22 +271,21 @@ public class Rituals
         return this.crystalLevel;
     }
 
-    public static void performEffect(IMasterRitualStone ritualStone, int ritualID)
+    public static void performEffect(IMasterRitualStone ritualStone, String ritualID)
     {
-        if (ritualID <= ritualList.size())
-        {
-            RitualEffect ef = ritualList.get(ritualID - 1).effect;
-
-            if (ef != null)
-            {
-                ef.performEffect(ritualStone);
-            }
-        }
+    	if(ritualMap.containsKey(ritualID))
+    	{
+    		Rituals ritual = ritualMap.get(ritualID);
+    		if(ritual != null && ritual.effect != null)
+    		{
+    			ritual.effect.performEffect(ritualStone);
+    		}
+    	}
     }
 
     public static int getNumberOfRituals()
     {
-        return ritualList.size();
+    	return ritualMap.size();
     }
 
     public String getRitualName()
@@ -239,14 +293,41 @@ public class Rituals
         return this.name;
     }
 
-    public static String getNameOfRitual(int id)
+    public static String getNameOfRitual(String id)
     {
-        if (ritualList.get(id) != null)
-        {
-            return ritualList.get(id).getRitualName();
-        } else
-        {
-            return "";
-        }
+    	if(ritualMap.containsKey(id))
+    	{
+    		Rituals ritual = ritualMap.get(id);
+    		if(ritual != null)
+    		{
+    			return ritual.getRitualName();
+    		}
+    	}
+    	
+    	return "";
+    }
+    
+    public static String getNextRitualKey(String key)
+    {
+    	boolean hasSpotted = false;
+    	String firstKey = "";
+
+    	for(String str : keyList)
+    	{
+    		if(firstKey.equals(""))
+    		{
+    			firstKey = str;
+    		}
+    		if(hasSpotted)
+    		{
+    			return str;
+    		}
+    		if(str.equals(key))
+    		{
+    			hasSpotted = true;
+    		}
+    	}
+
+    	return firstKey;
     }
 }
