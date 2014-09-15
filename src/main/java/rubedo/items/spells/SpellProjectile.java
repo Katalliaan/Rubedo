@@ -3,6 +3,7 @@ package rubedo.items.spells;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
 
 public class SpellProjectile extends SpellBase {
@@ -16,7 +17,8 @@ public class SpellProjectile extends SpellBase {
 		return "projectile";
 	}
 
-	public void castSpell(World world, EntityPlayer entityPlayer, ItemStack itemStack) {
+	public void castSpell(World world, EntityPlayer entityPlayer,
+			ItemStack itemStack) {
 		SpellProperties properties = getSpellProperties(itemStack);
 		float focusModifier = properties.getFocusModifier();
 		String effectType = properties.getEffectType();
@@ -35,7 +37,10 @@ public class SpellProjectile extends SpellBase {
 	 */
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ItemStack spell = new ItemStack(ContentSpells.spellProjectile);
+		ContentSpells contentSpells = (ContentSpells) RubedoCore.contentUnits
+				.get(ContentSpells.class);
+		ItemStack spell = new ItemStack(
+				contentSpells.getItem(SpellProjectile.class));
 
 		super.buildSpell(spell, base, focus, effect);
 

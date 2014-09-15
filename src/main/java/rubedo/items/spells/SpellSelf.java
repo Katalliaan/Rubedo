@@ -3,6 +3,7 @@ package rubedo.items.spells;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
 
 public class SpellSelf extends SpellBase {
@@ -26,7 +27,9 @@ public class SpellSelf extends SpellBase {
 
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ItemStack spell = new ItemStack(ContentSpells.spellSelf);
+		ContentSpells contentSpells = (ContentSpells) RubedoCore.contentUnits
+				.get(ContentSpells.class);
+		ItemStack spell = new ItemStack(contentSpells.getItem(SpellSelf.class));
 
 		super.buildSpell(spell, base, focus, effect);
 

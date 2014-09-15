@@ -1,6 +1,8 @@
 package rubedo.common;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,26 +13,35 @@ import net.minecraftforge.common.config.Configuration;
 import rubedo.RubedoCore;
 import rubedo.items.spells.EntitySpellProjectile;
 import rubedo.items.spells.SpellArea;
+import rubedo.items.spells.SpellBase;
 import rubedo.items.spells.SpellProjectile;
 import rubedo.items.spells.SpellSelf;
+import rubedo.items.tools.ToolAxe;
+import rubedo.items.tools.ToolBase;
+import rubedo.items.tools.ToolPickaxe;
+import rubedo.items.tools.ToolScythe;
+import rubedo.items.tools.ToolShovel;
+import rubedo.items.tools.ToolSword;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentSpells implements IContent {
+public class ContentSpells extends ContentMultiItem {
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
 	public static SpellArea spellArea;
 
-	@Override
-	public void config(Configuration config) {
+	public ContentSpells() {
+		List<Class<? extends SpellBase>> spellKinds = new LinkedList<Class<? extends SpellBase>>();
+		spellKinds.add(SpellProjectile.class);
+		spellKinds.add(SpellArea.class);
+		spellKinds.add(SpellSelf.class);
+
+		setItems(spellKinds);
 	}
 
 	@Override
 	public void register() {
-		spellProjectile = new SpellProjectile();
-		spellSelf = new SpellSelf();
-		spellArea = new SpellArea();
-
+		super.register();
 		registerSpellMaterials();
 		// registerSpellRecipes();
 
