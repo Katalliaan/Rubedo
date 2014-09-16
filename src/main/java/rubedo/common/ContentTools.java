@@ -21,11 +21,11 @@ import rubedo.items.tools.ToolRepairRecipes;
 import rubedo.items.tools.ToolScythe;
 import rubedo.items.tools.ToolShovel;
 import rubedo.items.tools.ToolSword;
+import rubedo.util.RemapHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentTools extends ContentMultiItem<ToolBase>
-		implements
-			IContent {
+public class ContentTools extends ContentMultiItem<ToolBase> implements
+		IContent {
 
 	public ContentTools() {
 		List<Class<? extends ToolBase>> toolKinds = new LinkedList<Class<? extends ToolBase>>();
@@ -240,87 +240,73 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 		GameRegistry.addRecipe(new ToolEnchantmentRecipes());
 		GameRegistry.addRecipe(new ToolRepairRecipes());
 
-		Item[] toBeRemoved = {Items.diamond_sword, Items.golden_sword,
-				Items.iron_sword, Items.stone_sword, Items.wooden_sword,
-				Items.diamond_sword, Items.golden_sword, Items.iron_shovel,
-				Items.stone_shovel, Items.wooden_shovel, Items.diamond_axe,
-				Items.golden_axe, Items.iron_axe, Items.stone_axe, Items.wooden_axe,
-				Items.diamond_hoe, Items.golden_hoe, Items.iron_hoe, Items.stone_hoe,
-				Items.wooden_hoe, Items.diamond_pickaxe, Items.golden_pickaxe,
-				Items.iron_pickaxe, Items.stone_pickaxe, Items.wooden_pickaxe};
-
+		Item[] toBeRemoved = { Items.golden_sword, Items.iron_sword,
+				Items.stone_sword, Items.wooden_sword, Items.golden_sword,
+				Items.iron_shovel, Items.stone_shovel, Items.wooden_shovel,
+				Items.golden_axe, Items.iron_axe, Items.stone_axe,
+				Items.wooden_axe, Items.golden_hoe, Items.iron_hoe,
+				Items.stone_hoe, Items.wooden_hoe, Items.golden_pickaxe,
+				Items.iron_pickaxe, Items.stone_pickaxe, Items.wooden_pickaxe, };
+		Item[] toBeNerfed = {
+				// Leave these in for now
+				Items.diamond_sword, Items.diamond_hoe, Items.diamond_axe,
+				Items.diamond_pickaxe, Items.diamond_shovel };
+		
 		for (int i = 0; i < toBeRemoved.length; i++) {
-			toBeRemoved[i].setMaxDamage(1);
+			RemapHelper.removeAnyRecipe(new ItemStack(toBeRemoved[i]));
+		}
+
+		for (int i = 0; i < toBeNerfed.length; i++) {
+			toBeNerfed[i].setMaxDamage(1);
 		}
 
 		for (Entry<String, Material> headEntry : toolHeads.entrySet())
 			for (Entry<String, Material> rodEntry : toolRods.entrySet())
 				for (Entry<String, Material> capEntry : toolCaps.entrySet()) {
 					// Sword Recipes
-					GameRegistry
-							.addRecipe(new ShapedRecipes(
-									1,
-									3,
-									new ItemStack[]{
-											capEntry.getValue().capMaterial,
-											headEntry.getValue().getToolHead("sword"),
-											rodEntry.getValue().rodMaterial},
-									getItem(ToolSword.class).buildTool(
-											headEntry.getKey(),
-											rodEntry.getKey(),
-											capEntry.getKey())));
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().getToolHead("sword"),
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolSword.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 
 					// Shovel Recipes
-					GameRegistry
-							.addRecipe(new ShapedRecipes(
-									1,
-									3,
-									new ItemStack[]{
-											capEntry.getValue().capMaterial,
-											headEntry.getValue().getToolHead("shovel"),
-											rodEntry.getValue().rodMaterial},
-									getItem(ToolShovel.class).buildTool(
-											headEntry.getKey(),
-											rodEntry.getKey(),
-											capEntry.getKey())));
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().getToolHead("shovel"),
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolShovel.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 
 					// Axe Recipes
-					GameRegistry
-							.addRecipe(new ShapedRecipes(
-									1,
-									3,
-									new ItemStack[]{
-											capEntry.getValue().capMaterial,
-											headEntry.getValue().getToolHead("axe"),
-											rodEntry.getValue().rodMaterial},
-									getItem(ToolAxe.class).buildTool(
-											headEntry.getKey(),
-											rodEntry.getKey(),
-											capEntry.getKey())));
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().getToolHead("axe"),
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolAxe.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 
 					// Scythe Recipes
-					GameRegistry
-							.addRecipe(new ShapedRecipes(
-									1,
-									3,
-									new ItemStack[]{
-											capEntry.getValue().capMaterial,
-											headEntry.getValue().getToolHead("scythe"),
-											rodEntry.getValue().rodMaterial},
-									getItem(ToolScythe.class).buildTool(
-											headEntry.getKey(),
-											rodEntry.getKey(),
-											capEntry.getKey())));
+					GameRegistry.addRecipe(new ShapedRecipes(1, 3,
+							new ItemStack[] { capEntry.getValue().capMaterial,
+									headEntry.getValue().getToolHead("scythe"),
+									rodEntry.getValue().rodMaterial }, getItem(
+									ToolScythe.class).buildTool(
+									headEntry.getKey(), rodEntry.getKey(),
+									capEntry.getKey())));
 
 					// Pickaxe Recipes
 					GameRegistry
-							.addRecipe(new ShapedRecipes(
-									1,
-									3,
-									new ItemStack[]{
+							.addRecipe(new ShapedRecipes(1, 3,
+									new ItemStack[] {
 											capEntry.getValue().capMaterial,
-											headEntry.getValue().getToolHead("pickaxe"),
-											rodEntry.getValue().rodMaterial},
+											headEntry.getValue().getToolHead(
+													"pickaxe"),
+											rodEntry.getValue().rodMaterial },
 									getItem(ToolPickaxe.class).buildTool(
 											headEntry.getKey(),
 											rodEntry.getKey(),
@@ -330,31 +316,36 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 		// Tool head recipes
 		for (Entry<String, Material> headEntry : toolHeads.entrySet()) {
 			// Sword heads
-			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[] {
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("sword")));
+					headEntry.getValue().headMaterial }, headEntry.getValue()
+					.getToolHead("sword")));
 			// Shovel heads
-			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[] {
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("shovel")));
+					headEntry.getValue().headMaterial }, headEntry.getValue()
+					.getToolHead("shovel")));
 			// Axe heads
-			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[] {
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial, null,
-					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("axe")));
+					headEntry.getValue().headMaterial }, headEntry.getValue()
+					.getToolHead("axe")));
 			// Scythe heads
-			GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[] {
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial, null, null,
-					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("scythe")));
+					headEntry.getValue().headMaterial }, headEntry.getValue()
+					.getToolHead("scythe")));
 			// Pick heads
-			GameRegistry.addRecipe(new ShapedRecipes(3, 1, new ItemStack[]{
+			GameRegistry.addRecipe(new ShapedRecipes(3, 1, new ItemStack[] {
 					headEntry.getValue().headMaterial,
 					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial}, headEntry.getValue().getToolHead("pickaxe")));
+					headEntry.getValue().headMaterial }, headEntry.getValue()
+					.getToolHead("pickaxe")));
 		}
 	}
 
@@ -375,14 +366,17 @@ public class ContentTools extends ContentMultiItem<ToolBase>
 		public ItemStack headMaterial;
 		public ItemStack rodMaterial;
 		public ItemStack capMaterial;
-		
+
 		private Map<String, ItemStack> toolHeads = new LinkedHashMap<String, ItemStack>();
 
 		public ItemStack getToolHead(String tool) {
 			if (!toolHeads.containsKey(tool))
-				toolHeads.put(tool, new ItemStack(ContentWorld.metalItems, 1,
-						ContentWorld.metalItems.getTextureIndex("tools/" + tool
-								+ "_head_" + name)));
+				toolHeads.put(
+						tool,
+						new ItemStack(ContentWorld.metalItems, 1,
+								ContentWorld.metalItems
+										.getTextureIndex("tools/" + tool
+												+ "_head_" + name)));
 			return toolHeads.get(tool);
 		}
 	}

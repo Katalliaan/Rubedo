@@ -19,6 +19,7 @@ import rubedo.blocks.BlockMetalOre;
 import rubedo.items.ItemBlockMetal;
 import rubedo.items.ItemBlockMetalOre;
 import rubedo.items.ItemMetal;
+import rubedo.util.RemapHelper;
 import rubedo.world.WorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -105,7 +106,7 @@ public class ContentWorld implements IContent {
 		OreDictionary.registerOre("nuggetIron", new ItemStack(metalItems, 9, metalItems.getTextureIndex("iron_nugget")));
 		
 		// Bucket change
-		RecipeRemover.removeAnyRecipe(new ItemStack(Items.bucket));
+		RemapHelper.removeAnyRecipe(new ItemStack(Items.bucket));
 		GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[]{new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null, new ItemStack(metalItems, 2, metalItems.getTextureIndex("steel_ingot")), null}, new ItemStack(Items.bucket)));
 		
 		// Temporary alloy recipes

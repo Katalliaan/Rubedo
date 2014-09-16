@@ -13,8 +13,10 @@ import rubedo.common.Config;
 import rubedo.common.ContentAI;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
+import rubedo.common.ContentVanilla;
 import rubedo.common.ContentWorld;
 import rubedo.common.IContent;
+import rubedo.util.Singleton;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -29,6 +31,10 @@ public class RubedoCore {
 	public static final String modid = "rubedo";
 	public static final String name = "@NAME@";
 	public static final String version = "@VERSION@";
+	
+	static {
+		Singleton.getInstance(ContentVanilla.class).load();
+	}
 
 	// The instance of your mod that Forge uses.
 	@Instance(value = "rubedo")
@@ -88,7 +94,7 @@ public class RubedoCore {
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.flint),
 				new ItemStack(Items.bowl.setContainerItem(Items.bowl)),
 				new ItemStack(Blocks.gravel));
-		
+
 		//TODO: figure out how Nether Portals are made
 		/*BlockPortal portal = new BlockPortal() {
 			@Override
