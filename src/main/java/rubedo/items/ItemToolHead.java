@@ -33,6 +33,12 @@ public class ItemToolHead extends Item {
 		
 		textureNames = new LinkedHashMap<String, String>();
 		
+		textureNames.put("sword_head_wood", "wood tools.type.sword");
+        textureNames.put("pickaxe_head_wood", "wood tools.type.pickaxe");
+        textureNames.put("axe_head_wood", "wood tools.type.axe");
+        textureNames.put("shovel_head_wood", "wood tools.type.shovel");
+        textureNames.put("scythe_head_wood", "wood tools.type.scythe");
+		
 		textureNames.put("sword_head_flint", "flint tools.type.sword");
         textureNames.put("pickaxe_head_flint", "flint tools.type.pickaxe");
         textureNames.put("axe_head_flint", "flint tools.type.axe");

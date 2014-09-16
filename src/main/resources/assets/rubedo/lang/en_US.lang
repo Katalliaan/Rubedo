@@ -3,14 +3,14 @@ itemGroup.Rubedo=Rubedo
 rubedo.materials.flint=Flint
 rubedo.materials.copper=Copper
 rubedo.materials.iron=Iron
-rubedo.materials.gold=Gold
+rubedo.materials.gold=Golden
 rubedo.materials.silver=Silver
 rubedo.materials.orichalcum=Orichalcum
 rubedo.materials.steel=Steel
 rubedo.materials.mythril=Mythril
 rubedo.materials.hepatizon=Hepatizon
 
-rubedo.materials.wood=Wood
+rubedo.materials.wood=Wooden
 rubedo.materials.stone=Stone
 rubedo.materials.leather=Leather
 rubedo.materials.bone=Bone

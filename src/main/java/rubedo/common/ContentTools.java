@@ -14,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolEnchantmentRecipes;
@@ -323,36 +325,32 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 		// Tool head recipes
 		for (Entry<String, Material> headEntry : toolHeads.entrySet()) {
 			// Sword heads
-			GameRegistry.addRecipe(new ShapedRecipes(1, 2, new ItemStack[] {
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial }, headEntry.getValue()
-					.getToolHead("sword")));
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+					headEntry.getValue().getToolHead("sword"),
+					"X", "X",
+					'X', headEntry.getValue().headMaterial));
 			// Shovel heads
-			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[] {
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial }, headEntry.getValue()
-					.getToolHead("shovel")));
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+					headEntry.getValue().getToolHead("shovel"),
+					"XX", "XX",
+					'X', headEntry.getValue().headMaterial));
 			// Axe heads
-			GameRegistry.addRecipe(new ShapedRecipes(2, 2, new ItemStack[] {
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial, null,
-					headEntry.getValue().headMaterial }, headEntry.getValue()
-					.getToolHead("axe")));
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+					headEntry.getValue().getToolHead("axe"),
+					true,
+					"XX", " X",
+					'X', headEntry.getValue().headMaterial));
 			// Scythe heads
-			GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[] {
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial, null, null,
-					headEntry.getValue().headMaterial }, headEntry.getValue()
-					.getToolHead("scythe")));
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+					headEntry.getValue().getToolHead("scythe"),
+					true,
+					"XXX", "X  ",
+					'X', headEntry.getValue().headMaterial));
 			// Pick heads
-			GameRegistry.addRecipe(new ShapedRecipes(3, 1, new ItemStack[] {
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial,
-					headEntry.getValue().headMaterial }, headEntry.getValue()
-					.getToolHead("pickaxe")));
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+					headEntry.getValue().getToolHead("pickaxe"),
+					"XXX",
+					'X', headEntry.getValue().headMaterial));
 		}
 	}
 
@@ -380,10 +378,9 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 			if (!toolHeads.containsKey(tool))
 				toolHeads.put(
 						tool,
-						new ItemStack(ContentWorld.metalItems, 1,
-								ContentWorld.metalItems
-										.getTextureIndex("tools/" + tool
-												+ "_head_" + name)));
+						new ItemStack(
+								ItemToolHead.headMap.get(tool + "_head_" + name), 
+								1));
 			return toolHeads.get(tool);
 		}
 	}
