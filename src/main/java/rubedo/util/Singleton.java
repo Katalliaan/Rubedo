@@ -1,6 +1,7 @@
 package rubedo.util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,9 +10,11 @@ public abstract class Singleton <T> {
 	
 	@SuppressWarnings("unchecked")
 	public static <U> U getInstance(Class<U> type) {
-		if (!instances.containsKey(type))
+		if (!instances.containsKey(type)) {
+			Constructor<?> constructor = null;
 			try {
-				Constructor<?> constructor = type.getDeclaredConstructor();
+				constructor = type.getDeclaredConstructor();
+				
 				constructor.setAccessible(true);
 				Object instance = constructor.newInstance();
 				constructor.setAccessible(false);
@@ -19,6 +22,12 @@ public abstract class Singleton <T> {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			if (type.getDeclaredConstructors().length != 1 
+					|| (constructor != null
+							&& Modifier.isPublic(constructor.getModifiers())))
+				throw new RuntimeException("Class "+type.getCanonicalName()+" is not a Singleton!");
+		}
 		return (U) instances.get(type);
 	}
 	

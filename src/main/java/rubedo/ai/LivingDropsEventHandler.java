@@ -5,10 +5,10 @@ import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;
 import rubedo.items.tools.ToolSword;
+import rubedo.util.Singleton;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class LivingDropsEventHandler {
@@ -21,8 +21,7 @@ public class LivingDropsEventHandler {
 				if (drop.getEntityItem().getItem() == Items.gold_nugget)
 					drop.setEntityItemStack(new ItemStack(ContentWorld.metalItems, drop.getEntityItem().stackSize, ContentWorld.metalItems.getTextureIndex("silver_nugget")));
 				
-				ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
-				if (drop.getEntityItem().getItem() == contentTools.getItem(ToolSword.class))
+				if (drop.getEntityItem().getItem() == Singleton.getInstance(ContentTools.class).getItem(ToolSword.class))
 				{
 					drop.getEntityItem().setItemDamage(0);
 				}

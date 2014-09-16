@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
+import rubedo.util.Singleton;
 
 public class SpellProjectile extends SpellBase {
 
@@ -37,8 +38,7 @@ public class SpellProjectile extends SpellBase {
 	 */
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ContentSpells contentSpells = (ContentSpells) RubedoCore.contentUnits
-				.get(ContentSpells.class);
+		ContentSpells contentSpells = Singleton.getInstance(ContentSpells.class);
 		ItemStack spell = new ItemStack(
 				contentSpells.getItem(SpellProjectile.class));
 

@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
+import rubedo.util.Singleton;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -104,7 +105,7 @@ public class ToolSword extends ToolBase {
 	 */
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolSword.class));
 		
 		super.buildTool(tool, head, rod, cap);

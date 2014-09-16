@@ -12,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolBase;
@@ -27,7 +28,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ContentTools extends ContentMultiItem<ToolBase> implements
 		IContent {
 
-	public ContentTools() {
+	protected ContentTools() {
+		super(ContentTools.class);
 		List<Class<? extends ToolBase>> toolKinds = new LinkedList<Class<? extends ToolBase>>();
 
 		toolKinds.add(ToolSword.class);
@@ -37,6 +39,11 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 		toolKinds.add(ToolScythe.class);
 
 		setItems(toolKinds);
+	}
+	
+	@Override
+	public void config(Configuration config) {
+		
 	}
 
 	@Override

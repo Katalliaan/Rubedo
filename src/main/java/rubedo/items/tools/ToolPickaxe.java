@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
+import rubedo.util.Singleton;
 
 public class ToolPickaxe extends ToolBase {
 
@@ -75,7 +76,7 @@ public class ToolPickaxe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolPickaxe.class));
 
 		super.buildTool(tool, head, rod, cap);

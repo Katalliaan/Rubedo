@@ -16,27 +16,27 @@ import rubedo.items.spells.SpellArea;
 import rubedo.items.spells.SpellBase;
 import rubedo.items.spells.SpellProjectile;
 import rubedo.items.spells.SpellSelf;
-import rubedo.items.tools.ToolAxe;
-import rubedo.items.tools.ToolBase;
-import rubedo.items.tools.ToolPickaxe;
-import rubedo.items.tools.ToolScythe;
-import rubedo.items.tools.ToolShovel;
-import rubedo.items.tools.ToolSword;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentSpells extends ContentMultiItem {
+public class ContentSpells extends ContentMultiItem<SpellBase> {
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
 	public static SpellArea spellArea;
 
-	public ContentSpells() {
+	protected ContentSpells() {
+		super(ContentSpells.class);
 		List<Class<? extends SpellBase>> spellKinds = new LinkedList<Class<? extends SpellBase>>();
 		spellKinds.add(SpellProjectile.class);
 		spellKinds.add(SpellArea.class);
 		spellKinds.add(SpellSelf.class);
 
 		setItems(spellKinds);
+	}
+	
+	@Override
+	public void config(Configuration config) {
+		
 	}
 
 	@Override

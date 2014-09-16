@@ -25,6 +25,7 @@ import rubedo.common.ContentTools;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
+import rubedo.util.Singleton;
 import cpw.mods.fml.common.eventhandler.Event;
 
 public class ToolScythe extends ToolBase {
@@ -221,8 +222,7 @@ public class ToolScythe extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits
-				.get(ContentTools.class);
+		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolScythe.class));
 
 		super.buildTool(tool, head, rod, cap);

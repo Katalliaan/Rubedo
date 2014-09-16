@@ -4,13 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import rubedo.items.ItemToolHead;
 import rubedo.util.ReflectionHelper;
 import rubedo.util.RemapHelper;
 import rubedo.util.Singleton;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class ContentVanilla extends Singleton<ContentVanilla> implements IContent {		
 	protected ContentVanilla() {
@@ -28,7 +32,32 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements IConten
 
 	@Override
 	public void register() {
+		// Mining balance changes
+		Blocks.obsidian.setHarvestLevel("pickaxe", 2);
+		Blocks.netherrack.setHarvestLevel("pickaxe", 3);
+		Blocks.netherrack.setHardness(1.5F);
+		Blocks.quartz_ore.setHarvestLevel("pickaxe", 3);
+		Blocks.quartz_ore.setHardness(3.0F);
+		Blocks.nether_brick.setHarvestLevel("pickaxe", 3);
+		Blocks.end_stone.setHarvestLevel("pickaxe", 4);
+
+		// Backup flint recipe
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.flint), 
+				new ItemStack(Items.bowl.setContainerItem(Items.bowl)),
+				new ItemStack(Blocks.gravel)));
 		
+		//TODO: figure out how Nether Portals are made
+		/*BlockPortal portal = new BlockPortal() {
+			@Override
+			public boolean tryToCreatePortal(World world, int x, int y, int z)
+		    {
+				//return super.tryToCreatePortal(world, x, y, z);
+				return false;
+		    }
+		};
+		portal.setHardness(-1.0F).setStepSound(Block.soundTypeGlass).setLightLevel(0.75F).setBlockName("portal").setBlockTextureName("portal");
+		
+		ReflectionHelper.setStatic(Block.class, "portal", portal);*/
 	}
 	
 	private void remapToolHeads() {

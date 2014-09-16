@@ -12,6 +12,7 @@ import rubedo.raycast.IBlockRayFilter;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
+import rubedo.util.Singleton;
 
 public class SpellArea extends SpellBase {
 
@@ -80,8 +81,7 @@ public class SpellArea extends SpellBase {
 
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ContentSpells contentSpells = (ContentSpells) RubedoCore.contentUnits
-				.get(ContentSpells.class);
+		ContentSpells contentSpells = Singleton.getInstance(ContentSpells.class);
 		ItemStack spell = new ItemStack(contentSpells.getItem(SpellArea.class));
 
 		super.buildSpell(spell, base, focus, effect);

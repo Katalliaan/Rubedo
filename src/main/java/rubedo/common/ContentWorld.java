@@ -20,10 +20,15 @@ import rubedo.items.ItemBlockMetal;
 import rubedo.items.ItemBlockMetalOre;
 import rubedo.items.ItemMetal;
 import rubedo.util.RemapHelper;
+import rubedo.util.Singleton;
 import rubedo.world.WorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentWorld implements IContent {
+public class ContentWorld extends Singleton<ContentWorld> implements IContent {
+	protected ContentWorld() {
+		super(ContentWorld.class);
+	}
+
 	// Config
 	public static Configuration metalsConfig;
 	

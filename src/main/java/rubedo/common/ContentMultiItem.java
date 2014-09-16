@@ -5,11 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraftforge.common.config.Configuration;
 import rubedo.items.MultiItem;
+import rubedo.util.Singleton;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentMultiItem<T extends MultiItem> implements IContent {
+public abstract class ContentMultiItem<T extends MultiItem> extends Singleton<T> implements IContent {
+	protected ContentMultiItem(Class<?> type) {
+		super(type);
+	}
 
 	private Map<Class<? extends T>, T> multiItems = new LinkedHashMap<Class<? extends T>, T>();
 
@@ -20,12 +23,6 @@ public class ContentMultiItem<T extends MultiItem> implements IContent {
 
 	public T getItem(Class<? extends T> item) {
 		return multiItems.get(item);
-	}
-
-	@Override
-	public void config(Configuration config) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

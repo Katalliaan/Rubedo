@@ -5,6 +5,7 @@ import java.util.List;
 
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
+import rubedo.util.Singleton;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -70,7 +71,7 @@ public class ToolShovel extends ToolBase {
 
 	@Override
 	public ItemStack buildTool(String head, String rod, String cap) {
-		ContentTools contentTools = (ContentTools) RubedoCore.contentUnits.get(ContentTools.class);
+		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolShovel.class));
 
 		super.buildTool(tool, head, rod, cap);

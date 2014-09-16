@@ -6,9 +6,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import rubedo.common.Config;
 import rubedo.common.ContentAI;
 import rubedo.common.ContentSpells;
@@ -24,7 +22,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = RubedoCore.modid, name = RubedoCore.name, version = RubedoCore.version)
 public class RubedoCore {
@@ -55,18 +52,18 @@ public class RubedoCore {
 	};
 
 	// Mod content
-	public static Map<Class<? extends IContent>, IContent> contentUnits;
+	private Map<Class<? extends IContent>, IContent> contentUnits;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		contentUnits = new LinkedHashMap<Class<? extends IContent>, IContent>();
-		contentUnits.put(ContentWorld.class, new ContentWorld());
-		contentUnits.put(ContentTools.class, new ContentTools());
-		contentUnits.put(ContentSpells.class, new ContentSpells());
-		contentUnits.put(ContentAI.class, new ContentAI());
+		contentUnits.put(ContentWorld.class, Singleton.getInstance(ContentWorld.class));
+		contentUnits.put(ContentTools.class, Singleton.getInstance(ContentTools.class));
+		contentUnits.put(ContentSpells.class, Singleton.getInstance(ContentSpells.class));
+		contentUnits.put(ContentAI.class, Singleton.getInstance(ContentAI.class));
 
 		// Load the configs
-		Config.load(event);
+		Config.load(event, contentUnits.values());
 	}
 
 	@EventHandler
@@ -81,31 +78,6 @@ public class RubedoCore {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		// Mining balance changes
-		Blocks.obsidian.setHarvestLevel("pickaxe", 2);
-		Blocks.netherrack.setHarvestLevel("pickaxe", 3);
-		Blocks.netherrack.setHardness(1.5F);
-		Blocks.quartz_ore.setHarvestLevel("pickaxe", 3);
-		Blocks.quartz_ore.setHardness(3.0F);
-		Blocks.nether_brick.setHarvestLevel("pickaxe", 3);
-		Blocks.end_stone.setHarvestLevel("pickaxe", 4);
-
-		// Backup flint recipe
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.flint),
-				new ItemStack(Items.bowl.setContainerItem(Items.bowl)),
-				new ItemStack(Blocks.gravel));
-
-		//TODO: figure out how Nether Portals are made
-		/*BlockPortal portal = new BlockPortal() {
-			@Override
-			public boolean tryToCreatePortal(World world, int x, int y, int z)
-		    {
-				//return super.tryToCreatePortal(world, x, y, z);
-				return false;
-		    }
-		};
-		portal.setHardness(-1.0F).setStepSound(Block.soundTypeGlass).setLightLevel(0.75F).setBlockName("portal").setBlockTextureName("portal");
 		
-		ReflectionHelper.setStatic(Block.class, "portal", portal);*/
 	}
 }
