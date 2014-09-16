@@ -177,20 +177,9 @@ public abstract class SpellBase extends MultiItem {
 					.entrySet())
 				for (Entry<String, Material> effectEntry : ContentSpells.spellEffectMaterials
 						.entrySet()) {
-					if (focusEntry.getValue().focusType == this.getName()) {
-						if (focusEntry.getValue().focusType == "projectile") {
-							list.add(ContentSpells.spellProjectile.buildSpell(
-									baseEntry.getKey(), focusEntry.getKey(),
-									effectEntry.getKey()));
-						} else if (focusEntry.getValue().focusType == "self") {
-							list.add(ContentSpells.spellSelf.buildSpell(
-									baseEntry.getKey(), focusEntry.getKey(),
-									effectEntry.getKey()));
-						} else if (focusEntry.getValue().focusType == "area") {
-							list.add(ContentSpells.spellArea.buildSpell(
-									baseEntry.getKey(), focusEntry.getKey(),
-									effectEntry.getKey()));
-						}
+					if (focusEntry.getValue().focusType.equals(this.getName())) {
+						list.add(this.buildSpell(baseEntry.getKey(),
+								focusEntry.getKey(), effectEntry.getKey()));
 					}
 				}
 	}

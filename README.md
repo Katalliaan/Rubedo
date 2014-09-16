@@ -1,5 +1,7 @@
 # Rubedo
 
+![Screenshot](http://i.imgur.com/j7HJ1Vt.png)
+
 ##Make it
 gradlew setupDecompWorkspace  
 gradlew eclipse

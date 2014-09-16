@@ -30,7 +30,7 @@ public class ToolUtil {
 
 		if (properties.isValid()) {
 			if (properties.isBroken())
-				return 0.1f;
+				return 1.0f;
 
 			for (int i = 0; i < properties.getItem().getEffectiveBlocks().length; i++) {
 				if (properties.getItem().getEffectiveBlocks()[i] == block) {

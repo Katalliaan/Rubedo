@@ -21,6 +21,7 @@ public class BlockBase extends Block {
 	public BlockBase(Material material, String[] textures) {
 		super(material);
 		this.textures = textures;
+		this.setCreativeTab(RubedoCore.creativeTab);
 	}
 	
 	public int getTextureIndex(String name) {

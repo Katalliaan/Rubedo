@@ -67,34 +67,12 @@ public abstract class ToolBase extends MultiItem {
 		return new ToolProperties(stack, this);
 	}
 
-	// TODO: determine if these are unnecessary
-	// @Override
-	// public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z,
-	// EntityPlayer player) {
-	// ToolProperties properties = getToolProperties(stack);
-	// World world = player.worldObj;
-	// Block block = world.getBlock(x, y, z);
-	//
-	// int meta = world.getBlockMetadata(x, y, z);
-	//
-	// boolean canHarvest = properties.getMiningLevel() >= MinecraftForge
-	// .getBlockHarvestLevel(block, meta, getName());
-	//
-	// if (canHarvest)
-	// return super.onBlockStartBreak(stack, x, y, z, player);
-	// else {
-	// BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(x, y, z,
-	// world, block, meta, player);
-	// event.setCanceled(true);
-	// MinecraftForge.EVENT_BUS.post(event);
-	// return event.isCanceled();
-	// }
-	// }
-	// public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-	// return MinecraftForge.getBlockHarvestLevel(par1Block, 0, getName()) <=
-	// this
-	// .getToolProperties(itemStack).getMiningLevel();
-	// }
+	// only tests against metadata 0, but getHarvestLevel overrides for blocks
+	// with preset harvestlevels
+	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+		return par1Block.getHarvestLevel(0) <= this
+				.getToolProperties(itemStack).getMiningLevel();
+	}
 
 	@Override
 	public int getHarvestLevel(ItemStack stack, String toolClass) {
@@ -120,28 +98,29 @@ public abstract class ToolBase extends MultiItem {
 
 		if (properties.isValid()) {
 			switch (renderPass) {
-			case 0:
-				// Head
-				if (!properties.isBroken())
-					name = getName() + "_head_" + properties.getHeadMaterial();
-				else
-					name = getName() + "_head_" + properties.getHeadMaterial()
-							+ "_broken";
-				if (!getRenderList().containsKey(name))
-					name = getName() + "_head_flint_broken";
-				break;
-			case 1:
-				// Rod
-				name = getName() + "_rod_" + properties.getRodMaterial();
-				if (!getRenderList().containsKey(name))
-					name = getName() + "_rod_wood";
-				break;
-			case 2:
-				// Cap
-				name = getName() + "_cap_" + properties.getCapMaterial();
-				if (!getRenderList().containsKey(name))
-					name = getName() + "_cap_wood";
-				break;
+				case 0 :
+					// Head
+					if (!properties.isBroken())
+						name = getName() + "_head_"
+								+ properties.getHeadMaterial();
+					else
+						name = getName() + "_head_"
+								+ properties.getHeadMaterial() + "_broken";
+					if (!getRenderList().containsKey(name))
+						name = getName() + "_head_flint_broken";
+					break;
+				case 1 :
+					// Rod
+					name = getName() + "_rod_" + properties.getRodMaterial();
+					if (!getRenderList().containsKey(name))
+						name = getName() + "_rod_wood";
+					break;
+				case 2 :
+					// Cap
+					name = getName() + "_cap_" + properties.getCapMaterial();
+					if (!getRenderList().containsKey(name))
+						name = getName() + "_cap_wood";
+					break;
 			}
 		}
 
@@ -252,7 +231,7 @@ public abstract class ToolBase extends MultiItem {
 
 	// Misc
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads
@@ -266,7 +245,7 @@ public abstract class ToolBase extends MultiItem {
 				}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list,
