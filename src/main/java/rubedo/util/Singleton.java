@@ -24,6 +24,7 @@ public abstract class Singleton <T> {
 			}
 			
 			if (type.getDeclaredConstructors().length != 1 
+					|| constructor == null
 					|| (constructor != null
 							&& Modifier.isPublic(constructor.getModifiers())))
 				throw new RuntimeException("Class "+type.getCanonicalName()+" is not a Singleton!");
