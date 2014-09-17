@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
@@ -24,11 +23,12 @@ import rubedo.items.tools.ToolRepairRecipes;
 import rubedo.items.tools.ToolScythe;
 import rubedo.items.tools.ToolShovel;
 import rubedo.items.tools.ToolSword;
-import rubedo.util.RemapHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentTools extends ContentMultiItem<ToolBase> implements
 		IContent {
+	
+	private boolean registerToolHeads = false;
 
 	protected ContentTools() {
 		super(ContentTools.class);
@@ -45,15 +45,27 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 	
 	@Override
 	public void config(Configuration config) {
-		
+		registerToolHeads = !config.get("Vanilla Changes", "replaceTools", !registerToolHeads).getBoolean();
 	}
 
 	@Override
-	public void register() {
-		super.register();
+	public void registerBase() {
+		super.registerBase();
 
 		registerToolMaterials();
+		if (registerToolHeads)
+			for (Entry<String, ItemToolHead> entry : ItemToolHead.headMap.entrySet())
+				GameRegistry.registerItem(entry.getValue(), entry.getKey());
+	}
+	
+	@Override
+	public void registerDerivatives() {
 		registerToolRecipes();
+	}
+	
+	@Override
+	public void tweak() {
+		
 	}
 
 	public void registerMaterial(Material material) {
@@ -248,26 +260,6 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 	private void registerToolRecipes() {
 		GameRegistry.addRecipe(new ToolEnchantmentRecipes());
 		GameRegistry.addRecipe(new ToolRepairRecipes());
-
-		Item[] toBeRemoved = { Items.golden_sword, Items.iron_sword,
-				Items.stone_sword, Items.wooden_sword, Items.golden_sword,
-				Items.iron_shovel, Items.stone_shovel, Items.wooden_shovel,
-				Items.golden_axe, Items.iron_axe, Items.stone_axe,
-				Items.wooden_axe, Items.golden_hoe, Items.iron_hoe,
-				Items.stone_hoe, Items.wooden_hoe, Items.golden_pickaxe,
-				Items.iron_pickaxe, Items.stone_pickaxe, Items.wooden_pickaxe, };
-		Item[] toBeNerfed = {
-				// Leave these in for now
-				Items.diamond_sword, Items.diamond_hoe, Items.diamond_axe,
-				Items.diamond_pickaxe, Items.diamond_shovel };
-		
-		for (int i = 0; i < toBeRemoved.length; i++) {
-			RemapHelper.removeAnyRecipe(new ItemStack(toBeRemoved[i]));
-		}
-
-		for (int i = 0; i < toBeNerfed.length; i++) {
-			toBeNerfed[i].setMaxDamage(1);
-		}
 
 		for (Entry<String, Material> headEntry : toolHeads.entrySet())
 			for (Entry<String, Material> rodEntry : toolRods.entrySet())

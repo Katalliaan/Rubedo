@@ -26,7 +26,7 @@ public abstract class ContentMultiItem<T extends MultiItem> extends Singleton<T>
 	}
 
 	@Override
-	public void register() {
+	public void registerBase() {
 		try {
 			for (Class<? extends T> clazz : multiItems.keySet()) {
 				Constructor<? extends T> constructor = clazz.getConstructor();
