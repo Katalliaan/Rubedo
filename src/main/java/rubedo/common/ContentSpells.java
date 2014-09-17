@@ -40,8 +40,8 @@ public class ContentSpells extends ContentMultiItem<SpellBase> {
 	}
 
 	@Override
-	public void register() {
-		super.register();
+	public void registerBase() {
+		super.registerBase();
 		registerSpellMaterials();
 		// registerSpellRecipes();
 
@@ -225,5 +225,17 @@ public class ContentSpells extends ContentMultiItem<SpellBase> {
 		public ItemStack baseMaterial;
 		public ItemStack focusMaterial;
 		public ItemStack effectMaterial;
+	}
+
+	@Override
+	public void registerDerivatives() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tweak() {
+		// TODO Auto-generated method stub
+		
 	}
 }

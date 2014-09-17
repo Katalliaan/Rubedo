@@ -85,7 +85,7 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 	}
 
 	@Override
-	public void register() {
+	public void registerBase() {
 		registerMetals();
 				
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
@@ -216,5 +216,17 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 			
 			return dimensionList;
 		}
+	}
+
+	@Override
+	public void registerDerivatives() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tweak() {
+		// TODO Auto-generated method stub
+		
 	}
 }

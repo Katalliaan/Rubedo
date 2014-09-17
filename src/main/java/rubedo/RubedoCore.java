@@ -28,10 +28,6 @@ public class RubedoCore {
 	public static final String modid = "rubedo";
 	public static final String name = "@NAME@";
 	public static final String version = "@VERSION@";
-	
-	static {
-		Singleton.getInstance(ContentVanilla.class).load();
-	}
 
 	// The instance of your mod that Forge uses.
 	@Instance(value = "rubedo")
@@ -57,6 +53,7 @@ public class RubedoCore {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		contentUnits = new LinkedHashMap<Class<? extends IContent>, IContent>();
+		contentUnits.put(ContentVanilla.class, Singleton.getInstance(ContentVanilla.class));
 		contentUnits.put(ContentWorld.class, Singleton.getInstance(ContentWorld.class));
 		contentUnits.put(ContentTools.class, Singleton.getInstance(ContentTools.class));
 		contentUnits.put(ContentSpells.class, Singleton.getInstance(ContentSpells.class));
@@ -64,13 +61,16 @@ public class RubedoCore {
 
 		// Load the configs
 		Config.load(event, contentUnits.values());
+		
+		for (IContent content : contentUnits.values())
+			content.registerBase();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
 		for (IContent content : contentUnits.values())
-			content.register();
+			content.registerDerivatives();
 
 		// Register the renderers
 		RubedoCore.proxy.registerRenderers();
