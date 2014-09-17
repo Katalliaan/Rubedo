@@ -45,7 +45,7 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 	
 	@Override
 	public void config(Configuration config) {
-		registerToolHeads = !config.get("Vanilla Changes", "replaceTools", true).getBoolean();
+		registerToolHeads = !config.get("Vanilla Changes", "replaceTools", !registerToolHeads).getBoolean();
 	}
 
 	@Override

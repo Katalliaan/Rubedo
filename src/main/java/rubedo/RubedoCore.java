@@ -78,6 +78,7 @@ public class RubedoCore {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		
+		for (IContent content : contentUnits.values())
+			content.tweak();
 	}
 }

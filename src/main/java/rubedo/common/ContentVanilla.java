@@ -22,6 +22,7 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 		super(ContentVanilla.class);
 	}
 
+	// Default values
 	private boolean replaceTools = true;
 	private boolean removeRecipes = true;
 	private boolean changeMiningProgression = true;
@@ -29,13 +30,13 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 
 	@Override
 	public void config(Configuration config) {
-		replaceTools = config.get("Vanilla Changes", "replaceTools", true)
+		replaceTools = config.get("Vanilla Changes", "replaceTools", replaceTools)
 				.getBoolean();
 		removeRecipes = config
-				.get("Vanilla Changes", "removeToolRecipes", true).getBoolean();
+				.get("Vanilla Changes", "removeToolRecipes", removeRecipes).getBoolean();
 		changeMiningProgression = config.get("Vanilla Changes",
-				"changeMiningProgression", true).getBoolean();
-		addFlintRecipe = config.get("Vanilla Changes", "addFlintRecipe", true)
+				"changeMiningProgression", changeMiningProgression).getBoolean();
+		addFlintRecipe = config.get("Vanilla Changes", "addFlintRecipe", addFlintRecipe)
 				.getBoolean();
 	}
 
