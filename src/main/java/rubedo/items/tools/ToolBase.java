@@ -27,7 +27,7 @@ public abstract class ToolBase extends MultiItem {
 	public ToolBase() {
 		super();
 		this.setUnlocalizedName("ToolBase");
-		this.setCreativeTab(RubedoCore.creativeTab);
+		this.setCreativeTab(RubedoCore.creativeTabTools);
 
 		this.maxStackSize = 1;
 		setNoRepair();
