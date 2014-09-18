@@ -17,7 +17,7 @@ import rubedo.util.Singleton;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentVanilla extends Singleton<ContentVanilla> implements
-		IContent {
+IContent {
 	protected ContentVanilla() {
 		super(ContentVanilla.class);
 	}
@@ -69,8 +69,8 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 		if (Config.addFlintRecipe)
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(
 					Items.flint), new ItemStack(Items.bowl
-					.setContainerItem(Items.bowl)),
-					new ItemStack(Blocks.gravel)));
+							.setContainerItem(Items.bowl)),
+							new ItemStack(Blocks.gravel)));
 	}
 
 	@Override
@@ -97,18 +97,12 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 					Items.wooden_axe, Items.golden_hoe, Items.iron_hoe,
 					Items.stone_hoe, Items.wooden_hoe, Items.golden_pickaxe,
 					Items.iron_pickaxe, Items.stone_pickaxe,
-					Items.wooden_pickaxe, };
-			Item[] toBeNerfed = {
-					// Leave these in for now
+					Items.wooden_pickaxe,
 					Items.diamond_sword, Items.diamond_hoe, Items.diamond_axe,
 					Items.diamond_pickaxe, Items.diamond_shovel };
 
 			for (int i = 0; i < toBeRemoved.length; i++) {
 				RemapHelper.removeAnyRecipe(new ItemStack(toBeRemoved[i]));
-			}
-
-			for (int i = 0; i < toBeNerfed.length; i++) {
-				toBeNerfed[i].setMaxDamage(1);
 			}
 		}
 

@@ -12,25 +12,30 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.UseHoeEvent;
 import rubedo.common.ContentTools;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
 import rubedo.util.Singleton;
-import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ToolScythe extends ToolBase {
 
+	private Item vanillaEquivalent;
+
 	public ToolScythe() {
 		super();
+
+		this.vanillaEquivalent = new ItemHoe(ToolMaterial.EMERALD) {
+		};
+		this.vanillaEquivalent.setUnlocalizedName("hoeDiamond").setTextureName("diamond_hoe");
+		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_hoe");
 	}
 
 	@Override
@@ -78,7 +83,7 @@ public class ToolScythe extends ToolBase {
 
 			@SuppressWarnings("unchecked")
 			Map<Integer, Integer> enchants = EnchantmentHelper
-					.getEnchantments(stack);
+			.getEnchantments(stack);
 			int smiteLevel = 0;
 			int sharpnessLevel = 0;
 			int baneLevel = 0;
@@ -120,17 +125,17 @@ public class ToolScythe extends ToolBase {
 									-MathHelper.sin(attackingEntity.rotationYaw
 											* (float) Math.PI / 180.0F)
 											* knockbackLevel * 0.5F,
-									0.1D,
-									MathHelper.cos(attackingEntity.rotationYaw
-											* (float) Math.PI / 180.0F)
-											* knockbackLevel * 0.5F);
+											0.1D,
+											MathHelper.cos(attackingEntity.rotationYaw
+													* (float) Math.PI / 180.0F)
+													* knockbackLevel * 0.5F);
 							attackingEntity.motionX *= 0.6D;
 							attackingEntity.motionZ *= 0.6D;
 						}
 
 						entity.attackEntityFrom(
 								DamageSource
-										.causePlayerDamage((EntityPlayer) attackingEntity),
+								.causePlayerDamage((EntityPlayer) attackingEntity),
 								attackDamage);
 
 						mobsHit++;
@@ -169,53 +174,6 @@ public class ToolScythe extends ToolBase {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer,
-			World world, int xCoord, int yCoord, int zCoord, int par7,
-			float par8, float par9, float par10) {
-		if (!entityPlayer
-				.canPlayerEdit(xCoord, yCoord, zCoord, par7, itemStack)) {
-			return false;
-		} else {
-			UseHoeEvent event = new UseHoeEvent(entityPlayer, itemStack, world,
-					xCoord, yCoord, zCoord);
-			if (MinecraftForge.EVENT_BUS.post(event)) {
-				return false;
-			}
-
-			if (event.getResult() == Event.Result.ALLOW) {
-				ToolProperties properties = this.getToolProperties(itemStack);
-				ToolUtil.damageTool(properties, entityPlayer, properties
-						.getItem().getItemDamageOnBreak());
-				return true;
-			}
-
-			Block block = world.getBlock(xCoord, yCoord, zCoord);
-			boolean airAbove = world.isAirBlock(xCoord, yCoord + 1, zCoord);
-
-			if (par7 != 0 && airAbove
-					&& (block == Blocks.grass || block == Blocks.dirt)) {
-				world.playSoundEffect(xCoord + 0.5F, yCoord + 0.5F,
-						zCoord + 0.5F, Blocks.farmland.stepSound.soundName,
-						(Blocks.farmland.stepSound.getVolume() + 1.0F) / 2.0F,
-						Blocks.farmland.stepSound.getPitch() * 0.8F);
-
-				if (world.isRemote) {
-					return true;
-				} else {
-					world.setBlock(xCoord, yCoord, zCoord, Blocks.farmland);
-					ToolProperties properties = this
-							.getToolProperties(itemStack);
-					ToolUtil.damageTool(properties, entityPlayer, properties
-							.getItem().getItemDamageOnBreak());
-					return true;
-				}
-			} else {
-				return false;
-			}
-		}
-	}
-
-	@Override
 	public ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head,
 			rubedo.common.materials.MaterialMultiItem rod,
 			rubedo.common.materials.MaterialMultiItem cap) {
@@ -225,5 +183,10 @@ public class ToolScythe extends ToolBase {
 		super.buildTool(tool, head, rod, cap);
 
 		return tool;
+	}
+
+	@Override
+	protected Item getEquivalentTool() {
+		return this.vanillaEquivalent;
 	}
 }

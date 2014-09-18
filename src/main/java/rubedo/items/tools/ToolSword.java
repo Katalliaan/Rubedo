@@ -11,17 +11,27 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import rubedo.common.ContentTools;
 import rubedo.util.Singleton;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ToolSword extends ToolBase {
 
+	private ItemSword vanillaEquivalent;
+
 	public ToolSword() {
 		super();
+
+		this.vanillaEquivalent = new ItemSword(ToolMaterial.EMERALD) {
+		};
+		this.vanillaEquivalent.setUnlocalizedName("swordDiamond").setTextureName("diamond_sword");
+		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_sword");
 	}
 
 	@Override
@@ -122,5 +132,10 @@ public class ToolSword extends ToolBase {
 		super.buildTool(tool, head, rod, cap);
 
 		return tool;
+	}
+
+	@Override
+	protected Item getEquivalentTool() {
+		return this.vanillaEquivalent;
 	}
 }

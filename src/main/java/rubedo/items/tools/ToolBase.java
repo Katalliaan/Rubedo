@@ -13,6 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
@@ -233,6 +235,39 @@ public abstract class ToolBase extends MultiItem {
 		return this.getToolProperties(stack).getDurability();
 	}
 
+	@Override
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer,
+			World world, int xCoord, int yCoord, int zCoord, int par7,
+			float par8, float par9, float par10) {
+		if (!entityPlayer
+				.canPlayerEdit(xCoord, yCoord, zCoord, par7, itemStack)) {
+			return false;
+		} else {
+			ItemStack itemstack = entityPlayer.getCurrentEquippedItem();
+			if (itemstack.getItem() == this) {
+				entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = new ItemStack(
+						this.getEquivalentTool());
+
+				PlayerInteractEvent event = new PlayerInteractEvent(
+						entityPlayer, PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK,
+						xCoord, yCoord, zCoord,
+						par7, world);
+
+				boolean acted = MinecraftForge.EVENT_BUS.post(event) || this.getEquivalentTool().onItemUse(itemStack,
+						entityPlayer, world, xCoord, yCoord, zCoord, par7,
+						par8, par9, par10);
+
+				entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = itemstack;
+
+				return acted;
+			}
+
+			return false;
+		}
+	}
+
+	protected abstract Item getEquivalentTool();
+
 	// Misc
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -260,10 +295,10 @@ public abstract class ToolBase extends MultiItem {
 		list.add(Language.FormatterCodes.DARK_GREEN.toString()
 				+ Language.FormatterCodes.ITALIC.toString()
 				+ Language
-						.getFormattedLocalization("tools.toolRod", true)
-						.put("$material1",
-								"materials." + properties.getCapMaterial().name,
-								Formatting.CAPITALIZED)
+				.getFormattedLocalization("tools.toolRod", true)
+				.put("$material1",
+						"materials." + properties.getCapMaterial().name,
+						Formatting.CAPITALIZED)
 						.put("$material2",
 								"materials." + properties.getRodMaterial().name,
 								Formatting.LOWERCASE).getResult());
@@ -287,13 +322,13 @@ public abstract class ToolBase extends MultiItem {
 
 		return modifier
 				+ Language
-						.getFormattedLocalization(key, true)
-						.put("$material",
-								"materials."
-										+ properties.getHeadMaterial().name,
+				.getFormattedLocalization(key, true)
+				.put("$material",
+						"materials."
+								+ properties.getHeadMaterial().name,
 								Formatting.CAPITALIZED)
-						.put("$tool.type", "tools.type." + this.getName(),
-								Formatting.CAPITALIZED).getResult();
+								.put("$tool.type", "tools.type." + this.getName(),
+										Formatting.CAPITALIZED).getResult();
 	}
 
 	public abstract ItemStack buildTool(

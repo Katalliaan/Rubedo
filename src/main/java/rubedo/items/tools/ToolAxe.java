@@ -7,16 +7,26 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import rubedo.common.ContentTools;
 import rubedo.util.Singleton;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ToolAxe extends ToolBase {
 
+	private ItemAxe vanillaEquivalent;
+
 	public ToolAxe() {
 		super();
+
+		this.vanillaEquivalent = new ItemAxe(ToolMaterial.EMERALD){
+		};
+		this.vanillaEquivalent.setUnlocalizedName("hatchetDiamond").setTextureName("diamond_axe");
+		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_axe");
 	}
 
 	@Override
@@ -94,5 +104,10 @@ public class ToolAxe extends ToolBase {
 		super.buildTool(tool, head, rod, cap);
 
 		return tool;
+	}
+
+	@Override
+	protected Item getEquivalentTool() {
+		return this.vanillaEquivalent;
 	}
 }

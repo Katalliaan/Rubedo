@@ -8,15 +8,25 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 import rubedo.common.ContentTools;
 import rubedo.util.Singleton;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ToolPickaxe extends ToolBase {
 
+	private ItemPickaxe vanillaEquivalent;
+
 	public ToolPickaxe() {
 		super();
+
+		this.vanillaEquivalent = new ItemPickaxe(ToolMaterial.EMERALD){
+		};
+		this.vanillaEquivalent.setUnlocalizedName("pickaxeDiamond").setTextureName("diamond_pickaxe");
+		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_pickaxe");
 	}
 
 	@Override
@@ -104,5 +114,10 @@ public class ToolPickaxe extends ToolBase {
 			super(name, entity);
 			this.setDamageBypassesArmor();
 		}
+	}
+
+	@Override
+	protected Item getEquivalentTool() {
+		return this.vanillaEquivalent;
 	}
 }
