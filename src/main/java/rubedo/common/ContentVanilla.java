@@ -17,7 +17,7 @@ import rubedo.util.Singleton;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentVanilla extends Singleton<ContentVanilla> implements
-IContent {
+		IContent {
 	protected ContentVanilla() {
 		super(ContentVanilla.class);
 	}
@@ -69,8 +69,8 @@ IContent {
 		if (Config.addFlintRecipe)
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(
 					Items.flint), new ItemStack(Items.bowl
-							.setContainerItem(Items.bowl)),
-							new ItemStack(Blocks.gravel)));
+					.setContainerItem(Items.bowl)),
+					new ItemStack(Blocks.gravel)));
 	}
 
 	@Override
@@ -118,10 +118,12 @@ IContent {
 			for (Entry<MaterialMultiItem, String> material : contentTools.VanillaToolMaterials
 					.entrySet()) {
 				for (ToolBase kind : contentTools.getItems()) {
-					String name = kind.getName() + "_head_" + material.getKey().name;
+					String name = kind.getName() + "_head_"
+							+ material.getKey().name;
 
 					if (material.getKey().name == "wood")
-						ItemToolHead.getHeadMap().put(name, new ItemToolHead(name));
+						ItemToolHead.getHeadMap().put(name,
+								new ItemToolHead(name));
 
 					Item item = ItemToolHead.getHeadMap().get(name);
 

@@ -62,7 +62,7 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[]{Material.plants, Material.gourd, Material.wood};
+		return new Material[] { Material.plants, Material.gourd, Material.wood };
 	}
 
 	@Override
@@ -72,23 +72,22 @@ public class ToolAxe extends ToolBase {
 
 	@Override
 	public List<Integer> getAllowedEnchantments() {
-		Integer[] allowedEnchants = new Integer[]{
-				Enchantment.efficiency.effectId,
-				Enchantment.fortune.effectId,
+		Integer[] allowedEnchants = new Integer[] {
+				Enchantment.efficiency.effectId, Enchantment.fortune.effectId,
 				Enchantment.silkTouch.effectId,
 				Enchantment.unbreaking.effectId,
 
-				Enchantment.sharpness.effectId,
-				Enchantment.smite.effectId,
+				Enchantment.sharpness.effectId, Enchantment.smite.effectId,
 				Enchantment.baneOfArthropods.effectId,
 				Enchantment.knockback.effectId,
-				Enchantment.fireAspect.effectId,
-				Enchantment.looting.effectId };
+				Enchantment.fireAspect.effectId, Enchantment.looting.effectId };
 		return Arrays.asList(allowedEnchants);
 	}
 
 	@Override
-	public ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head, rubedo.common.materials.MaterialMultiItem rod, rubedo.common.materials.MaterialMultiItem cap) {
+	public ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head,
+			rubedo.common.materials.MaterialMultiItem rod,
+			rubedo.common.materials.MaterialMultiItem cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolAxe.class));
 

@@ -30,7 +30,8 @@ public class EntityLivingEventHandler {
 				wanderTask = taskEntry;
 		}
 
-		if (entity instanceof EntitySkeleton && ((EntitySkeleton) entity).getSkeletonType() != 1) {
+		if (entity instanceof EntitySkeleton
+				&& ((EntitySkeleton) entity).getSkeletonType() != 1) {
 			entity.tasks.addTask(3, new EntityAIFallBack(
 					(EntitySkeleton) entity, EntityPlayer.class, 7.0F, 1.8D));
 		}

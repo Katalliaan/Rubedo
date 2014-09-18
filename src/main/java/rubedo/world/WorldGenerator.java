@@ -13,42 +13,42 @@ import rubedo.common.ContentWorld;
 import rubedo.common.ContentWorld.Metal;
 import cpw.mods.fml.common.IWorldGenerator;
 
-public class WorldGenerator implements IWorldGenerator {	
+public class WorldGenerator implements IWorldGenerator {
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world,
 			IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 		int xPos, yPos, zPos;
-        if (world.provider.terrainType != WorldType.FLAT)
-        {
-        	for (int i = 0; i < ContentWorld.metals.size(); i++)
-    		{
-        		Metal metal = ContentWorld.metals.get(i);
+		if (world.provider.terrainType != WorldType.FLAT) {
+			for (int i = 0; i < ContentWorld.metals.size(); i++) {
+				Metal metal = ContentWorld.metals.get(i);
 
-        		Block target = Blocks.stone;
-        		if (world.provider.isHellWorld)
-        			target = Blocks.netherrack;
-        		if (world.provider.dimensionId == 1)
-        			target = Blocks.end_stone;
-        		
-        		WorldGenMinable wgm = new WorldGenMinable(
-        			ContentWorld.oreBlocks, 
-        			ContentWorld.oreBlocks.getTextureIndex(metal.name+"_ore"), 
-        			8, target);
-        		
-        		int oreDensity = MathHelper.floor_double(metal.oreDensity);
-        		double chance = metal.oreDensity - oreDensity;
-        		if (random.nextDouble() <= chance) oreDensity += 1;
+				Block target = Blocks.stone;
+				if (world.provider.isHellWorld)
+					target = Blocks.netherrack;
+				if (world.provider.dimensionId == 1)
+					target = Blocks.end_stone;
 
-        		if (metal.dimensionExclusive != metal.getDimensionList().contains(world.provider.dimensionId)) {
-					for (int q = 0; q <= oreDensity; q++)
-		            {
-		                xPos = chunkX*16 + random.nextInt(16);
-		                yPos = metal.oreMinY + random.nextInt(metal.oreMaxY - metal.oreMinY);
-		                zPos = chunkZ*16 + random.nextInt(16);
-		                wgm.generate(world, random, xPos, yPos, zPos);
-		            }
-        		}
-    		}
-        }
+				WorldGenMinable wgm = new WorldGenMinable(
+						ContentWorld.oreBlocks,
+						ContentWorld.oreBlocks.getTextureIndex(metal.name
+								+ "_ore"), 8, target);
+
+				int oreDensity = MathHelper.floor_double(metal.oreDensity);
+				double chance = metal.oreDensity - oreDensity;
+				if (random.nextDouble() <= chance)
+					oreDensity += 1;
+
+				if (metal.dimensionExclusive != metal.getDimensionList()
+						.contains(world.provider.dimensionId)) {
+					for (int q = 0; q <= oreDensity; q++) {
+						xPos = chunkX * 16 + random.nextInt(16);
+						yPos = metal.oreMinY
+								+ random.nextInt(metal.oreMaxY - metal.oreMinY);
+						zPos = chunkZ * 16 + random.nextInt(16);
+						wgm.generate(world, random, xPos, yPos, zPos);
+					}
+				}
+			}
+		}
 	}
 }

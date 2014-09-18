@@ -10,7 +10,7 @@ public abstract class IEntityFilter implements IFilter<Entity> {
 			return IEntityFilter.this.matches(entity);
 		}
 	};
-	
+
 	public IEntitySelector getIEntitySelector() {
 		return selector;
 	}

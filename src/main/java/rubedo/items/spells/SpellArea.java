@@ -81,7 +81,8 @@ public class SpellArea extends SpellBase {
 
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ContentSpells contentSpells = Singleton.getInstance(ContentSpells.class);
+		ContentSpells contentSpells = Singleton
+				.getInstance(ContentSpells.class);
 		ItemStack spell = new ItemStack(contentSpells.getItem(SpellArea.class));
 
 		super.buildSpell(spell, base, focus, effect);

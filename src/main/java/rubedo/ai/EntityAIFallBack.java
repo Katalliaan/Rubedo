@@ -13,10 +13,9 @@ import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.Vec3;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class EntityAIFallBack extends EntityAIBase {
-	public final IEntitySelector selector = new EntityAIFallBackSelector(
-			this);
+	public final IEntitySelector selector = new EntityAIFallBackSelector(this);
 
 	/** The entity we are attached to */
 	private EntitySkeleton theEntity;
@@ -52,15 +51,18 @@ public class EntityAIFallBack extends EntityAIBase {
 					.getClosestPlayerToEntity(this.theEntity,
 							(double) this.distanceFromEntity);
 
-			if (this.closestLivingEntity == null || this.closestLivingEntity.getDistanceSqToEntity(theEntity) > 49) {
+			if (this.closestLivingEntity == null
+					|| this.closestLivingEntity
+							.getDistanceSqToEntity(theEntity) > 49) {
 				return false;
 			}
 		} else {
-			List<Entity> list = this.theEntity.worldObj.selectEntitiesWithinAABB(
-					this.targetEntityClass, this.theEntity.boundingBox.expand(
-							(double) this.distanceFromEntity, 3.0D,
-							(double) this.distanceFromEntity),
-					this.selector);
+			List<Entity> list = this.theEntity.worldObj
+					.selectEntitiesWithinAABB(this.targetEntityClass,
+							this.theEntity.boundingBox.expand(
+									(double) this.distanceFromEntity, 3.0D,
+									(double) this.distanceFromEntity),
+							this.selector);
 
 			if (list.isEmpty()) {
 				return false;
@@ -70,10 +72,7 @@ public class EntityAIFallBack extends EntityAIBase {
 		}
 
 		Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockAwayFrom(
-				this.theEntity,
-				6,
-				4,
-				Vec3.createVectorHelper(
+				this.theEntity, 6, 4, Vec3.createVectorHelper(
 						this.closestLivingEntity.posX,
 						this.closestLivingEntity.posY,
 						this.closestLivingEntity.posZ));
@@ -87,8 +86,7 @@ public class EntityAIFallBack extends EntityAIBase {
 		} else {
 			this.entityPathEntity = this.entityPathNavigate.getPathToXYZ(
 					vec3.xCoord, vec3.yCoord, vec3.zCoord);
-			return this.entityPathEntity == null
-					? false
+			return this.entityPathEntity == null ? false
 					: this.entityPathEntity.isDestinationSame(vec3);
 		}
 	}
@@ -118,7 +116,7 @@ public class EntityAIFallBack extends EntityAIBase {
 	 * Updates the task
 	 */
 	public void updateTask() {
-			this.theEntity.getNavigator().setSpeed(this.speed);
+		this.theEntity.getNavigator().setSpeed(this.speed);
 	}
 
 	static EntityCreature getCreature(EntityAIFallBack entityAvoiderAI) {

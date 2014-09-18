@@ -27,11 +27,8 @@ public abstract class MaterialMultiItem {
 
 	public ItemStack getToolHead(String tool) {
 		if (this.headMaterial != null && !this.toolHeads.containsKey(tool))
-			this.toolHeads.put(
-					tool,
-					new ItemStack(
-							ItemToolHead.getHeadMap().get(tool + "_head_" + this.name),
-							1));
+			this.toolHeads.put(tool, new ItemStack(ItemToolHead.getHeadMap()
+					.get(tool + "_head_" + this.name), 1));
 		return this.toolHeads.get(tool);
 	}
 

@@ -21,7 +21,7 @@ public class ToolBaseRenderer implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

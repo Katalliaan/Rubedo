@@ -78,7 +78,7 @@ public class ToolScythe extends ToolBase {
 
 			@SuppressWarnings("unchecked")
 			Map<Integer, Integer> enchants = EnchantmentHelper
-			.getEnchantments(stack);
+					.getEnchantments(stack);
 			int smiteLevel = 0;
 			int sharpnessLevel = 0;
 			int baneLevel = 0;
@@ -117,22 +117,20 @@ public class ToolScythe extends ToolBase {
 						entity.setFire(fireAspectLevel * 4);
 						if (knockbackLevel > 0) {
 							entity.addVelocity(
-									-MathHelper
-									.sin(attackingEntity.rotationYaw
+									-MathHelper.sin(attackingEntity.rotationYaw
 											* (float) Math.PI / 180.0F)
 											* knockbackLevel * 0.5F,
-											0.1D,
-											MathHelper
-											.cos(attackingEntity.rotationYaw
-													* (float) Math.PI / 180.0F)
-													* knockbackLevel * 0.5F);
+									0.1D,
+									MathHelper.cos(attackingEntity.rotationYaw
+											* (float) Math.PI / 180.0F)
+											* knockbackLevel * 0.5F);
 							attackingEntity.motionX *= 0.6D;
 							attackingEntity.motionZ *= 0.6D;
 						}
 
 						entity.attackEntityFrom(
 								DamageSource
-								.causePlayerDamage((EntityPlayer) attackingEntity),
+										.causePlayerDamage((EntityPlayer) attackingEntity),
 								attackDamage);
 
 						mobsHit++;
@@ -149,7 +147,7 @@ public class ToolScythe extends ToolBase {
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[]{Material.vine, Material.leaves};
+		return new Material[] { Material.vine, Material.leaves };
 	}
 
 	@Override
@@ -159,14 +157,14 @@ public class ToolScythe extends ToolBase {
 
 	@Override
 	public List<Integer> getAllowedEnchantments() {
-		Integer[] allowedEnchants = new Integer[]{
+		Integer[] allowedEnchants = new Integer[] {
 				Enchantment.efficiency.effectId, Enchantment.fortune.effectId,
 				Enchantment.unbreaking.effectId,
 
 				Enchantment.sharpness.effectId, Enchantment.smite.effectId,
 				Enchantment.baneOfArthropods.effectId,
 				Enchantment.knockback.effectId,
-				Enchantment.fireAspect.effectId, Enchantment.looting.effectId};
+				Enchantment.fireAspect.effectId, Enchantment.looting.effectId };
 		return Arrays.asList(allowedEnchants);
 	}
 
@@ -194,13 +192,10 @@ public class ToolScythe extends ToolBase {
 			Block block = world.getBlock(xCoord, yCoord, zCoord);
 			boolean airAbove = world.isAirBlock(xCoord, yCoord + 1, zCoord);
 
-			if (par7 != 0
-					&& airAbove
+			if (par7 != 0 && airAbove
 					&& (block == Blocks.grass || block == Blocks.dirt)) {
-				world.playSoundEffect(xCoord + 0.5F,
-						yCoord + 0.5F,
-						zCoord + 0.5F,
-						Blocks.farmland.stepSound.soundName,
+				world.playSoundEffect(xCoord + 0.5F, yCoord + 0.5F,
+						zCoord + 0.5F, Blocks.farmland.stepSound.soundName,
 						(Blocks.farmland.stepSound.getVolume() + 1.0F) / 2.0F,
 						Blocks.farmland.stepSound.getPitch() * 0.8F);
 
@@ -221,7 +216,9 @@ public class ToolScythe extends ToolBase {
 	}
 
 	@Override
-	public ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head, rubedo.common.materials.MaterialMultiItem rod, rubedo.common.materials.MaterialMultiItem cap) {
+	public ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head,
+			rubedo.common.materials.MaterialMultiItem rod,
+			rubedo.common.materials.MaterialMultiItem cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolScythe.class));
 

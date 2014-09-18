@@ -15,12 +15,13 @@ public class Language {
 	}
 
 	public static enum FormatterCodes {
-		BLACK("\u00a70"), DARK_BLUE("\u00a71"), DARK_GREEN("\u00a72"),
-		DARK_AQUA("\u00a73"), DARK_RED("\u00a74"), DARK_PURPLE("\u00a75"),
-		GOLD("\u00a76"), GRAY("\u00a77"), DARK_GRAY("\u00a78"), BLUE("\u00a79"),
-		GREEN("\u00a7a"), AQUA("\u00a7b"), RED("\u00a7c"), LIGHT_PURPLE("\u00a7d"),
-		YELLOW("\u00a7e"), WHITE("\u00a7f"), OBFUSCATED("\u00a7k"), BOLD("\u00a7l"),
-		STRIKETHROUGH("\u00a7m"), UNDERLINE("\u00a7"), ITALIC("\u00a7o"), RESET("\u00a7r");
+		BLACK("\u00a70"), DARK_BLUE("\u00a71"), DARK_GREEN("\u00a72"), DARK_AQUA(
+				"\u00a73"), DARK_RED("\u00a74"), DARK_PURPLE("\u00a75"), GOLD(
+				"\u00a76"), GRAY("\u00a77"), DARK_GRAY("\u00a78"), BLUE(
+				"\u00a79"), GREEN("\u00a7a"), AQUA("\u00a7b"), RED("\u00a7c"), LIGHT_PURPLE(
+				"\u00a7d"), YELLOW("\u00a7e"), WHITE("\u00a7f"), OBFUSCATED(
+				"\u00a7k"), BOLD("\u00a7l"), STRIKETHROUGH("\u00a7m"), UNDERLINE(
+				"\u00a7"), ITALIC("\u00a7o"), RESET("\u00a7r");
 
 		private final String text;
 
@@ -102,16 +103,16 @@ public class Language {
 
 				if (formatting.containsKey(parameter.getKey())) {
 					switch (formatting.get(parameter.getKey())) {
-						case CAPITALIZED :
-							value = value.substring(0, 1).toUpperCase()
-									+ value.substring(1);
-							break;
-						case LOWERCASE :
-							value = value.toLowerCase();
-							break;
-						case UPPERCASE :
-							value = value.toUpperCase();
-							break;
+					case CAPITALIZED:
+						value = value.substring(0, 1).toUpperCase()
+								+ value.substring(1);
+						break;
+					case LOWERCASE:
+						value = value.toLowerCase();
+						break;
+					case UPPERCASE:
+						value = value.toUpperCase();
+						break;
 					}
 				}
 				result = result.replace(parameter.getKey(), value);

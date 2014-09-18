@@ -65,23 +65,23 @@ public class SpellEffects {
 
 		if (effectType == "fire") {
 			switch (sideHit) {
-				case 0 :
-					--blockY;
-					break;
-				case 1 :
-					++blockY;
-					break;
-				case 2 :
-					--blockZ;
-					break;
-				case 3 :
-					++blockZ;
-					break;
-				case 4 :
-					--blockX;
-					break;
-				case 5 :
-					++blockX;
+			case 0:
+				--blockY;
+				break;
+			case 1:
+				++blockY;
+				break;
+			case 2:
+				--blockZ;
+				break;
+			case 3:
+				++blockZ;
+				break;
+			case 4:
+				--blockX;
+				break;
+			case 5:
+				++blockX;
 			}
 
 			if (world.isAirBlock(blockX, blockY, blockZ)) {
@@ -89,28 +89,27 @@ public class SpellEffects {
 			}
 		} else if (effectType == "water" && !world.provider.isHellWorld) {
 			switch (sideHit) {
-				case 0 :
-					--blockY;
-					break;
-				case 1 :
-					++blockY;
-					break;
-				case 2 :
-					--blockZ;
-					break;
-				case 3 :
-					++blockZ;
-					break;
-				case 4 :
-					--blockX;
-					break;
-				case 5 :
-					++blockX;
+			case 0:
+				--blockY;
+				break;
+			case 1:
+				++blockY;
+				break;
+			case 2:
+				--blockZ;
+				break;
+			case 3:
+				++blockZ;
+				break;
+			case 4:
+				--blockX;
+				break;
+			case 5:
+				++blockX;
 			}
 
 			if (world.isAirBlock(blockX, blockY, blockZ)) {
-				world.setBlock(blockX, blockY, blockZ,
-						Blocks.flowing_water);
+				world.setBlock(blockX, blockY, blockZ, Blocks.flowing_water);
 				world.setBlockMetadataWithNotify(blockX, blockY, blockZ, 1, 1);
 
 				for (int i = 0; i < 4; i++) {
@@ -118,18 +117,18 @@ public class SpellEffects {
 					int secondaryZ = blockZ;
 
 					switch (i) {
-						case 0 :
-							--secondaryX;
-							break;
-						case 1 :
-							++secondaryX;
-							break;
-						case 2 :
-							--secondaryZ;
-							break;
-						case 3 :
-							++secondaryZ;
-							break;
+					case 0:
+						--secondaryX;
+						break;
+					case 1:
+						++secondaryX;
+						break;
+					case 2:
+						--secondaryZ;
+						break;
+					case 3:
+						++secondaryZ;
+						break;
 					}
 
 					if (world.isAirBlock(secondaryX, blockY, secondaryZ)) {
@@ -150,7 +149,8 @@ public class SpellEffects {
 			boolean canHarvest = false;
 			int miningLevel = properties.getMiningLevel();
 
-			if (block.getHarvestLevel(metadata) <= miningLevel && block.getHarvestLevel(metadata) != -1)
+			if (block.getHarvestLevel(metadata) <= miningLevel
+					&& block.getHarvestLevel(metadata) != -1)
 				canHarvest = true;
 			else if (block.getMaterial().isToolNotRequired())
 				canHarvest = true;

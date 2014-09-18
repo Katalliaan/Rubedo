@@ -57,7 +57,7 @@ public class ToolUtil {
 			if (properties.getDurability() < properties.getStack()
 					.getItemDamage() + damage)
 				damage = properties.getDurability()
-				- properties.getStack().getItemDamage();
+						- properties.getStack().getItemDamage();
 
 			properties.getStack().damageItem(damage, entity);
 
@@ -73,7 +73,7 @@ public class ToolUtil {
 		if (properties != null && properties.isValid())
 			return properties.getStack().getItemDamage() > 0
 					&& !properties.isBroken();
-			else
-				return false;
+		else
+			return false;
 	}
 }

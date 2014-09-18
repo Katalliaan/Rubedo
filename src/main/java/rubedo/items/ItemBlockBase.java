@@ -8,9 +8,9 @@ public class ItemBlockBase extends ItemBlock {
 	public ItemBlockBase(Block block) {
 		super(block);
 		this.setMaxDamage(0);
-        	this.setHasSubtypes(true);
+		this.setHasSubtypes(true);
 	}
-	
+
 	@Override
 	public int getMetadata(int meta) {
 		return meta;

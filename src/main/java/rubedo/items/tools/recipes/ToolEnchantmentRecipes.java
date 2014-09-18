@@ -17,8 +17,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 	private ItemStack enchantedBook;
 
 	@Override
-	public ItemStack getRecipeOutput()
-	{
+	public ItemStack getRecipeOutput() {
 		return null;
 	}
 
@@ -26,20 +25,19 @@ public class ToolEnchantmentRecipes implements IRecipe {
 	 * Used to check if a recipe matches current crafting inventory
 	 */
 	@Override
-	public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
-	{
+	public boolean matches(InventoryCrafting par1InventoryCrafting,
+			World par2World) {
 		this.enchantedBook = null;
 		this.tool = null;
 
-		for (int i = 0; i < 3; ++i)
-		{
-			for (int j = 0; j < 3; ++j)
-			{
-				ItemStack itemstack = par1InventoryCrafting.getStackInRowAndColumn(j, i);
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				ItemStack itemstack = par1InventoryCrafting
+						.getStackInRowAndColumn(j, i);
 
-				if (itemstack != null)
-				{
-					if (Item.getIdFromItem(itemstack.getItem()) == Item.getIdFromItem(Items.enchanted_book)) {
+				if (itemstack != null) {
+					if (Item.getIdFromItem(itemstack.getItem()) == Item
+							.getIdFromItem(Items.enchanted_book)) {
 						if (this.enchantedBook != null)
 							return false;
 
@@ -50,7 +48,8 @@ public class ToolEnchantmentRecipes implements IRecipe {
 						if (this.tool != null)
 							return false;
 
-						this.tool = ((ToolBase)itemstack.getItem()).getToolProperties(itemstack);
+						this.tool = ((ToolBase) itemstack.getItem())
+								.getToolProperties(itemstack);
 					}
 				}
 			}
@@ -63,8 +62,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 	 * Returns an Item that is the result of this recipe
 	 */
 	@Override
-	public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
-	{
+	public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting) {
 		ItemStack output = this.tool.getStack().copy();
 
 		NBTTagList toolList = getEnchantmentTagList(output);
@@ -76,30 +74,35 @@ public class ToolEnchantmentRecipes implements IRecipe {
 			boolean found = false;
 			NBTTagCompound bookEnchant = bookList.getCompoundTagAt(iBook);
 
-			//Check the tool for allowed enchants
-			if (!this.tool.getItem().getAllowedEnchantments().contains((int)bookEnchant.getShort("id")))
+			// Check the tool for allowed enchants
+			if (!this.tool.getItem().getAllowedEnchantments()
+					.contains((int) bookEnchant.getShort("id")))
 				continue;
 
-			//Check if the enchant already exists
+			// Check if the enchant already exists
 			for (int iTool = 0; iTool < toolList.tagCount(); iTool++) {
 				NBTTagCompound toolEnchant = toolList.getCompoundTagAt(iTool);
 				if (toolEnchant.getShort("id") == bookEnchant.getShort("id")) {
 					found = true;
-					if (toolEnchant.getShort("lvl") < bookEnchant.getShort("lvl")) {
+					if (toolEnchant.getShort("lvl") < bookEnchant
+							.getShort("lvl")) {
 						changed = true;
-						toolEnchant.setShort("lvl", bookEnchant.getShort("lvl"));
+						toolEnchant
+								.setShort("lvl", bookEnchant.getShort("lvl"));
 					}
 					continue;
 				}
 			}
 
-			//It doesn't exist yet, just add it
+			// It doesn't exist yet, just add it
 			if (!found) {
 				boolean allowed = true;
 				for (int iTool = 0; iTool < toolList.tagCount(); iTool++) {
-					int toolEnchant = toolList.getCompoundTagAt(iTool).getShort("id");
+					int toolEnchant = toolList.getCompoundTagAt(iTool)
+							.getShort("id");
 					if (!Enchantment.enchantmentsList[toolEnchant]
-							.canApplyTogether(Enchantment.enchantmentsList[bookEnchant.getShort("id")])) {
+							.canApplyTogether(Enchantment.enchantmentsList[bookEnchant
+									.getShort("id")])) {
 						allowed = false;
 					}
 				}
@@ -122,15 +125,16 @@ public class ToolEnchantmentRecipes implements IRecipe {
 	 * Returns the size of the recipe area
 	 */
 	@Override
-	public int getRecipeSize()
-	{
+	public int getRecipeSize() {
 		return 2;
 	}
 
 	public static NBTTagList getEnchantmentTagList(ItemStack itemStack) {
 		NBTTagList nbttaglist = itemStack.getEnchantmentTagList();
 
-		if (nbttaglist == null || (nbttaglist.tagCount() == 0 && Item.getIdFromItem(itemStack.getItem()) == Item.getIdFromItem(Items.enchanted_book)))
+		if (nbttaglist == null
+				|| (nbttaglist.tagCount() == 0 && Item.getIdFromItem(itemStack
+						.getItem()) == Item.getIdFromItem(Items.enchanted_book)))
 			nbttaglist = Items.enchanted_book.func_92110_g(itemStack);
 
 		return nbttaglist != null ? nbttaglist : new NBTTagList();

@@ -19,7 +19,7 @@ import rubedo.items.tools.ToolSword;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
-implements IContent {
+		implements IContent {
 
 	public Map<MaterialMultiItem, String> VanillaToolMaterials;
 

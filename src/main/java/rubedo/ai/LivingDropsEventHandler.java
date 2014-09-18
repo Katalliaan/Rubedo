@@ -17,12 +17,20 @@ public class LivingDropsEventHandler {
 		if (event.entity instanceof EntityPigZombie) {
 			for (EntityItem drop : event.drops) {
 				if (drop.getEntityItem().getItem() == Items.gold_ingot)
-					drop.setEntityItemStack(new ItemStack(ContentWorld.metalItems, drop.getEntityItem().stackSize, ContentWorld.metalItems.getTextureIndex("silver_ingot")));
+					drop.setEntityItemStack(new ItemStack(
+							ContentWorld.metalItems,
+							drop.getEntityItem().stackSize,
+							ContentWorld.metalItems
+									.getTextureIndex("silver_ingot")));
 				if (drop.getEntityItem().getItem() == Items.gold_nugget)
-					drop.setEntityItemStack(new ItemStack(ContentWorld.metalItems, drop.getEntityItem().stackSize, ContentWorld.metalItems.getTextureIndex("silver_nugget")));
-				
-				if (drop.getEntityItem().getItem() == Singleton.getInstance(ContentTools.class).getItem(ToolSword.class))
-				{
+					drop.setEntityItemStack(new ItemStack(
+							ContentWorld.metalItems,
+							drop.getEntityItem().stackSize,
+							ContentWorld.metalItems
+									.getTextureIndex("silver_nugget")));
+
+				if (drop.getEntityItem().getItem() == Singleton.getInstance(
+						ContentTools.class).getItem(ToolSword.class)) {
 					drop.getEntityItem().setItemDamage(0);
 				}
 			}

@@ -23,7 +23,9 @@ public class ToolShovel extends ToolBase {
 	}
 
 	@Override
-	public float getWeaponDamage() { return 2.0F; }
+	public float getWeaponDamage() {
+		return 2.0F;
+	}
 
 	@Override
 	public int getItemDamageOnHit() {
@@ -42,8 +44,8 @@ public class ToolShovel extends ToolBase {
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[]{Material.craftedSnow, Material.grass,
-				Material.ground, Material.sand, Material.snow};
+		return new Material[] { Material.craftedSnow, Material.grass,
+				Material.ground, Material.sand, Material.snow };
 	}
 
 	@Override
@@ -53,23 +55,22 @@ public class ToolShovel extends ToolBase {
 
 	@Override
 	public List<Integer> getAllowedEnchantments() {
-		Integer[] allowedEnchants = new Integer[]{
-				Enchantment.efficiency.effectId,
-				Enchantment.fortune.effectId,
+		Integer[] allowedEnchants = new Integer[] {
+				Enchantment.efficiency.effectId, Enchantment.fortune.effectId,
 				Enchantment.silkTouch.effectId,
 				Enchantment.unbreaking.effectId,
 
-				Enchantment.sharpness.effectId,
-				Enchantment.smite.effectId,
+				Enchantment.sharpness.effectId, Enchantment.smite.effectId,
 				Enchantment.baneOfArthropods.effectId,
 				Enchantment.knockback.effectId,
-				Enchantment.fireAspect.effectId,
-				Enchantment.looting.effectId };
+				Enchantment.fireAspect.effectId, Enchantment.looting.effectId };
 		return Arrays.asList(allowedEnchants);
 	}
 
 	@Override
-	public ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head, rubedo.common.materials.MaterialMultiItem rod, rubedo.common.materials.MaterialMultiItem cap) {
+	public ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head,
+			rubedo.common.materials.MaterialMultiItem rod,
+			rubedo.common.materials.MaterialMultiItem cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolShovel.class));
 

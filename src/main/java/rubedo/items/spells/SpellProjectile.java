@@ -38,7 +38,8 @@ public class SpellProjectile extends SpellBase {
 	 */
 	@Override
 	public ItemStack buildSpell(String base, String focus, String effect) {
-		ContentSpells contentSpells = Singleton.getInstance(ContentSpells.class);
+		ContentSpells contentSpells = Singleton
+				.getInstance(ContentSpells.class);
 		ItemStack spell = new ItemStack(
 				contentSpells.getItem(SpellProjectile.class));
 

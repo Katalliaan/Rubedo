@@ -10,13 +10,14 @@ import rubedo.items.MultiItemProperties;
 import rubedo.util.Singleton;
 
 public class ToolProperties extends MultiItemProperties<ToolBase> {
-	private static ContentTools content = Singleton.getInstance(ContentTools.class);
+	private static ContentTools content = Singleton
+			.getInstance(ContentTools.class);
 
 	public ToolProperties(ItemStack stack, ToolBase tool) {
 		super(stack, tool);
 
-		if (stack.getItem() instanceof ToolBase
-				&& this.baseTags != null && this.baseTags.hasKey("RubedoTool")) {
+		if (stack.getItem() instanceof ToolBase && this.baseTags != null
+				&& this.baseTags.hasKey("RubedoTool")) {
 			this.tag = this.baseTags.getCompoundTag("RubedoTool");
 		}
 	}
@@ -24,6 +25,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	public boolean isBroken() {
 		return !this.isValid() || this.tag.getBoolean("broken");
 	}
+
 	public void setBroken(boolean isBroken) {
 		if (this.isValid()) {
 			this.tag.setBoolean("broken", isBroken);
@@ -32,16 +34,19 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	}
 
 	public MaterialMultiItem getHeadMaterial() {
-		MaterialMultiItem head = content.getMaterial(this.tag.getString("head"));
+		MaterialMultiItem head = content
+				.getMaterial(this.tag.getString("head"));
 		if (this.isValid() && head.headMaterial != null)
 			return head;
 		else
 			return null;
 	}
+
 	public void setHeadMaterial(MaterialMultiItem head) {
 		if (this.isValid())
 			this.tag.setString("head", head.name);
 	}
+
 	public MaterialMultiItem getRodMaterial() {
 		MaterialMultiItem rod = content.getMaterial(this.tag.getString("rod"));
 		if (this.isValid() && rod.rodMaterial != null)
@@ -49,10 +54,12 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		else
 			return null;
 	}
+
 	public void setRodMaterial(MaterialMultiItem rod) {
 		if (this.isValid())
 			this.tag.setString("rod", rod.name);
 	}
+
 	public MaterialMultiItem getCapMaterial() {
 		MaterialMultiItem cap = content.getMaterial(this.tag.getString("cap"));
 		if (this.isValid() && cap.capMaterial != null)
@@ -60,6 +67,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		else
 			return null;
 	}
+
 	public void setCapMaterial(MaterialMultiItem cap) {
 		if (this.isValid())
 			this.tag.setString("cap", cap.name);
@@ -69,8 +77,8 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		if (this.isValid()) {
 			NBTTagCompound nnbt = new NBTTagCompound();
 			NBTTagList nnbtl = new NBTTagList();
-			AttributeModifier att = new AttributeModifier("generic.attackDamage",
-					this.getAttackDamage(), 0);
+			AttributeModifier att = new AttributeModifier(
+					"generic.attackDamage", this.getAttackDamage(), 0);
 			nnbt.setLong("UUIDMost", att.getID().getMostSignificantBits());
 			nnbt.setLong("UUIDLeast", att.getID().getLeastSignificantBits());
 			nnbt.setString("Name", att.getName());
@@ -84,8 +92,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 
 	public float getAttackDamage() {
 		if (!this.isBroken())
-			return this.item.getWeaponDamage()
-					+ this.getHeadMaterial().damage;
+			return this.item.getWeaponDamage() + this.getHeadMaterial().damage;
 		else
 			return 0;
 

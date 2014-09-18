@@ -19,7 +19,8 @@ import rubedo.items.spells.SpellSelf;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentSpells extends ContentMultiItem<SpellBase, rubedo.common.materials.MaterialMultiItem> {
+public class ContentSpells extends
+		ContentMultiItem<SpellBase, rubedo.common.materials.MaterialMultiItem> {
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
 	public static SpellArea spellArea;
@@ -47,7 +48,7 @@ public class ContentSpells extends ContentMultiItem<SpellBase, rubedo.common.mat
 
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class,
 				"SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry
-				.findGlobalUniqueEntityId(), RubedoCore.instance, 64,
+						.findGlobalUniqueEntityId(), RubedoCore.instance, 64,
 				1, true);
 	}
 
@@ -181,26 +182,26 @@ public class ContentSpells extends ContentMultiItem<SpellBase, rubedo.common.mat
 						.entrySet()) {
 					if (focusEntry.getValue().focusType == "projectile") {
 						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
-								new ItemStack[]{null,
-								baseEntry.getValue().baseMaterial,
-								null, null,
-								focusEntry.getValue().focusMaterial,
-								null, null,
-								effectEntry.getValue().effectMaterial,
-								null},
+								new ItemStack[] { null,
+										baseEntry.getValue().baseMaterial,
+										null, null,
+										focusEntry.getValue().focusMaterial,
+										null, null,
+										effectEntry.getValue().effectMaterial,
+										null },
 
 								spellProjectile.buildSpell(baseEntry.getKey(),
 										focusEntry.getKey(),
 										effectEntry.getKey())));
 					} else if (focusEntry.getValue().focusType == "self") {
 						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
-								new ItemStack[]{null,
-								baseEntry.getValue().baseMaterial,
-								null, null,
-								focusEntry.getValue().focusMaterial,
-								null, null,
-								effectEntry.getValue().effectMaterial,
-								null},
+								new ItemStack[] { null,
+										baseEntry.getValue().baseMaterial,
+										null, null,
+										focusEntry.getValue().focusMaterial,
+										null, null,
+										effectEntry.getValue().effectMaterial,
+										null },
 
 								spellSelf.buildSpell(baseEntry.getKey(),
 										focusEntry.getKey(),

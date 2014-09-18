@@ -121,19 +121,19 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(
 					this.motionY, (double) motion) * 180.0D / Math.PI);
 		}
-		
+
 		Block currentTile = worldObj.getBlock(xTile, yTile, zTile);
 
 		if (!worldObj.isAirBlock(xTile, yTile, zTile)) {
-			currentTile.setBlockBoundsBasedOnState(
-					this.worldObj, this.xTile, this.yTile, this.zTile);
+			currentTile.setBlockBoundsBasedOnState(this.worldObj, this.xTile,
+					this.yTile, this.zTile);
 			AxisAlignedBB axisalignedbb = currentTile
 					.getCollisionBoundingBoxFromPool(this.worldObj, this.xTile,
 							this.yTile, this.zTile);
 
 			if (axisalignedbb != null
-					&& axisalignedbb.isVecInside(Vec3.createVectorHelper(this.posX,
-									this.posY, this.posZ))) {
+					&& axisalignedbb.isVecInside(Vec3.createVectorHelper(
+							this.posX, this.posY, this.posZ))) {
 				this.inGround = true;
 			}
 		}
@@ -159,18 +159,15 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 			this.ticksInAir = 0;
 		} else {
 			++this.ticksInAir;
-			Vec3 vec3 = Vec3.createVectorHelper(
-					this.posX, this.posY, this.posZ);
-			Vec3 vec31 = Vec3.createVectorHelper(
-					this.posX + this.motionX, this.posY + this.motionY,
-					this.posZ + this.motionZ);
+			Vec3 vec3 = Vec3
+					.createVectorHelper(this.posX, this.posY, this.posZ);
+			Vec3 vec31 = Vec3.createVectorHelper(this.posX + this.motionX,
+					this.posY + this.motionY, this.posZ + this.motionZ);
 			MovingObjectPosition movingobjectposition = this.worldObj
 					.rayTraceBlocks(vec3, vec31);
-			vec3 = Vec3.createVectorHelper(this.posX,
-					this.posY, this.posZ);
-			vec31 = Vec3.createVectorHelper(
-					this.posX + this.motionX, this.posY + this.motionY,
-					this.posZ + this.motionZ);
+			vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+			vec31 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY
+					+ this.motionY, this.posZ + this.motionZ);
 
 			if (movingobjectposition != null) {
 				vec31 = Vec3.createVectorHelper(
@@ -285,9 +282,10 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 			this.motionZ *= (double) f4;
 			this.motionY -= (double) f1;
 			this.setPosition(this.posX, this.posY, this.posZ);
-			//this.doBlockCollisions();
+			// this.doBlockCollisions();
 		}
 	}
+
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
 		this.xTile = nbttagcompound.getShort("xTile");
@@ -315,8 +313,8 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 		nbttagcompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
 		nbttagcompound.setTag(
 				"direction",
-				this.newDoubleNBTList(new double[]{this.motionX, this.motionY,
-						this.motionZ}));
+				this.newDoubleNBTList(new double[] { this.motionX,
+						this.motionY, this.motionZ }));
 
 	}
 

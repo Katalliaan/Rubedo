@@ -7,18 +7,16 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 /**
  * Allows animals to eat off the ground
  */
-public class EntityAnimalEventHandler 
-{
+public class EntityAnimalEventHandler {
 
 	@SubscribeEvent
-	public void entitySpawning(EntityJoinWorldEvent event)
-	{
-		if (!(event.entity instanceof EntityAnimal)) 
+	public void entitySpawning(EntityJoinWorldEvent event) {
+		if (!(event.entity instanceof EntityAnimal))
 			return;
 
-		EntityAnimal animal = (EntityAnimal)event.entity;
+		EntityAnimal animal = (EntityAnimal) event.entity;
 
 		// add
-		animal.tasks.addTask(0, new EntityAIGroundEater(animal));			
+		animal.tasks.addTask(0, new EntityAIGroundEater(animal));
 	}
 }

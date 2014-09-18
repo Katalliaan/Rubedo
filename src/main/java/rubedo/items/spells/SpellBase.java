@@ -95,18 +95,18 @@ public abstract class SpellBase extends MultiItem {
 		String name = "blank";
 
 		switch (renderPass) {
-			case 0 :
-				// Base
-				name = "base_" + properties.getBaseMaterial();
-				break;
-			case 1 :
-				// Effect
-				name = "effect_" + properties.getEffectMaterial();
-				break;
-			case 2 :
-				// Focus
-				name = "focus_" + properties.getFocusMaterial();
-				break;
+		case 0:
+			// Base
+			name = "base_" + properties.getBaseMaterial();
+			break;
+		case 1:
+			// Effect
+			name = "effect_" + properties.getEffectMaterial();
+			break;
+		case 2:
+			// Focus
+			name = "focus_" + properties.getFocusMaterial();
+			break;
 		}
 
 		IIcon icon = getRenderList().get(name);
@@ -149,7 +149,7 @@ public abstract class SpellBase extends MultiItem {
 	}
 
 	// TODO: replace by proper tooltip system for spells
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list,
@@ -169,7 +169,7 @@ public abstract class SpellBase extends MultiItem {
 		list.add("");
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		for (Entry<String, Material> baseEntry : ContentSpells.spellBaseMaterials

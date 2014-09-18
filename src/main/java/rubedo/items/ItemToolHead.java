@@ -18,7 +18,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemToolHead extends Item {
 
-	private static ContentTools content = Singleton.getInstance(ContentTools.class);
+	private static ContentTools content = Singleton
+			.getInstance(ContentTools.class);
 	private static Map<String, ItemToolHead> headMap = new LinkedHashMap<String, ItemToolHead>();
 
 	public static Map<String, ItemToolHead> getHeadMap() {
@@ -51,7 +52,7 @@ public class ItemToolHead extends Item {
 		String material = name.split("_")[2];
 		String type = name.split("_")[0];
 
-		textureNames.put(name, material+" tools.type."+type);
+		textureNames.put(name, material + " tools.type." + type);
 	}
 
 	@Override
@@ -61,8 +62,8 @@ public class ItemToolHead extends Item {
 
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
-		this.icon = iconRegister.registerIcon(RubedoCore.modid
-				+ ":tools/" + this.name);
+		this.icon = iconRegister.registerIcon(RubedoCore.modid + ":tools/"
+				+ this.name);
 	}
 
 	@Override
@@ -73,8 +74,7 @@ public class ItemToolHead extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		String[] split = textureNames.get(this.name)
-				.split(" ");
+		String[] split = textureNames.get(this.name).split(" ");
 
 		return Language.getFormattedLocalization("tools.toolHead", true)
 				.put("$material", "materials." + split[0])

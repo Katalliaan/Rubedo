@@ -15,8 +15,11 @@ public class ItemBlockMetalOre extends ItemBlockBase {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return Language.getFormattedLocalization("materials.oreName", true)
-				.put("$material", "materials." + ContentWorld.metals.get(stack.getItemDamage()).name)
+		return Language
+				.getFormattedLocalization("materials.oreName", true)
+				.put("$material",
+						"materials."
+								+ ContentWorld.metals.get(stack.getItemDamage()).name)
 				.getResult();
 	}
 }

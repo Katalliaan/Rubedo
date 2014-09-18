@@ -11,13 +11,18 @@ public class LivingSpawnEventHandler {
 	@SubscribeEvent
 	public void onSpawn(LivingSpawnEvent event) {
 		if (event.entityLiving instanceof EntityPigZombie) {
-						// if (event.entityLiving.getCurrentItemOrArmor(0).itemID ==
+			// if (event.entityLiving.getCurrentItemOrArmor(0).itemID ==
 			// Item.swordGold.itemID) {
-			//ItemStack itemStack = ContentTools.toolSword.buildTool("gold", "bone", "gold");
-			//event.entityLiving.setCurrentItemOrArmor(0, itemStack);
+			// ItemStack itemStack = ContentTools.toolSword.buildTool("gold",
+			// "bone", "gold");
+			// event.entityLiving.setCurrentItemOrArmor(0, itemStack);
 			// }
 
-			event.entityLiving.setCurrentItemOrArmor(0, new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("copper_ingot")));
+			event.entityLiving.setCurrentItemOrArmor(
+					0,
+					new ItemStack(ContentWorld.metalItems, 1,
+							ContentWorld.metalItems
+									.getTextureIndex("copper_ingot")));
 		}
 	}
 }

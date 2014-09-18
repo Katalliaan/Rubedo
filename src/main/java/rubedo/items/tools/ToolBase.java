@@ -142,7 +142,8 @@ public abstract class ToolBase extends MultiItem {
 	public void registerIcons(IIconRegister iconRegister) {
 		super.registerIcons(iconRegister);
 
-		for (rubedo.common.materials.MaterialMultiItem material : content.getMaterials()) {
+		for (rubedo.common.materials.MaterialMultiItem material : content
+				.getMaterials()) {
 			if (material.headMaterial != null) {
 				String name = this.getName() + "_head_" + material.name;
 				this.getRenderList().put(
@@ -237,7 +238,8 @@ public abstract class ToolBase extends MultiItem {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
-		for (rubedo.common.materials.MaterialMultiItem head : content.getMaterials())
+		for (rubedo.common.materials.MaterialMultiItem head : content
+				.getMaterials())
 			if (head.headMaterial != null)
 				for (rubedo.common.materials.MaterialMultiItem rod : content
 						.getMaterials())
@@ -258,10 +260,10 @@ public abstract class ToolBase extends MultiItem {
 		list.add(Language.FormatterCodes.DARK_GREEN.toString()
 				+ Language.FormatterCodes.ITALIC.toString()
 				+ Language
-				.getFormattedLocalization("tools.toolRod", true)
-				.put("$material1",
-						"materials." + properties.getCapMaterial().name,
-						Formatting.CAPITALIZED)
+						.getFormattedLocalization("tools.toolRod", true)
+						.put("$material1",
+								"materials." + properties.getCapMaterial().name,
+								Formatting.CAPITALIZED)
 						.put("$material2",
 								"materials." + properties.getRodMaterial().name,
 								Formatting.LOWERCASE).getResult());
@@ -285,16 +287,17 @@ public abstract class ToolBase extends MultiItem {
 
 		return modifier
 				+ Language
-				.getFormattedLocalization(key, true)
-				.put("$material",
-						"materials."
-								+ properties.getHeadMaterial().name,
+						.getFormattedLocalization(key, true)
+						.put("$material",
+								"materials."
+										+ properties.getHeadMaterial().name,
 								Formatting.CAPITALIZED)
-								.put("$tool.type", "tools.type." + this.getName(),
-										Formatting.CAPITALIZED).getResult();
+						.put("$tool.type", "tools.type." + this.getName(),
+								Formatting.CAPITALIZED).getResult();
 	}
 
-	public abstract ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head,
+	public abstract ItemStack buildTool(
+			rubedo.common.materials.MaterialMultiItem head,
 			rubedo.common.materials.MaterialMultiItem rod,
 			rubedo.common.materials.MaterialMultiItem cap);
 

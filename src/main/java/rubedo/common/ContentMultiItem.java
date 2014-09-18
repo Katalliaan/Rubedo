@@ -10,7 +10,8 @@ import rubedo.items.MultiItem;
 import rubedo.util.Singleton;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends MaterialMultiItem> extends Singleton<T> implements IContent {
+public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends MaterialMultiItem>
+		extends Singleton<T> implements IContent {
 	protected ContentMultiItem(Class<?> type) {
 		super(type);
 	}
@@ -45,8 +46,7 @@ public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends Ma
 			TMaterial instance = null;
 			try {
 				instance = material.getDeclaredConstructor().newInstance();
-			}
-			catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 

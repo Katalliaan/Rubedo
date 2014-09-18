@@ -46,15 +46,17 @@ public class RubedoCore {
 			return Item.getItemFromBlock(Blocks.bedrock);
 		}
 	};
-	
-	public static final CreativeTabs creativeTabTools = new CreativeTabs("RubedoTools") {
+
+	public static final CreativeTabs creativeTabTools = new CreativeTabs(
+			"RubedoTools") {
 		@Override
 		public Item getTabIconItem() {
 			return Item.getItemFromBlock(Blocks.bedrock);
 		}
 	};
-	
-	public static final CreativeTabs creativeTabSpells = new CreativeTabs("RubedoSpells") {
+
+	public static final CreativeTabs creativeTabSpells = new CreativeTabs(
+			"RubedoSpells") {
 		@Override
 		public Item getTabIconItem() {
 			return Item.getItemFromBlock(Blocks.bedrock);
@@ -68,11 +70,16 @@ public class RubedoCore {
 	public void preInit(FMLPreInitializationEvent event) {
 		// Order matters, might need a dependency solver
 		this.contentUnits = new LinkedHashMap<Class<? extends IContent>, IContent>();
-		this.contentUnits.put(ContentWorld.class, Singleton.getInstance(ContentWorld.class));
-		this.contentUnits.put(ContentTools.class, Singleton.getInstance(ContentTools.class));
-		this.contentUnits.put(ContentVanilla.class, Singleton.getInstance(ContentVanilla.class));
-		this.contentUnits.put(ContentSpells.class, Singleton.getInstance(ContentSpells.class));
-		this.contentUnits.put(ContentAI.class, Singleton.getInstance(ContentAI.class));
+		this.contentUnits.put(ContentWorld.class,
+				Singleton.getInstance(ContentWorld.class));
+		this.contentUnits.put(ContentTools.class,
+				Singleton.getInstance(ContentTools.class));
+		this.contentUnits.put(ContentVanilla.class,
+				Singleton.getInstance(ContentVanilla.class));
+		this.contentUnits.put(ContentSpells.class,
+				Singleton.getInstance(ContentSpells.class));
+		this.contentUnits.put(ContentAI.class,
+				Singleton.getInstance(ContentAI.class));
 
 		// Load the configs
 		Config.load(event, this.contentUnits.values());

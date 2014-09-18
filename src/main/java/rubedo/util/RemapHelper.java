@@ -163,7 +163,7 @@ whether future versions of the GNU Lesser General Public License shall
 apply, that proxy's public statement of acceptance of any version is
 permanent authorization for you to choose that version for the
 Library.
-*/
+ */
 
 // Adapted from CoFHLib: https://github.com/CoFH/CoFHLib/
 
@@ -203,11 +203,14 @@ public class RemapHelper {
 		private static IdentityHashMap<RegistryNamespaced, Multimap<String, Object>> replacements;
 
 		@SuppressWarnings("rawtypes")
-		private static void overwrite_do(RegistryNamespaced registry, String name, Object object, Object oldThing) {
+		private static void overwrite_do(RegistryNamespaced registry,
+				String name, Object object, Object oldThing) {
 
 			int id = registry.getIDForObject(oldThing);
-			BiMap map = ((BiMap) ReflectionHelper.getField(registry, "registryObjects"));
-			ObjectIntIdentityMap map2 = ((ObjectIntIdentityMap) ReflectionHelper.getField(registry, "underlyingIntegerMap"));
+			BiMap map = ((BiMap) ReflectionHelper.getField(registry,
+					"registryObjects"));
+			ObjectIntIdentityMap map2 = ((ObjectIntIdentityMap) ReflectionHelper
+					.getField(registry, "underlyingIntegerMap"));
 			map2.func_148746_a(object, id);
 			map.remove(name);
 			map.forcePut(name, object);
@@ -215,7 +218,8 @@ public class RemapHelper {
 
 		static {
 
-			replacements = new IdentityHashMap<RegistryNamespaced, Multimap<String, Object>>(2);
+			replacements = new IdentityHashMap<RegistryNamespaced, Multimap<String, Object>>(
+					2);
 			MinecraftForge.EVENT_BUS.register(new RemapHelper());
 		}
 	}
@@ -226,7 +230,8 @@ public class RemapHelper {
 		if (Repl.replacements.size() < 1) {
 			return;
 		}
-		for (Map.Entry<RegistryNamespaced, Multimap<String, Object>> entry : Repl.replacements.entrySet()) {
+		for (Map.Entry<RegistryNamespaced, Multimap<String, Object>> entry : Repl.replacements
+				.entrySet()) {
 			RegistryNamespaced reg = entry.getKey();
 			Multimap<String, Object> map = entry.getValue();
 			Iterator<String> v = map.keySet().iterator();
@@ -246,7 +251,8 @@ public class RemapHelper {
 		}
 	}
 
-	public static void overwriteEntry(RegistryNamespaced registry, String name, Object object) {
+	public static void overwriteEntry(RegistryNamespaced registry, String name,
+			Object object) {
 
 		Object oldThing = registry.getObject(name);
 		Repl.overwrite_do(registry, name, object, oldThing);
@@ -259,7 +265,7 @@ public class RemapHelper {
 		}
 		reg.put(name, object);
 	}
-	
+
 	public static void removeAnyRecipe(ItemStack resultItem) {
 		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
 		for (int i = 0; i < recipes.size(); i++) {
@@ -269,7 +275,7 @@ public class RemapHelper {
 				recipes.remove(i--);
 		}
 	}
-	
+
 	public static void removeFurnaceRecipe(int itemID, int metadata) {
 		Map<List<Integer>, ItemStack> recipes = FurnaceRecipes.smelting()
 				.getSmeltingList();
