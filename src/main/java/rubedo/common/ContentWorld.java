@@ -58,7 +58,7 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 	@Override
 	public void config(Configuration config) {
 		// Generation
-		configMetals();
+		this.configMetals();
 	}
 
 	private void configMetals() {
@@ -105,7 +105,7 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 
 	@Override
 	public void registerBase() {
-		registerMetals();
+		this.registerMetals();
 
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
 	}
@@ -124,7 +124,7 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 
 		// Register metals
 		for (Metal metal : metals)
-			registerMetal(metal);
+			this.registerMetal(metal);
 
 		// Iron nugget recipes
 		GameRegistry.addRecipe(
@@ -165,7 +165,7 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(metalItems, 2, metalItems
 						.getTextureIndex("steel_ingot")), new ItemStack(
-						Items.iron_ingot), new ItemStack(Blocks.soul_sand));
+						Items.iron_ingot), new ItemStack(Items.blaze_rod));
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(metalItems, 2, metalItems
 						.getTextureIndex("mythril_ingot")),
@@ -283,24 +283,26 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 			this.dimensions = dimensions;
 		}
 
+		@Override
 		public String toString() {
-			return name.substring(0, 1).toUpperCase() + name.substring(1);
+			return this.name.substring(0, 1).toUpperCase()
+					+ this.name.substring(1);
 		}
 
 		/**
 		 * cached for performance!
 		 */
 		public List<Integer> getDimensionList() {
-			if (dimensionList == null
-					|| dimensionList.size() != dimensions.length) {
-				dimensionList = new ArrayList<Integer>();
+			if (this.dimensionList == null
+					|| this.dimensionList.size() != this.dimensions.length) {
+				this.dimensionList = new ArrayList<Integer>();
 
-				for (int d = 0; d < dimensions.length; d++) {
-					dimensionList.add(dimensions[d]);
+				for (int d = 0; d < this.dimensions.length; d++) {
+					this.dimensionList.add(this.dimensions[d]);
 				}
 			}
 
-			return dimensionList;
+			return this.dimensionList;
 		}
 	}
 
