@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import rubedo.common.materials.Material;
+import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolBase;
 import rubedo.util.ReflectionHelper;
@@ -115,7 +115,7 @@ IContent {
 		if (Config.replaceVanillaTools) {
 			ContentTools contentTools = Singleton
 					.getInstance(ContentTools.class);
-			for (Entry<Material, String> material : contentTools.VanillaToolMaterials
+			for (Entry<MaterialMultiItem, String> material : contentTools.VanillaToolMaterials
 					.entrySet()) {
 				for (ToolBase kind : contentTools.getItems()) {
 					String name = kind.getName() + "_head_" + material.getKey().name;

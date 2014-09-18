@@ -10,7 +10,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import rubedo.common.ContentWorld;
 import rubedo.items.ItemToolHead;
 
-public abstract class Material {
+public abstract class MaterialMultiItem {
 	public String name;
 
 	public int durability;
@@ -35,7 +35,7 @@ public abstract class Material {
 		return this.toolHeads.get(tool);
 	}
 
-	public static class Wood extends Material {
+	public static class Wood extends MaterialMultiItem {
 		public Wood() {
 			this.name = "wood";
 			this.modDurability = 0.5f;
@@ -46,7 +46,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Flint extends Material {
+	public static class Flint extends MaterialMultiItem {
 		public Flint() {
 			this.name = "flint";
 			this.durability = 60;
@@ -57,7 +57,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Bone extends Material {
+	public static class Bone extends MaterialMultiItem {
 		public Bone() {
 			this.name = "bone";
 			this.modDurability = 1.2f;
@@ -65,7 +65,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Leather extends Material {
+	public static class Leather extends MaterialMultiItem {
 		public Leather() {
 			this.name = "leather";
 			this.modDurability = 1.0f;
@@ -73,7 +73,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Blazerod extends Material {
+	public static class Blazerod extends MaterialMultiItem {
 		public Blazerod() {
 			this.name = "blazerod";
 			this.modDurability = 2.0f;
@@ -81,7 +81,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Copper extends Material {
+	public static class Copper extends MaterialMultiItem {
 		public Copper() {
 			this.name = "copper";
 			this.durability = 130;
@@ -96,7 +96,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Iron extends Material {
+	public static class Iron extends MaterialMultiItem {
 		public Iron() {
 			this.name = "iron";
 			this.durability = 250;
@@ -109,7 +109,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Gold extends Material {
+	public static class Gold extends MaterialMultiItem {
 		public Gold() {
 			this.name = "gold";
 			this.durability = 35;
@@ -122,7 +122,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Orichalcum extends Material {
+	public static class Orichalcum extends MaterialMultiItem {
 		public Orichalcum() {
 			this.name = "orichalcum";
 			this.durability = 200;
@@ -135,7 +135,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Silver extends Material {
+	public static class Silver extends MaterialMultiItem {
 		public Silver() {
 			this.name = "silver";
 			this.durability = 75;
@@ -148,7 +148,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Steel extends Material {
+	public static class Steel extends MaterialMultiItem {
 		public Steel() {
 			this.name = "steel";
 			this.durability = 1500;
@@ -161,7 +161,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Mythril extends Material {
+	public static class Mythril extends MaterialMultiItem {
 		public Mythril() {
 			this.name = "mythril";
 			this.durability = 500;
@@ -174,7 +174,7 @@ public abstract class Material {
 		}
 	}
 
-	public static class Hepatizon extends Material {
+	public static class Hepatizon extends MaterialMultiItem {
 		public Hepatizon() {
 			this.name = "hepatizon";
 			this.durability = 750;

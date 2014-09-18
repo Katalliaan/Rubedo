@@ -88,7 +88,7 @@ public class ToolAxe extends ToolBase {
 	}
 
 	@Override
-	public ItemStack buildTool(rubedo.common.materials.Material head, rubedo.common.materials.Material rod, rubedo.common.materials.Material cap) {
+	public ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head, rubedo.common.materials.MaterialMultiItem rod, rubedo.common.materials.MaterialMultiItem cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolAxe.class));
 

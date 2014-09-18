@@ -19,7 +19,7 @@ import rubedo.items.spells.SpellSelf;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentSpells extends ContentMultiItem<SpellBase, rubedo.common.materials.Material> {
+public class ContentSpells extends ContentMultiItem<SpellBase, rubedo.common.materials.MaterialMultiItem> {
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
 	public static SpellArea spellArea;

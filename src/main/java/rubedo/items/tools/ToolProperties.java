@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import rubedo.common.ContentTools;
-import rubedo.common.materials.Material;
+import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.MultiItemProperties;
 import rubedo.util.Singleton;
 
@@ -31,36 +31,36 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		}
 	}
 
-	public Material getHeadMaterial() {
-		Material head = content.getMaterial(this.tag.getString("head"));
+	public MaterialMultiItem getHeadMaterial() {
+		MaterialMultiItem head = content.getMaterial(this.tag.getString("head"));
 		if (this.isValid() && head.headMaterial != null)
 			return head;
 		else
 			return null;
 	}
-	public void setHeadMaterial(Material head) {
+	public void setHeadMaterial(MaterialMultiItem head) {
 		if (this.isValid())
 			this.tag.setString("head", head.name);
 	}
-	public Material getRodMaterial() {
-		Material rod = content.getMaterial(this.tag.getString("rod"));
+	public MaterialMultiItem getRodMaterial() {
+		MaterialMultiItem rod = content.getMaterial(this.tag.getString("rod"));
 		if (this.isValid() && rod.rodMaterial != null)
 			return rod;
 		else
 			return null;
 	}
-	public void setRodMaterial(Material rod) {
+	public void setRodMaterial(MaterialMultiItem rod) {
 		if (this.isValid())
 			this.tag.setString("rod", rod.name);
 	}
-	public Material getCapMaterial() {
-		Material cap = content.getMaterial(this.tag.getString("cap"));
+	public MaterialMultiItem getCapMaterial() {
+		MaterialMultiItem cap = content.getMaterial(this.tag.getString("cap"));
 		if (this.isValid() && cap.capMaterial != null)
 			return cap;
 		else
 			return null;
 	}
-	public void setCapMaterial(Material cap) {
+	public void setCapMaterial(MaterialMultiItem cap) {
 		if (this.isValid())
 			this.tag.setString("cap", cap.name);
 	}

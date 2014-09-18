@@ -142,7 +142,7 @@ public abstract class ToolBase extends MultiItem {
 	public void registerIcons(IIconRegister iconRegister) {
 		super.registerIcons(iconRegister);
 
-		for (rubedo.common.materials.Material material : content.getMaterials()) {
+		for (rubedo.common.materials.MaterialMultiItem material : content.getMaterials()) {
 			if (material.headMaterial != null) {
 				String name = this.getName() + "_head_" + material.name;
 				this.getRenderList().put(
@@ -237,12 +237,12 @@ public abstract class ToolBase extends MultiItem {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
-		for (rubedo.common.materials.Material head : content.getMaterials())
+		for (rubedo.common.materials.MaterialMultiItem head : content.getMaterials())
 			if (head.headMaterial != null)
-				for (rubedo.common.materials.Material rod : content
+				for (rubedo.common.materials.MaterialMultiItem rod : content
 						.getMaterials())
 					if (rod.rodMaterial != null)
-						for (rubedo.common.materials.Material cap : content
+						for (rubedo.common.materials.MaterialMultiItem cap : content
 								.getMaterials())
 							if (cap.capMaterial != null)
 								list.add(this.buildTool(head, rod, cap));
@@ -294,14 +294,14 @@ public abstract class ToolBase extends MultiItem {
 										Formatting.CAPITALIZED).getResult();
 	}
 
-	public abstract ItemStack buildTool(rubedo.common.materials.Material head,
-			rubedo.common.materials.Material rod,
-			rubedo.common.materials.Material cap);
+	public abstract ItemStack buildTool(rubedo.common.materials.MaterialMultiItem head,
+			rubedo.common.materials.MaterialMultiItem rod,
+			rubedo.common.materials.MaterialMultiItem cap);
 
 	public ItemStack buildTool(ItemStack tool,
-			rubedo.common.materials.Material head,
-			rubedo.common.materials.Material rod,
-			rubedo.common.materials.Material cap) {
+			rubedo.common.materials.MaterialMultiItem head,
+			rubedo.common.materials.MaterialMultiItem rod,
+			rubedo.common.materials.MaterialMultiItem cap) {
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setTag("RubedoTool", new NBTTagCompound());
 		tool.setTagCompound(compound);
