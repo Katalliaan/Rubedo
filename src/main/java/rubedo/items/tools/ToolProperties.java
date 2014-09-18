@@ -116,7 +116,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 
 	public int getSpecial() {
 		if (this.isValid())
-			return this.getCapMaterial().special;
+			return this.getCapMaterial().mundaneLevel;
 		else
 			return 0;
 	}

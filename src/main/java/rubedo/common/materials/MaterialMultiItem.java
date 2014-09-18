@@ -17,7 +17,8 @@ public abstract class MaterialMultiItem {
 	public float modDurability;
 	public int damage;
 	public float speed;
-	public int special;
+	public int mundaneLevel;
+	public int arcaneLevel;
 	public int miningLevel;
 	public ItemStack headMaterial;
 	public ItemStack rodMaterial;
@@ -36,7 +37,7 @@ public abstract class MaterialMultiItem {
 		public Wood() {
 			this.name = "wood";
 			this.modDurability = 0.5f;
-			this.special = 0;
+			this.mundaneLevel = 0;
 			this.rodMaterial = new ItemStack(Items.stick);
 			this.capMaterial = new ItemStack(Blocks.planks, 1,
 					OreDictionary.WILDCARD_VALUE);
@@ -82,7 +83,8 @@ public abstract class MaterialMultiItem {
 		public Copper() {
 			this.name = "copper";
 			this.durability = 130;
-			this.special = 2;
+			this.mundaneLevel = 2;
+			this.arcaneLevel = 3;
 			this.damage = 1;
 			this.speed = 2.0f;
 			this.miningLevel = 1;
@@ -97,7 +99,8 @@ public abstract class MaterialMultiItem {
 		public Iron() {
 			this.name = "iron";
 			this.durability = 250;
-			this.special = 1;
+			this.mundaneLevel = 1;
+			this.arcaneLevel = 2;
 			this.damage = 2;
 			this.speed = 6.0f;
 			this.miningLevel = 2;
@@ -110,7 +113,8 @@ public abstract class MaterialMultiItem {
 		public Gold() {
 			this.name = "gold";
 			this.durability = 35;
-			this.special = 3;
+			this.mundaneLevel = 3;
+			this.arcaneLevel = 5;
 			this.damage = 0;
 			this.speed = 6.0f;
 			this.miningLevel = 0;
@@ -123,7 +127,7 @@ public abstract class MaterialMultiItem {
 		public Orichalcum() {
 			this.name = "orichalcum";
 			this.durability = 200;
-			this.special = 3;
+			this.mundaneLevel = 3;
 			this.damage = 2;
 			this.speed = 4.0f;
 			this.miningLevel = 1;
@@ -136,7 +140,8 @@ public abstract class MaterialMultiItem {
 		public Silver() {
 			this.name = "silver";
 			this.durability = 75;
-			this.special = 2;
+			this.mundaneLevel = 2;
+			this.arcaneLevel = 10;
 			this.damage = 1;
 			this.speed = 8.0f;
 			this.miningLevel = 2;
@@ -149,7 +154,7 @@ public abstract class MaterialMultiItem {
 		public Steel() {
 			this.name = "steel";
 			this.durability = 1500;
-			this.special = 2;
+			this.mundaneLevel = 2;
 			this.damage = 3;
 			this.speed = 9.0f;
 			this.miningLevel = 3;
@@ -162,7 +167,7 @@ public abstract class MaterialMultiItem {
 		public Mythril() {
 			this.name = "mythril";
 			this.durability = 500;
-			this.special = 4;
+			this.mundaneLevel = 4;
 			this.damage = 1;
 			this.speed = 12.0f;
 			this.miningLevel = 4;
@@ -175,7 +180,7 @@ public abstract class MaterialMultiItem {
 		public Hepatizon() {
 			this.name = "hepatizon";
 			this.durability = 750;
-			this.special = 5;
+			this.mundaneLevel = 5;
 			this.damage = 3;
 			this.speed = 10.0f;
 			this.miningLevel = 4;
