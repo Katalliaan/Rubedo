@@ -156,7 +156,8 @@ public abstract class SpellBase extends MultiItem {
 			boolean par4) {
 		SpellProperties properties = getSpellProperties(stack);
 
-		list.add("\u00a72\u00a7o"
+		list.add(Language.FormatterCodes.DARK_GREEN.toString()
+				+ Language.FormatterCodes.ITALIC.toString()
 				+ Language
 						.getFormattedLocalization("spells.spellBase", true)
 						.put("$base",
@@ -190,7 +191,7 @@ public abstract class SpellBase extends MultiItem {
 		SpellProperties properties = getSpellProperties(stack);
 
 		// This is how you set teh pretty colors!
-		String modifier = "\u00a74";
+		String modifier = Language.FormatterCodes.DARK_RED.toString();
 
 		return modifier
 				+ Language

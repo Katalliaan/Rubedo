@@ -255,7 +255,8 @@ public abstract class ToolBase extends MultiItem {
 			boolean par4) {
 		ToolProperties properties = this.getToolProperties(stack);
 
-		list.add("\u00A72\u00A7o"
+		list.add(Language.FormatterCodes.DARK_GREEN.toString()
+				+ Language.FormatterCodes.ITALIC.toString()
 				+ Language
 				.getFormattedLocalization("tools.toolRod", true)
 				.put("$material1",
