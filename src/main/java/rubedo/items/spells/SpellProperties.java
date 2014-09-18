@@ -3,8 +3,12 @@ package rubedo.items.spells;
 import net.minecraft.item.ItemStack;
 import rubedo.common.ContentSpells;
 import rubedo.items.MultiItemProperties;
+import rubedo.util.Singleton;
 
 public class SpellProperties extends MultiItemProperties<SpellBase> {
+	private static ContentSpells content = Singleton
+			.getInstance(ContentSpells.class);
+	
 	public SpellProperties(ItemStack stack, SpellBase spell) {
 		super(stack, spell);
 
@@ -38,11 +42,12 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	}
 
 	public int getPower() {
-		return ContentSpells.spellBaseMaterials.get(getBaseMaterial()).power;
+		
+		return content.getMaterial(getBaseMaterial()).arcaneLevel;
 	}
 
 	public float getFocusModifier() {
-		return ContentSpells.spellBaseMaterials.get(getBaseMaterial()).focusModifier;
+		return content.getMaterial(getBaseMaterial()).speed;
 	}
 
 	public String getEffectType() {
@@ -54,6 +59,6 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	}
 
 	public int getMiningLevel() {
-		return ContentSpells.spellBaseMaterials.get(getBaseMaterial()).miningLevel;
+		return content.getMaterial(getBaseMaterial()).miningLevel;
 	}
 }

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
 import rubedo.RubedoCore;
+import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.spells.EntitySpellProjectile;
 import rubedo.items.spells.SpellArea;
 import rubedo.items.spells.SpellBase;
@@ -34,6 +35,17 @@ public class ContentSpells extends
 
 		this.setKinds(spellKinds);
 	}
+	
+	private void initializeSpellMaterials() {
+		Set<Class<? extends MaterialMultiItem>> spellMaterials = new LinkedHashSet<Class<? extends MaterialMultiItem>>();
+		
+		spellMaterials.add(MaterialMultiItem.Copper.class);
+		spellMaterials.add(MaterialMultiItem.Iron.class);
+		spellMaterials.add(MaterialMultiItem.Gold.class);
+		spellMaterials.add(MaterialMultiItem.Silver.class);
+		
+		this.setMaterials(spellMaterials);
+	}
 
 	@Override
 	public void config(Configuration config) {
@@ -44,6 +56,8 @@ public class ContentSpells extends
 	public void registerBase() {
 		super.registerBase();
 		this.registerSpellMaterials();
+		
+		this.initializeSpellMaterials();
 		// registerSpellRecipes();
 
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class,
