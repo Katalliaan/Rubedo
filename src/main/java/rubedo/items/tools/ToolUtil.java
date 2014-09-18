@@ -3,7 +3,6 @@ package rubedo.items.tools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
-import rubedo.common.ContentTools;
 
 public class ToolUtil {
 	public static boolean hitEntity(ToolProperties properties,
@@ -35,16 +34,15 @@ public class ToolUtil {
 			for (int i = 0; i < properties.getItem().getEffectiveBlocks().length; i++) {
 				if (properties.getItem().getEffectiveBlocks()[i] == block) {
 					return properties.getItem().getEffectiveBlockSpeed()
-							* ContentTools.toolHeads.get(properties
-									.getHeadMaterial()).speed;
+							* properties.getHeadMaterial().speed;
 				}
 			}
 
 			for (int i = 0; i < properties.getItem().getEffectiveMaterials().length; i++) {
-				if (properties.getItem().getEffectiveMaterials()[i] == block.getMaterial()) {
+				if (properties.getItem().getEffectiveMaterials()[i] == block
+						.getMaterial()) {
 					return properties.getItem().getEffectiveMaterialSpeed()
-							* ContentTools.toolHeads.get(properties
-									.getHeadMaterial()).speed;
+							* properties.getHeadMaterial().speed;
 				}
 			}
 		}
@@ -53,12 +51,14 @@ public class ToolUtil {
 	}
 
 	public static void damageTool(ToolProperties properties,
-			EntityLivingBase entity, int damage) {		
+			EntityLivingBase entity, int damage) {
 		if (!properties.isBroken()) {
 			// fixes bug that leads to disappearing tools
-			if (properties.getDurability() < properties.getStack().getItemDamage() + damage)
-				damage = properties.getDurability() - properties.getStack().getItemDamage();
-			
+			if (properties.getDurability() < properties.getStack()
+					.getItemDamage() + damage)
+				damage = properties.getDurability()
+				- properties.getStack().getItemDamage();
+
 			properties.getStack().damageItem(damage, entity);
 
 			if (properties.getStack().getItemDamage() >= properties
@@ -73,7 +73,7 @@ public class ToolUtil {
 		if (properties != null && properties.isValid())
 			return properties.getStack().getItemDamage() > 0
 					&& !properties.isBroken();
-		else
-			return false;
+			else
+				return false;
 	}
 }

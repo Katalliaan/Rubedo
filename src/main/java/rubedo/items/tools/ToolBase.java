@@ -1,7 +1,6 @@
 package rubedo.items.tools;
 
 import java.util.List;
-import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -18,20 +17,24 @@ import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
 import rubedo.common.Language.Formatting;
+import rubedo.common.materials.MaterialTool;
 import rubedo.items.MultiItem;
+import rubedo.util.Singleton;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 //TODO: add getStrVsBlock
 public abstract class ToolBase extends MultiItem {
+	private static ContentTools content = Singleton.getInstance(ContentTools.class);
+
 	public ToolBase() {
 		super();
 		this.setUnlocalizedName("ToolBase");
 		this.setCreativeTab(RubedoCore.creativeTab);
 
 		this.maxStackSize = 1;
-		setNoRepair();
-		canRepair = false;
+		this.setNoRepair();
+		this.canRepair = false;
 	}
 
 	public abstract String getName();
@@ -60,7 +63,7 @@ public abstract class ToolBase extends MultiItem {
 
 	public abstract List<Integer> getAllowedEnchantments();
 
-	protected ToolProperties getToolProperties(ItemStack stack) {
+	public ToolProperties getToolProperties(ItemStack stack) {
 		if (!(stack.getItem() instanceof ToolBase))
 			return null;
 
@@ -69,6 +72,7 @@ public abstract class ToolBase extends MultiItem {
 
 	// only tests against metadata 0, but getHarvestLevel overrides for blocks
 	// with preset harvestlevels
+	@Override
 	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
 		return par1Block.getHarvestLevel(0) <= this
 				.getToolProperties(itemStack).getMiningLevel();
@@ -76,10 +80,10 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	public int getHarvestLevel(ItemStack stack, String toolClass) {
-		if (!toolClass.equals(getName()))
+		if (!toolClass.equals(this.getName()))
 			return -1;
 
-		ToolProperties properties = getToolProperties(stack);
+		ToolProperties properties = this.getToolProperties(stack);
 
 		return properties.getMiningLevel();
 	}
@@ -92,42 +96,42 @@ public abstract class ToolBase extends MultiItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(ItemStack stack, int renderPass) {
-		ToolProperties properties = getToolProperties(stack);
+		ToolProperties properties = this.getToolProperties(stack);
 
 		String name = "blank";
 
 		if (properties.isValid()) {
 			switch (renderPass) {
-				case 0 :
-					// Head
-					if (!properties.isBroken())
-						name = getName() + "_head_"
-								+ properties.getHeadMaterial();
-					else
-						name = getName() + "_head_"
-								+ properties.getHeadMaterial() + "_broken";
-					if (!getRenderList().containsKey(name))
-						name = getName() + "_head_flint_broken";
-					break;
-				case 1 :
-					// Rod
-					name = getName() + "_rod_" + properties.getRodMaterial();
-					if (!getRenderList().containsKey(name))
-						name = getName() + "_rod_wood";
-					break;
-				case 2 :
-					// Cap
-					name = getName() + "_cap_" + properties.getCapMaterial();
-					if (!getRenderList().containsKey(name))
-						name = getName() + "_cap_wood";
-					break;
+			case 0 :
+				// Head
+				if (!properties.isBroken())
+					name = this.getName() + "_head_"
+							+ properties.getHeadMaterial().name;
+				else
+					name = this.getName() + "_head_"
+							+ properties.getHeadMaterial().name + "_broken";
+				if (!this.getRenderList().containsKey(name))
+					name = this.getName() + "_head_flint_broken";
+				break;
+			case 1 :
+				// Rod
+				name = this.getName() + "_rod_" + properties.getRodMaterial().name;
+				if (!this.getRenderList().containsKey(name))
+					name = this.getName() + "_rod_wood";
+				break;
+			case 2 :
+				// Cap
+				name = this.getName() + "_cap_" + properties.getCapMaterial().name;
+				if (!this.getRenderList().containsKey(name))
+					name = this.getName() + "_cap_wood";
+				break;
 			}
 		}
 
-		if (!getRenderList().containsKey(name))
+		if (!this.getRenderList().containsKey(name))
 			name = "blank";
 
-		IIcon icon = getRenderList().get(name);
+		IIcon icon = this.getRenderList().get(name);
 
 		return icon;
 	}
@@ -136,35 +140,32 @@ public abstract class ToolBase extends MultiItem {
 	public void registerIcons(IIconRegister iconRegister) {
 		super.registerIcons(iconRegister);
 
-		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads
-				.entrySet()) {
-			String name = getName() + "_head_" + headEntry.getKey();
-			getRenderList().put(
-					name,
-					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
-							+ name));
-			getRenderList().put(
-					name + "_broken",
-					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
-							+ name + "_broken"));
-		}
-
-		for (Entry<String, ContentTools.Material> rodEntry : ContentTools.toolRods
-				.entrySet()) {
-			String name = getName() + "_rod_" + rodEntry.getKey();
-			getRenderList().put(
-					name,
-					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
-							+ name));
-		}
-
-		for (Entry<String, ContentTools.Material> capEntry : ContentTools.toolCaps
-				.entrySet()) {
-			String name = getName() + "_cap_" + capEntry.getKey();
-			getRenderList().put(
-					name,
-					iconRegister.registerIcon(RubedoCore.modid + ":tools/"
-							+ name));
+		for (MaterialTool material : content.getMaterials()) {
+			if (material.headMaterial != null) {
+				String name = this.getName() + "_head_" + material.name;
+				this.getRenderList().put(
+						name,
+						iconRegister.registerIcon(RubedoCore.modid + ":tools/"
+								+ name));
+				this.getRenderList().put(
+						name + "_broken",
+						iconRegister.registerIcon(RubedoCore.modid + ":tools/"
+								+ name + "_broken"));
+			}
+			if (material.rodMaterial != null) {
+				String name = this.getName() + "_rod_" + material.name;
+				this.getRenderList().put(
+						name,
+						iconRegister.registerIcon(RubedoCore.modid + ":tools/"
+								+ name));
+			}
+			if (material.capMaterial != null) {
+				String name = this.getName() + "_cap_" + material.name;
+				this.getRenderList().put(
+						name,
+						iconRegister.registerIcon(RubedoCore.modid + ":tools/"
+								+ name));
+			}
 		}
 	}
 
@@ -177,7 +178,7 @@ public abstract class ToolBase extends MultiItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack par1ItemStack, int pass) {
-		return hasEffect(par1ItemStack) && (pass == 0);
+		return this.hasEffect(par1ItemStack) && (pass == 0);
 	}
 
 	@Override
@@ -205,7 +206,7 @@ public abstract class ToolBase extends MultiItem {
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World world, Block block,
 			int x, int y, int z, EntityLivingBase player) {
-		if ((double) block.getBlockHardness(world, x, y, z) != 0.0D) {
+		if (block.getBlockHardness(world, x, y, z) != 0.0D) {
 			ToolProperties properties = this.getToolProperties(stack);
 			return ToolUtil.onBlockDestroyed(properties, world,
 					Block.getIdFromBlock(block), x, y, z, player);
@@ -234,15 +235,14 @@ public abstract class ToolBase extends MultiItem {
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
-		for (Entry<String, ContentTools.Material> headEntry : ContentTools.toolHeads
-				.entrySet())
-			for (Entry<String, ContentTools.Material> rodEntry : ContentTools.toolRods
-					.entrySet())
-				for (Entry<String, ContentTools.Material> capEntry : ContentTools.toolCaps
-						.entrySet()) {
-					list.add(this.buildTool(headEntry.getKey(),
-							rodEntry.getKey(), capEntry.getKey()));
-				}
+		for (MaterialTool head : content.getMaterials())
+			if (head.headMaterial != null)
+				for (MaterialTool rod : content.getMaterials())
+					if (rod.rodMaterial != null)
+						for (MaterialTool cap : content.getMaterials())
+							if (cap.capMaterial != null)
+								list.add(this.buildTool(head,
+										rod, cap));
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -250,16 +250,16 @@ public abstract class ToolBase extends MultiItem {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list,
 			boolean par4) {
-		ToolProperties properties = getToolProperties(stack);
+		ToolProperties properties = this.getToolProperties(stack);
 
 		list.add("\u00A72\u00A7o"
 				+ Language
-						.getFormattedLocalization("tools.toolRod", true)
-						.put("$material1",
-								"materials." + properties.getCapMaterial(),
-								Formatting.CAPITALIZED)
+				.getFormattedLocalization("tools.toolRod", true)
+				.put("$material1",
+						"materials." + properties.getCapMaterial().name,
+						Formatting.CAPITALIZED)
 						.put("$material2",
-								"materials." + properties.getRodMaterial(),
+								"materials." + properties.getRodMaterial().name,
 								Formatting.LOWERCASE).getResult());
 		list.add("");
 	}
@@ -267,7 +267,7 @@ public abstract class ToolBase extends MultiItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		ToolProperties properties = getToolProperties(stack);
+		ToolProperties properties = this.getToolProperties(stack);
 
 		String key;
 		String modifier;
@@ -281,18 +281,18 @@ public abstract class ToolBase extends MultiItem {
 
 		return modifier
 				+ Language
-						.getFormattedLocalization(key, true)
-						.put("$material",
-								"materials." + properties.getHeadMaterial(),
-								Formatting.CAPITALIZED)
-						.put("$tool.type", "tools.type." + getName(),
+				.getFormattedLocalization(key, true)
+				.put("$material",
+						"materials." + properties.getHeadMaterial().name,
+						Formatting.CAPITALIZED)
+						.put("$tool.type", "tools.type." + this.getName(),
 								Formatting.CAPITALIZED).getResult();
 	}
 
-	public abstract ItemStack buildTool(String head, String rod, String cap);
+	public abstract ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap);
 
-	public ItemStack buildTool(ItemStack tool, String head, String rod,
-			String cap) {
+	public ItemStack buildTool(ItemStack tool, MaterialTool head, MaterialTool rod,
+			MaterialTool cap) {
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setTag("RubedoTool", new NBTTagCompound());
 		tool.setTagCompound(compound);
@@ -303,7 +303,7 @@ public abstract class ToolBase extends MultiItem {
 		properties.setRodMaterial(rod);
 		properties.setCapMaterial(cap);
 
-		if (getWeaponDamage() > 0)
+		if (this.getWeaponDamage() > 0)
 			properties.generateAttackDamageNBT();
 
 		return tool;

@@ -1,49 +1,52 @@
 package rubedo.common;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import rubedo.items.ItemToolHead;
-import rubedo.util.ReflectionHelper;
-import rubedo.util.RemapHelper;
-import rubedo.util.Singleton;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import rubedo.common.materials.MaterialTool;
+import rubedo.items.ItemToolHead;
+import rubedo.items.tools.ToolBase;
+import rubedo.util.ReflectionHelper;
+import rubedo.util.RemapHelper;
+import rubedo.util.Singleton;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentVanilla extends Singleton<ContentVanilla> implements
-		IContent {
+IContent {
 	protected ContentVanilla() {
 		super(ContentVanilla.class);
 	}
 
-	// Default values
-	private boolean replaceTools = true;
-	private boolean removeRecipes = true;
-	private boolean changeMiningProgression = true;
-	private boolean addFlintRecipe = true;
+	public static class Config {
+		// Default values
+		public static boolean replaceVanillaTools = true;
+		public static boolean removeRecipes = true;
+		public static boolean changeMiningProgression = true;
+		public static boolean addFlintRecipe = true;
+	}
 
 	@Override
 	public void config(Configuration config) {
-		replaceTools = config.get("Vanilla Changes", "replaceTools", replaceTools)
+		Config.replaceVanillaTools = config.get("Vanilla Changes",
+				"replaceTools", Config.replaceVanillaTools).getBoolean();
+		Config.removeRecipes = config.get("Vanilla Changes",
+				"removeToolRecipes", Config.removeRecipes).getBoolean();
+		Config.changeMiningProgression = config.get("Vanilla Changes",
+				"changeMiningProgression", Config.changeMiningProgression)
 				.getBoolean();
-		removeRecipes = config
-				.get("Vanilla Changes", "removeToolRecipes", removeRecipes).getBoolean();
-		changeMiningProgression = config.get("Vanilla Changes",
-				"changeMiningProgression", changeMiningProgression).getBoolean();
-		addFlintRecipe = config.get("Vanilla Changes", "addFlintRecipe", addFlintRecipe)
-				.getBoolean();
+		Config.addFlintRecipe = config.get("Vanilla Changes", "addFlintRecipe",
+				Config.addFlintRecipe).getBoolean();
 	}
 
 	@Override
 	public void registerBase() {
 		// Remap vanilla tools
-		remapToolHeads();
+		this.remapToolHeads();
 
 		// TODO: figure out how Nether Portals are made
 		/*
@@ -63,17 +66,17 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 	@Override
 	public void registerDerivatives() {
 		// Backup flint recipe
-		if (addFlintRecipe)
+		if (Config.addFlintRecipe)
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(
 					Items.flint), new ItemStack(Items.bowl
-					.setContainerItem(Items.bowl)),
-					new ItemStack(Blocks.gravel)));
+							.setContainerItem(Items.bowl)),
+							new ItemStack(Blocks.gravel)));
 	}
 
 	@Override
 	public void tweak() {
 		// Mining balance changes
-		if (changeMiningProgression) {
+		if (Config.changeMiningProgression) {
 			Blocks.obsidian.setHarvestLevel("pickaxe", 2);
 			Blocks.netherrack.setHarvestLevel("pickaxe", 3);
 			Blocks.netherrack.setHardness(1.5F);
@@ -85,33 +88,8 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 	}
 
 	private void remapToolHeads() {
-		Map<String, String> remaps = new HashMap<String, String>();
-
-		remaps.put("sword_head_wood", "wooden_sword");
-		remaps.put("axe_head_wood", "wooden_axe");
-		remaps.put("shovel_head_wood", "wooden_shovel");
-		remaps.put("pickaxe_head_wood", "wooden_pickaxe");
-		remaps.put("scythe_head_wood", "wooden_hoe");
-
-		remaps.put("sword_head_flint", "stone_sword");
-		remaps.put("axe_head_flint", "stone_axe");
-		remaps.put("shovel_head_flint", "stone_shovel");
-		remaps.put("pickaxe_head_flint", "stone_pickaxe");
-		remaps.put("scythe_head_flint", "stone_hoe");
-
-		remaps.put("sword_head_iron", "iron_sword");
-		remaps.put("axe_head_iron", "iron_axe");
-		remaps.put("shovel_head_iron", "iron_shovel");
-		remaps.put("pickaxe_head_iron", "iron_pickaxe");
-		remaps.put("scythe_head_iron", "iron_hoe");
-
-		remaps.put("sword_head_gold", "golden_sword");
-		remaps.put("axe_head_gold", "golden_axe");
-		remaps.put("shovel_head_gold", "golden_shovel");
-		remaps.put("pickaxe_head_gold", "golden_pickaxe");
-		remaps.put("scythe_head_gold", "golden_hoe");
-
-		if (replaceTools || removeRecipes) {
+		// TODO: make it so replaceTools doesn't override removeRecipes
+		if (Config.replaceVanillaTools || Config.removeRecipes) {
 			Item[] toBeRemoved = { Items.golden_sword, Items.iron_sword,
 					Items.stone_sword, Items.wooden_sword, Items.golden_sword,
 					Items.iron_shovel, Items.stone_shovel, Items.wooden_shovel,
@@ -134,14 +112,26 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 			}
 		}
 
-		if (replaceTools) {
-			for (Entry<String, String> entry : remaps.entrySet()) {
-				Item item = new ItemToolHead(entry.getKey());
+		if (Config.replaceVanillaTools) {
+			ContentTools contentTools = Singleton
+					.getInstance(ContentTools.class);
+			for (Entry<MaterialTool, String> material : contentTools.VanillaToolMaterials
+					.entrySet()) {
+				for (ToolBase kind : contentTools.getItems()) {
+					Item item = new ItemToolHead(kind.getName() + "_head_"
+							+ material.getKey().name);
 
-				ReflectionHelper.setStatic(Items.class, entry.getValue(), item);
-				RemapHelper.overwriteEntry(Item.itemRegistry, "minecraft:"
-						+ entry.getValue(), item);
+					ReflectionHelper.setStatic(Items.class, material.getValue()
+							+ "_" + this.toVanillaKind(kind.getName()), item);
+					RemapHelper.overwriteEntry(Item.itemRegistry, "minecraft:"
+							+ material.getValue() + "_" + this.toVanillaKind(kind.getName()), item);
+				}
 			}
 		}
+	}
+
+	// TODO: change all string references of "scythe" to "hoe" instead of this hack
+	private String toVanillaKind(String kind) {
+		return kind == "scythe" ? "hoe" : kind;
 	}
 }

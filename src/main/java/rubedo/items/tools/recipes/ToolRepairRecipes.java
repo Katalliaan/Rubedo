@@ -1,15 +1,36 @@
-package rubedo.items.tools;
+package rubedo.items.tools.recipes;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
-import rubedo.common.ContentTools;
-import rubedo.common.ContentTools.Material;
 
 public class ToolRepairRecipes implements IRecipe {
-	private ToolProperties tool;
+
+	@Override
+	public boolean matches(InventoryCrafting p_77569_1_, World p_77569_2_) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ItemStack getCraftingResult(InventoryCrafting p_77572_1_) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getRecipeSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ItemStack getRecipeOutput() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/*private ToolProperties tool;
 	private ItemStack modifier;
 
 	@Override
@@ -54,11 +75,11 @@ public class ToolRepairRecipes implements IRecipe {
 
 			if (material.getItem().equals(this.modifier.getItem())
 					&& material.getItemDamage() == this.modifier
-							.getItemDamage()) {
+					.getItemDamage()) {
 				this.modifier = material;
 
 				Material toolMaterial = ContentTools.materialStacks.get(material);
-				
+
 				// TODO: find alternate way to compare tool heads
 				if (toolMaterial.rodMaterial == material
 						|| toolMaterial.capMaterial == material) {
@@ -77,7 +98,7 @@ public class ToolRepairRecipes implements IRecipe {
 	public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
 		Material material = ContentTools.materialStacks.get(this.modifier);
 
-		ToolProperties copy = ((ToolBase) this.tool.getItem())
+		ToolProperties copy = this.tool.getItem()
 				.getToolProperties(this.tool.getStack().copy());
 
 		if (ContentTools.toolCaps.containsKey(material.name)
@@ -108,5 +129,5 @@ public class ToolRepairRecipes implements IRecipe {
 	@Override
 	public ItemStack getRecipeOutput() {
 		return null;
-	}
+	}*/
 }

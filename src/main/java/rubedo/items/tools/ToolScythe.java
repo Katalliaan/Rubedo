@@ -20,8 +20,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
-import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
+import rubedo.common.materials.MaterialTool;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
@@ -79,7 +79,7 @@ public class ToolScythe extends ToolBase {
 
 			@SuppressWarnings("unchecked")
 			Map<Integer, Integer> enchants = EnchantmentHelper
-					.getEnchantments(stack);
+			.getEnchantments(stack);
 			int smiteLevel = 0;
 			int sharpnessLevel = 0;
 			int baneLevel = 0;
@@ -118,22 +118,22 @@ public class ToolScythe extends ToolBase {
 						entity.setFire(fireAspectLevel * 4);
 						if (knockbackLevel > 0) {
 							entity.addVelocity(
-									(double) (-MathHelper
-											.sin(attackingEntity.rotationYaw
-													* (float) Math.PI / 180.0F)
-											* (float) knockbackLevel * 0.5F),
-									0.1D,
-									(double) (MathHelper
+									-MathHelper
+									.sin(attackingEntity.rotationYaw
+											* (float) Math.PI / 180.0F)
+											* knockbackLevel * 0.5F,
+											0.1D,
+											MathHelper
 											.cos(attackingEntity.rotationYaw
 													* (float) Math.PI / 180.0F)
-											* (float) knockbackLevel * 0.5F));
+													* knockbackLevel * 0.5F);
 							attackingEntity.motionX *= 0.6D;
 							attackingEntity.motionZ *= 0.6D;
 						}
 
 						entity.attackEntityFrom(
 								DamageSource
-										.causePlayerDamage((EntityPlayer) attackingEntity),
+								.causePlayerDamage((EntityPlayer) attackingEntity),
 								attackDamage);
 
 						mobsHit++;
@@ -171,6 +171,7 @@ public class ToolScythe extends ToolBase {
 		return Arrays.asList(allowedEnchants);
 	}
 
+	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer,
 			World world, int xCoord, int yCoord, int zCoord, int par7,
 			float par8, float par9, float par10) {
@@ -197,9 +198,9 @@ public class ToolScythe extends ToolBase {
 			if (par7 != 0
 					&& airAbove
 					&& (block == Blocks.grass || block == Blocks.dirt)) {
-				world.playSoundEffect((double) ((float) xCoord + 0.5F),
-						(double) ((float) yCoord + 0.5F),
-						(double) ((float) zCoord + 0.5F),
+				world.playSoundEffect(xCoord + 0.5F,
+						yCoord + 0.5F,
+						zCoord + 0.5F,
 						Blocks.farmland.stepSound.soundName,
 						(Blocks.farmland.stepSound.getVolume() + 1.0F) / 2.0F,
 						Blocks.farmland.stepSound.getPitch() * 0.8F);
@@ -221,7 +222,7 @@ public class ToolScythe extends ToolBase {
 	}
 
 	@Override
-	public ItemStack buildTool(String head, String rod, String cap) {
+	public ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolScythe.class));
 

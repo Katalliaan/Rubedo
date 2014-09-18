@@ -52,24 +52,25 @@ public class RubedoCore {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		contentUnits = new LinkedHashMap<Class<? extends IContent>, IContent>();
-		contentUnits.put(ContentVanilla.class, Singleton.getInstance(ContentVanilla.class));
-		contentUnits.put(ContentWorld.class, Singleton.getInstance(ContentWorld.class));
-		contentUnits.put(ContentTools.class, Singleton.getInstance(ContentTools.class));
-		contentUnits.put(ContentSpells.class, Singleton.getInstance(ContentSpells.class));
-		contentUnits.put(ContentAI.class, Singleton.getInstance(ContentAI.class));
+		// Order matters, might need a dependency solver
+		this.contentUnits = new LinkedHashMap<Class<? extends IContent>, IContent>();
+		this.contentUnits.put(ContentWorld.class, Singleton.getInstance(ContentWorld.class));
+		this.contentUnits.put(ContentTools.class, Singleton.getInstance(ContentTools.class));
+		this.contentUnits.put(ContentVanilla.class, Singleton.getInstance(ContentVanilla.class));
+		this.contentUnits.put(ContentSpells.class, Singleton.getInstance(ContentSpells.class));
+		this.contentUnits.put(ContentAI.class, Singleton.getInstance(ContentAI.class));
 
 		// Load the configs
-		Config.load(event, contentUnits.values());
-		
-		for (IContent content : contentUnits.values())
+		Config.load(event, this.contentUnits.values());
+
+		for (IContent content : this.contentUnits.values())
 			content.registerBase();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
-		for (IContent content : contentUnits.values())
+		for (IContent content : this.contentUnits.values())
 			content.registerDerivatives();
 
 		// Register the renderers
@@ -78,7 +79,7 @@ public class RubedoCore {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		for (IContent content : contentUnits.values())
+		for (IContent content : this.contentUnits.values())
 			content.tweak();
 	}
 }

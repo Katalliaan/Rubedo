@@ -3,9 +3,6 @@ package rubedo.items.tools;
 import java.util.Arrays;
 import java.util.List;
 
-import rubedo.RubedoCore;
-import rubedo.common.ContentTools;
-import rubedo.util.Singleton;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -13,6 +10,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import rubedo.common.ContentTools;
+import rubedo.common.materials.MaterialTool;
+import rubedo.util.Singleton;
 
 public class ToolAxe extends ToolBase {
 
@@ -50,7 +50,7 @@ public class ToolAxe extends ToolBase {
 			EntityLivingBase par2EntityLivingBase,
 			EntityLivingBase par3EntityLivingBase) {
 		ToolProperties properties = this.getToolProperties(stack);
-		
+
 		int ticks = properties.getSpecial() * 40;
 
 		if (!properties.isBroken())
@@ -74,13 +74,13 @@ public class ToolAxe extends ToolBase {
 	@Override
 	public List<Integer> getAllowedEnchantments() {
 		Integer[] allowedEnchants = new Integer[]{
-				Enchantment.efficiency.effectId, 
+				Enchantment.efficiency.effectId,
 				Enchantment.fortune.effectId,
-				Enchantment.silkTouch.effectId, 
+				Enchantment.silkTouch.effectId,
 				Enchantment.unbreaking.effectId,
-				
-				Enchantment.sharpness.effectId, 
-				Enchantment.smite.effectId, 
+
+				Enchantment.sharpness.effectId,
+				Enchantment.smite.effectId,
 				Enchantment.baneOfArthropods.effectId,
 				Enchantment.knockback.effectId,
 				Enchantment.fireAspect.effectId,
@@ -89,7 +89,7 @@ public class ToolAxe extends ToolBase {
 	}
 
 	@Override
-	public ItemStack buildTool(String head, String rod, String cap) {
+	public ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolAxe.class));
 

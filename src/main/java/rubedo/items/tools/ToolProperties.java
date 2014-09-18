@@ -5,65 +5,72 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import rubedo.common.ContentTools;
+import rubedo.common.materials.MaterialTool;
 import rubedo.items.MultiItemProperties;
+import rubedo.util.Singleton;
 
 public class ToolProperties extends MultiItemProperties<ToolBase> {
+	private static ContentTools content = Singleton.getInstance(ContentTools.class);
+
 	public ToolProperties(ItemStack stack, ToolBase tool) {
 		super(stack, tool);
 
-		if (stack.getItem() instanceof ToolBase 
+		if (stack.getItem() instanceof ToolBase
 				&& this.baseTags != null && this.baseTags.hasKey("RubedoTool")) {
 			this.tag = this.baseTags.getCompoundTag("RubedoTool");
 		}
 	}
 
 	public boolean isBroken() {
-		return !isValid() || tag.getBoolean("broken");
+		return !this.isValid() || this.tag.getBoolean("broken");
 	}
 	public void setBroken(boolean isBroken) {
-		if (isValid()) {
-			tag.setBoolean("broken", isBroken);
-			generateAttackDamageNBT();
+		if (this.isValid()) {
+			this.tag.setBoolean("broken", isBroken);
+			this.generateAttackDamageNBT();
 		}
 	}
 
-	public String getHeadMaterial() {
-		if (isValid())
-			return tag.getString("head");
+	public MaterialTool getHeadMaterial() {
+		MaterialTool head = content.getMaterial(this.tag.getString("head"));
+		if (this.isValid() && head.headMaterial != null)
+			return head;
 		else
-			return "";
+			return null;
 	}
-	public void setHeadMaterial(String head) {
-		if (isValid())
-			tag.setString("head", head);
+	public void setHeadMaterial(MaterialTool head) {
+		if (this.isValid())
+			this.tag.setString("head", head.name);
 	}
-	public String getRodMaterial() {
-		if (isValid())
-			return tag.getString("rod");
+	public MaterialTool getRodMaterial() {
+		MaterialTool rod = content.getMaterial(this.tag.getString("rod"));
+		if (this.isValid() && rod.rodMaterial != null)
+			return rod;
 		else
-			return "";
+			return null;
 	}
-	public void setRodMaterial(String rod) {
-		if (isValid())
-			tag.setString("rod", rod);
+	public void setRodMaterial(MaterialTool rod) {
+		if (this.isValid())
+			this.tag.setString("rod", rod.name);
 	}
-	public String getCapMaterial() {
-		if (isValid())
-			return tag.getString("cap");
+	public MaterialTool getCapMaterial() {
+		MaterialTool cap = content.getMaterial(this.tag.getString("cap"));
+		if (this.isValid() && cap.capMaterial != null)
+			return cap;
 		else
-			return "";
+			return null;
 	}
-	public void setCapMaterial(String cap) {
-		if (isValid())
-			tag.setString("cap", cap);
+	public void setCapMaterial(MaterialTool cap) {
+		if (this.isValid())
+			this.tag.setString("cap", cap.name);
 	}
 
 	public void generateAttackDamageNBT() {
-		if (isValid()) {
+		if (this.isValid()) {
 			NBTTagCompound nnbt = new NBTTagCompound();
 			NBTTagList nnbtl = new NBTTagList();
 			AttributeModifier att = new AttributeModifier("generic.attackDamage",
-					getAttackDamage(), 0);
+					this.getAttackDamage(), 0);
 			nnbt.setLong("UUIDMost", att.getID().getMostSignificantBits());
 			nnbt.setLong("UUIDLeast", att.getID().getLeastSignificantBits());
 			nnbt.setString("Name", att.getName());
@@ -76,33 +83,33 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	}
 
 	public float getAttackDamage() {
-		if (!isBroken())
-			return item.getWeaponDamage()
-					+ ContentTools.toolHeads.get(getHeadMaterial()).damage;
+		if (!this.isBroken())
+			return this.item.getWeaponDamage()
+					+ this.getHeadMaterial().damage;
 		else
 			return 0;
 
 	}
 
 	public int getDurability() {
-		if (isValid()) {
-			int baseDur = ContentTools.toolHeads.get(getHeadMaterial()).durability;
-			float modifier = ContentTools.toolRods.get(getRodMaterial()).modifier;
+		if (this.isValid()) {
+			int baseDur = this.getHeadMaterial().durability;
+			float modifier = this.getRodMaterial().modDurability;
 			return (int) (baseDur * modifier);
 		}
 		return 1;
 	}
 
 	public int getMiningLevel() {
-		if (isValid() && !isBroken())
-			return ContentTools.toolHeads.get(getHeadMaterial()).miningLevel;
+		if (this.isValid() && !this.isBroken())
+			return this.getHeadMaterial().miningLevel;
 		else
 			return -1;
 	}
 
 	public int getSpecial() {
-		if (isValid())
-			return ContentTools.toolCaps.get(getCapMaterial()).special;
+		if (this.isValid())
+			return this.getCapMaterial().special;
 		else
 			return 0;
 	}

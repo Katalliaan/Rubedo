@@ -10,8 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
-import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
+import rubedo.common.materials.MaterialTool;
 import rubedo.util.Singleton;
 
 public class ToolPickaxe extends ToolBase {
@@ -75,7 +75,7 @@ public class ToolPickaxe extends ToolBase {
 	}
 
 	@Override
-	public ItemStack buildTool(String head, String rod, String cap) {
+	public ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolPickaxe.class));
 
@@ -87,13 +87,13 @@ public class ToolPickaxe extends ToolBase {
 	@Override
 	public List<Integer> getAllowedEnchantments() {
 		Integer[] allowedEnchants = new Integer[]{
-				Enchantment.efficiency.effectId, 
+				Enchantment.efficiency.effectId,
 				Enchantment.fortune.effectId,
-				Enchantment.silkTouch.effectId, 
+				Enchantment.silkTouch.effectId,
 				Enchantment.unbreaking.effectId,
-				
-				Enchantment.sharpness.effectId, 
-				Enchantment.smite.effectId, 
+
+				Enchantment.sharpness.effectId,
+				Enchantment.smite.effectId,
 				Enchantment.baneOfArthropods.effectId,
 				Enchantment.knockback.effectId,
 				Enchantment.fireAspect.effectId,
@@ -104,7 +104,7 @@ public class ToolPickaxe extends ToolBase {
 	public static class DamageSourceArmorBreak extends EntityDamageSource {
 		public DamageSourceArmorBreak(String name, Entity entity) {
 			super(name, entity);
-			setDamageBypassesArmor();
+			this.setDamageBypassesArmor();
 		}
 	}
 }

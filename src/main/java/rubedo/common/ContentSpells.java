@@ -1,16 +1,17 @@
 package rubedo.common;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
 import rubedo.RubedoCore;
+import rubedo.common.materials.MaterialSpell;
 import rubedo.items.spells.EntitySpellProjectile;
 import rubedo.items.spells.SpellArea;
 import rubedo.items.spells.SpellBase;
@@ -19,35 +20,35 @@ import rubedo.items.spells.SpellSelf;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentSpells extends ContentMultiItem<SpellBase> {
+public class ContentSpells extends ContentMultiItem<SpellBase, MaterialSpell> {
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
 	public static SpellArea spellArea;
 
 	protected ContentSpells() {
 		super(ContentSpells.class);
-		List<Class<? extends SpellBase>> spellKinds = new LinkedList<Class<? extends SpellBase>>();
+		Set<Class<? extends SpellBase>> spellKinds = new LinkedHashSet<Class<? extends SpellBase>>();
 		spellKinds.add(SpellProjectile.class);
 		spellKinds.add(SpellArea.class);
 		spellKinds.add(SpellSelf.class);
 
-		setItems(spellKinds);
+		this.setKinds(spellKinds);
 	}
-	
+
 	@Override
 	public void config(Configuration config) {
-		
+
 	}
 
 	@Override
 	public void registerBase() {
 		super.registerBase();
-		registerSpellMaterials();
+		this.registerSpellMaterials();
 		// registerSpellRecipes();
 
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class,
 				"SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry
-						.findGlobalUniqueEntityId(), RubedoCore.instance, 64,
+				.findGlobalUniqueEntityId(), RubedoCore.instance, 64,
 				1, true);
 	}
 
@@ -141,7 +142,7 @@ public class ContentSpells extends ContentMultiItem<SpellBase> {
 			flint.effectMaterial = new ItemStack(Items.flint);
 			flint.effectType = "break";
 		}
-		
+
 		Material bone = new Material();
 		{
 			bone.name = "bone";
@@ -182,12 +183,12 @@ public class ContentSpells extends ContentMultiItem<SpellBase> {
 					if (focusEntry.getValue().focusType == "projectile") {
 						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
 								new ItemStack[]{null,
-										baseEntry.getValue().baseMaterial,
-										null, null,
-										focusEntry.getValue().focusMaterial,
-										null, null,
-										effectEntry.getValue().effectMaterial,
-										null},
+								baseEntry.getValue().baseMaterial,
+								null, null,
+								focusEntry.getValue().focusMaterial,
+								null, null,
+								effectEntry.getValue().effectMaterial,
+								null},
 
 								spellProjectile.buildSpell(baseEntry.getKey(),
 										focusEntry.getKey(),
@@ -195,12 +196,12 @@ public class ContentSpells extends ContentMultiItem<SpellBase> {
 					} else if (focusEntry.getValue().focusType == "self") {
 						GameRegistry.addRecipe(new ShapedRecipes(3, 3,
 								new ItemStack[]{null,
-										baseEntry.getValue().baseMaterial,
-										null, null,
-										focusEntry.getValue().focusMaterial,
-										null, null,
-										effectEntry.getValue().effectMaterial,
-										null},
+								baseEntry.getValue().baseMaterial,
+								null, null,
+								focusEntry.getValue().focusMaterial,
+								null, null,
+								effectEntry.getValue().effectMaterial,
+								null},
 
 								spellSelf.buildSpell(baseEntry.getKey(),
 										focusEntry.getKey(),
@@ -230,12 +231,12 @@ public class ContentSpells extends ContentMultiItem<SpellBase> {
 	@Override
 	public void registerDerivatives() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void tweak() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
