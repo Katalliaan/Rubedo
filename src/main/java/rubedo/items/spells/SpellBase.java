@@ -40,9 +40,7 @@ public abstract class SpellBase extends MultiItem {
 			EntityPlayer entityPlayer, int itemInUseCount) {
 		float castTime = (this.getMaxItemUseDuration(itemStack) - itemInUseCount) / 20.0F;
 
-		SpellProperties properties = getSpellProperties(itemStack);
-
-		if (castTime >= properties.getCastTime()) {
+		if (castTime >= 1.0f) {
 			castSpell(world, entityPlayer, itemStack);
 		}
 	}

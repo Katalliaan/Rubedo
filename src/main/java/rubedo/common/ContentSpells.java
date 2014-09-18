@@ -44,6 +44,15 @@ public class ContentSpells extends
 		spellMaterials.add(MaterialMultiItem.Gold.class);
 		spellMaterials.add(MaterialMultiItem.Silver.class);
 		
+		spellMaterials.add(MaterialMultiItem.Arrow.class);
+		spellMaterials.add(MaterialMultiItem.Bottle.class);
+		spellMaterials.add(MaterialMultiItem.Gunpowder.class);
+		
+		spellMaterials.add(MaterialMultiItem.Blazerod.class);
+		spellMaterials.add(MaterialMultiItem.Snow.class);
+		spellMaterials.add(MaterialMultiItem.Flint.class);
+		spellMaterials.add(MaterialMultiItem.Bone.class);
+		
 		this.setMaterials(spellMaterials);
 	}
 
@@ -115,7 +124,6 @@ public class ContentSpells extends
 		{
 			arrow.name = "arrow";
 			arrow.focusMaterial = new ItemStack(Items.arrow);
-			arrow.castTime = 1.0f;
 			arrow.focusType = "projectile";
 		}
 
@@ -123,7 +131,6 @@ public class ContentSpells extends
 		{
 			bottle.name = "bottle";
 			bottle.focusMaterial = new ItemStack(Items.glass_bottle);
-			bottle.castTime = 1.0f;
 			bottle.focusType = "self";
 		}
 
@@ -131,7 +138,6 @@ public class ContentSpells extends
 		{
 			gunpowder.name = "gunpowder";
 			gunpowder.focusMaterial = new ItemStack(Items.gunpowder);
-			gunpowder.castTime = 1.0f;
 			gunpowder.focusType = "area";
 		}
 
@@ -236,7 +242,6 @@ public class ContentSpells extends
 		public int power;
 		public int miningLevel; // needed for "break" spells
 		public float focusModifier;
-		public float castTime;
 		public ItemStack baseMaterial;
 		public ItemStack focusMaterial;
 		public ItemStack effectMaterial;

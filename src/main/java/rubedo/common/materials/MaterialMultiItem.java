@@ -23,6 +23,10 @@ public abstract class MaterialMultiItem {
 	public ItemStack headMaterial;
 	public ItemStack rodMaterial;
 	public ItemStack capMaterial;
+	public ItemStack spellFocusMaterial;
+	public String spellFocusType;
+	public ItemStack spellEffectMaterial;
+	public String spellEffectType;
 
 	private Map<String, ItemStack> toolHeads = new LinkedHashMap<String, ItemStack>();
 
@@ -52,6 +56,8 @@ public abstract class MaterialMultiItem {
 			this.speed = 4.0f;
 			this.miningLevel = 0;
 			this.headMaterial = new ItemStack(Items.flint, 1, 0);
+			this.spellEffectMaterial = new ItemStack(Items.flint);
+			this.spellEffectType = "break";
 		}
 	}
 
@@ -60,6 +66,7 @@ public abstract class MaterialMultiItem {
 			this.name = "bone";
 			this.modDurability = 1.2f;
 			this.rodMaterial = new ItemStack(Items.bone);
+			this.spellEffectMaterial = new ItemStack(Items.bone);
 		}
 	}
 
@@ -76,6 +83,8 @@ public abstract class MaterialMultiItem {
 			this.name = "blazerod";
 			this.modDurability = 2.0f;
 			this.rodMaterial = new ItemStack(Items.blaze_rod);
+			this.spellEffectMaterial = new ItemStack(Items.blaze_rod);
+			this.spellEffectType = "fire";
 		}
 	}
 
@@ -186,6 +195,38 @@ public abstract class MaterialMultiItem {
 			this.miningLevel = 4;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
+		}
+	}
+	
+	public static class Arrow extends MaterialMultiItem {
+		public Arrow() {
+			this.name = "arrow";
+			this.spellFocusMaterial = new ItemStack(Items.arrow);
+			this.spellFocusType = "projectile";
+		}
+	}
+	
+	public static class Bottle extends MaterialMultiItem {
+		public Bottle() {
+			this.name = "bottle";
+			this.spellFocusMaterial = new ItemStack(Items.glass_bottle);
+			this.spellFocusType = "self";
+		}
+	}
+	
+	public static class Gunpowder extends MaterialMultiItem {
+		public Gunpowder() {
+			this.name = "gunpowder";
+			this.spellFocusMaterial = new ItemStack(Items.gunpowder);
+			this.spellFocusType = "area";
+		}
+	}
+	
+	public static class Snow extends MaterialMultiItem {
+		public Snow() {
+			this.name = "snow";
+			this.spellEffectMaterial = new ItemStack(Items.snowball);
+			this.spellEffectType = "water";
 		}
 	}
 }

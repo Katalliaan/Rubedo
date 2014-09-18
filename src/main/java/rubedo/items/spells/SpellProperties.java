@@ -51,11 +51,7 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	}
 
 	public String getEffectType() {
-		return ContentSpells.spellEffectMaterials.get(getEffectMaterial()).effectType;
-	}
-
-	public float getCastTime() {
-		return ContentSpells.spellFocusMaterials.get(getFocusMaterial()).castTime;
+		return content.getMaterial(getBaseMaterial()).spellEffectType;
 	}
 
 	public int getMiningLevel() {
