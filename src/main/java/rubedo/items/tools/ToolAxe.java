@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import rubedo.common.ContentTools;
-import rubedo.common.materials.MaterialTool;
 import rubedo.util.Singleton;
 
 public class ToolAxe extends ToolBase {
@@ -89,7 +88,7 @@ public class ToolAxe extends ToolBase {
 	}
 
 	@Override
-	public ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap) {
+	public ItemStack buildTool(rubedo.common.materials.Material head, rubedo.common.materials.Material rod, rubedo.common.materials.Material cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolAxe.class));
 

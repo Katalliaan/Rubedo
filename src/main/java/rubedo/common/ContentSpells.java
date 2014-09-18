@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
 import rubedo.RubedoCore;
-import rubedo.common.materials.MaterialSpell;
 import rubedo.items.spells.EntitySpellProjectile;
 import rubedo.items.spells.SpellArea;
 import rubedo.items.spells.SpellBase;
@@ -20,7 +19,7 @@ import rubedo.items.spells.SpellSelf;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentSpells extends ContentMultiItem<SpellBase, MaterialSpell> {
+public class ContentSpells extends ContentMultiItem<SpellBase, rubedo.common.materials.Material> {
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
 	public static SpellArea spellArea;

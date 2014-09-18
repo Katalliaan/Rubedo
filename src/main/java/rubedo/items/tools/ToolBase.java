@@ -17,7 +17,6 @@ import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
 import rubedo.common.Language.Formatting;
-import rubedo.common.materials.MaterialTool;
 import rubedo.items.MultiItem;
 import rubedo.util.Singleton;
 import cpw.mods.fml.relauncher.Side;
@@ -25,7 +24,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 //TODO: add getStrVsBlock
 public abstract class ToolBase extends MultiItem {
-	private static ContentTools content = Singleton.getInstance(ContentTools.class);
+	private static ContentTools content = Singleton
+			.getInstance(ContentTools.class);
 
 	public ToolBase() {
 		super();
@@ -102,7 +102,7 @@ public abstract class ToolBase extends MultiItem {
 
 		if (properties.isValid()) {
 			switch (renderPass) {
-			case 0 :
+			case 0:
 				// Head
 				if (!properties.isBroken())
 					name = this.getName() + "_head_"
@@ -113,15 +113,17 @@ public abstract class ToolBase extends MultiItem {
 				if (!this.getRenderList().containsKey(name))
 					name = this.getName() + "_head_flint_broken";
 				break;
-			case 1 :
+			case 1:
 				// Rod
-				name = this.getName() + "_rod_" + properties.getRodMaterial().name;
+				name = this.getName() + "_rod_"
+						+ properties.getRodMaterial().name;
 				if (!this.getRenderList().containsKey(name))
 					name = this.getName() + "_rod_wood";
 				break;
-			case 2 :
+			case 2:
 				// Cap
-				name = this.getName() + "_cap_" + properties.getCapMaterial().name;
+				name = this.getName() + "_cap_"
+						+ properties.getCapMaterial().name;
 				if (!this.getRenderList().containsKey(name))
 					name = this.getName() + "_cap_wood";
 				break;
@@ -140,7 +142,7 @@ public abstract class ToolBase extends MultiItem {
 	public void registerIcons(IIconRegister iconRegister) {
 		super.registerIcons(iconRegister);
 
-		for (MaterialTool material : content.getMaterials()) {
+		for (rubedo.common.materials.Material material : content.getMaterials()) {
 			if (material.headMaterial != null) {
 				String name = this.getName() + "_head_" + material.name;
 				this.getRenderList().put(
@@ -232,20 +234,21 @@ public abstract class ToolBase extends MultiItem {
 
 	// Misc
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
-		for (MaterialTool head : content.getMaterials())
+		for (rubedo.common.materials.Material head : content.getMaterials())
 			if (head.headMaterial != null)
-				for (MaterialTool rod : content.getMaterials())
+				for (rubedo.common.materials.Material rod : content
+						.getMaterials())
 					if (rod.rodMaterial != null)
-						for (MaterialTool cap : content.getMaterials())
+						for (rubedo.common.materials.Material cap : content
+								.getMaterials())
 							if (cap.capMaterial != null)
-								list.add(this.buildTool(head,
-										rod, cap));
+								list.add(this.buildTool(head, rod, cap));
 	}
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list,
@@ -283,16 +286,21 @@ public abstract class ToolBase extends MultiItem {
 				+ Language
 				.getFormattedLocalization(key, true)
 				.put("$material",
-						"materials." + properties.getHeadMaterial().name,
-						Formatting.CAPITALIZED)
-						.put("$tool.type", "tools.type." + this.getName(),
-								Formatting.CAPITALIZED).getResult();
+						"materials."
+								+ properties.getHeadMaterial().name,
+								Formatting.CAPITALIZED)
+								.put("$tool.type", "tools.type." + this.getName(),
+										Formatting.CAPITALIZED).getResult();
 	}
 
-	public abstract ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap);
+	public abstract ItemStack buildTool(rubedo.common.materials.Material head,
+			rubedo.common.materials.Material rod,
+			rubedo.common.materials.Material cap);
 
-	public ItemStack buildTool(ItemStack tool, MaterialTool head, MaterialTool rod,
-			MaterialTool cap) {
+	public ItemStack buildTool(ItemStack tool,
+			rubedo.common.materials.Material head,
+			rubedo.common.materials.Material rod,
+			rubedo.common.materials.Material cap) {
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setTag("RubedoTool", new NBTTagCompound());
 		tool.setTagCompound(compound);

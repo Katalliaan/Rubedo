@@ -5,12 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import rubedo.common.materials.MaterialMultiItem;
+import rubedo.common.materials.Material;
 import rubedo.items.MultiItem;
 import rubedo.util.Singleton;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends MaterialMultiItem> extends Singleton<T> implements IContent {
+public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends Material> extends Singleton<T> implements IContent {
 	protected ContentMultiItem(Class<?> type) {
 		super(type);
 	}
@@ -52,7 +52,7 @@ public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends Ma
 
 			if (instance != null) {
 				this.materials.put(material, instance);
-				this.materialNames.put(instance.getName(), material);
+				this.materialNames.put(instance.name, material);
 			}
 		}
 	}

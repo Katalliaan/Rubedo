@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import rubedo.common.materials.MaterialTool;
+import rubedo.common.materials.Material;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolBase;
 import rubedo.util.ReflectionHelper;
@@ -115,22 +115,29 @@ IContent {
 		if (Config.replaceVanillaTools) {
 			ContentTools contentTools = Singleton
 					.getInstance(ContentTools.class);
-			for (Entry<MaterialTool, String> material : contentTools.VanillaToolMaterials
+			for (Entry<Material, String> material : contentTools.VanillaToolMaterials
 					.entrySet()) {
 				for (ToolBase kind : contentTools.getItems()) {
-					Item item = new ItemToolHead(kind.getName() + "_head_"
-							+ material.getKey().name);
+					String name = kind.getName() + "_head_" + material.getKey().name;
+
+					if (material.getKey().name == "wood")
+						ItemToolHead.getHeadMap().put(name, new ItemToolHead(name));
+
+					Item item = ItemToolHead.getHeadMap().get(name);
 
 					ReflectionHelper.setStatic(Items.class, material.getValue()
 							+ "_" + this.toVanillaKind(kind.getName()), item);
-					RemapHelper.overwriteEntry(Item.itemRegistry, "minecraft:"
-							+ material.getValue() + "_" + this.toVanillaKind(kind.getName()), item);
+					RemapHelper.overwriteEntry(
+							Item.itemRegistry,
+							"minecraft:" + material.getValue() + "_"
+									+ this.toVanillaKind(kind.getName()), item);
 				}
 			}
 		}
 	}
 
-	// TODO: change all string references of "scythe" to "hoe" instead of this hack
+	// TODO: change all string references of "scythe" to "hoe" instead of this
+	// hack
 	private String toVanillaKind(String kind) {
 		return kind == "scythe" ? "hoe" : kind;
 	}

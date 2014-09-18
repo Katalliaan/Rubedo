@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import rubedo.common.ContentTools;
-import rubedo.common.materials.MaterialTool;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
@@ -222,7 +221,7 @@ public class ToolScythe extends ToolBase {
 	}
 
 	@Override
-	public ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap) {
+	public ItemStack buildTool(rubedo.common.materials.Material head, rubedo.common.materials.Material rod, rubedo.common.materials.Material cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolScythe.class));
 

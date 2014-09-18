@@ -10,7 +10,7 @@ import net.minecraft.util.IIcon;
 import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
-import rubedo.common.materials.MaterialTool;
+import rubedo.common.materials.Material;
 import rubedo.items.tools.ToolBase;
 import rubedo.util.Singleton;
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +26,7 @@ public class ItemToolHead extends Item {
 			for (Class<? extends ToolBase> kind : content.getKinds()) {
 				String kindName = content.getItem(kind).getName();
 
-				for (MaterialTool material : content.getMaterials()) {
+				for (Material material : content.getMaterials()) {
 					if (material.headMaterial != null) {
 						String toolName = kindName + "_head_" + material.name;
 						headMap.put(toolName, new ItemToolHead(toolName));

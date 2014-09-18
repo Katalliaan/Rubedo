@@ -10,13 +10,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import rubedo.common.ContentWorld;
 import rubedo.items.ItemToolHead;
 
-public abstract class MaterialTool extends MaterialMultiItem {
+public abstract class Material {
 	public String name;
-
-	@Override
-	public String getName() {
-		return this.name;
-	}
 
 	public int durability;
 	public float modDurability;
@@ -40,7 +35,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		return this.toolHeads.get(tool);
 	}
 
-	public static class Wood extends MaterialTool {
+	public static class Wood extends Material {
 		public Wood() {
 			this.name = "wood";
 			this.modDurability = 0.5f;
@@ -51,7 +46,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Flint extends MaterialTool {
+	public static class Flint extends Material {
 		public Flint() {
 			this.name = "flint";
 			this.durability = 60;
@@ -62,7 +57,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Bone extends MaterialTool {
+	public static class Bone extends Material {
 		public Bone() {
 			this.name = "bone";
 			this.modDurability = 1.2f;
@@ -70,7 +65,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Leather extends MaterialTool {
+	public static class Leather extends Material {
 		public Leather() {
 			this.name = "leather";
 			this.modDurability = 1.0f;
@@ -78,7 +73,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Blazerod extends MaterialTool {
+	public static class Blazerod extends Material {
 		public Blazerod() {
 			this.name = "blazerod";
 			this.modDurability = 2.0f;
@@ -86,7 +81,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Copper extends MaterialTool {
+	public static class Copper extends Material {
 		public Copper() {
 			this.name = "copper";
 			this.durability = 130;
@@ -101,7 +96,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Iron extends MaterialTool {
+	public static class Iron extends Material {
 		public Iron() {
 			this.name = "iron";
 			this.durability = 250;
@@ -114,7 +109,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Gold extends MaterialTool {
+	public static class Gold extends Material {
 		public Gold() {
 			this.name = "gold";
 			this.durability = 35;
@@ -127,7 +122,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Orichalcum extends MaterialTool {
+	public static class Orichalcum extends Material {
 		public Orichalcum() {
 			this.name = "orichalcum";
 			this.durability = 200;
@@ -140,7 +135,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Silver extends MaterialTool {
+	public static class Silver extends Material {
 		public Silver() {
 			this.name = "silver";
 			this.durability = 75;
@@ -153,7 +148,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Steel extends MaterialTool {
+	public static class Steel extends Material {
 		public Steel() {
 			this.name = "steel";
 			this.durability = 1500;
@@ -166,7 +161,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Mythril extends MaterialTool {
+	public static class Mythril extends Material {
 		public Mythril() {
 			this.name = "mythril";
 			this.durability = 500;
@@ -179,7 +174,7 @@ public abstract class MaterialTool extends MaterialMultiItem {
 		}
 	}
 
-	public static class Hepatizon extends MaterialTool {
+	public static class Hepatizon extends Material {
 		public Hepatizon() {
 			this.name = "hepatizon";
 			this.durability = 750;

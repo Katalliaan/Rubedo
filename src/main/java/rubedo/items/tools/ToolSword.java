@@ -14,7 +14,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import rubedo.common.ContentTools;
-import rubedo.common.materials.MaterialTool;
 import rubedo.util.Singleton;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -103,13 +102,13 @@ public class ToolSword extends ToolBase {
 	/**
 	 * Build the tool from its parts
 	 */
-	 @Override
-	 public ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap) {
+	@Override
+	public ItemStack buildTool(rubedo.common.materials.Material head, rubedo.common.materials.Material rod, rubedo.common.materials.Material cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolSword.class));
 
 		super.buildTool(tool, head, rod, cap);
 
 		return tool;
-	 }
+	}
 }

@@ -9,7 +9,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import rubedo.common.ContentTools;
-import rubedo.common.materials.MaterialTool;
 import rubedo.util.Singleton;
 
 public class ToolShovel extends ToolBase {
@@ -70,7 +69,7 @@ public class ToolShovel extends ToolBase {
 	}
 
 	@Override
-	public ItemStack buildTool(MaterialTool head, MaterialTool rod, MaterialTool cap) {
+	public ItemStack buildTool(rubedo.common.materials.Material head, rubedo.common.materials.Material rod, rubedo.common.materials.Material cap) {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ItemStack tool = new ItemStack(contentTools.getItem(ToolShovel.class));
 
