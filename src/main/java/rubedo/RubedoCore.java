@@ -46,6 +46,20 @@ public class RubedoCore {
 			return Item.getItemFromBlock(Blocks.bedrock);
 		}
 	};
+	
+	public static final CreativeTabs creativeTabTools = new CreativeTabs("RubedoTools") {
+		@Override
+		public Item getTabIconItem() {
+			return Item.getItemFromBlock(Blocks.bedrock);
+		}
+	};
+	
+	public static final CreativeTabs creativeTabSpells = new CreativeTabs("RubedoSpells") {
+		@Override
+		public Item getTabIconItem() {
+			return Item.getItemFromBlock(Blocks.bedrock);
+		}
+	};
 
 	// Mod content
 	private Map<Class<? extends IContent>, IContent> contentUnits;

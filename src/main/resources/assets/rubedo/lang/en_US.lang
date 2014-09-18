@@ -1,4 +1,6 @@
-itemGroup.Rubedo=Rubedo
+itemGroup.Rubedo=Rubedo World
+itemGroup.RubedoTools=Rubedo Tools
+itemGroup.RubedoSpells=Rubedo Spells
 
 rubedo.materials.flint=Flint
 rubedo.materials.copper=Copper

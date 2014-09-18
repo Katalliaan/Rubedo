@@ -27,7 +27,7 @@ public abstract class SpellBase extends MultiItem {
 	public SpellBase() {
 		super();
 		this.setUnlocalizedName("SpellBase");
-		this.setCreativeTab(RubedoCore.creativeTab);
+		this.setCreativeTab(RubedoCore.creativeTabSpells);
 	}
 
 	public abstract String getName();
