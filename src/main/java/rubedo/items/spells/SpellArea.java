@@ -8,6 +8,7 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
+import rubedo.common.materials.MaterialMultiItem;
 import rubedo.raycast.IBlockRayFilter;
 import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
@@ -80,13 +81,13 @@ public class SpellArea extends SpellBase {
 	}
 
 	@Override
-	public ItemStack buildSpell(String base, String focus, String effect) {
-		ContentSpells contentSpells = Singleton
-				.getInstance(ContentSpells.class);
+	public ItemStack buildSpell(MaterialMultiItem base,
+			MaterialMultiItem focus, MaterialMultiItem effect) {
+		ContentSpells contentSpells = Singleton.getInstance(ContentSpells.class);
 		ItemStack spell = new ItemStack(contentSpells.getItem(SpellArea.class));
-
+		
 		super.buildSpell(spell, base, focus, effect);
-
+		
 		return spell;
 	}
 

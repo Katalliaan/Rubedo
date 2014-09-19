@@ -23,6 +23,7 @@ public abstract class MaterialMultiItem {
 	public ItemStack headMaterial;
 	public ItemStack rodMaterial;
 	public ItemStack capMaterial;
+	public ItemStack baseMaterial;
 	public ItemStack spellFocusMaterial;
 	public String spellFocusType;
 	public ItemStack spellEffectMaterial;
@@ -101,6 +102,8 @@ public abstract class MaterialMultiItem {
 					ContentWorld.metalItems.getTextureIndex("copper_ingot"));
 			this.capMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("copper_ingot"));
+			this.baseMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("copper_ingot"));
 		}
 	}
 
@@ -115,6 +118,7 @@ public abstract class MaterialMultiItem {
 			this.miningLevel = 2;
 			this.headMaterial = new ItemStack(Items.iron_ingot, 1, 0);
 			this.capMaterial = new ItemStack(Items.iron_ingot);
+			this.baseMaterial = new ItemStack(Items.iron_ingot);
 		}
 	}
 
@@ -129,6 +133,7 @@ public abstract class MaterialMultiItem {
 			this.miningLevel = 0;
 			this.headMaterial = new ItemStack(Items.gold_ingot, 1, 0);
 			this.capMaterial = new ItemStack(Items.gold_ingot);
+			this.baseMaterial = new ItemStack(Items.gold_ingot);
 		}
 	}
 
@@ -154,6 +159,8 @@ public abstract class MaterialMultiItem {
 			this.damage = 1;
 			this.speed = 8.0f;
 			this.miningLevel = 2;
+			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 		}

@@ -2,6 +2,7 @@ package rubedo.items.spells;
 
 import net.minecraft.item.ItemStack;
 import rubedo.common.ContentSpells;
+import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.MultiItemProperties;
 import rubedo.util.Singleton;
 
@@ -21,24 +22,24 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 		return tag.getString("base");
 	}
 
-	public void setBaseMaterial(String base) {
-		tag.setString("base", base);
+	public void setBaseMaterial(MaterialMultiItem base) {
+		tag.setString("base", base.name);
 	}
 
 	public String getFocusMaterial() {
 		return tag.getString("focus");
 	}
 
-	public void setFocusMaterial(String focus) {
-		tag.setString("focus", focus);
+	public void setFocusMaterial(MaterialMultiItem focus) {
+		tag.setString("focus", focus.name);
 	}
 
 	public String getEffectMaterial() {
 		return tag.getString("effect");
 	}
 
-	public void setEffectMaterial(String effect) {
-		tag.setString("effect", effect);
+	public void setEffectMaterial(MaterialMultiItem effect) {
+		tag.setString("effect", effect.name);
 	}
 
 	public int getPower() {
@@ -51,7 +52,7 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	}
 
 	public String getEffectType() {
-		return content.getMaterial(getBaseMaterial()).spellEffectType;
+		return content.getMaterial(getEffectMaterial()).spellEffectType;
 	}
 
 	public int getMiningLevel() {
