@@ -178,7 +178,7 @@ public abstract class SpellBase extends MultiItem {
 			if (base.baseMaterial != null)
 				for (rubedo.common.materials.MaterialMultiItem focus : content
 						.getMaterials())
-					if (focus.spellFocusMaterial != null)
+					if (focus.spellFocusType == this.getName())
 						for (rubedo.common.materials.MaterialMultiItem effect : content
 								.getMaterials())
 							if (effect.spellEffectMaterial != null)

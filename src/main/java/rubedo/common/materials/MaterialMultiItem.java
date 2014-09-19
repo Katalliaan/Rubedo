@@ -163,6 +163,8 @@ public abstract class MaterialMultiItem {
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
+			this.baseMaterial = new ItemStack(ContentWorld.metalItems, 1,
+					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 		}
 	}
 
