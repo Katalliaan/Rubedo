@@ -53,7 +53,7 @@ public class SpellEffects {
 		} else if (effectType == "water" && entity instanceof EntityLivingBase) {
 			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(
 					Potion.moveSlowdown.getId(), 100, power, false));
-			((EntityLivingBase) entity).extinguish();
+			entity.extinguish();
 		} else if (effectType == "life" && entity instanceof EntityLivingBase) {
 			((EntityLivingBase) entity).heal(power);
 		}
