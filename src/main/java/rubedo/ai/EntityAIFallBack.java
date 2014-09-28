@@ -95,6 +95,9 @@ public class EntityAIFallBack extends EntityAIBase {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	public boolean continueExecuting() {
+		if (closestLivingEntity.getDistanceToEntity(theEntity) > 49)
+			return false;
+		
 		return !this.entityPathNavigate.noPath();
 	}
 

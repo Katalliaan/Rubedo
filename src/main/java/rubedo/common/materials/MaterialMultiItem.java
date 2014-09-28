@@ -15,9 +15,11 @@ public abstract class MaterialMultiItem {
 
 	public int durability;
 	public float modDurability;
+	public float modSpeed;
 	public int damage;
 	public float speed;
 	public int mundaneLevel;
+	public float modDamage;
 	public int arcaneLevel;
 	public int miningLevel;
 	public ItemStack headMaterial;
@@ -42,7 +44,9 @@ public abstract class MaterialMultiItem {
 		public Wood() {
 			this.name = "wood";
 			this.modDurability = 0.5f;
+			this.modSpeed = 1.0f;
 			this.mundaneLevel = 0;
+			this.modDamage = 0.5f;
 			this.rodMaterial = new ItemStack(Items.stick);
 			this.capMaterial = new ItemStack(Blocks.planks, 1,
 					OreDictionary.WILDCARD_VALUE);
@@ -66,6 +70,7 @@ public abstract class MaterialMultiItem {
 		public Bone() {
 			this.name = "bone";
 			this.modDurability = 1.2f;
+			this.modSpeed = 0.6f;
 			this.rodMaterial = new ItemStack(Items.bone);
 			this.spellEffectMaterial = new ItemStack(Items.bone);
 		}
@@ -75,6 +80,7 @@ public abstract class MaterialMultiItem {
 		public Leather() {
 			this.name = "leather";
 			this.modDurability = 1.0f;
+			this.modSpeed = 0.8f;
 			this.rodMaterial = new ItemStack(Items.leather);
 		}
 	}
@@ -83,6 +89,7 @@ public abstract class MaterialMultiItem {
 		public Blazerod() {
 			this.name = "blazerod";
 			this.modDurability = 2.0f;
+			this.modSpeed = 0.75f;
 			this.rodMaterial = new ItemStack(Items.blaze_rod);
 			this.spellEffectMaterial = new ItemStack(Items.blaze_rod);
 			this.spellEffectType = "fire";
@@ -93,7 +100,8 @@ public abstract class MaterialMultiItem {
 		public Copper() {
 			this.name = "copper";
 			this.durability = 130;
-			this.mundaneLevel = 2;
+			this.mundaneLevel = 1;
+			this.modDamage = 0.8f;
 			this.arcaneLevel = 3;
 			this.damage = 1;
 			this.speed = 2.0f;
@@ -111,7 +119,8 @@ public abstract class MaterialMultiItem {
 		public Iron() {
 			this.name = "iron";
 			this.durability = 250;
-			this.mundaneLevel = 1;
+			this.mundaneLevel = 3;
+			this.modDamage = 0.7f;
 			this.arcaneLevel = 2;
 			this.damage = 2;
 			this.speed = 6.0f;
@@ -126,7 +135,8 @@ public abstract class MaterialMultiItem {
 		public Gold() {
 			this.name = "gold";
 			this.durability = 35;
-			this.mundaneLevel = 3;
+			this.mundaneLevel = 0;
+			this.modDamage = 1.0f;
 			this.arcaneLevel = 5;
 			this.damage = 0;
 			this.speed = 6.0f;

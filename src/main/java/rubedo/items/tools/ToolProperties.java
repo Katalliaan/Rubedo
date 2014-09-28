@@ -92,7 +92,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 
 	public float getAttackDamage() {
 		if (!this.isBroken())
-			return this.item.getWeaponDamage() + this.getHeadMaterial().damage;
+			return this.item.getWeaponDamage() + this.getHeadMaterial().damage * this.getCapMaterial().modDamage;
 		else
 			return 0;
 
