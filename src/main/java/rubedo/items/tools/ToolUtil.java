@@ -33,16 +33,14 @@ public class ToolUtil {
 
 			for (int i = 0; i < properties.getItem().getEffectiveBlocks().length; i++) {
 				if (properties.getItem().getEffectiveBlocks()[i] == block) {
-					return properties.getItem().getEffectiveBlockSpeed()
-							* properties.getHeadMaterial().speed;
+					return properties.getHeadMaterial().speed * properties.getRodMaterial().modSpeed;
 				}
 			}
 
 			for (int i = 0; i < properties.getItem().getEffectiveMaterials().length; i++) {
 				if (properties.getItem().getEffectiveMaterials()[i] == block
 						.getMaterial()) {
-					return properties.getItem().getEffectiveMaterialSpeed()
-							* properties.getHeadMaterial().speed;
+					return properties.getHeadMaterial().speed * properties.getRodMaterial().modSpeed;
 				}
 			}
 		}
