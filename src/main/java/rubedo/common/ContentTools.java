@@ -18,6 +18,7 @@ import rubedo.items.tools.ToolScythe;
 import rubedo.items.tools.ToolShovel;
 import rubedo.items.tools.ToolSword;
 import rubedo.items.tools.recipes.ToolEnchantmentRecipes;
+import rubedo.items.tools.recipes.ToolRepairRecipes;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
@@ -118,8 +119,7 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 	}
 
 	private void registerToolRecipes() {
-		// GameRegistry.addRecipe(new ToolEnchantmentRecipes());
-		// GameRegistry.addRecipe(new ToolRepairRecipes());
+		GameRegistry.addRecipe(new ToolRepairRecipes());
 
 		// Tool head recipes
 		for (MaterialMultiItem material : this.getMaterials()) {
