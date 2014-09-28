@@ -9,16 +9,42 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolProperties;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ToolEnchantmentRecipes implements IRecipe {
 	private ToolProperties tool;
 	private ItemStack enchantedBook;
 
+	@SubscribeEvent
+	public void anvilUpdateEvent(AnvilUpdateEvent event) {
+		if (this.matches(event.left, event.right)) {
+			event.output = this.getCraftingResult();
+			event.cost = 5;
+		}
+	}
+
 	@Override
 	public ItemStack getRecipeOutput() {
 		return null;
+	}
+
+	public boolean matches(ItemStack left, ItemStack right) {
+		this.enchantedBook = null;
+		this.tool = null;
+
+		if (Item.getIdFromItem(right.getItem()) == Item
+				.getIdFromItem(Items.enchanted_book)) {
+			this.enchantedBook = right;
+		}
+
+		if (left.getItem() instanceof ToolBase) {
+			this.tool = ((ToolBase) left.getItem()).getToolProperties(left);
+		}
+
+		return this.enchantedBook != null && this.tool != null;
 	}
 
 	/**
@@ -63,6 +89,10 @@ public class ToolEnchantmentRecipes implements IRecipe {
 	 */
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting) {
+		return this.getCraftingResult();
+	}
+
+	public ItemStack getCraftingResult() {
 		ItemStack output = this.tool.getStack().copy();
 
 		NBTTagList toolList = getEnchantmentTagList(output);
