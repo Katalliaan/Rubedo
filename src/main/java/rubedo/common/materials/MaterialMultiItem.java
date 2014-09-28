@@ -137,7 +137,7 @@ public abstract class MaterialMultiItem {
 			this.durability = 35;
 			this.mundaneLevel = 0;
 			this.modDamage = 1.0f;
-			this.arcaneLevel = 5;
+			this.arcaneLevel = 8;
 			this.damage = 0;
 			this.speed = 6.0f;
 			this.miningLevel = 0;
@@ -152,6 +152,7 @@ public abstract class MaterialMultiItem {
 			this.name = "orichalcum";
 			this.durability = 200;
 			this.mundaneLevel = 3;
+			this.arcaneLevel = 3;
 			this.damage = 2;
 			this.speed = 4.0f;
 			this.miningLevel = 1;
@@ -183,6 +184,7 @@ public abstract class MaterialMultiItem {
 			this.name = "steel";
 			this.durability = 1500;
 			this.mundaneLevel = 2;
+			this.arcaneLevel = 4;
 			this.damage = 3;
 			this.speed = 9.0f;
 			this.miningLevel = 3;
@@ -196,6 +198,7 @@ public abstract class MaterialMultiItem {
 			this.name = "mythril";
 			this.durability = 500;
 			this.mundaneLevel = 4;
+			this.arcaneLevel = 5;
 			this.damage = 1;
 			this.speed = 12.0f;
 			this.miningLevel = 4;
@@ -209,6 +212,7 @@ public abstract class MaterialMultiItem {
 			this.name = "hepatizon";
 			this.durability = 750;
 			this.mundaneLevel = 5;
+			this.arcaneLevel = 6;
 			this.damage = 3;
 			this.speed = 10.0f;
 			this.miningLevel = 4;
@@ -216,7 +220,7 @@ public abstract class MaterialMultiItem {
 					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
 		}
 	}
-	
+
 	public static class Arrow extends MaterialMultiItem {
 		public Arrow() {
 			this.name = "arrow";
@@ -224,7 +228,7 @@ public abstract class MaterialMultiItem {
 			this.spellFocusType = "projectile";
 		}
 	}
-	
+
 	public static class Bottle extends MaterialMultiItem {
 		public Bottle() {
 			this.name = "bottle";
@@ -232,7 +236,7 @@ public abstract class MaterialMultiItem {
 			this.spellFocusType = "self";
 		}
 	}
-	
+
 	public static class Gunpowder extends MaterialMultiItem {
 		public Gunpowder() {
 			this.name = "gunpowder";
@@ -240,7 +244,7 @@ public abstract class MaterialMultiItem {
 			this.spellFocusType = "area";
 		}
 	}
-	
+
 	public static class Snow extends MaterialMultiItem {
 		public Snow() {
 			this.name = "snow";
