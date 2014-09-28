@@ -17,12 +17,13 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class ToolEnchantmentRecipes implements IRecipe {
 	private ToolProperties tool;
 	private ItemStack enchantedBook;
+	private int cost;
 
 	@SubscribeEvent
 	public void anvilUpdateEvent(AnvilUpdateEvent event) {
 		if (this.matches(event.left, event.right)) {
 			event.output = this.getCraftingResult();
-			event.cost = 5;
+			event.cost = this.cost;
 		}
 	}
 
@@ -93,6 +94,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 	}
 
 	public ItemStack getCraftingResult() {
+		this.cost = 0;
 		ItemStack output = this.tool.getStack().copy();
 
 		NBTTagList toolList = getEnchantmentTagList(output);
@@ -140,11 +142,17 @@ public class ToolEnchantmentRecipes implements IRecipe {
 				if (allowed) {
 					changed = true;
 					toolList.appendTag(bookEnchant);
+					int lvl = bookEnchant.getShort("lvl") + 1;
+					int cost = lvl * lvl * 2
+							/ (this.tool.getHeadMaterial().arcaneLevel + 1);
+					this.cost += cost;
 				}
 			}
 		}
 
-		if (output.getEnchantmentTagList() == null && toolList.tagCount() > 0) {
+		if ((output.getEnchantmentTagList() == null || output
+				.getEnchantmentTagList().tagCount() == 0)
+				&& toolList.tagCount() > 0) {
 			output.getTagCompound().setTag("ench", toolList);
 		}
 

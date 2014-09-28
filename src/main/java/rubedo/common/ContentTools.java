@@ -119,6 +119,7 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 	}
 
 	private void registerToolRecipes() {
+		// GameRegistry.addRecipe(new ToolEnchantmentRecipes());
 		GameRegistry.addRecipe(new ToolRepairRecipes());
 
 		// Tool head recipes
