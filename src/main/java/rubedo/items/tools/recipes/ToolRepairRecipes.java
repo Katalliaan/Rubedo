@@ -50,11 +50,18 @@ public class ToolRepairRecipes implements IRecipe {
 		if (this.tool == null || modifierCandidate == null)
 			return false;
 
+		// Can someone remove null from Java altogether? Thank you.
 		for (MaterialMultiItem material : contentTools.getMaterials()) {
-			if (material.headMaterial.isItemEqual(modifierCandidate)
-					|| material.rodMaterial.isItemEqual(modifierCandidate)
-					|| material.capMaterial.isItemEqual(modifierCandidate)) {
-				this.modifier = material.headMaterial;
+
+			ItemStack toolhead = material.getToolHead(this.tool.getItem()
+					.getName());
+
+			if ((toolhead != null && modifierCandidate.isItemEqual(toolhead))
+					|| (material.rodMaterial != null && modifierCandidate
+							.isItemEqual(material.rodMaterial))
+					|| (material.capMaterial != null && modifierCandidate
+							.isItemEqual(material.capMaterial))) {
+				this.modifier = modifierCandidate;
 				this.material = material;
 				return true;
 			}
@@ -68,13 +75,18 @@ public class ToolRepairRecipes implements IRecipe {
 		ToolProperties copy = this.tool.getItem().getToolProperties(
 				this.tool.getStack().copy());
 
-		if (this.material.capMaterial == this.modifier) {
+		ItemStack toolhead = this.material.getToolHead(this.tool.getItem()
+				.getName());
+
+		if (this.material.capMaterial != null
+				&& this.material.capMaterial.isItemEqual(this.modifier)) {
 			copy.setCapMaterial(this.material);
 			return copy.getStack();
-		} else if (this.material.rodMaterial == this.modifier) {
+		} else if (this.material.rodMaterial != null
+				&& this.material.rodMaterial.isItemEqual(this.modifier)) {
 			copy.setRodMaterial(this.material);
 			return copy.getStack();
-		} else if (this.material.headMaterial == this.modifier) {
+		} else if (toolhead != null && toolhead.isItemEqual(this.modifier)) {
 			copy.setBroken(false);
 			copy.setHeadMaterial(this.material);
 			copy.getStack().setItemDamage(0);

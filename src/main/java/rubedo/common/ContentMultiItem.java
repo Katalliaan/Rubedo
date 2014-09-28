@@ -1,6 +1,7 @@
 package rubedo.common;
 
 import java.lang.reflect.Constructor;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -57,7 +58,7 @@ public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends Ma
 		}
 	}
 
-	public Iterable<TMaterial> getMaterials() {
+	public Collection<TMaterial> getMaterials() {
 		return this.materials.values();
 	}
 
