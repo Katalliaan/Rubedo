@@ -30,7 +30,9 @@ public class ItemToolHead extends Item {
 				for (MaterialMultiItem material : content.getMaterials()) {
 					if (material.headMaterial != null) {
 						String toolName = kindName + "_head_" + material.name;
-						headMap.put(toolName, new ItemToolHead(toolName));
+						ItemToolHead head = new ItemToolHead(toolName);
+						head.material = material;
+						headMap.put(toolName, head);
 					}
 				}
 			}
@@ -40,6 +42,16 @@ public class ItemToolHead extends Item {
 	}
 
 	protected String name;
+	protected MaterialMultiItem material;
+
+	public String getName() {
+		return this.name;
+	}
+
+	public MaterialMultiItem getMaterial() {
+		return this.material;
+	}
+
 	protected IIcon icon;
 	protected static Map<String, String> textureNames = new LinkedHashMap<String, String>();
 

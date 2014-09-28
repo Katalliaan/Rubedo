@@ -4,6 +4,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import rubedo.common.ContentTools;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.tools.ToolBase;
@@ -57,10 +58,10 @@ public class ToolRepairRecipes implements IRecipe {
 					.getName());
 
 			if ((toolhead != null && modifierCandidate.isItemEqual(toolhead))
-					|| (material.rodMaterial != null && modifierCandidate
-							.isItemEqual(material.rodMaterial))
-					|| (material.capMaterial != null && modifierCandidate
-							.isItemEqual(material.capMaterial))) {
+					|| (material.rodMaterial != null && itemOreMatches(
+							modifierCandidate, material.rodMaterial))
+					|| (material.capMaterial != null && itemOreMatches(
+							modifierCandidate, material.capMaterial))) {
 				this.modifier = modifierCandidate;
 				this.material = material;
 				return true;
@@ -79,11 +80,11 @@ public class ToolRepairRecipes implements IRecipe {
 				.getName());
 
 		if (this.material.capMaterial != null
-				&& this.material.capMaterial.isItemEqual(this.modifier)) {
+				&& itemOreMatches(this.material.capMaterial, this.modifier)) {
 			copy.setCapMaterial(this.material);
 			return copy.getStack();
 		} else if (this.material.rodMaterial != null
-				&& this.material.rodMaterial.isItemEqual(this.modifier)) {
+				&& itemOreMatches(this.material.rodMaterial, this.modifier)) {
 			copy.setRodMaterial(this.material);
 			return copy.getStack();
 		} else if (toolhead != null && toolhead.isItemEqual(this.modifier)) {
@@ -103,5 +104,24 @@ public class ToolRepairRecipes implements IRecipe {
 	@Override
 	public ItemStack getRecipeOutput() {
 		return null;
+	}
+
+	private static boolean itemOreMatches(ItemStack input, ItemStack target) {
+		if (OreDictionary.itemMatches(input, target, false))
+			return true;
+
+		String ore1 = null;
+		String ore2 = null;
+
+		if (OreDictionary.getOreIDs(input).length > 0)
+			ore1 = OreDictionary.getOreName(OreDictionary.getOreIDs(input)[0]);
+
+		if (OreDictionary.getOreIDs(target).length > 0)
+			ore2 = OreDictionary.getOreName(OreDictionary.getOreIDs(target)[0]);
+
+		if (ore1 == null || ore2 == null)
+			return false;
+
+		return ore1 == ore2;
 	}
 }

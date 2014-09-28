@@ -6,9 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolAxe;
@@ -122,29 +125,71 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 		// GameRegistry.addRecipe(new ToolEnchantmentRecipes());
 		GameRegistry.addRecipe(new ToolRepairRecipes());
 
-		// Tool head recipes
+		// Tool recipes
 		for (MaterialMultiItem material : this.getMaterials()) {
 			if (material.headMaterial != null) {
+				// Tool Head Recipes
+				Object headMaterial = material.headMaterial;
+				if (OreDictionary.getOreIDs(material.headMaterial).length > 0)
+					headMaterial = OreDictionary.getOreName(OreDictionary
+							.getOreIDs(material.headMaterial)[0]);
+
 				// Sword heads
 				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getToolHead("sword"), "X", "X", 'X',
-						material.headMaterial));
+						.getToolHead("sword"), "X", "X", 'X', headMaterial));
 				// Shovel heads
 				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getToolHead("shovel"), "XX", "XX", 'X',
-						material.headMaterial));
+						.getToolHead("shovel"), "XX", "XX", 'X', headMaterial));
 				// Axe heads
 				GameRegistry.addRecipe(new ShapedOreRecipe(material
 						.getToolHead("axe"), true, "XX", " X", 'X',
-						material.headMaterial));
+						headMaterial));
 				// Scythe heads
 				GameRegistry.addRecipe(new ShapedOreRecipe(material
 						.getToolHead("scythe"), true, "XXX", "X  ", 'X',
-						material.headMaterial));
+						headMaterial));
 				// Pick heads
 				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getToolHead("pickaxe"), "XXX", 'X',
-						material.headMaterial));
+						.getToolHead("pickaxe"), "XXX", 'X', headMaterial));
+
+				// Tool recipes
+				for (MaterialMultiItem materialRod : this.getMaterials()) {
+					if (materialRod.rodMaterial != null) {
+
+						Object rodMaterial = materialRod.rodMaterial;
+						if (OreDictionary.getOreIDs(materialRod.rodMaterial).length > 0)
+							rodMaterial = OreDictionary
+									.getOreName(OreDictionary
+											.getOreIDs(materialRod.rodMaterial)[0]);
+
+						for (MaterialMultiItem materialCap : this
+								.getMaterials()) {
+							if (materialCap.capMaterial != null) {
+
+								Object capMaterial = materialCap.capMaterial;
+								if (OreDictionary
+										.getOreIDs(materialCap.capMaterial).length > 0)
+									capMaterial = OreDictionary
+											.getOreName(OreDictionary
+													.getOreIDs(materialCap.capMaterial)[0]);
+
+								for (Class<? extends ToolBase> kind : this
+										.getKinds()) {
+									ItemStack tool = this.getItem(kind)
+											.buildTool(material, materialRod,
+													materialCap);
+									ItemStack toolHead = material
+											.getToolHead(this.getItem(kind)
+													.getName());
+									GameRegistry
+											.addRecipe(new ShapelessOreRecipe(
+													tool, toolHead,
+													rodMaterial, capMaterial));
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}

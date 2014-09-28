@@ -9,10 +9,11 @@ import java.util.List;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.RubedoCore;
 import rubedo.blocks.BlockMetal;
 import rubedo.blocks.BlockMetalOre;
@@ -127,108 +128,40 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 			this.registerMetal(metal);
 
 		// Iron nugget recipes
-		GameRegistry.addRecipe(
-				new ItemStack(Items.iron_ingot),
-				"###",
-				"###",
-				"###",
-				'#',
-				new ItemStack(metalItems, 9, metalItems
-						.getTextureIndex("iron_nugget")));
-		GameRegistry.addRecipe(
-				new ItemStack(metalItems, 9, metalItems
-						.getTextureIndex("iron_nugget")), "m", 'm',
-				new ItemStack(Items.iron_ingot));
+		ItemStack nuggets = OreDictionary.getOres("nuggetIron").get(0).copy();
+		nuggets.stackSize = 9;
 		OreDictionary.registerOre("nuggetIron", new ItemStack(metalItems, 9,
 				metalItems.getTextureIndex("iron_nugget")));
 
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
+				Items.iron_ingot), "###", "###", "###", '#', "nuggetIron"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(nuggets, "ingotIron"));
+
 		// Bucket change
 		RemapHelper.removeAnyRecipe(new ItemStack(Items.bucket));
-		GameRegistry.addRecipe(new ShapedRecipes(3, 2, new ItemStack[] {
-				new ItemStack(metalItems, 2, metalItems
-						.getTextureIndex("steel_ingot")),
-				null,
-				new ItemStack(metalItems, 2, metalItems
-						.getTextureIndex("steel_ingot")),
-				null,
-				new ItemStack(metalItems, 2, metalItems
-						.getTextureIndex("steel_ingot")), null },
-				new ItemStack(Items.bucket)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.bucket),
+				"X X", " X ", 'X', "ingotSteel"));
 
 		// Temporary alloy recipes
-		GameRegistry.addShapelessRecipe(
-				new ItemStack(metalItems, 2, metalItems
-						.getTextureIndex("orichalcum_ingot")),
-				new ItemStack(metalItems, 1, metalItems
-						.getTextureIndex("copper_ingot")), new ItemStack(
-						Items.gold_ingot));
-		GameRegistry.addShapelessRecipe(
-				new ItemStack(metalItems, 2, metalItems
-						.getTextureIndex("steel_ingot")), new ItemStack(
-						Items.iron_ingot), new ItemStack(Items.blaze_rod));
-		GameRegistry.addShapelessRecipe(
-				new ItemStack(metalItems, 2, metalItems
-						.getTextureIndex("mythril_ingot")),
-				new ItemStack(metalItems, 1, metalItems
-						.getTextureIndex("copper_ingot")),
-				new ItemStack(metalItems, 1, metalItems
-						.getTextureIndex("silver_ingot")));
-		GameRegistry.addShapelessRecipe(
-				new ItemStack(metalItems, 2, metalItems
-						.getTextureIndex("hepatizon_ingot")),
-				new ItemStack(metalItems, 1, metalItems
-						.getTextureIndex("orichalcum_ingot")),
-				new ItemStack(metalItems, 1, metalItems
-						.getTextureIndex("mythril_ingot")), new ItemStack(
-						Blocks.end_stone));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary.getOres(
+				"ingotOrichalcum").get(0), "ingotCopper", "ingotGold"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary.getOres(
+				"ingotSteel").get(0), "ingotIron", new ItemStack(
+				Items.blaze_rod)));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary.getOres(
+				"ingotMythril").get(0), "ingotCopper", "ingotSilver"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary.getOres(
+				"ingotHepatizon").get(0), "ingotOrichalcum", "ingotMythril",
+				new ItemStack(Blocks.end_stone)));
 	}
 
 	private void registerMetal(Metal metal) {
-		String[] patBlock = { "###", "###", "###" };
-
 		// Harvest levels
 		if (metal.isGenerated == true)
 			oreBlocks.setHarvestLevel("pickaxe", metal.harvestLevel,
 					oreBlocks.getTextureIndex(metal.name + "_ore"));
 		metalBlocks.setHarvestLevel("pickaxe", metal.harvestLevel,
 				metalBlocks.getTextureIndex(metal.name + "_block"));
-
-		// Recipes: nugget <-> ingot <-> block
-		GameRegistry.addRecipe(
-				new ItemStack(metalItems, 1, metalItems
-						.getTextureIndex(metal.name + "_ingot")),
-				patBlock,
-				'#',
-				new ItemStack(metalItems, 9, metalItems
-						.getTextureIndex(metal.name + "_nugget")));
-		GameRegistry.addRecipe(
-				new ItemStack(metalItems, 9, metalItems
-						.getTextureIndex(metal.name + "_nugget")),
-				"m",
-				'm',
-				new ItemStack(metalItems, 1, metalItems
-						.getTextureIndex(metal.name + "_ingot")));
-		GameRegistry.addRecipe(
-				new ItemStack(metalBlocks, 1, metalBlocks
-						.getTextureIndex(metal.name + "_block")),
-				patBlock,
-				'#',
-				new ItemStack(metalItems, 9, metalItems
-						.getTextureIndex(metal.name + "_ingot")));
-		GameRegistry.addRecipe(
-				new ItemStack(metalItems, 9, metalItems
-						.getTextureIndex(metal.name + "_ingot")),
-				"m",
-				'm',
-				new ItemStack(metalBlocks, 1, metalBlocks
-						.getTextureIndex(metal.name + "_block")));
-
-		if (metal.isGenerated == true)
-			GameRegistry.addSmelting(
-					new ItemStack(oreBlocks, 1, oreBlocks
-							.getTextureIndex(metal.name + "_ore")),
-					new ItemStack(metalItems, 1, metalItems
-							.getTextureIndex(metal.name + "_ingot")), 0.5F);
 
 		if (metal.isGenerated == true)
 			OreDictionary.registerOre("ore" + metal, new ItemStack(oreBlocks,
@@ -237,6 +170,32 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 				metalItems.getTextureIndex(metal.name + "_ingot")));
 		OreDictionary.registerOre("nugget" + metal, new ItemStack(metalItems,
 				1, metalItems.getTextureIndex(metal.name + "_nugget")));
+		OreDictionary.registerOre("block" + metal, new ItemStack(metalBlocks,
+				1, metalBlocks.getTextureIndex(metal.name + "_block")));
+
+		// Recipes: nugget <-> ingot <-> block
+		ItemStack nuggets = OreDictionary.getOres("nugget" + metal).get(0)
+				.copy();
+		nuggets.stackSize = 9;
+		ItemStack ingots = OreDictionary.getOres("ingot" + metal).get(0).copy();
+		ingots.stackSize = 9;
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(OreDictionary.getOres(
+				"ingot" + metal).get(0), "###", "###", "###", '#', "nugget"
+				+ metal));
+		GameRegistry
+				.addRecipe(new ShapelessOreRecipe(nuggets, "ingot" + metal));
+		GameRegistry.addRecipe(new ShapedOreRecipe(OreDictionary.getOres(
+				"block" + metal).get(0), "###", "###", "###", '#', "ingot"
+				+ metal));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ingots, "block" + metal));
+
+		if (metal.isGenerated == true)
+			GameRegistry.addSmelting(
+					new ItemStack(oreBlocks, 1, oreBlocks
+							.getTextureIndex(metal.name + "_ore")),
+					new ItemStack(metalItems, 1, metalItems
+							.getTextureIndex(metal.name + "_ingot")), 0.5F);
 	}
 
 	public static class Metal {
