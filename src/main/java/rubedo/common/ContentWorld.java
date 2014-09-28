@@ -128,10 +128,11 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 			this.registerMetal(metal);
 
 		// Iron nugget recipes
-		ItemStack nuggets = OreDictionary.getOres("nuggetIron").get(0).copy();
-		nuggets.stackSize = 9;
 		OreDictionary.registerOre("nuggetIron", new ItemStack(metalItems, 9,
 				metalItems.getTextureIndex("iron_nugget")));
+
+		ItemStack nuggets = OreDictionary.getOres("nuggetIron").get(0).copy();
+		nuggets.stackSize = 9;
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
 				Items.iron_ingot), "###", "###", "###", '#', "nuggetIron"));
