@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
@@ -17,7 +18,7 @@ import rubedo.util.Singleton;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentVanilla extends Singleton<ContentVanilla> implements
-IContent {
+		IContent {
 	protected ContentVanilla() {
 		super(ContentVanilla.class);
 	}
@@ -69,14 +70,17 @@ IContent {
 		if (Config.addFlintRecipe)
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(
 					Items.flint), new ItemStack(Items.bowl
-							.setContainerItem(Items.bowl)),
-							new ItemStack(Blocks.gravel)));
+					.setContainerItem(Items.bowl)),
+					new ItemStack(Blocks.gravel)));
 	}
 
 	@Override
 	public void tweak() {
 		// Mining balance changes
 		if (Config.changeMiningProgression) {
+			// Make sure ForgeHooks has finished initializing
+			ReflectionHelper.initialize(ForgeHooks.class);
+
 			Blocks.obsidian.setHarvestLevel("pickaxe", 2);
 			Blocks.netherrack.setHarvestLevel("pickaxe", 3);
 			Blocks.netherrack.setHardness(1.5F);
@@ -97,8 +101,8 @@ IContent {
 					Items.wooden_axe, Items.golden_hoe, Items.iron_hoe,
 					Items.stone_hoe, Items.wooden_hoe, Items.golden_pickaxe,
 					Items.iron_pickaxe, Items.stone_pickaxe,
-					Items.wooden_pickaxe,
-					Items.diamond_sword, Items.diamond_hoe, Items.diamond_axe,
+					Items.wooden_pickaxe, Items.diamond_sword,
+					Items.diamond_hoe, Items.diamond_axe,
 					Items.diamond_pickaxe, Items.diamond_shovel };
 
 			for (int i = 0; i < toBeRemoved.length; i++) {
@@ -121,8 +125,10 @@ IContent {
 
 					Item item = ItemToolHead.getHeadMap().get(name);
 
-					ReflectionHelper.setStatic(Items.class, material.getValue()
-							+ "_" + this.toVanillaKind(kind.getName()), item);
+					String refName = material.getValue() + "_"
+							+ this.toVanillaKind(kind.getName());
+
+					ReflectionHelper.setStatic(Items.class, refName, item);
 					RemapHelper.overwriteEntry(
 							Item.itemRegistry,
 							"minecraft:" + material.getValue() + "_"

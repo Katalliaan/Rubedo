@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
@@ -16,10 +17,11 @@ import rubedo.items.tools.ToolPickaxe;
 import rubedo.items.tools.ToolScythe;
 import rubedo.items.tools.ToolShovel;
 import rubedo.items.tools.ToolSword;
+import rubedo.items.tools.recipes.ToolEnchantmentRecipes;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
-implements IContent {
+		implements IContent {
 
 	public Map<MaterialMultiItem, String> VanillaToolMaterials;
 
@@ -52,6 +54,11 @@ implements IContent {
 		toolMaterials.add(MaterialMultiItem.Steel.class);
 		toolMaterials.add(MaterialMultiItem.Mythril.class);
 		toolMaterials.add(MaterialMultiItem.Hepatizon.class);
+
+		// Rods
+		toolMaterials.add(MaterialMultiItem.Bone.class);
+		toolMaterials.add(MaterialMultiItem.Leather.class);
+		toolMaterials.add(MaterialMultiItem.Blazerod.class);
 
 		this.setMaterials(toolMaterials);
 
@@ -107,7 +114,7 @@ implements IContent {
 
 	@Override
 	public void tweak() {
-
+		MinecraftForge.EVENT_BUS.register(new ToolEnchantmentRecipes());
 	}
 
 	private void registerToolRecipes() {
