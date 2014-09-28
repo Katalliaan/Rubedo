@@ -33,14 +33,16 @@ public class ToolUtil {
 
 			for (int i = 0; i < properties.getItem().getEffectiveBlocks().length; i++) {
 				if (properties.getItem().getEffectiveBlocks()[i] == block) {
-					return properties.getHeadMaterial().speed * properties.getRodMaterial().modSpeed;
+					return properties.getHeadMaterial().speed
+							* properties.getRodMaterial().modSpeed;
 				}
 			}
 
 			for (int i = 0; i < properties.getItem().getEffectiveMaterials().length; i++) {
 				if (properties.getItem().getEffectiveMaterials()[i] == block
 						.getMaterial()) {
-					return properties.getHeadMaterial().speed * properties.getRodMaterial().modSpeed;
+					return properties.getHeadMaterial().speed
+							* properties.getRodMaterial().modSpeed;
 				}
 			}
 		}
@@ -63,6 +65,8 @@ public class ToolUtil {
 					.getDurability()) {
 				properties.setBroken(true);
 				entity.renderBrokenItemStack(properties.getStack());
+			} else {
+				properties.updateAttackDamage();
 			}
 		}
 	}
