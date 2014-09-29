@@ -74,7 +74,7 @@ public class EntityAIGroundEater extends EntityAIBase {
 						if (((EntityItem) e).getEntityItem().stackSize >= 1) {
 							// making the love time higher, due to the fact that
 							// other AI might need to catch up
-							ReflectionHelper.setField(this.entity, "inlove",
+							ReflectionHelper.setField(this.entity, "inLove",
 									2400);
 
 							((EntityItem) e).getEntityItem().stackSize--;

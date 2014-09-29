@@ -28,8 +28,12 @@ public class ReflectionHelper {
 
 	public static <T> void setField(T obj, String name, Object value) {
 		try {
-			Field field = obj.getClass().getDeclaredField(
-					MCPHelper.getField(name));
+			List<Field> fields = getInheritedPrivateFields(obj.getClass());
+			Field field = null;
+
+			for (Field f : fields)
+				if (f.getName() == MCPHelper.getField(name))
+					field = f;
 
 			field.setAccessible(true);
 

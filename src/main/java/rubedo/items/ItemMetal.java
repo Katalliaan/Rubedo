@@ -29,37 +29,40 @@ public class ItemMetal extends Item {
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 
-		textureNames = new LinkedHashMap<String, String>();
+		this.textureNames = new LinkedHashMap<String, String>();
 
-		textureNames.put("iron_nugget", "iron materials.nuggetName");
+		this.textureNames.put("iron_nugget", "iron materials.nuggetName");
 
 		for (Metal metal : ContentWorld.metals) {
-			textureNames.put(metal.name + "_nugget", metal.name
+			this.textureNames.put(metal.name + "_nugget", metal.name
 					+ " materials.nuggetName");
-			textureNames.put(metal.name + "_ingot", metal.name
+			this.textureNames.put(metal.name + "_ingot", metal.name
 					+ " materials.ingotName");
 		}
 
-		this.textures = textureNames.keySet().toArray(
-				new String[textureNames.size()]);
+		this.textureNames.put("copper_gem", "copper materials.cuprite");
+
+		this.textures = this.textureNames.keySet().toArray(
+				new String[this.textureNames.size()]);
 	}
 
 	public int getTextureIndex(String name) {
 		return Arrays.asList(this.textures).indexOf(name);
 	}
 
+	@Override
 	public IIcon getIconFromDamage(int meta) {
-		return icons[meta];
+		return this.icons[meta];
 	}
 
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
-		this.icons = new IIcon[textures.length];
+		this.icons = new IIcon[this.textures.length];
 
 		for (int i = 0; i < this.icons.length; ++i) {
-			if (!(textures[i].equals(""))) {
+			if (!(this.textures[i].equals(""))) {
 				this.icons[i] = iconRegister.registerIcon(RubedoCore.modid
-						+ ":" + textures[i]);
+						+ ":" + this.textures[i]);
 			}
 		}
 	}
@@ -67,14 +70,14 @@ public class ItemMetal extends Item {
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return RubedoCore.modid + ".items."
-				+ textures[stack.getItemDamage()].replace('/', '.');
+				+ this.textures[stack.getItemDamage()].replace('/', '.');
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		String[] split = textureNames.get(textures[stack.getItemDamage()])
-				.split(" ");
+		String[] split = this.textureNames.get(
+				this.textures[stack.getItemDamage()]).split(" ");
 
 		if (split[1].contains("tools.type.")) {
 			return Language.getFormattedLocalization("tools.toolHead", true)
@@ -89,8 +92,8 @@ public class ItemMetal extends Item {
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for (int i = 0; i < textures.length; i++)
-			if (!(textures[i].equals("")))
+		for (int i = 0; i < this.textures.length; i++)
+			if (!(this.textures[i].equals("")))
 				list.add(new ItemStack(item, 1, i));
 	}
 }
