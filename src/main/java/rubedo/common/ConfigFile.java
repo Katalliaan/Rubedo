@@ -6,7 +6,7 @@ import java.util.Collection;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-public abstract class Config {
+public abstract class ConfigFile {
 
 	private static File directory;
 	private static Configuration config;

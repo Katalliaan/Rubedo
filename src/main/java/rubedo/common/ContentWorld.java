@@ -33,6 +33,13 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 	// Config
 	public static Configuration metalsConfig;
 
+	public static class Config {
+		// Default Values
+		public static boolean dropCuprite = true;
+		public static double dropCupriteChance = 0.1;
+		public static String oreCuprite = "oreCopper";
+	}
+
 	// Blocks
 	public static BlockMetalOre oreBlocks;
 	public static BlockMetal metalBlocks;
@@ -59,11 +66,21 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 	@Override
 	public void config(Configuration config) {
 		// Generation
+		Config.dropCuprite = config.get("cuprite", "Drop", Config.dropCuprite,
+				"Drop cuprite on block harvest?")
+				.getBoolean(Config.dropCuprite);
+		Config.dropCupriteChance = config.get("cuprite", "DropChance",
+				Config.dropCupriteChance, "Drop chance for cuprite").getDouble(
+				Config.dropCupriteChance);
+		Config.oreCuprite = config.get("cuprite", "Ore", Config.oreCuprite,
+				"Which ore yields cuprite?").getString();
+
 		this.configMetals();
 	}
 
 	private void configMetals() {
-		File newFile = new File(Config.getDirectory() + "/rubedo_metals.cfg");
+		File newFile = new File(ConfigFile.getDirectory()
+				+ "/rubedo_metals.cfg");
 
 		try {
 			newFile.createNewFile();
@@ -81,18 +98,17 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 					String.valueOf(metal.isGenerated), "Generate this ore?",
 					Property.Type.BOOLEAN).getBoolean(metal.isGenerated);
 			metal.harvestLevel = metalsConfig.get(metal.toString(),
-					"Harvest Level", metal.harvestLevel).getInt(
+					"HarvestLevel", metal.harvestLevel).getInt(
 					metal.harvestLevel);
-			metal.oreDensity = metalsConfig.get(metal.toString(),
-					"Ore Density", metal.oreDensity)
-					.getDouble(metal.oreDensity);
-			metal.oreMinY = metalsConfig.get(metal.toString(), "Ore MinY",
+			metal.oreDensity = metalsConfig.get(metal.toString(), "OreDensity",
+					metal.oreDensity).getDouble(metal.oreDensity);
+			metal.oreMinY = metalsConfig.get(metal.toString(), "OreMinY",
 					metal.oreMinY).getInt(metal.oreMinY);
-			metal.oreMaxY = metalsConfig.get(metal.toString(), "Ore MaxY",
+			metal.oreMaxY = metalsConfig.get(metal.toString(), "OreMaxY",
 					metal.oreMaxY).getInt(metal.oreMaxY);
 			metal.dimensionExclusive = metalsConfig
 					.get(metal.toString(),
-							"Dimensions Exclusive",
+							"DimensionsExclusive",
 							String.valueOf(metal.dimensionExclusive),
 							"Is the list of dimensions the exclude list? (set to false to make it an inclusive list)",
 							Property.Type.BOOLEAN).getBoolean(

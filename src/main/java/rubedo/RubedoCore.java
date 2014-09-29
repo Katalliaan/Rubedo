@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import rubedo.common.Config;
+import rubedo.common.ConfigFile;
 import rubedo.common.ContentAI;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
@@ -82,7 +82,7 @@ public class RubedoCore {
 				Singleton.getInstance(ContentAI.class));
 
 		// Load the configs
-		Config.load(event, this.contentUnits.values());
+		ConfigFile.load(event, this.contentUnits.values());
 
 		for (IContent content : this.contentUnits.values())
 			content.registerBase();

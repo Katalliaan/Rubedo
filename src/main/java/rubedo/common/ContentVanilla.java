@@ -34,14 +34,17 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 	@Override
 	public void config(Configuration config) {
 		Config.replaceVanillaTools = config.get("Vanilla Changes",
-				"replaceTools", Config.replaceVanillaTools).getBoolean();
+				"ReplaceTools", Config.replaceVanillaTools,
+				"Replace vanilla tools with Rubedo tool heads?").getBoolean();
 		Config.removeRecipes = config.get("Vanilla Changes",
-				"removeToolRecipes", Config.removeRecipes).getBoolean();
+				"RemoveToolRecipes", Config.removeRecipes,
+				"Remove the vanilla tool recipes?").getBoolean();
 		Config.changeMiningProgression = config.get("Vanilla Changes",
-				"changeMiningProgression", Config.changeMiningProgression)
+				"ChangeMiningProgression", Config.changeMiningProgression,
+				"Change the harvest level progression?").getBoolean();
+		Config.addFlintRecipe = config.get("Vanilla Changes", "AddFlintRecipe",
+				Config.addFlintRecipe, "Add alternate flint recipe?")
 				.getBoolean();
-		Config.addFlintRecipe = config.get("Vanilla Changes", "addFlintRecipe",
-				Config.addFlintRecipe).getBoolean();
 	}
 
 	@Override

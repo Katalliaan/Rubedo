@@ -1,5 +1,7 @@
 package rubedo.blocks;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
@@ -10,6 +12,8 @@ import rubedo.common.ContentWorld;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BlockMetalOre extends BlockBase {
+	private static Random random = new Random();
+
 	public BlockMetalOre() {
 		super(Material.rock, new String[ContentWorld.metals.size()]);
 
@@ -28,12 +32,18 @@ public class BlockMetalOre extends BlockBase {
 	@SubscribeEvent
 	public void CupriteEvent(HarvestDropsEvent event) {
 		ItemStack stack = new ItemStack(event.block);
-		String ore = OreDictionary
-				.getOreName(OreDictionary.getOreIDs(stack)[0]);
-		if (ore.equals("oreCopper")) {
+		int[] oreIDs = OreDictionary.getOreIDs(stack);
+
+		if (oreIDs.length == 0)
+			return;
+
+		String ore = OreDictionary.getOreName(oreIDs[0]);
+		if (ContentWorld.Config.dropCuprite
+				&& ore.equals(ContentWorld.Config.oreCuprite)) {
 			ItemStack cuprite = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("copper_gem"));
-			event.drops.add(cuprite);
+			if (random.nextDouble() < ContentWorld.Config.dropCupriteChance)
+				event.drops.add(cuprite);
 		}
 	}
 }
