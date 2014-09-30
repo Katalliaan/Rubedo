@@ -1,0 +1,11 @@
+# keep root directory clean
+/*
+!/*/*
+!/src/
+!.gitignore
+!gradlew*
+!/gradle/
+!build.gradle
+!version.properties
+!/LICENSE
+!/README.md
