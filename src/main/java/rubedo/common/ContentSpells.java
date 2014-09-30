@@ -11,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import rubedo.RubedoCore;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemSpellBase;
@@ -23,7 +25,8 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentSpells extends
-		ContentMultiItem<SpellBase, rubedo.common.materials.MaterialMultiItem> implements IContent {
+		ContentMultiItem<SpellBase, rubedo.common.materials.MaterialMultiItem>
+		implements IContent {
 	public static SpellProjectile spellProjectile;
 	public static SpellSelf spellSelf;
 	public static SpellArea spellArea;
@@ -37,24 +40,24 @@ public class ContentSpells extends
 
 		this.setKinds(spellKinds);
 	}
-	
+
 	private void initializeSpellMaterials() {
 		Set<Class<? extends MaterialMultiItem>> spellMaterials = new LinkedHashSet<Class<? extends MaterialMultiItem>>();
-		
+
 		spellMaterials.add(MaterialMultiItem.Copper.class);
 		spellMaterials.add(MaterialMultiItem.Iron.class);
 		spellMaterials.add(MaterialMultiItem.Gold.class);
 		spellMaterials.add(MaterialMultiItem.Silver.class);
-		
+
 		spellMaterials.add(MaterialMultiItem.Arrow.class);
 		spellMaterials.add(MaterialMultiItem.Bottle.class);
 		spellMaterials.add(MaterialMultiItem.Gunpowder.class);
-		
+
 		spellMaterials.add(MaterialMultiItem.Blazerod.class);
 		spellMaterials.add(MaterialMultiItem.Snow.class);
 		spellMaterials.add(MaterialMultiItem.Flint.class);
 		spellMaterials.add(MaterialMultiItem.Bone.class);
-		
+
 		this.setMaterials(spellMaterials);
 	}
 
@@ -66,14 +69,14 @@ public class ContentSpells extends
 	@Override
 	public void registerBase() {
 		super.registerBase();
-		
+
 		this.initializeSpellMaterials();
 
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class,
 				"SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry
 						.findGlobalUniqueEntityId(), RubedoCore.instance, 64,
 				1, true);
-		
+
 		for (MaterialMultiItem material : this.getMaterials()) {
 			if (material.baseMaterial != null) {
 				String name = "base_" + material.name;
@@ -95,7 +98,20 @@ public class ContentSpells extends
 
 	private void registerSpellRecipes() {
 		for (MaterialMultiItem material : this.getMaterials()) {
-			
+			if (material.baseMaterial != null) {
+				Object baseMaterial = material.baseMaterial;
+				if (OreDictionary.getOreIDs(material.baseMaterial).length > 0)
+					baseMaterial = OreDictionary.getOreName(OreDictionary
+							.getOreIDs(material.baseMaterial)[0]);
+
+				// Spell base recipe
+				GameRegistry.addRecipe(new ShapedOreRecipe(material
+						.getSpellBase(), "XXX", "XOX", "XXX", 'X',
+						baseMaterial, 'O', new ItemStack(
+								ContentWorld.metalItems, 1,
+								ContentWorld.metalItems
+										.getTextureIndex("copper_gem"))));
+			}
 		}
 	}
 }
