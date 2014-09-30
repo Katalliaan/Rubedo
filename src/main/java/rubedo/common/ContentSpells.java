@@ -13,6 +13,7 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.RubedoCore;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemSpellBase;
@@ -21,6 +22,7 @@ import rubedo.items.spells.SpellArea;
 import rubedo.items.spells.SpellBase;
 import rubedo.items.spells.SpellProjectile;
 import rubedo.items.spells.SpellSelf;
+import rubedo.items.tools.ToolBase;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -106,11 +108,51 @@ public class ContentSpells extends
 
 				// Spell base recipe
 				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getSpellBase(), "XXX", "XOX", "XXX", 'X',
+						.getSpellPart("base"), "XXX", "XOX", "XXX", 'X',
 						baseMaterial, 'O', new ItemStack(
 								ContentWorld.metalItems, 1,
 								ContentWorld.metalItems
 										.getTextureIndex("copper_gem"))));
+				
+				// Spell recipes
+				//TODO: get this to work
+				for (MaterialMultiItem materialFocus : this.getMaterials()) {
+					if (materialFocus.spellFocusMaterial != null) {
+
+						Object spellFocusMaterial = materialFocus.spellFocusMaterial;
+						if (OreDictionary.getOreIDs(materialFocus.spellFocusMaterial).length > 0)
+							spellFocusMaterial = OreDictionary
+									.getOreName(OreDictionary
+											.getOreIDs(materialFocus.spellFocusMaterial)[0]);
+
+						for (MaterialMultiItem materialEffect : this
+								.getMaterials()) {
+							if (materialEffect.spellEffectMaterial != null) {
+
+								Object spellEffectMaterial = materialEffect.spellEffectMaterial;
+								if (OreDictionary
+										.getOreIDs(materialEffect.spellEffectMaterial).length > 0)
+									spellEffectMaterial = OreDictionary
+											.getOreName(OreDictionary
+													.getOreIDs(materialEffect.spellEffectMaterial)[0]);
+
+								for (Class<? extends SpellBase> kind : this
+										.getKinds()) {
+									ItemStack spell = this.getItem(kind)
+											.buildSpell(material, materialFocus,
+													materialEffect);
+									ItemStack spellFocus = material
+											.getToolHead(this.getItem(kind)
+													.getName());
+									GameRegistry
+											.addRecipe(new ShapelessOreRecipe(
+													spell, spellFocus,
+													material.getSpellPart("base"), spellEffectMaterial));
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
