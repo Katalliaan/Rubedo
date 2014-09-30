@@ -55,6 +55,7 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = par2EntityLivingBase;
 		this.properties = properties;
+
 		float speed = properties.getFocusModifier();
 
 		this.setSize(1.0F, 1.0F);
@@ -90,19 +91,22 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 	}
 
 	protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
+		// TODO: make properties persist over saves rather than killing the
+		// projectile
+		if (this.properties != null) {
+			if (!this.worldObj.isRemote) {
+				if (par1MovingObjectPosition.entityHit != null) {
+					SpellEffects.hitEntity(this.worldObj,
+							par1MovingObjectPosition.entityHit, properties);
+				} else {
+					SpellEffects.hitBlock(worldObj, properties,
+							par1MovingObjectPosition.blockX,
+							par1MovingObjectPosition.blockY,
+							par1MovingObjectPosition.blockZ,
+							par1MovingObjectPosition.sideHit);
+				}
 
-		if (!this.worldObj.isRemote) {
-			if (par1MovingObjectPosition.entityHit != null) {
-				SpellEffects.hitEntity(this.worldObj,
-						par1MovingObjectPosition.entityHit, properties);
-			} else {
-				SpellEffects.hitBlock(worldObj, properties,
-						par1MovingObjectPosition.blockX,
-						par1MovingObjectPosition.blockY,
-						par1MovingObjectPosition.blockZ,
-						par1MovingObjectPosition.sideHit);
 			}
-
 		}
 		this.setDead();
 	}
@@ -316,6 +320,7 @@ public class EntitySpellProjectile extends Entity implements IProjectile {
 				this.newDoubleNBTList(new double[] { this.motionX,
 						this.motionY, this.motionZ }));
 
+		this.properties.getStack().writeToNBT(nbttagcompound);
 	}
 
 	@Override

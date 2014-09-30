@@ -48,7 +48,7 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	}
 
 	public float getFocusModifier() {
-		return content.getMaterial(getBaseMaterial()).speed;
+		return content.getMaterial(getBaseMaterial()).speed / 2;
 	}
 
 	public String getEffectType() {
@@ -57,5 +57,9 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 
 	public int getMiningLevel() {
 		return content.getMaterial(getBaseMaterial()).miningLevel;
+	}
+	
+	public int getCost() {
+		return 0;
 	}
 }

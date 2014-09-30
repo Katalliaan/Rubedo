@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import rubedo.RubedoCore;
+import rubedo.util.soulnetwork.SoulNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.Entity;

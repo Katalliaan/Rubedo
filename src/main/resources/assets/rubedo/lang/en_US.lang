@@ -35,6 +35,7 @@ rubedo.tools.type.shovel=Shovel
 rubedo.tools.type.axe=Axe
 rubedo.tools.type.scythe=Scythe
 
+rubedo.spells.base=$material Spell Base
 rubedo.spells.spellBase=$base ($focus)
 rubedo.spells.spellName=$focusName
 rubedo.spells.spellName.foci.arrow=Orb of $effect 

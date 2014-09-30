@@ -14,6 +14,7 @@ import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
 import rubedo.util.Singleton;
+import rubedo.util.soulnetwork.SoulNetworkHandler;
 
 public class SpellArea extends SpellBase {
 
@@ -47,6 +48,8 @@ public class SpellArea extends SpellBase {
 		ChunkPosition cameraCP = new ChunkPosition(camera);
 
 		for (Entity entity : rayCaster.getEntitiesExcludingEntity(entityPlayer)) {
+			SoulNetworkHandler.syphonAndDamageFromNetwork(itemStack,
+					entityPlayer, properties.getCost());
 			SpellEffects.hitEntity(world, entityPlayer, properties);
 		}
 
@@ -74,6 +77,8 @@ public class SpellArea extends SpellBase {
 			};
 
 			for (ChunkPosition pos : rayCaster.getBlocks(filter)) {
+				SoulNetworkHandler.syphonAndDamageFromNetwork(itemStack,
+						entityPlayer, properties.getCost());
 				SpellEffects.hitBlock(world, properties, pos.chunkPosX,
 						pos.chunkPosY, pos.chunkPosZ, 1);
 			}
@@ -83,11 +88,12 @@ public class SpellArea extends SpellBase {
 	@Override
 	public ItemStack buildSpell(MaterialMultiItem base,
 			MaterialMultiItem focus, MaterialMultiItem effect) {
-		ContentSpells contentSpells = Singleton.getInstance(ContentSpells.class);
+		ContentSpells contentSpells = Singleton
+				.getInstance(ContentSpells.class);
 		ItemStack spell = new ItemStack(contentSpells.getItem(SpellArea.class));
-		
+
 		super.buildSpell(spell, base, focus, effect);
-		
+
 		return spell;
 	}
 

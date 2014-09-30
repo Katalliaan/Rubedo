@@ -7,11 +7,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
 import rubedo.RubedoCore;
 import rubedo.common.materials.MaterialMultiItem;
+import rubedo.items.ItemSpellBase;
 import rubedo.items.spells.EntitySpellProjectile;
 import rubedo.items.spells.SpellArea;
 import rubedo.items.spells.SpellBase;
@@ -71,6 +73,14 @@ public class ContentSpells extends
 				"SpellProjectile", cpw.mods.fml.common.registry.EntityRegistry
 						.findGlobalUniqueEntityId(), RubedoCore.instance, 64,
 				1, true);
+		
+		for (MaterialMultiItem material : this.getMaterials()) {
+			if (material.baseMaterial != null) {
+				String name = "base_" + material.name;
+				Item item = ItemSpellBase.getBaseMap().get(name);
+				GameRegistry.registerItem(item, name);
+			}
+		}
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import rubedo.common.Language.Formatting;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.MultiItem;
 import rubedo.util.Singleton;
+import rubedo.util.soulnetwork.SoulNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,6 +42,8 @@ public abstract class SpellBase extends MultiItem {
 
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer, int itemInUseCount) {
+		SoulNetworkHandler.checkAndForceItemOwner(itemStack, entityPlayer);
+		
 		float castTime = (this.getMaxItemUseDuration(itemStack) - itemInUseCount) / 20.0F;
 
 		if (castTime >= 1.0f) {
@@ -53,10 +56,6 @@ public abstract class SpellBase extends MultiItem {
 	 * How long it takes to use or consume an item
 	 */
 	public int getMaxItemUseDuration(ItemStack itemStack) {
-		// NBTTagCompound tags = itemStack.getTagCompound();
-
-		// return (int) (72000 *
-		// ContentSpells.spellFocusMaterials.get(tags.getCompoundTag("RubedoSpell").getString("focus")).castTime);
 		return 72000;
 	}
 
