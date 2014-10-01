@@ -14,6 +14,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
+import rubedo.items.tools.ItemAutoRepair;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolPickaxe;
@@ -109,6 +110,10 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 				}
 			}
 		}
+		
+		ItemAutoRepair itemAutoRepair = new ItemAutoRepair();
+		
+		GameRegistry.registerItem(itemAutoRepair, "itemautorepair");
 	}
 
 	@Override
