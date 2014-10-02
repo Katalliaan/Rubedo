@@ -14,7 +14,7 @@ public class ItemAutoRepair extends Item {
 		this.setHasSubtypes(false);
 		this.setMaxDamage(0);
 		this.setMaxStackSize(0);
-		this.setCreativeTab(RubedoCore.creativeTabTools);
+		// this.setCreativeTab(RubedoCore.creativeTabTools);
 	}
 
 	public String getUnlocalizedName(ItemStack stack) {
