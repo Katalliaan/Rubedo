@@ -1,13 +1,15 @@
 package rubedo;
 
+import rubedo.integration.atg.ATGIntegration;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = RubedoIntegration.modid, name = RubedoIntegration.name, version = RubedoIntegration.version)
+@Mod(modid = RubedoIntegration.modid, name = RubedoIntegration.name, version = RubedoIntegration.version, dependencies = "after:ATG; after:enhancedbiomes;")
 public class RubedoIntegration {
 	public static final String modid = "rubedoIntegration";
 	public static final String name = "@NAME@";
@@ -18,16 +20,21 @@ public class RubedoIntegration {
 	public static RubedoIntegration instance;
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		// TODO: add this in when ATG fixes the bug with ReplaceBiomeBlocks
-		// MinecraftForge.EVENT_BUS.register(new ReplaceBiomeBlocksHandler());
-		// MinecraftForge.TERRAIN_GEN_BUS.register(new
-		// ReplaceBiomeBlocksHandler());
+	public void preInit(FMLPreInitializationEvent event) {
+		if (Loader.isModLoaded("ATG")) {
+			ATGIntegration.preInit();
+		}
 	}
 
 	@EventHandler
-	public void post(FMLPostInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
 		if (Loader.isModLoaded("ATG"))
 			ATGIntegration.init();
+	}
+
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+		if (Loader.isModLoaded("ATG"))
+			ATGIntegration.postInit();
 	}
 }
