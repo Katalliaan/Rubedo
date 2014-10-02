@@ -30,7 +30,7 @@ public class RubedoWorldType extends WorldType {
 
 	@Override
 	public String getTranslateName() {
-		return "Rubedo - ATG+EB";
+		return "Enhanced ATG";
 	}
 
 	@Override
