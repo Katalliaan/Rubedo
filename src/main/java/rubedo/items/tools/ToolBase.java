@@ -243,23 +243,33 @@ public abstract class ToolBase extends MultiItem {
 				.canPlayerEdit(xCoord, yCoord, zCoord, par7, itemStack)) {
 			return false;
 		} else {
-			ItemStack itemstack = entityPlayer.getCurrentEquippedItem();
-			if (itemstack.getItem() == this) {
-				entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = new ItemStack(
-						this.getEquivalentTool());
+			if (!this.getToolProperties(itemStack).isBroken()) {
+				ItemStack currentItemstack = entityPlayer
+						.getCurrentEquippedItem();
+				if (currentItemstack.getItem() == this) {
+					entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = new ItemStack(
+							this.getEquivalentTool());
 
-				PlayerInteractEvent event = new PlayerInteractEvent(
-						entityPlayer, PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK,
-						xCoord, yCoord, zCoord,
-						par7, world);
+					PlayerInteractEvent event = new PlayerInteractEvent(
+							entityPlayer,
+							PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK,
+							xCoord, yCoord, zCoord, par7, world);
 
-				boolean acted = MinecraftForge.EVENT_BUS.post(event) || this.getEquivalentTool().onItemUse(itemStack,
-						entityPlayer, world, xCoord, yCoord, zCoord, par7,
-						par8, par9, par10);
+					boolean acted = MinecraftForge.EVENT_BUS.post(event)
+							|| this.getEquivalentTool().onItemUse(itemStack,
+									entityPlayer, world, xCoord, yCoord,
+									zCoord, par7, par8, par9, par10);
 
-				entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = itemstack;
+					if (currentItemstack.getItemDamage() >= this
+							.getToolProperties(currentItemstack)
+							.getDurability())
+						this.getToolProperties(currentItemstack)
+								.setBroken(true);
 
-				return acted;
+					entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = currentItemstack;
+
+					return acted;
+				}
 			}
 
 			return false;
@@ -295,10 +305,10 @@ public abstract class ToolBase extends MultiItem {
 		list.add(Language.FormatterCodes.DARK_GREEN.toString()
 				+ Language.FormatterCodes.ITALIC.toString()
 				+ Language
-				.getFormattedLocalization("tools.toolRod", true)
-				.put("$material1",
-						"materials." + properties.getCapMaterial().name,
-						Formatting.CAPITALIZED)
+						.getFormattedLocalization("tools.toolRod", true)
+						.put("$material1",
+								"materials." + properties.getCapMaterial().name,
+								Formatting.CAPITALIZED)
 						.put("$material2",
 								"materials." + properties.getRodMaterial().name,
 								Formatting.LOWERCASE).getResult());
@@ -322,13 +332,13 @@ public abstract class ToolBase extends MultiItem {
 
 		return modifier
 				+ Language
-				.getFormattedLocalization(key, true)
-				.put("$material",
-						"materials."
-								+ properties.getHeadMaterial().name,
+						.getFormattedLocalization(key, true)
+						.put("$material",
+								"materials."
+										+ properties.getHeadMaterial().name,
 								Formatting.CAPITALIZED)
-								.put("$tool.type", "tools.type." + this.getName(),
-										Formatting.CAPITALIZED).getResult();
+						.put("$tool.type", "tools.type." + this.getName(),
+								Formatting.CAPITALIZED).getResult();
 	}
 
 	public abstract ItemStack buildTool(
