@@ -99,28 +99,29 @@ public class ContentSpells extends
 	}
 
 	private void registerSpellRecipes() {
-		for (MaterialMultiItem material : this.getMaterials()) {
-			if (material.baseMaterial != null) {
-				Object baseMaterial = material.baseMaterial;
-				if (OreDictionary.getOreIDs(material.baseMaterial).length > 0)
+		for (MaterialMultiItem materialBase : this.getMaterials()) {
+			if (materialBase.baseMaterial != null) {
+				Object baseMaterial = materialBase.baseMaterial;
+				if (OreDictionary.getOreIDs(materialBase.baseMaterial).length > 0)
 					baseMaterial = OreDictionary.getOreName(OreDictionary
-							.getOreIDs(material.baseMaterial)[0]);
+							.getOreIDs(materialBase.baseMaterial)[0]);
 
 				// Spell base recipe
-				GameRegistry.addRecipe(new ShapedOreRecipe(material
+				GameRegistry.addRecipe(new ShapedOreRecipe(materialBase
 						.getSpellPart("base"), "XXX", "XOX", "XXX", 'X',
 						baseMaterial, 'O', new ItemStack(
 								ContentWorld.metalItems, 1,
 								ContentWorld.metalItems
 										.getTextureIndex("copper_gem"))));
-				
+
 				// Spell recipes
-				//TODO: get this to work
+				// TODO: get this to work
 				for (MaterialMultiItem materialFocus : this.getMaterials()) {
 					if (materialFocus.spellFocusMaterial != null) {
 
 						Object spellFocusMaterial = materialFocus.spellFocusMaterial;
-						if (OreDictionary.getOreIDs(materialFocus.spellFocusMaterial).length > 0)
+						if (OreDictionary
+								.getOreIDs(materialFocus.spellFocusMaterial).length > 0)
 							spellFocusMaterial = OreDictionary
 									.getOreName(OreDictionary
 											.getOreIDs(materialFocus.spellFocusMaterial)[0]);
@@ -139,15 +140,22 @@ public class ContentSpells extends
 								for (Class<? extends SpellBase> kind : this
 										.getKinds()) {
 									ItemStack spell = this.getItem(kind)
-											.buildSpell(material, materialFocus,
+											.buildSpell(materialBase,
+													materialFocus,
 													materialEffect);
-									ItemStack spellFocus = material
-											.getToolHead(this.getItem(kind)
-													.getName());
-									GameRegistry
-											.addRecipe(new ShapelessOreRecipe(
-													spell, spellFocus,
-													material.getSpellPart("base"), spellEffectMaterial));
+									
+									String name = ((SpellBase) spell.getItem()).getName();
+
+									if (materialFocus.spellFocusType
+											.equals(name)) {
+										GameRegistry
+												.addRecipe(new ShapelessOreRecipe(
+														spell,
+														materialFocus.spellFocusMaterial,
+														materialBase
+																.getSpellPart("base"),
+														spellEffectMaterial));
+									}
 								}
 							}
 						}
