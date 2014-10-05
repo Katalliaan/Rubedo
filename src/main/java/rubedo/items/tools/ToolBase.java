@@ -233,7 +233,9 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	public int getMaxDamage(ItemStack stack) {
-		return this.getToolProperties(stack).getDurability();
+		// Never break tool
+		return Integer.MAX_VALUE;
+		// return this.getToolProperties(stack).getDurability();
 	}
 
 	@Override
@@ -261,11 +263,19 @@ public abstract class ToolBase extends MultiItem {
 									entityPlayer, world, xCoord, yCoord,
 									zCoord, par7, par8, par9, par10);
 
-					if (currentItemstack.getItemDamage() >= this
-							.getToolProperties(currentItemstack)
-							.getDurability())
-						this.getToolProperties(currentItemstack)
-								.setBroken(true);
+					// I don't think this actually does anything useful?
+					// Tools never receive extra damage in this method
+
+					// if (currentItemstack.getItemDamage() >= this
+					// .getToolProperties(currentItemstack)
+					// .getDurability())
+					// this.getToolProperties(currentItemstack)
+					// .setBroken(true);
+
+					// So let's damage them properly here:
+					ToolUtil.damageTool(this.getToolProperties(itemStack),
+							entityPlayer, entityPlayer.getHeldItem()
+									.getItemDamage());
 
 					entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = currentItemstack;
 
