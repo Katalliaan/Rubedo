@@ -22,16 +22,18 @@ public class EntityLivingEventHandler {
 
 	private void updateLivingAI(EntityLiving entity) {
 		EntityAITaskEntry wanderTask = null;
+		EntityAITaskEntry rangedAttackTask = null;
 
 		for (Object task : entity.tasks.taskEntries) {
 			EntityAITaskEntry taskEntry = (EntityAITaskEntry) task;
 
 			if (taskEntry.action instanceof EntityAIWander)
 				wanderTask = taskEntry;
+			if (taskEntry.action instanceof EntityAIArrowAttack)
+				rangedAttackTask = taskEntry;
 		}
 
-		if (entity instanceof EntitySkeleton
-				&& ((EntitySkeleton) entity).getSkeletonType() != 1) {
+		if (entity instanceof EntitySkeleton && rangedAttackTask != null) {
 			entity.tasks.addTask(3, new EntityAIFallBack(
 					(EntitySkeleton) entity, EntityPlayer.class, 7.0F, 1.8D));
 		}

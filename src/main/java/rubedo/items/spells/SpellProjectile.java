@@ -7,6 +7,7 @@ import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.util.Singleton;
+import rubedo.util.soulnetwork.SoulNetworkHandler;
 
 public class SpellProjectile extends SpellBase {
 
@@ -22,10 +23,9 @@ public class SpellProjectile extends SpellBase {
 	public void castSpell(World world, EntityPlayer entityPlayer,
 			ItemStack itemStack) {
 		SpellProperties properties = getSpellProperties(itemStack);
-		float focusModifier = properties.getFocusModifier();
-		String effectType = properties.getEffectType();
-		int power = properties.getPower();
 
+		SoulNetworkHandler.syphonAndDamageFromNetwork(itemStack, entityPlayer,
+				properties.getCost());
 		EntitySpellProjectile entitySpellProjectile = new EntitySpellProjectile(
 				world, entityPlayer, properties);
 
@@ -37,11 +37,13 @@ public class SpellProjectile extends SpellBase {
 	@Override
 	public ItemStack buildSpell(MaterialMultiItem base,
 			MaterialMultiItem focus, MaterialMultiItem effect) {
-		ContentSpells contentSpells = Singleton.getInstance(ContentSpells.class);
-		ItemStack spell = new ItemStack(contentSpells.getItem(SpellProjectile.class));
-		
+		ContentSpells contentSpells = Singleton
+				.getInstance(ContentSpells.class);
+		ItemStack spell = new ItemStack(
+				contentSpells.getItem(SpellProjectile.class));
+
 		super.buildSpell(spell, base, focus, effect);
-		
+
 		return spell;
 	}
 }

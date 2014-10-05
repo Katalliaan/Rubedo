@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -19,6 +20,7 @@ import rubedo.common.Language.Formatting;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.MultiItem;
 import rubedo.util.Singleton;
+import rubedo.util.soulnetwork.SoulNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,10 +43,28 @@ public abstract class SpellBase extends MultiItem {
 
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer, int itemInUseCount) {
+		SoulNetworkHandler.checkAndForceItemOwner(itemStack, entityPlayer);
+
 		float castTime = (this.getMaxItemUseDuration(itemStack) - itemInUseCount) / 20.0F;
 
 		if (castTime >= 1.0f) {
 			castSpell(world, entityPlayer, itemStack);
+		}
+	}
+
+	@Override
+	public void onUpdate(ItemStack itemStack, World world,
+			Entity holdingEntity, int p_77663_4_, boolean inHand) {
+		if (!world.isRemote && holdingEntity instanceof EntityPlayer && inHand) {
+			if (((EntityPlayer) holdingEntity).getFoodStats().getFoodLevel() > 0) {
+				String playerName = SoulNetworkHandler
+						.getUsername(((EntityPlayer) holdingEntity));
+				if (SoulNetworkHandler.getCurrentEssence(playerName) < 1000) {
+					((EntityPlayer) holdingEntity).addExhaustion(2.0f);
+					SoulNetworkHandler.addCurrentEssenceToMaximum(playerName,
+							25, 1000);
+				}
+			}
 		}
 	}
 
@@ -53,10 +73,6 @@ public abstract class SpellBase extends MultiItem {
 	 * How long it takes to use or consume an item
 	 */
 	public int getMaxItemUseDuration(ItemStack itemStack) {
-		// NBTTagCompound tags = itemStack.getTagCompound();
-
-		// return (int) (72000 *
-		// ContentSpells.spellFocusMaterials.get(tags.getCompoundTag("RubedoSpell").getString("focus")).castTime);
 		return 72000;
 	}
 
@@ -167,7 +183,7 @@ public abstract class SpellBase extends MultiItem {
 						.put("$focus",
 								"spells.foci." + properties.getFocusMaterial(),
 								Formatting.LOWERCASE).getResult());
-		list.add("");
+		list.add("Cost: " + properties.getCost());
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -214,7 +230,7 @@ public abstract class SpellBase extends MultiItem {
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setTag("RubedoSpell", new NBTTagCompound());
 		spell.setTagCompound(compound);
-		
+
 		// Set the correct spell properties
 		SpellProperties properties = this.getSpellProperties(spell);
 		properties.setBaseMaterial(base);

@@ -1,4 +1,4 @@
-package WayofTime.alchemicalWizardry.api.soulNetwork;
+package rubedo.util.soulnetwork;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -225,4 +225,17 @@ public class SoulNetworkHandler
 	{
 		return player.getDisplayName();
 	}
+    
+    /**
+     * Same as checkAndSetItemOwner, but forces the owner to the user 
+     */
+    public static void checkAndForceItemOwner(ItemStack item, EntityPlayer player)
+    {
+    	if (item.stackTagCompound == null)
+        {
+            item.setTagCompound(new NBTTagCompound());
+        }
+
+        item.stackTagCompound.setString("ownerName", SoulNetworkHandler.getUsername(player));
+    }
 }

@@ -13,11 +13,10 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import rubedo.RubedoCore;
-import rubedo.blocks.BlockMagmaFurnace;
 import rubedo.client.ToolBaseRenderer;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
+import rubedo.items.tools.ItemAutoRepair;
 import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolPickaxe;
@@ -119,13 +118,9 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 			}
 		}
 
-		GameRegistry
-				.registerBlock(
-						(new BlockMagmaFurnace(false)).setBlockName(
-								"MagmaFurnace").setCreativeTab(
-								RubedoCore.creativeTab), "MagmaFurnace");
-		GameRegistry.registerBlock(new BlockMagmaFurnace(true),
-				"MagmaFurnaceActive").setBlockName("MagmaFurnaceActive");
+		ItemAutoRepair itemAutoRepair = new ItemAutoRepair();
+
+		GameRegistry.registerItem(itemAutoRepair, "itemautorepair");
 	}
 
 	@Override

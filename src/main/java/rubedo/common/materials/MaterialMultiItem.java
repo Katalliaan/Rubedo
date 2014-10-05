@@ -3,11 +3,13 @@ package rubedo.common.materials;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import rubedo.common.ContentWorld;
+import rubedo.items.ItemSpellBase;
 import rubedo.items.ItemToolHead;
 
 public abstract class MaterialMultiItem {
@@ -32,12 +34,20 @@ public abstract class MaterialMultiItem {
 	public String spellEffectType;
 
 	private Map<String, ItemStack> toolHeads = new LinkedHashMap<String, ItemStack>();
+	private Map<String, ItemStack> spellParts = new LinkedHashMap<String, ItemStack>();
 
 	public ItemStack getToolHead(String tool) {
 		if (this.headMaterial != null && !this.toolHeads.containsKey(tool))
 			this.toolHeads.put(tool, new ItemStack(ItemToolHead.getHeadMap()
 					.get(tool + "_head_" + this.name), 1));
 		return this.toolHeads.get(tool);
+	}
+
+	public ItemStack getSpellPart(String part) {
+		if (this.headMaterial != null && !this.toolHeads.containsKey(part))
+			this.spellParts.put(part, new ItemStack(ItemSpellBase.getBaseMap()
+					.get(part + "_" + this.name), 1));
+		return this.spellParts.get(part);
 	}
 
 	public static class Wood extends MaterialMultiItem {

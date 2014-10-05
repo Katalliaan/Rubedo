@@ -43,12 +43,15 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	}
 
 	public int getPower() {
-		
 		return content.getMaterial(getBaseMaterial()).arcaneLevel;
+	}
+	
+	public int getMundane() {
+		return content.getMaterial(getBaseMaterial()).mundaneLevel;
 	}
 
 	public float getFocusModifier() {
-		return content.getMaterial(getBaseMaterial()).speed;
+		return content.getMaterial(getBaseMaterial()).speed / 2;
 	}
 
 	public String getEffectType() {
@@ -57,5 +60,20 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 
 	public int getMiningLevel() {
 		return content.getMaterial(getBaseMaterial()).miningLevel;
+	}
+	
+	public int getCost() {
+		float power = getPower();
+		float mundane = getMundane();
+		
+		// Avoiding div0 errors and free spells
+		if (power == 0)
+			power = 0.5f;
+		if (mundane == 0)
+			mundane = 0.5f;
+		
+		int cost = (int) (1000 / power * mundane);
+		
+		return cost;
 	}
 }

@@ -1,4 +1,4 @@
-package WayofTime.alchemicalWizardry.api.soulNetwork;
+package rubedo.util.soulnetwork;
 
 import net.minecraft.nbt.NBTTagCompound;
 
