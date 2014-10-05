@@ -9,6 +9,7 @@ public class ContentAI extends Singleton<ContentAI> implements IContent {
 	private boolean animalsEatOffTheGround = true;
 	private boolean tweakedMobWandering = true;
 	public boolean pigmenDropSilver = true;
+	private boolean changeMobEquipment = true;
 
 	protected ContentAI() {
 		super(ContentAI.class);
@@ -22,6 +23,8 @@ public class ContentAI extends Singleton<ContentAI> implements IContent {
 				"tweakedMobWandering", true).getBoolean();
 		this.pigmenDropSilver = config.get("Vanilla Changes",
 				"pigmenDropSilver", true).getBoolean();
+		this.changeMobEquipment = config.get("Vanilla Changes",
+				"changeMobEquipment", true).getBoolean();
 	}
 
 	@Override
@@ -41,7 +44,7 @@ public class ContentAI extends Singleton<ContentAI> implements IContent {
 		if (this.tweakedMobWandering)
 			MinecraftForge.EVENT_BUS
 					.register(new rubedo.ai.EntityLivingEventHandler());
-		if (this.pigmenDropSilver)
+		if (this.changeMobEquipment)
 			MinecraftForge.EVENT_BUS
 					.register(new rubedo.ai.MobEquipmentHandler());
 	}
