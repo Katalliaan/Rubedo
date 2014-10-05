@@ -22,11 +22,11 @@ public abstract class MultiItem extends Item {
 		this.maxStackSize = 1;
 		this.setUnlocalizedName("MultiItem");
 
-		registeredIcons = new LinkedHashMap<String, IIcon>();
+		this.registeredIcons = new LinkedHashMap<String, IIcon>();
 	}
 
 	public Map<String, IIcon> getRenderList() {
-		return registeredIcons;
+		return this.registeredIcons;
 	}
 
 	public abstract int getIconCount();
@@ -40,19 +40,25 @@ public abstract class MultiItem extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public int getRenderPasses(int metadata) {
-		return getIconCount();
+		return this.getIconCount();
 	}
 
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
-		getRenderList().put("blank",
-				iconRegister.registerIcon(RubedoCore.modid + ":blank"));
+		this.iconBlank = iconRegister.registerIcon(RubedoCore.modid + ":blank");
+		this.getRenderList().put("blank", this.iconBlank);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
-		return iconBlank;
+		return this.iconBlank;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconIndex(ItemStack stack) {
+		return this.getIcon(stack, 0);
 	}
 
 	@Override

@@ -90,7 +90,6 @@ public class RubedoCore {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-
 		for (IContent content : this.contentUnits.values())
 			content.registerDerivatives();
 

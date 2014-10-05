@@ -33,6 +33,7 @@ public abstract class ToolBase extends MultiItem {
 		super();
 		this.setUnlocalizedName("ToolBase");
 		this.setCreativeTab(RubedoCore.creativeTabTools);
+		this.setFull3D();
 
 		this.maxStackSize = 1;
 		this.setNoRepair();
@@ -249,13 +250,14 @@ public abstract class ToolBase extends MultiItem {
 						this.getEquivalentTool());
 
 				PlayerInteractEvent event = new PlayerInteractEvent(
-						entityPlayer, PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK,
-						xCoord, yCoord, zCoord,
-						par7, world);
+						entityPlayer,
+						PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK, xCoord,
+						yCoord, zCoord, par7, world);
 
-				boolean acted = MinecraftForge.EVENT_BUS.post(event) || this.getEquivalentTool().onItemUse(itemStack,
-						entityPlayer, world, xCoord, yCoord, zCoord, par7,
-						par8, par9, par10);
+				boolean acted = MinecraftForge.EVENT_BUS.post(event)
+						|| this.getEquivalentTool().onItemUse(itemStack,
+								entityPlayer, world, xCoord, yCoord, zCoord,
+								par7, par8, par9, par10);
 
 				entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = itemstack;
 
@@ -295,10 +297,10 @@ public abstract class ToolBase extends MultiItem {
 		list.add(Language.FormatterCodes.DARK_GREEN.toString()
 				+ Language.FormatterCodes.ITALIC.toString()
 				+ Language
-				.getFormattedLocalization("tools.toolRod", true)
-				.put("$material1",
-						"materials." + properties.getCapMaterial().name,
-						Formatting.CAPITALIZED)
+						.getFormattedLocalization("tools.toolRod", true)
+						.put("$material1",
+								"materials." + properties.getCapMaterial().name,
+								Formatting.CAPITALIZED)
 						.put("$material2",
 								"materials." + properties.getRodMaterial().name,
 								Formatting.LOWERCASE).getResult());
@@ -322,13 +324,13 @@ public abstract class ToolBase extends MultiItem {
 
 		return modifier
 				+ Language
-				.getFormattedLocalization(key, true)
-				.put("$material",
-						"materials."
-								+ properties.getHeadMaterial().name,
+						.getFormattedLocalization(key, true)
+						.put("$material",
+								"materials."
+										+ properties.getHeadMaterial().name,
 								Formatting.CAPITALIZED)
-								.put("$tool.type", "tools.type." + this.getName(),
-										Formatting.CAPITALIZED).getResult();
+						.put("$tool.type", "tools.type." + this.getName(),
+								Formatting.CAPITALIZED).getResult();
 	}
 
 	public abstract ItemStack buildTool(

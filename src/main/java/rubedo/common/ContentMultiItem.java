@@ -35,8 +35,9 @@ public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends Ma
 		return this.multiItems.values();
 	}
 
-	public T getItem(Class<? extends T> kind) {
-		return this.multiItems.get(kind);
+	@SuppressWarnings("unchecked")
+	public <U extends T> U getItem(Class<U> kind) {
+		return (U) this.multiItems.get(kind);
 	}
 
 	public void setMaterials(Set<Class<? extends TMaterial>> materials) {

@@ -7,11 +7,15 @@ import java.util.Set;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import rubedo.RubedoCore;
+import rubedo.blocks.BlockMagmaFurnace;
+import rubedo.client.ToolBaseRenderer;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolAxe;
@@ -93,6 +97,11 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 
 		boolean registerVanillaTools = !ContentVanilla.Config.replaceVanillaTools;
 
+		for (ToolBase kind : this.getItems()) {
+			ToolBaseRenderer renderer = new ToolBaseRenderer();
+			MinecraftForgeClient.registerItemRenderer(kind, renderer);
+		}
+
 		// Get all materials
 		for (MaterialMultiItem material : this.getMaterials()) {
 			// For all tool heads
@@ -109,6 +118,14 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 				}
 			}
 		}
+
+		GameRegistry
+				.registerBlock(
+						(new BlockMagmaFurnace(false)).setBlockName(
+								"MagmaFurnace").setCreativeTab(
+								RubedoCore.creativeTab), "MagmaFurnace");
+		GameRegistry.registerBlock(new BlockMagmaFurnace(true),
+				"MagmaFurnaceActive").setBlockName("MagmaFurnaceActive");
 	}
 
 	@Override
