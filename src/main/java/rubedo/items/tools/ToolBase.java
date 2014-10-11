@@ -248,8 +248,9 @@ public abstract class ToolBase extends MultiItem {
 				ItemStack currentItemstack = entityPlayer
 						.getCurrentEquippedItem();
 				if (currentItemstack.getItem() == this) {
-					entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = new ItemStack(
+					ItemStack equivalentTool = new ItemStack(
 							this.getEquivalentTool());
+					entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = equivalentTool;
 
 					PlayerInteractEvent event = new PlayerInteractEvent(
 							entityPlayer,
@@ -257,15 +258,14 @@ public abstract class ToolBase extends MultiItem {
 							xCoord, yCoord, zCoord, par7, world);
 
 					boolean acted = MinecraftForge.EVENT_BUS.post(event)
-							|| this.getEquivalentTool().onItemUse(itemStack,
-									entityPlayer, world, xCoord, yCoord,
-									zCoord, par7, par8, par9, par10);
+							|| this.getEquivalentTool().onItemUse(
+									equivalentTool, entityPlayer, world,
+									xCoord, yCoord, zCoord, par7, par8, par9,
+									par10);
 
-					if (currentItemstack.getItemDamage() >= this
-							.getToolProperties(currentItemstack)
-							.getDurability())
-						this.getToolProperties(currentItemstack)
-								.setBroken(true);
+					ToolUtil.damageTool(this.getToolProperties(itemStack),
+							entityPlayer, entityPlayer.getHeldItem()
+									.getItemDamage());
 
 					entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = currentItemstack;
 
