@@ -12,6 +12,15 @@ public class BlockBehaviorSimple implements IBlockBehavior {
 	protected String texture;
 	protected IIcon icon;
 
+	public static BlockBehaviorSimple[] fromTextures(String[] textures) {
+		BlockBehaviorSimple[] behaviors = new BlockBehaviorSimple[textures.length];
+		for (int i = 0; i < textures.length; i++) {
+			if (textures[i] != null)
+				behaviors[i] = new BlockBehaviorSimple(textures[i]);
+		}
+		return behaviors;
+	}
+
 	public BlockBehaviorSimple(String texture) {
 		this.texture = texture;
 	}

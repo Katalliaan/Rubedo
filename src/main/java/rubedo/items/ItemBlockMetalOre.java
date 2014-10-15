@@ -19,7 +19,10 @@ public class ItemBlockMetalOre extends ItemBlockBase {
 				.getFormattedLocalization("materials.oreName", true)
 				.put("$material",
 						"materials."
-								+ ContentWorld.metals.get(stack.getItemDamage()).name)
+								+ ContentWorld.metals
+										.get(ContentWorld.oreBlocks
+												.getBehavior().getId(
+														stack.getItemDamage())).name)
 				.getResult();
 	}
 }

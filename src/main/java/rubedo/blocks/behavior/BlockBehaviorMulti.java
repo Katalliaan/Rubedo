@@ -1,6 +1,7 @@
 package rubedo.blocks.behavior;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +16,35 @@ public class BlockBehaviorMulti implements IBlockBehavior {
 	protected IBlockBehavior[] behaviors;
 	private Map<String, IBlockBehavior> textureCache;
 
+	public static BlockBehaviorMulti fromTextures(String[] textures) {
+		return new BlockBehaviorMulti(
+				BlockBehaviorSimple.fromTextures(textures));
+	}
+
 	public BlockBehaviorMulti(IBlockBehavior[] behaviors) {
 		this.behaviors = behaviors;
+	}
+
+	public int getTextureIndex(String texture) {
+		this.getTextures();
+		return Arrays.asList(this.behaviors).indexOf(
+				this.textureCache.get(texture));
+	}
+
+	public int getTextureMeta(String texture) {
+		return this.getMeta(this.getTextureIndex(texture));
+	}
+
+	public int getMeta(int id) {
+		return id * (16 / this.behaviors.length);
+	}
+
+	public int getId(int meta) {
+		return meta / (16 / this.behaviors.length);
+	}
+
+	public int getSubMeta(int meta) {
+		return meta % (16 / this.behaviors.length);
 	}
 
 	@Override
@@ -40,16 +68,15 @@ public class BlockBehaviorMulti implements IBlockBehavior {
 
 	@Override
 	public IIcon getIcon(int side, int meta) {
-		int id = meta / 16;
-		int subMeta = meta % 16;
-		return this.behaviors[id].getIcon(side, subMeta);
+		return this.behaviors[this.getId(meta)].getIcon(side,
+				this.getSubMeta(meta));
 	}
 
 	@Override
 	public Collection<ItemStack> getSubBlocks(Item item) {
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
-		for (IBlockBehavior behavior : this.behaviors) {
-			stacks.addAll(behavior.getSubBlocks(item));
+		for (int i = 0; i < this.behaviors.length; i++) {
+			stacks.add(new ItemStack(item, 1, this.getMeta(i)));
 		}
 		return stacks;
 	}

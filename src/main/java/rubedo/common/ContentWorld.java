@@ -175,20 +175,22 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 	private void registerMetal(Metal metal) {
 		// Harvest levels
 		if (metal.isGenerated == true)
-			oreBlocks.setHarvestLevel("pickaxe", metal.harvestLevel,
-					oreBlocks.getTextureIndex(metal.name + "_ore"));
-		metalBlocks.setHarvestLevel("pickaxe", metal.harvestLevel,
-				metalBlocks.getTextureIndex(metal.name + "_block"));
+			oreBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, oreBlocks
+					.getBehavior().getTextureMeta(metal.name + "_ore"));
+		metalBlocks.setHarvestLevel("pickaxe", metal.harvestLevel, metalBlocks
+				.getBehavior().getTextureMeta(metal.name + "_block"));
 
 		if (metal.isGenerated == true)
-			OreDictionary.registerOre("ore" + metal, new ItemStack(oreBlocks,
-					1, oreBlocks.getTextureIndex(metal.name + "_ore")));
+			OreDictionary.registerOre("ore" + metal,
+					new ItemStack(oreBlocks, 1, oreBlocks.getBehavior()
+							.getTextureMeta(metal.name + "_ore")));
 		OreDictionary.registerOre("ingot" + metal, new ItemStack(metalItems, 1,
 				metalItems.getTextureIndex(metal.name + "_ingot")));
 		OreDictionary.registerOre("nugget" + metal, new ItemStack(metalItems,
 				1, metalItems.getTextureIndex(metal.name + "_nugget")));
-		OreDictionary.registerOre("block" + metal, new ItemStack(metalBlocks,
-				1, metalBlocks.getTextureIndex(metal.name + "_block")));
+		OreDictionary.registerOre("block" + metal,
+				new ItemStack(metalBlocks, 1, metalBlocks.getBehavior()
+						.getTextureMeta(metal.name + "_block")));
 
 		// Recipes: nugget <-> ingot <-> block
 		ItemStack nuggets = OreDictionary.getOres("nugget" + metal).get(0)
@@ -209,8 +211,8 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 
 		if (metal.isGenerated == true)
 			GameRegistry.addSmelting(
-					new ItemStack(oreBlocks, 1, oreBlocks
-							.getTextureIndex(metal.name + "_ore")),
+					new ItemStack(oreBlocks, 1, oreBlocks.getBehavior()
+							.getTextureMeta(metal.name + "_ore")),
 					new ItemStack(metalItems, 1, metalItems
 							.getTextureIndex(metal.name + "_ingot")), 0.5F);
 	}
@@ -247,7 +249,7 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 				boolean dimensionExclude, int[] dimensions) {
 			this.name = name;
 
-			this.isGenerated = true;
+			this.isGenerated = isGenerated;
 			this.harvestLevel = harvestLevel;
 
 			this.oreSize = oreSize;

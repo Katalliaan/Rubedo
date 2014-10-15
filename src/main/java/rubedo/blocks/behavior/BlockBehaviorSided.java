@@ -1,7 +1,10 @@
 package rubedo.blocks.behavior;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,8 +19,11 @@ public class BlockBehaviorSided implements IBlockBehavior {
 	protected IBlockBehavior base;
 	protected Map<String, IIcon[]> icons;
 	protected Map<String, Map.Entry<String, ForgeDirection>> textures;
+	protected List<ForgeDirection> directions;
 
-	public BlockBehaviorSided(IBlockBehavior base) {
+	public BlockBehaviorSided(ForgeDirection[] directions, IBlockBehavior base) {
+		this.base = base;
+		this.directions = Arrays.asList(directions);
 	}
 
 	@Override
@@ -26,16 +32,17 @@ public class BlockBehaviorSided implements IBlockBehavior {
 			this.icons = new HashMap<String, IIcon[]>();
 			this.textures = new HashMap<String, Map.Entry<String, ForgeDirection>>();
 			for (String baseTexture : this.base.getTextures()) {
-				this.icons.put(baseTexture,
-						new IIcon[ForgeDirection.values().length]);
-				for (ForgeDirection direction : ForgeDirection.values()) {
+				this.icons.put(baseTexture, new IIcon[this.directions.size()]);
+				for (ForgeDirection direction : this.directions) {
 					this.textures.put(baseTexture + "_"
 							+ direction.toString().toLowerCase(),
 							Maps.immutableEntry(baseTexture, direction));
 				}
 			}
 		}
-		return this.icons.keySet();
+		Set<String> set = new HashSet<String>(this.textures.keySet());
+		set.addAll(this.base.getTextures());
+		return set;
 	}
 
 	@Override
@@ -51,8 +58,10 @@ public class BlockBehaviorSided implements IBlockBehavior {
 	@Override
 	public IIcon getIcon(int side, int meta) {
 		IIcon icon = this.base.getIcon(side, meta);
-		if (this.icons.containsKey(icon.getIconName())) {
-			icon = this.icons.get(icon.getIconName())[side];
+		String name = icon.getIconName().split(":")[1];
+		if (this.directions.contains(ForgeDirection.getOrientation(side))
+				&& icon != null && this.icons.containsKey(name)) {
+			icon = this.icons.get(name)[side];
 		}
 		return icon;
 	}

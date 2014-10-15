@@ -1,12 +1,14 @@
 package rubedo.tileentity;
 
-import net.minecraft.tileentity.TileEntity;
+public class TileEntityMagmaFurnace extends TileEntityInventory {
 
-public class TileEntityMagmaFurnace extends TileEntity {
+	public TileEntityMagmaFurnace() {
+		super(3);
+	}
 
-	public void furnaceName(String displayName) {
-		// TODO Auto-generated method stub
-
+	@Override
+	public String getInventoryName() {
+		return "rubedo.magmafurnace";
 	}
 
 }

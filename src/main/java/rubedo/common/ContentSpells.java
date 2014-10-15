@@ -1,15 +1,10 @@
 package rubedo.common;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -22,7 +17,6 @@ import rubedo.items.spells.SpellArea;
 import rubedo.items.spells.SpellBase;
 import rubedo.items.spells.SpellProjectile;
 import rubedo.items.spells.SpellSelf;
-import rubedo.items.tools.ToolBase;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -143,8 +137,9 @@ public class ContentSpells extends
 											.buildSpell(materialBase,
 													materialFocus,
 													materialEffect);
-									
-									String name = ((SpellBase) spell.getItem()).getName();
+
+									String name = ((SpellBase) spell.getItem())
+											.getName();
 
 									if (materialFocus.spellFocusType
 											.equals(name)) {

@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import rubedo.common.ConfigFile;
 import rubedo.common.ContentAI;
+import rubedo.common.ContentBlackSmith;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentVanilla;
@@ -80,6 +81,8 @@ public class RubedoCore {
 				Singleton.getInstance(ContentSpells.class));
 		this.contentUnits.put(ContentAI.class,
 				Singleton.getInstance(ContentAI.class));
+		this.contentUnits.put(ContentBlackSmith.class,
+				Singleton.getInstance(ContentBlackSmith.class));
 
 		// Load the configs
 		ConfigFile.load(event, this.contentUnits.values());

@@ -29,9 +29,9 @@ public class WorldGenerator implements IWorldGenerator {
 					target = Blocks.end_stone;
 
 				WorldGenMinable wgm = new WorldGenMinable(
-						ContentWorld.oreBlocks,
-						ContentWorld.oreBlocks.getTextureIndex(metal.name
-								+ "_ore"), 8, target);
+						ContentWorld.oreBlocks, ContentWorld.oreBlocks
+								.getBehavior().getTextureMeta(
+										metal.name + "_ore"), 8, target);
 
 				int oreDensity = MathHelper.floor_double(metal.oreDensity);
 				double chance = metal.oreDensity - oreDensity;

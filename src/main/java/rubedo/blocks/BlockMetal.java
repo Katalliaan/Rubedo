@@ -2,19 +2,24 @@ package rubedo.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import rubedo.blocks.behavior.BlockBehaviorMulti;
 import rubedo.common.ContentWorld;
 
-public class BlockMetal extends BlockBase {
+public class BlockMetal extends BlockBase<BlockBehaviorMulti> {
+
+	private static String[] getTextures() {
+		String[] textures = new String[ContentWorld.metals.size()];
+		for (int i = 0; i < ContentWorld.metals.size(); i++) {
+			textures[i] = ContentWorld.metals.get(i).name + "_block";
+		}
+		return textures;
+	}
 
 	public BlockMetal() {
-		super(Material.iron, new String[ContentWorld.metals.size()]);
+		super(Material.iron, BlockBehaviorMulti.fromTextures(getTextures()));
 
-		setHardness(5.0F);
-		setResistance(10.0F);
-		setStepSound(Block.soundTypeMetal);
-
-		for (int i = 0; i < ContentWorld.metals.size(); i++) {
-			this.textures[i] = ContentWorld.metals.get(i).name + "_block";
-		}
+		this.setHardness(5.0F);
+		this.setResistance(10.0F);
+		this.setStepSound(Block.soundTypeMetal);
 	}
 }

@@ -19,7 +19,10 @@ public class ItemBlockMetal extends ItemBlockBase {
 				.getFormattedLocalization("materials.blockName", true)
 				.put("$material",
 						"materials."
-								+ ContentWorld.metals.get(stack.getItemDamage()).name)
+								+ ContentWorld.metals
+										.get(ContentWorld.metalBlocks
+												.getBehavior().getId(
+														stack.getItemDamage())).name)
 				.getResult();
 	}
 }
