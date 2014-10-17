@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import rubedo.RubedoCore;
 import rubedo.blocks.behavior.IBlockBehavior;
 import rubedo.blocks.behavior.IBlockBehaviorEntity;
@@ -32,6 +33,10 @@ public class BlockBase<TBehavior extends IBlockBehavior> extends Block
 
 	public TBehavior getBehavior() {
 		return this.behavior;
+	}
+
+	public ForgeDirection getFacing(int meta) {
+		return this.behavior.getFacing(meta);
 	}
 
 	@Override
@@ -67,8 +72,7 @@ public class BlockBase<TBehavior extends IBlockBehavior> extends Block
 
 	@Override
 	public boolean hasTileEntity(int metadata) {
-		return false;
-		// return this.behavior instanceof IBlockBehaviorEntity;
+		return this.behavior instanceof IBlockBehaviorEntity;
 	}
 
 	@Override

@@ -70,4 +70,9 @@ public class BlockBehaviorSided implements IBlockBehavior {
 	public Collection<ItemStack> getSubBlocks(Item item) {
 		return this.base.getSubBlocks(item);
 	}
+
+	@Override
+	public ForgeDirection getFacing(int meta) {
+		return this.base.getFacing(meta);
+	}
 }

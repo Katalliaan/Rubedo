@@ -2,6 +2,8 @@ itemGroup.Rubedo=Rubedo World
 itemGroup.RubedoTools=Rubedo Tools
 itemGroup.RubedoSpells=Rubedo Spells
 
+rubedo.blocks.magma_furnace=Magma Furnace
+
 rubedo.materials.flint=Flint
 rubedo.materials.copper=Copper
 rubedo.materials.iron=Iron

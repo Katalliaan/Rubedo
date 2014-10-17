@@ -7,6 +7,7 @@ import java.util.Set;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBehaviorFacing implements IBlockBehavior {
 
@@ -52,4 +53,8 @@ public class BlockBehaviorFacing implements IBlockBehavior {
 		return this.behavior.getSubBlocks(item);
 	}
 
+	@Override
+	public ForgeDirection getFacing(int meta) {
+		return ForgeDirection.getOrientation(meta / 2);
+	}
 }

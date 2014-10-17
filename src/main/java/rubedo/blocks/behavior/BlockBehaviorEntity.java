@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBehaviorEntity<TEntity extends TileEntity> implements
 		IBlockBehaviorEntity<TEntity> {
@@ -52,5 +53,10 @@ public class BlockBehaviorEntity<TEntity extends TileEntity> implements
 		} catch (Throwable cat) {
 			throw new RuntimeException(cat);
 		}
+	}
+
+	@Override
+	public ForgeDirection getFacing(int meta) {
+		return this.behavior.getFacing(meta);
 	}
 }

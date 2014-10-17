@@ -11,6 +11,7 @@ import java.util.Set;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBehaviorMulti implements IBlockBehavior {
 	protected IBlockBehavior[] behaviors;
@@ -79,5 +80,11 @@ public class BlockBehaviorMulti implements IBlockBehavior {
 			stacks.add(new ItemStack(item, 1, this.getMeta(i)));
 		}
 		return stacks;
+	}
+
+	@Override
+	public ForgeDirection getFacing(int meta) {
+		return this.behaviors[this.getId(meta)]
+				.getFacing(this.getSubMeta(meta));
 	}
 }

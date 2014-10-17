@@ -7,6 +7,7 @@ import java.util.Set;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBehaviorSimple implements IBlockBehavior {
 	protected String texture;
@@ -44,5 +45,10 @@ public class BlockBehaviorSimple implements IBlockBehavior {
 	@Override
 	public Collection<ItemStack> getSubBlocks(Item item) {
 		return Collections.singleton(new ItemStack(item));
+	}
+
+	@Override
+	public ForgeDirection getFacing(int meta) {
+		return ForgeDirection.UNKNOWN;
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBehaviorActivatable implements IBlockBehavior {
 
@@ -47,6 +48,16 @@ public class BlockBehaviorActivatable implements IBlockBehavior {
 	@Override
 	public Collection<ItemStack> getSubBlocks(Item item) {
 		return this.behavior.getSubBlocks(item);
+	}
+
+	@Override
+	public ForgeDirection getFacing(int meta) {
+		boolean active = meta % 2 > 0;
+		int subMeta = meta / 2;
+		if (active)
+			return this.active.getFacing(subMeta);
+		else
+			return this.behavior.getFacing(subMeta);
 	}
 
 }
