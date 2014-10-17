@@ -11,12 +11,17 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 import rubedo.blocks.BlockMagmaFurnace;
+import rubedo.common.ContentBlackSmith;
 import rubedo.container.ContainerMagmaFurnace;
+import rubedo.util.Singleton;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityMagmaFurnace extends TileEntityInventory implements
 		ISidedInventory {
+
+	private static final ContentBlackSmith content = Singleton
+			.getInstance(ContentBlackSmith.class);
 
 	protected static final int maxBurnTime = TileEntityFurnace
 			.getItemBurnTime(new ItemStack(Items.lava_bucket));
@@ -32,11 +37,7 @@ public class TileEntityMagmaFurnace extends TileEntityInventory implements
 	}
 
 	@SideOnly(Side.CLIENT)
-	public int getBurnTimeRemainingScaled(int scale) {
-		if (this.burnTime == 0) {
-			return -1;
-		}
-
+	public int getBurnProgressScaled(int scale) {
 		return this.burnTime * scale / maxBurnTime;
 	}
 
@@ -130,22 +131,39 @@ public class TileEntityMagmaFurnace extends TileEntityInventory implements
 		}
 	}
 
-	private ItemStack smeltResult(ItemStack stack) {
-		// TODO: add magma furnace specific smelting here
-		return FurnaceRecipes.smelting().getSmeltingResult(
-				this.inventory[ContainerMagmaFurnace.SLOT_UNCOOKED]);
+	public ItemStack smeltResult(ItemStack stack) {
+		ItemStack result = content.getMagmaSmelting().getSmeltingResult(stack);
+		if (result == null) {
+			result = FurnaceRecipes.smelting().getSmeltingResult(stack);
+		}
+		return result;
+	}
+
+	private ItemStack extraResult(ItemStack stack) {
+		ItemStack result = content.getMagmaSmelting().getSmeltingExtra(stack);
+		return result;
 	}
 
 	private void smelt() {
-		ItemStack itemstack = this
+		ItemStack smelted = this
 				.smeltResult(this.inventory[ContainerMagmaFurnace.SLOT_UNCOOKED]);
+		ItemStack extra = this
+				.extraResult(this.inventory[ContainerMagmaFurnace.SLOT_UNCOOKED]);
 
 		if (this.inventory[ContainerMagmaFurnace.SLOT_COOKED] == null) {
-			this.inventory[ContainerMagmaFurnace.SLOT_COOKED] = itemstack
-					.copy();
-		} else if (this.inventory[ContainerMagmaFurnace.SLOT_COOKED].getItem() == itemstack
+			this.inventory[ContainerMagmaFurnace.SLOT_COOKED] = smelted.copy();
+		} else if (this.inventory[ContainerMagmaFurnace.SLOT_COOKED].getItem() == smelted
 				.getItem()) {
-			this.inventory[ContainerMagmaFurnace.SLOT_COOKED].stackSize += itemstack.stackSize;
+			this.inventory[ContainerMagmaFurnace.SLOT_COOKED].stackSize += smelted.stackSize;
+		}
+
+		if (extra != null
+				&& this.inventory[ContainerMagmaFurnace.SLOT_EXTRA] == null) {
+			this.inventory[ContainerMagmaFurnace.SLOT_EXTRA] = extra.copy();
+		} else if (extra != null
+				&& this.inventory[ContainerMagmaFurnace.SLOT_EXTRA].getItem() == extra
+						.getItem()) {
+			this.inventory[ContainerMagmaFurnace.SLOT_EXTRA].stackSize += smelted.stackSize;
 		}
 
 		--this.inventory[ContainerMagmaFurnace.SLOT_UNCOOKED].stackSize;

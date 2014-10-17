@@ -36,6 +36,19 @@ public class ItemToolHead extends Item {
 					}
 				}
 			}
+
+			for (MaterialMultiItem material : content.getMaterials()) {
+				if (material.headMaterial != null) {
+					String toolName = "_head_" + material.name;
+					ItemToolHead unrefined = new ItemToolHead("unrefined"
+							+ toolName);
+					ItemToolHead hot = new ItemToolHead("hot" + toolName);
+					unrefined.material = material;
+					hot.material = material;
+					headMap.put("unrefined" + toolName, unrefined);
+					headMap.put("hot" + toolName, hot);
+				}
+			}
 		}
 
 		return headMap;

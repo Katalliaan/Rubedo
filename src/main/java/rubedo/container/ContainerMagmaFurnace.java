@@ -30,7 +30,8 @@ public class ContainerMagmaFurnace extends Container {
 		this.addSlotToContainer(new Slot((IInventory) entity, 0, 46, 35));
 		this.addSlotToContainer(new SlotFurnace(inventory.player,
 				(IInventory) entity, 1, 106, 35));
-		this.addSlotToContainer(new Slot((IInventory) entity, 2, 133, 35));
+		this.addSlotToContainer(new SlotFurnace(inventory.player,
+				(IInventory) entity, 2, 133, 35));
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
@@ -55,37 +56,45 @@ public class ContainerMagmaFurnace extends Container {
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 
 		if (slot != null && slot.getHasStack()) {
-			ItemStack stackSlot = slot.getStack();
-			itemstack = stackSlot.copy();
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
-			if (slotID >= 36 && slotID <= 38) {
-				if (!this.mergeItemStack(stackSlot, 27, 36, false)) {
-					if (!this.mergeItemStack(stackSlot, 0, 27, false))
-						return null;
-				}
-				slot.onSlotChange(stackSlot, itemstack);
-			}
-			if (slotID < 36) {
-				if (!this.mergeItemStack(stackSlot, 36, 37, false))
+			if (slotID == 2) {
+				if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
 					return null;
+				}
 
-				slot.onSlotChange(stackSlot, itemstack);
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (slotID != 1 && slotID != 0) {
+				if (this.entity.smeltResult(itemstack1) != null) {
+					if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+						return null;
+					}
+				} else if (slotID >= 3 && slotID < 30) {
+					if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
+						return null;
+					}
+				} else if (slotID >= 30 && slotID < 39
+						&& !this.mergeItemStack(itemstack1, 3, 30, false)) {
+					return null;
+				}
+			} else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
+				return null;
 			}
 
-			if (stackSlot.stackSize == 0) {
+			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
-			if (stackSlot.stackSize == itemstack.stackSize) {
+
+			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
-			slot.onPickupFromSlot(player, stackSlot);
-			if (stackSlot.stackSize == 0) {
-				slot.putStack(null);
-				return null;
-			}
+
+			slot.onPickupFromSlot(player, itemstack1);
 		}
+
 		return itemstack;
 	}
 

@@ -114,6 +114,14 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 						Item item = ItemToolHead.getHeadMap().get(name);
 						GameRegistry.registerItem(item, name);
 					}
+					if (!material.isColdWorkable) {
+						String name = "_head_" + material.name;
+						Item item = ItemToolHead.getHeadMap().get(
+								"unrefined" + name);
+						GameRegistry.registerItem(item, "unrefined" + name);
+						item = ItemToolHead.getHeadMap().get("hot" + name);
+						GameRegistry.registerItem(item, "hot" + name);
+					}
 				}
 			}
 		}
@@ -146,23 +154,32 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 					headMaterial = OreDictionary.getOreName(OreDictionary
 							.getOreIDs(material.headMaterial)[0]);
 
-				// Sword heads
-				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getToolHead("sword"), "X", "X", 'X', headMaterial));
-				// Shovel heads
-				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getToolHead("shovel"), "XX", "XX", 'X', headMaterial));
-				// Axe heads
-				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getToolHead("axe"), true, "XX", " X", 'X',
-						headMaterial));
-				// Scythe heads
-				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getToolHead("scythe"), true, "XXX", "X  ", 'X',
-						headMaterial));
-				// Pick heads
-				GameRegistry.addRecipe(new ShapedOreRecipe(material
-						.getToolHead("pickaxe"), "XXX", 'X', headMaterial));
+				if (material.isColdWorkable) {
+					// Sword heads
+					GameRegistry
+							.addRecipe(new ShapedOreRecipe(material
+									.getToolHead("sword"), "X", "X", 'X',
+									headMaterial));
+					// Shovel heads
+					GameRegistry.addRecipe(new ShapedOreRecipe(material
+							.getToolHead("shovel"), "XX", "XX", 'X',
+							headMaterial));
+					// Axe heads
+					GameRegistry.addRecipe(new ShapedOreRecipe(material
+							.getToolHead("axe"), true, "XX", " X", 'X',
+							headMaterial));
+					// Scythe heads
+					GameRegistry.addRecipe(new ShapedOreRecipe(material
+							.getToolHead("scythe"), true, "XXX", "X  ", 'X',
+							headMaterial));
+					// Pick heads
+					GameRegistry.addRecipe(new ShapedOreRecipe(material
+							.getToolHead("pickaxe"), "XXX", 'X', headMaterial));
+				} else {
+					GameRegistry.addRecipe(new ShapelessOreRecipe(material
+							.getToolHead("unrefined"), headMaterial,
+							headMaterial, headMaterial));
+				}
 
 				// Tool recipes
 				for (MaterialMultiItem materialRod : this.getMaterials()) {

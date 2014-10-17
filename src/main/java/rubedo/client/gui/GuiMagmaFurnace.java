@@ -45,15 +45,15 @@ public class GuiMagmaFurnace extends GuiContainer {
 
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize - 24, this.ySize);
 
-		int burn = this.entity.getBurnTimeRemainingScaled(14);
+		int burn = this.entity.getBurnProgressScaled(13) + 1;
 		int cook = this.entity.getCookProgressScaled(24);
 
-		if (burn != -1)
-			this.drawTexturedModalRect(x + 22, y + 36 + (14 - burn), 176, 0,
-					14 - burn, burn);
+		if (burn > 0)
+			this.drawTexturedModalRect(x + 22, y + 36 + (14 - burn), 176,
+					14 - burn, 14, burn);
 
 		if (cook > 0)
-			this.drawTexturedModalRect(x + 69, y + 35, 176, 14, cook, 17);
+			this.drawTexturedModalRect(x + 69, y + 34, 176, 14, cook, 17);
 	}
 
 }

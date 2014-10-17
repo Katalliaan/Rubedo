@@ -36,6 +36,8 @@ rubedo.tools.type.sword=Sword
 rubedo.tools.type.shovel=Shovel
 rubedo.tools.type.axe=Axe
 rubedo.tools.type.scythe=Scythe
+rubedo.tools.type.unrefined=Unrefined
+rubedo.tools.type.hot=hot
 
 rubedo.spells.base=$material Spell Base
 rubedo.spells.spellBase=$base ($focus)

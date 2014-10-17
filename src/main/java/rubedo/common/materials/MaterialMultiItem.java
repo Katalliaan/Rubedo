@@ -3,7 +3,6 @@ package rubedo.common.materials;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -15,6 +14,7 @@ import rubedo.items.ItemToolHead;
 public abstract class MaterialMultiItem {
 	public String name;
 
+	public boolean isColdWorkable = true;
 	public int durability;
 	public float modDurability;
 	public float modSpeed;
@@ -128,6 +128,7 @@ public abstract class MaterialMultiItem {
 	public static class Iron extends MaterialMultiItem {
 		public Iron() {
 			this.name = "iron";
+			this.isColdWorkable = false;
 			this.durability = 250;
 			this.mundaneLevel = 3;
 			this.modDamage = 0.7f;
@@ -144,6 +145,7 @@ public abstract class MaterialMultiItem {
 	public static class Gold extends MaterialMultiItem {
 		public Gold() {
 			this.name = "gold";
+			this.isColdWorkable = false;
 			this.durability = 35;
 			this.mundaneLevel = 0;
 			this.modDamage = 1.0f;
@@ -160,6 +162,7 @@ public abstract class MaterialMultiItem {
 	public static class Orichalcum extends MaterialMultiItem {
 		public Orichalcum() {
 			this.name = "orichalcum";
+			this.isColdWorkable = false;
 			this.durability = 200;
 			this.mundaneLevel = 3;
 			this.arcaneLevel = 3;
@@ -174,6 +177,7 @@ public abstract class MaterialMultiItem {
 	public static class Silver extends MaterialMultiItem {
 		public Silver() {
 			this.name = "silver";
+			this.isColdWorkable = false;
 			this.durability = 75;
 			this.mundaneLevel = 2;
 			this.arcaneLevel = 10;
@@ -192,6 +196,7 @@ public abstract class MaterialMultiItem {
 	public static class Steel extends MaterialMultiItem {
 		public Steel() {
 			this.name = "steel";
+			this.isColdWorkable = false;
 			this.durability = 1500;
 			this.mundaneLevel = 2;
 			this.arcaneLevel = 4;
@@ -206,6 +211,7 @@ public abstract class MaterialMultiItem {
 	public static class Mythril extends MaterialMultiItem {
 		public Mythril() {
 			this.name = "mythril";
+			this.isColdWorkable = false;
 			this.durability = 500;
 			this.mundaneLevel = 4;
 			this.arcaneLevel = 5;
@@ -220,6 +226,7 @@ public abstract class MaterialMultiItem {
 	public static class Hepatizon extends MaterialMultiItem {
 		public Hepatizon() {
 			this.name = "hepatizon";
+			this.isColdWorkable = false;
 			this.durability = 750;
 			this.mundaneLevel = 5;
 			this.arcaneLevel = 6;
