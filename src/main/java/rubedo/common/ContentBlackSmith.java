@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -50,6 +51,13 @@ public class ContentBlackSmith extends Singleton<ContentBlackSmith> implements
 	@Override
 	public void registerDerivatives() {
 		this.magmaSmelting = new MagmaSmelting();
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(magma_furnace
+				.getDefaultBlock(), //
+				"CCC", "CBC", "bbb", //
+				'C', "ingotCopper", //
+				'B', new ItemStack(Blocks.coal_block), //
+				'b', new ItemStack(Items.brick)));
 
 		this.magmaSmelting.addSmeltingRecipe(new ItemStack(
 				ContentWorld.oreBlocks, 1, ContentWorld.oreBlocks.getBehavior()

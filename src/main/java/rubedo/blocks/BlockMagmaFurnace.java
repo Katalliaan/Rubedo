@@ -114,9 +114,13 @@ public class BlockMagmaFurnace extends
 		return this.isActive(meta) ? 15 : 0;
 	}
 
+	public ItemStack getDefaultBlock() {
+		return new ItemStack(this, 1, ForgeDirection.SOUTH.ordinal() * 2);
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		list.add(new ItemStack(item, 1, ForgeDirection.SOUTH.ordinal() * 2));
+		list.add(this.getDefaultBlock());
 	}
 }

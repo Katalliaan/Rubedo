@@ -114,14 +114,14 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 						Item item = ItemToolHead.getHeadMap().get(name);
 						GameRegistry.registerItem(item, name);
 					}
-					if (!material.isColdWorkable) {
-						String name = "_head_" + material.name;
-						Item item = ItemToolHead.getHeadMap().get(
-								"unrefined" + name);
-						GameRegistry.registerItem(item, "unrefined" + name);
-						item = ItemToolHead.getHeadMap().get("hot" + name);
-						GameRegistry.registerItem(item, "hot" + name);
-					}
+				}
+				if (!material.isColdWorkable) {
+					String name = "_head_" + material.name;
+					Item item = ItemToolHead.getHeadMap().get(
+							"unrefined" + name);
+					GameRegistry.registerItem(item, "unrefined" + name);
+					item = ItemToolHead.getHeadMap().get("hot" + name);
+					GameRegistry.registerItem(item, "hot" + name);
 				}
 			}
 		}
