@@ -50,8 +50,8 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 	// I think you can add like 16 of these
 	public static final List<Metal> metals = Arrays
 			.asList(new Metal[] {
-					new Metal("copper", 0, true, 8, 8, 20, 64, true, new int[] {
-							-1, 1 }),
+					new Metal("copper", 0, true, 8, 30, 20, 64, true,
+							new int[] { -1, 1 }),
 					new Metal("orichalcum", 2, false, 0, 0, 0, 0, false,
 							new int[] {}),
 					new Metal("steel", 2, false, 0, 0, 0, 0, false,
