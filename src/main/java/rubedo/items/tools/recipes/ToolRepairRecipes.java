@@ -51,7 +51,16 @@ public class ToolRepairRecipes implements IRecipe {
 		if (this.tool == null || modifierCandidate == null)
 			return false;
 
-		// Can someone remove null from Java altogether? Thank you.
+		return this.matches(this.tool.getStack(), modifierCandidate);
+	}
+
+	public boolean matches(ItemStack toolStack, ItemStack modifierCandidate) {
+		if (toolStack == null || modifierCandidate == null)
+			return false;
+
+		this.tool = ((ToolBase) toolStack.getItem())
+				.getToolProperties(toolStack);
+
 		for (MaterialMultiItem material : contentTools.getMaterials()) {
 
 			ItemStack toolhead = material.getToolHead(this.tool.getItem()
@@ -73,6 +82,10 @@ public class ToolRepairRecipes implements IRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
+		return this.getCraftingResult();
+	}
+
+	public ItemStack getCraftingResult() {
 		ToolProperties copy = this.tool.getItem().getToolProperties(
 				this.tool.getStack().copy());
 
@@ -89,6 +102,9 @@ public class ToolRepairRecipes implements IRecipe {
 			return copy.getStack();
 		} else if (toolhead != null && toolhead.isItemEqual(this.modifier)) {
 			copy.setBroken(false);
+			if (copy.getStack().getTagCompound() != null) {
+				copy.getStack().getTagCompound().removeTag("ench");
+			}
 			copy.setHeadMaterial(this.material);
 			copy.getStack().setItemDamage(0);
 			return copy.getStack();

@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolProperties;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -21,9 +22,62 @@ public class ToolEnchantmentRecipes implements IRecipe {
 
 	@SubscribeEvent
 	public void anvilUpdateEvent(AnvilUpdateEvent event) {
-		if (this.matches(event.left, event.right)) {
-			event.output = this.getCraftingResult();
-			event.cost = this.cost;
+		if (event.left.getItem() instanceof ToolBase) {
+			this.tool = null;
+			this.enchantedBook = null;
+			this.cost = 0;
+
+			ToolBase tool = (ToolBase) event.left.getItem();
+
+			if (!tool.getToolProperties(event.left).isBroken()
+					&& tool.getToolProperties(event.left).getHeadMaterial().headMaterial
+							.getItem() == event.right.getItem()) {
+				event.output = event.left.copy();
+
+				int repairStep = event.left.getMaxDamage() / 4;
+				for (int i = 0; i < event.right.stackSize; i++) {
+					int repairedDamage = Math.max(event.output.getItem()
+							.getMaxDamage(), event.output.getItemDamage()
+							- repairStep);
+
+					if (repairedDamage < event.output.getItemDamage()) {
+						event.output.setItemDamage(repairedDamage);
+						this.cost++;
+					} else {
+						break;
+					}
+				}
+
+				event.cost = this.cost;
+				event.materialCost = this.cost;
+				return;
+
+			} else if (event.right.getItem() instanceof ItemToolHead) {
+				ToolRepairRecipes recipe = new ToolRepairRecipes();
+
+				if (recipe.matches(event.left, event.right)) {
+					event.output = recipe.getCraftingResult();
+
+					NBTTagList toolList = getEnchantmentTagList(event.left);
+					if (toolList.tagCount() > 0) {
+						this.enchantedBook = new ItemStack(Items.enchanted_book);
+						this.enchantedBook.getTagCompound().setTag("ench",
+								toolList);
+						if (this.matches(event.left, this.enchantedBook)) {
+							event.output = this.getCraftingResult();
+						}
+					}
+				}
+
+				event.materialCost = 1;
+				event.cost = 5;
+				return;
+
+			} else if (this.matches(event.left, event.right)) {
+				event.output = this.getCraftingResult();
+				event.cost = this.cost;
+				return;
+			}
 		}
 	}
 

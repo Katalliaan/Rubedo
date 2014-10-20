@@ -188,8 +188,7 @@ public abstract class ToolBase extends MultiItem {
 	}
 
 	@Override
-	public boolean getIsRepairable(ItemStack par1ItemStack,
-			ItemStack par2ItemStack) {
+	public boolean getIsRepairable(ItemStack tool, ItemStack repair) {
 		return false;
 	}
 
