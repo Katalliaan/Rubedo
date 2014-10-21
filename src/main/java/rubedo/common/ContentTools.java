@@ -32,6 +32,11 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 
 	public Map<MaterialMultiItem, String> VanillaToolMaterials;
 
+	public static class Config {
+		// Default Values
+		public static boolean addUnrefinedRecipes = true;
+	}
+
 	protected ContentTools() {
 		super(ContentTools.class);
 
@@ -86,6 +91,10 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 
 	@Override
 	public void config(Configuration config) {
+		Config.addUnrefinedRecipes = config.get("tools", "AddUnrefinedRecipes",
+				Config.addUnrefinedRecipes,
+				"Add recipes for unrefined tool heads?").getBoolean(
+				Config.addUnrefinedRecipes);
 	}
 
 	@Override
@@ -175,7 +184,7 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 					// Pick heads
 					GameRegistry.addRecipe(new ShapedOreRecipe(material
 							.getToolHead("pickaxe"), "XXX", 'X', headMaterial));
-				} else {
+				} else if (Config.addUnrefinedRecipes) {
 					GameRegistry.addRecipe(new ShapelessOreRecipe(material
 							.getToolHead("unrefined"), headMaterial,
 							headMaterial, headMaterial));
