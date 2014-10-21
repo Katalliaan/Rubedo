@@ -183,7 +183,8 @@ public class TileEntityMagmaFurnace extends TileEntityInventory implements
 		if (this.isLava(x, y, z)) {
 			if (meta == 0) {
 				// source block
-				this.worldObj.setBlock(x, y, z, Blocks.flowing_lava, 1, 3);
+				if (!this.worldObj.provider.isHellWorld)
+					this.worldObj.setBlock(x, y, z, Blocks.flowing_lava, 1, 3);
 				return true;
 
 			} else if ((meta & 8) > 0) {
