@@ -167,18 +167,38 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 
 		// Alloy recipes
 		if (Config.addAlloyRecipes) {
-			GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
-					.getOres("ingotOrichalcum").get(0), "ingotCopper",
-					"ingotGold"));
-			GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
-					.getOres("ingotSteel").get(0), "ingotIron", new ItemStack(
-					Items.blaze_rod)));
-			GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
-					.getOres("ingotMythril").get(0), "ingotCopper",
-					"ingotSilver"));
-			GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
-					.getOres("ingotHepatizon").get(0), "ingotOrichalcum",
-					"ingotMythril", new ItemStack(Blocks.end_stone)));
+			{
+				GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
+						.getOres("ingotSteel").get(0), "ingotIron",
+						new ItemStack(Items.blaze_rod)));
+			}
+
+			{
+				ItemStack orichalcum = OreDictionary.getOres("ingotOrichalcum")
+						.get(0).copy();
+				orichalcum.stackSize = 2;
+
+				GameRegistry.addRecipe(new ShapelessOreRecipe(orichalcum,
+						"ingotCopper", "ingotGold"));
+			}
+
+			{
+				ItemStack mythril = OreDictionary.getOres("ingotMythril")
+						.get(0).copy();
+				mythril.stackSize = 2;
+
+				GameRegistry.addRecipe(new ShapelessOreRecipe(mythril,
+						"ingotCopper", "ingotSilver"));
+			}
+
+			{
+				ItemStack hepatizon = OreDictionary.getOres("ingotHepatizon")
+						.get(0);
+
+				GameRegistry.addRecipe(new ShapelessOreRecipe(hepatizon,
+						"ingotOrichalcum", "ingotMythril", new ItemStack(
+								Blocks.end_stone)));
+			}
 		}
 	}
 
