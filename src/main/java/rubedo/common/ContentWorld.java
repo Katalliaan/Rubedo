@@ -38,6 +38,8 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 		public static boolean dropCuprite = true;
 		public static double dropCupriteChance = 0.1;
 		public static String oreCuprite = "oreCopper";
+
+		public static boolean addAlloyRecipes = true;
 	}
 
 	// Blocks
@@ -74,6 +76,10 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 				Config.dropCupriteChance);
 		Config.oreCuprite = config.get("cuprite", "Ore", Config.oreCuprite,
 				"Which ore yields cuprite?").getString();
+
+		Config.addAlloyRecipes = config.get("tools", "AddAlloyRecipes",
+				Config.addAlloyRecipes, "Add recipes for alloys?").getBoolean(
+				Config.addAlloyRecipes);
 
 		this.configMetals();
 	}
@@ -159,17 +165,21 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.bucket),
 				"X X", " X ", 'X', "ingotSteel"));
 
-		// Temporary alloy recipes
-		GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary.getOres(
-				"ingotOrichalcum").get(0), "ingotCopper", "ingotGold"));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary.getOres(
-				"ingotSteel").get(0), "ingotIron", new ItemStack(
-				Items.blaze_rod)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary.getOres(
-				"ingotMythril").get(0), "ingotCopper", "ingotSilver"));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary.getOres(
-				"ingotHepatizon").get(0), "ingotOrichalcum", "ingotMythril",
-				new ItemStack(Blocks.end_stone)));
+		// Alloy recipes
+		if (Config.addAlloyRecipes) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
+					.getOres("ingotOrichalcum").get(0), "ingotCopper",
+					"ingotGold"));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
+					.getOres("ingotSteel").get(0), "ingotIron", new ItemStack(
+					Items.blaze_rod)));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
+					.getOres("ingotMythril").get(0), "ingotCopper",
+					"ingotSilver"));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(OreDictionary
+					.getOres("ingotHepatizon").get(0), "ingotOrichalcum",
+					"ingotMythril", new ItemStack(Blocks.end_stone)));
+		}
 	}
 
 	private void registerMetal(Metal metal) {
