@@ -1,5 +1,6 @@
 package rubedo.items.tools;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -313,6 +314,11 @@ public abstract class ToolBase extends MultiItem {
 								"materials." + properties.getRodMaterial().name,
 								Formatting.LOWERCASE).getResult());
 		list.add("");
+		list.add("Durability: " + properties.getDurability());
+		list.add("Speed: "
+				+ new DecimalFormat("#.##").format(properties.getHeadMaterial().speed
+						* properties.getRodMaterial().modSpeed));
+		list.add("Special: " + properties.getSpecial());
 	}
 
 	@Override
