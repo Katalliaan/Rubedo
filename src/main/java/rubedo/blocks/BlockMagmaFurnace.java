@@ -40,6 +40,7 @@ public class BlockMagmaFurnace extends
 				.addEntity(TileEntityMagmaFurnace.class) //
 				.select());
 		this.setBlockName("magma_furnace");
+		this.setHardness(4.0F);
 	}
 
 	public boolean isActive(int meta) {
