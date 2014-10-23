@@ -10,8 +10,14 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
+import rubedo.common.materials.MaterialMultiItem.Wood;
 import rubedo.items.ItemToolHead;
+import rubedo.items.tools.ToolAxe;
 import rubedo.items.tools.ToolBase;
+import rubedo.items.tools.ToolPickaxe;
+import rubedo.items.tools.ToolScythe;
+import rubedo.items.tools.ToolShovel;
+import rubedo.items.tools.ToolSword;
 import rubedo.util.ReflectionHelper;
 import rubedo.util.RemapHelper;
 import rubedo.util.Singleton;
@@ -19,6 +25,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentVanilla extends Singleton<ContentVanilla> implements
 		IContent {
+	private static ContentTools contentTools = Singleton
+			.getInstance(ContentTools.class);
+
 	protected ContentVanilla() {
 		super(ContentVanilla.class);
 	}
@@ -98,19 +107,39 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 		// TODO: make it so replaceTools doesn't override removeRecipes
 		if (Config.replaceVanillaTools || Config.removeRecipes) {
 			Item[] toBeRemoved = { Items.golden_sword, Items.iron_sword,
-					Items.stone_sword, Items.wooden_sword, Items.golden_sword,
-					Items.iron_shovel, Items.stone_shovel, Items.wooden_shovel,
-					Items.golden_axe, Items.iron_axe, Items.stone_axe,
-					Items.wooden_axe, Items.golden_hoe, Items.iron_hoe,
-					Items.stone_hoe, Items.wooden_hoe, Items.golden_pickaxe,
-					Items.iron_pickaxe, Items.stone_pickaxe,
-					Items.wooden_pickaxe, Items.diamond_sword,
+					Items.stone_sword, Items.golden_sword, Items.iron_shovel,
+					Items.stone_shovel, Items.golden_axe, Items.iron_axe,
+					Items.stone_axe, Items.golden_hoe, Items.iron_hoe,
+					Items.stone_hoe, Items.golden_pickaxe, Items.iron_pickaxe,
+					Items.stone_pickaxe, Items.diamond_sword,
 					Items.diamond_hoe, Items.diamond_axe,
 					Items.diamond_pickaxe, Items.diamond_shovel };
 
 			for (int i = 0; i < toBeRemoved.length; i++) {
 				RemapHelper.removeAnyRecipe(new ItemStack(toBeRemoved[i]));
 			}
+
+			MaterialMultiItem wood = contentTools.getMaterial(Wood.class);
+
+			RemapHelper.tryReplaceRecipeOutput(
+					new ItemStack(Items.wooden_axe),
+					contentTools.getItem(ToolAxe.class).buildTool(wood, wood,
+							wood));
+			RemapHelper.tryReplaceRecipeOutput(
+					new ItemStack(Items.wooden_hoe),
+					contentTools.getItem(ToolScythe.class).buildTool(wood,
+							wood, wood));
+			RemapHelper.tryReplaceRecipeOutput(
+					new ItemStack(Items.wooden_pickaxe),
+					contentTools.getItem(ToolPickaxe.class).buildTool(wood,
+							wood, wood));
+			RemapHelper.tryReplaceRecipeOutput(new ItemStack(
+					Items.wooden_shovel), contentTools
+					.getItem(ToolShovel.class).buildTool(wood, wood, wood));
+			RemapHelper.tryReplaceRecipeOutput(
+					new ItemStack(Items.wooden_sword),
+					contentTools.getItem(ToolSword.class).buildTool(wood, wood,
+							wood));
 		}
 
 		if (Config.replaceVanillaTools) {

@@ -184,6 +184,7 @@ import net.minecraft.util.ObjectIntIdentityMap;
 import net.minecraft.util.RegistryNamespaced;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
@@ -302,6 +303,19 @@ public class RemapHelper {
 		}
 		reg.put(name, object);
 		Repl.alterDelegateChain(registry, name, object);
+	}
+
+	public static void tryReplaceRecipeOutput(ItemStack resultItem,
+			ItemStack replacement) {
+		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
+		for (int i = 0; i < recipes.size(); i++) {
+			IRecipe tmpRecipe = recipes.get(i);
+			ItemStack recipeResult = tmpRecipe.getRecipeOutput();
+			if (ItemStack.areItemStacksEqual(resultItem, recipeResult)
+					&& (tmpRecipe instanceof ShapedOreRecipe)) {
+				ReflectionHelper.setField(tmpRecipe, "output", replacement);
+			}
+		}
 	}
 
 	public static void removeAnyRecipe(ItemStack resultItem) {

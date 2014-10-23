@@ -53,12 +53,18 @@ public abstract class MaterialMultiItem {
 	public static class Wood extends MaterialMultiItem {
 		public Wood() {
 			this.name = "wood";
+			this.durability = 2;
+			this.damage = 0;
+			this.speed = 1.0F;
+			this.miningLevel = 0;
 			this.modDurability = 0.5f;
 			this.modSpeed = 1.0f;
 			this.mundaneLevel = 0;
 			this.modDamage = 0.5f;
 			this.rodMaterial = new ItemStack(Items.stick);
 			this.capMaterial = new ItemStack(Blocks.planks, 1,
+					OreDictionary.WILDCARD_VALUE);
+			this.headMaterial = new ItemStack(Blocks.planks, 1,
 					OreDictionary.WILDCARD_VALUE);
 		}
 	}

@@ -15,6 +15,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.client.ToolBaseRenderer;
 import rubedo.common.materials.MaterialMultiItem;
+import rubedo.common.materials.MaterialMultiItem.Wood;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ItemAutoRepair;
 import rubedo.items.tools.ToolAxe;
@@ -163,7 +164,7 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 					headMaterial = OreDictionary.getOreName(OreDictionary
 							.getOreIDs(material.headMaterial)[0]);
 
-				if (material.isColdWorkable) {
+				if (material.isColdWorkable && !(material instanceof Wood)) {
 					// Sword heads
 					GameRegistry
 							.addRecipe(new ShapedOreRecipe(material
