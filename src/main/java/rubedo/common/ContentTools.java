@@ -28,8 +28,8 @@ import rubedo.items.tools.recipes.ToolEnchantmentRecipes;
 import rubedo.items.tools.recipes.ToolRepairRecipes;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
-		implements IContent {
+public class ContentTools extends ContentMultiItem<ToolBase> implements
+		IContent {
 
 	public Map<MaterialMultiItem, String> VanillaToolMaterials;
 
@@ -98,13 +98,42 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 				Config.addUnrefinedRecipes);
 	}
 
+	public void registerMaterial(
+			Class<? extends MaterialMultiItem> materialClass) {
+		if (this.getMaterial(materialClass) == null)
+			this.addMaterial(materialClass);
+
+		MaterialMultiItem material = this.getMaterial(materialClass);
+
+		boolean registerVanillaTools = !ContentVanilla.Config.replaceVanillaTools;
+
+		// For all tool heads
+		if (material.headMaterial != null) {
+			// Get all tool kinds
+			for (ToolBase kind : this.getItems()) {
+				// Check if we need to exclude vanilla materials
+				if (registerVanillaTools
+						|| !this.VanillaToolMaterials.containsKey(material)) {
+					String name = kind.getName() + "_head_" + material.name;
+					Item item = ItemToolHead.getHeadMap().get(name);
+					GameRegistry.registerItem(item, name);
+				}
+			}
+			if (!material.isColdWorkable) {
+				String name = "_head_" + material.name;
+				Item item = ItemToolHead.getHeadMap().get("unrefined" + name);
+				GameRegistry.registerItem(item, "unrefined" + name);
+				item = ItemToolHead.getHeadMap().get("hot" + name);
+				GameRegistry.registerItem(item, "hot" + name);
+			}
+		}
+	}
+
 	@Override
 	public void registerBase() {
 		super.registerBase();
 
 		this.initializeToolMaterials();
-
-		boolean registerVanillaTools = !ContentVanilla.Config.replaceVanillaTools;
 
 		for (ToolBase kind : this.getItems()) {
 			ToolBaseRenderer renderer = new ToolBaseRenderer();
@@ -113,31 +142,10 @@ public class ContentTools extends ContentMultiItem<ToolBase, MaterialMultiItem>
 
 		// Get all materials
 		for (MaterialMultiItem material : this.getMaterials()) {
-			// For all tool heads
-			if (material.headMaterial != null) {
-				// Get all tool kinds
-				for (ToolBase kind : this.getItems()) {
-					// Check if we need to exclude vanilla materials
-					if (registerVanillaTools
-							|| !this.VanillaToolMaterials.containsKey(material)) {
-						String name = kind.getName() + "_head_" + material.name;
-						Item item = ItemToolHead.getHeadMap().get(name);
-						GameRegistry.registerItem(item, name);
-					}
-				}
-				if (!material.isColdWorkable) {
-					String name = "_head_" + material.name;
-					Item item = ItemToolHead.getHeadMap().get(
-							"unrefined" + name);
-					GameRegistry.registerItem(item, "unrefined" + name);
-					item = ItemToolHead.getHeadMap().get("hot" + name);
-					GameRegistry.registerItem(item, "hot" + name);
-				}
-			}
+			this.registerMaterial(material.getClass());
 		}
 
 		ItemAutoRepair itemAutoRepair = new ItemAutoRepair();
-
 		GameRegistry.registerItem(itemAutoRepair, "itemautorepair");
 	}
 

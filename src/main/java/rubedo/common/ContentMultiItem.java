@@ -11,15 +11,15 @@ import rubedo.items.MultiItem;
 import rubedo.util.Singleton;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends MaterialMultiItem>
-		extends Singleton<T> implements IContent {
+public abstract class ContentMultiItem<T extends MultiItem> extends
+		Singleton<T> implements IContent {
 	protected ContentMultiItem(Class<?> type) {
 		super(type);
 	}
 
 	private Map<Class<? extends T>, T> multiItems = new LinkedHashMap<Class<? extends T>, T>();
-	private Map<Class<? extends TMaterial>, TMaterial> materials = new LinkedHashMap<Class<? extends TMaterial>, TMaterial>();
-	private Map<String, Class<? extends TMaterial>> materialNames = new LinkedHashMap<String, Class<? extends TMaterial>>();
+	private Map<Class<? extends MaterialMultiItem>, MaterialMultiItem> materials = new LinkedHashMap<Class<? extends MaterialMultiItem>, MaterialMultiItem>();
+	private Map<String, Class<? extends MaterialMultiItem>> materialNames = new LinkedHashMap<String, Class<? extends MaterialMultiItem>>();
 
 	public void setKinds(Set<Class<? extends T>> classes) {
 		this.multiItems = new LinkedHashMap<Class<? extends T>, T>();
@@ -40,34 +40,39 @@ public abstract class ContentMultiItem<T extends MultiItem, TMaterial extends Ma
 		return (U) this.multiItems.get(kind);
 	}
 
-	public void setMaterials(Set<Class<? extends TMaterial>> materials) {
-		this.materials = new LinkedHashMap<Class<? extends TMaterial>, TMaterial>();
-		this.materialNames = new LinkedHashMap<String, Class<? extends TMaterial>>();
+	public void setMaterials(Set<Class<? extends MaterialMultiItem>> materials) {
+		this.materials = new LinkedHashMap<Class<? extends MaterialMultiItem>, MaterialMultiItem>();
+		this.materialNames = new LinkedHashMap<String, Class<? extends MaterialMultiItem>>();
 
-		for (Class<? extends TMaterial> material : materials) {
-			TMaterial instance = null;
-			try {
-				instance = material.getDeclaredConstructor().newInstance();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			if (instance != null) {
-				this.materials.put(material, instance);
-				this.materialNames.put(instance.name, material);
-			}
+		for (Class<? extends MaterialMultiItem> material : materials) {
+			this.addMaterial(material);
 		}
 	}
 
-	public Collection<TMaterial> getMaterials() {
+	public Collection<MaterialMultiItem> getMaterials() {
 		return this.materials.values();
 	}
 
-	public TMaterial getMaterial(Class<? extends TMaterial> material) {
+	public void addMaterial(Class<? extends MaterialMultiItem> material) {
+		MaterialMultiItem instance = null;
+		try {
+			instance = material.getDeclaredConstructor().newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (instance != null) {
+			this.materials.put(material, instance);
+			this.materialNames.put(instance.name, material);
+		}
+	}
+
+	public MaterialMultiItem getMaterial(
+			Class<? extends MaterialMultiItem> material) {
 		return this.materials.get(material);
 	}
 
-	public TMaterial getMaterial(String name) {
+	public MaterialMultiItem getMaterial(String name) {
 		return this.materials.get(this.materialNames.get(name));
 	}
 
