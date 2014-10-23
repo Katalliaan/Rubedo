@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.raycast.IBlockRayFilter;
@@ -14,7 +13,7 @@ import rubedo.raycast.IShapedRayCast;
 import rubedo.raycast.ShapedRayCast;
 import rubedo.raycast.SphericalRayCast;
 import rubedo.util.Singleton;
-import rubedo.util.soulnetwork.SoulNetworkHandler;
+import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 
 public class SpellArea extends SpellBase {
 
@@ -30,7 +29,7 @@ public class SpellArea extends SpellBase {
 	@Override
 	public void castSpell(World world, EntityPlayer entityPlayer,
 			ItemStack itemStack) {
-		SpellProperties properties = getSpellProperties(itemStack);
+		SpellProperties properties = this.getSpellProperties(itemStack);
 		float focusModifier = properties.getFocusModifier();
 		int power = properties.getPower();
 		String effectType = properties.getEffectType();

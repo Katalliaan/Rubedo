@@ -1,7 +1,5 @@
 package rubedo.items.tools;
 
-import rubedo.RubedoCore;
-import rubedo.util.soulnetwork.SoulNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,6 +15,7 @@ public class ItemAutoRepair extends Item {
 		// this.setCreativeTab(RubedoCore.creativeTabTools);
 	}
 
+	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return "rubedo.tools.autorepair";
 	}
@@ -28,8 +27,9 @@ public class ItemAutoRepair extends Item {
 			ItemStack stack = ((EntityPlayer) holdingEntity).getHeldItem();
 
 			if (stack != null && stack.getItem() instanceof ToolBase) {
-				ToolProperties properties = ((ToolBase) stack.getItem()).getToolProperties(stack);
-				
+				ToolProperties properties = ((ToolBase) stack.getItem())
+						.getToolProperties(stack);
+
 				if (!properties.isBroken() && stack.getItemDamage() > 0) {
 					stack.setItemDamage(stack.getItemDamage() - 1);
 				}

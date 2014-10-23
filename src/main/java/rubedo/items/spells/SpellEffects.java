@@ -1,20 +1,15 @@
 package rubedo.items.spells;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
-import rubedo.RubedoCore;
-import rubedo.util.soulnetwork.SoulNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 /**
  * Helper class for spells

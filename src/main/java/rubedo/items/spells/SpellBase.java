@@ -1,7 +1,6 @@
 package rubedo.items.spells;
 
 import java.util.List;
-import java.util.Map.Entry;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,7 +19,7 @@ import rubedo.common.Language.Formatting;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.MultiItem;
 import rubedo.util.Singleton;
-import rubedo.util.soulnetwork.SoulNetworkHandler;
+import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,6 +40,7 @@ public abstract class SpellBase extends MultiItem {
 		return new SpellProperties(stack, this);
 	}
 
+	@Override
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer, int itemInUseCount) {
 		SoulNetworkHandler.checkAndForceItemOwner(itemStack, entityPlayer);
@@ -48,7 +48,7 @@ public abstract class SpellBase extends MultiItem {
 		float castTime = (this.getMaxItemUseDuration(itemStack) - itemInUseCount) / 20.0F;
 
 		if (castTime >= 1.0f) {
-			castSpell(world, entityPlayer, itemStack);
+			this.castSpell(world, entityPlayer, itemStack);
 		}
 	}
 
@@ -72,6 +72,7 @@ public abstract class SpellBase extends MultiItem {
 	/**
 	 * How long it takes to use or consume an item
 	 */
+	@Override
 	public int getMaxItemUseDuration(ItemStack itemStack) {
 		return 72000;
 	}
@@ -80,6 +81,7 @@ public abstract class SpellBase extends MultiItem {
 	 * returns the action that specifies what animation to play when the items
 	 * is being used
 	 */
+	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
 		return EnumAction.bow;
 	}
@@ -88,6 +90,7 @@ public abstract class SpellBase extends MultiItem {
 	 * Called whenever this item is equipped and the right mouse button is
 	 * pressed. Args: itemStack, world, entityPlayer
 	 */
+	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
 		par3EntityPlayer.setItemInUse(par1ItemStack,
@@ -107,7 +110,7 @@ public abstract class SpellBase extends MultiItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(ItemStack stack, int renderPass) {
-		SpellProperties properties = getSpellProperties(stack);
+		SpellProperties properties = this.getSpellProperties(stack);
 
 		String name = "blank";
 
@@ -126,9 +129,9 @@ public abstract class SpellBase extends MultiItem {
 			break;
 		}
 
-		IIcon icon = getRenderList().get(name);
+		IIcon icon = this.getRenderList().get(name);
 		if (icon == null)
-			icon = getRenderList().get("blank");
+			icon = this.getRenderList().get("blank");
 
 		return icon;
 	}
@@ -141,7 +144,7 @@ public abstract class SpellBase extends MultiItem {
 				.getMaterials()) {
 			if (material.baseMaterial != null) {
 				String name = "base_" + material.name;
-				getRenderList().put(
+				this.getRenderList().put(
 						name,
 						iconRegister.registerIcon(RubedoCore.modid + ":spells/"
 								+ name));
@@ -149,7 +152,7 @@ public abstract class SpellBase extends MultiItem {
 
 			if (material.spellFocusMaterial != null) {
 				String name = "focus_" + material.name;
-				getRenderList().put(
+				this.getRenderList().put(
 						name,
 						iconRegister.registerIcon(RubedoCore.modid + ":spells/"
 								+ name));
@@ -157,7 +160,7 @@ public abstract class SpellBase extends MultiItem {
 
 			if (material.spellEffectMaterial != null) {
 				String name = "effect_" + material.name;
-				getRenderList().put(
+				this.getRenderList().put(
 						name,
 						iconRegister.registerIcon(RubedoCore.modid + ":spells/"
 								+ name));
@@ -171,7 +174,7 @@ public abstract class SpellBase extends MultiItem {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list,
 			boolean par4) {
-		SpellProperties properties = getSpellProperties(stack);
+		SpellProperties properties = this.getSpellProperties(stack);
 
 		list.add(Language.FormatterCodes.DARK_GREEN.toString()
 				+ Language.FormatterCodes.ITALIC.toString()
@@ -207,7 +210,7 @@ public abstract class SpellBase extends MultiItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		SpellProperties properties = getSpellProperties(stack);
+		SpellProperties properties = this.getSpellProperties(stack);
 
 		// This is how you set teh pretty colors!
 		String modifier = Language.FormatterCodes.DARK_RED.toString();

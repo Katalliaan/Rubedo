@@ -3,11 +3,10 @@ package rubedo.items.spells;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import rubedo.RubedoCore;
 import rubedo.common.ContentSpells;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.util.Singleton;
-import rubedo.util.soulnetwork.SoulNetworkHandler;
+import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 
 public class SpellProjectile extends SpellBase {
 
@@ -20,9 +19,10 @@ public class SpellProjectile extends SpellBase {
 		return "projectile";
 	}
 
+	@Override
 	public void castSpell(World world, EntityPlayer entityPlayer,
 			ItemStack itemStack) {
-		SpellProperties properties = getSpellProperties(itemStack);
+		SpellProperties properties = this.getSpellProperties(itemStack);
 
 		SoulNetworkHandler.syphonAndDamageFromNetwork(itemStack, entityPlayer,
 				properties.getCost());
