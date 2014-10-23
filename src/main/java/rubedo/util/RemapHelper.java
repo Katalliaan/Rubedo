@@ -175,6 +175,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -184,12 +185,14 @@ import net.minecraft.util.RegistryNamespaced;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Multimap;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.registry.RegistryDelegate;
 
 @SuppressWarnings("unchecked")
 public class RemapHelper {
@@ -201,19 +204,45 @@ public class RemapHelper {
 	private static class Repl {
 
 		private static IdentityHashMap<RegistryNamespaced, Multimap<String, Object>> replacements;
+		private static Class<RegistryDelegate<?>> DelegateClass;
 
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		private static void overwrite_do(RegistryNamespaced registry,
 				String name, Object object, Object oldThing) {
 
 			int id = registry.getIDForObject(oldThing);
-			BiMap map = ((BiMap) ReflectionHelper.getField(registry,
-					"registryObjects"));
-			ObjectIntIdentityMap map2 = ((ObjectIntIdentityMap) ReflectionHelper
-					.getField(registry, "underlyingIntegerMap"));
-			map2.func_148746_a(object, id);
+
+			BiMap map = (BiMap) ReflectionHelper.getField(registry,
+					"registryObjects");
+
+			ObjectIntIdentityMap underlyingIntegerMap = (ObjectIntIdentityMap) ReflectionHelper
+					.getField(registry, "underlyingIntegerMap");
+
+			underlyingIntegerMap.func_148746_a(object, id);
 			map.remove(name);
 			map.forcePut(name, object);
+		}
+
+		private static void alterDelegateChain(RegistryNamespaced registry,
+				String id, Object object) {
+
+			Multimap<String, Object> map = replacements.get(registry);
+			List<Object> c = (List<Object>) map.get(id);
+			int i = 0, e = c.size() - 1;
+			Object end = c.get(e);
+			for (; i <= e; ++i) {
+				Object t = c.get(i);
+				Repl.alterDelegate(t, end);
+			}
+		}
+
+		private static void alterDelegate(Object obj, Object repl) {
+
+			if (obj instanceof Item) {
+				RegistryDelegate<Item> delegate = ((Item) obj).delegate;
+				cpw.mods.fml.relauncher.ReflectionHelper.setPrivateValue(
+						DelegateClass, delegate, repl, "referant");
+			}
 		}
 
 		static {
@@ -221,6 +250,12 @@ public class RemapHelper {
 			replacements = new IdentityHashMap<RegistryNamespaced, Multimap<String, Object>>(
 					2);
 			MinecraftForge.EVENT_BUS.register(new RemapHelper());
+			try {
+				DelegateClass = (Class<RegistryDelegate<?>>) Class
+						.forName("cpw.mods.fml.common.registry.RegistryDelegate$Delegate");
+			} catch (Throwable e) {
+				Throwables.propagate(e);
+			}
 		}
 	}
 
@@ -243,14 +278,16 @@ public class RemapHelper {
 				if (reg.getIDForObject(c.get(0)) != reg.getIDForObject(end)) {
 					for (; i <= e; ++i) {
 						Object t = c.get(i);
-						Repl.overwrite_do(reg, id, t, reg.getObject(id));
-						// TODO: waiting on forge to update fml to use delegates
+						Object oldThing = reg.getObject(id);
+						Repl.overwrite_do(reg, id, t, oldThing);
+						Repl.alterDelegate(oldThing, end);
 					}
 				}
 			}
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void overwriteEntry(RegistryNamespaced registry, String name,
 			Object object) {
 
@@ -264,6 +301,7 @@ public class RemapHelper {
 			reg.put(name, oldThing);
 		}
 		reg.put(name, object);
+		Repl.alterDelegateChain(registry, name, object);
 	}
 
 	public static void removeAnyRecipe(ItemStack resultItem) {
