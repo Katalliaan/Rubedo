@@ -50,12 +50,15 @@ public class BlockMagmaFurnace extends
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		if (!world.isRemote) {
+			TileEntity te = world.getTileEntity(x, y, z);
 
-		if (te instanceof TileEntityMagmaFurnace) {
-			player.openGui(RubedoCore.instance,
-					GuiHandler.Types.MAGMA_FURNACE.ordinal(), world, x, y, z);
-			return true;
+			if (te instanceof TileEntityMagmaFurnace) {
+				player.openGui(RubedoCore.instance,
+						GuiHandler.Types.MAGMA_FURNACE.ordinal(), world, x, y,
+						z);
+				return true;
+			}
 		}
 
 		return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY,
@@ -74,7 +77,7 @@ public class BlockMagmaFurnace extends
 				.floor_double(placer.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
 		facing = facing == 0 ? ForgeDirection.SOUTH.ordinal() //
 				: facing == 1 ? ForgeDirection.WEST.ordinal() //
-						: facing == 2 ? ForgeDirection.SOUTH.ordinal() //
+						: facing == 2 ? ForgeDirection.NORTH.ordinal() //
 								: ForgeDirection.EAST.ordinal();
 		world.setBlockMetadataWithNotify(x, y, z, facing * 2, 2);
 	}
