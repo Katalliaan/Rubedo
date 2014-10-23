@@ -43,7 +43,7 @@ public abstract class SpellBase extends MultiItem {
 	@Override
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer, int itemInUseCount) {
-		SoulNetworkHandler.checkAndForceItemOwner(itemStack, entityPlayer);
+		SoulNetworkHandler.checkAndSetItemOwner(itemStack, entityPlayer);
 
 		float castTime = (this.getMaxItemUseDuration(itemStack) - itemInUseCount) / 20.0F;
 
