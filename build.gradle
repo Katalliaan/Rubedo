@@ -32,7 +32,7 @@ for(srcDir in sourceSets.main.resources.srcDirs) {
 }
 
 group= config.namespace
-archivesBaseName = config.modid + "-" + config.mcversion.tokenize('-')[0]
+archivesBaseName = config.modid + "-" + config.mcversion.tokenize('-')[1]
 
 minecraft {
     version = config.mcversion
