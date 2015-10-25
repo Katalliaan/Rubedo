@@ -2,7 +2,7 @@ itemGroup.Rubedo=Rubedo World
 itemGroup.RubedoTools=Rubedo Tools
 itemGroup.RubedoSpells=Rubedo Spells
 
-rubedo.blocks.magma_furnace=Magma Furnace
+tile.magma_furnace.name=Magma Furnace
 
 rubedo.materials.flint=Flint
 rubedo.materials.copper=Copper
@@ -38,6 +38,21 @@ rubedo.tools.type.axe=Axe
 rubedo.tools.type.scythe=Scythe
 rubedo.tools.type.unrefined=Unrefined
 rubedo.tools.type.hot=hot
+
+rubedo.tools.special.pickaxe=Piercing
+rubedo.tools.special.axe=Bloody
+rubedo.tools.special.scythe=Reaping
+
+rubedo.tools.special.level.1=I
+rubedo.tools.special.level.2=II
+rubedo.tools.special.level.3=III
+rubedo.tools.special.level.4=IV
+rubedo.tools.special.level.5=V
+rubedo.tools.special.level.6=VI
+rubedo.tools.special.level.7=VII
+rubedo.tools.special.level.8=VIII
+rubedo.tools.special.level.9=IX
+rubedo.tools.special.level.10=X
 
 rubedo.spells.base=$material Spell Base
 rubedo.spells.spellBase=$base ($focus)
