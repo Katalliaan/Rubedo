@@ -318,7 +318,15 @@ public abstract class ToolBase extends MultiItem {
 		list.add("Speed: "
 				+ new DecimalFormat("#.##").format(properties.getHeadMaterial().speed
 						* properties.getRodMaterial().modSpeed));
-		list.add("Special: " + properties.getSpecial());
+
+		if (!this.getName().equals("shovel") && !this.getName().equals("sword")
+				&& properties.getSpecial() > 0)
+			list.add(Language.getFormattedLocalization(
+					"tools.special." + this.getName(), true).getResult()
+					+ " "
+					+ Language.getFormattedLocalization(
+							"tools.special.level." + properties.getSpecial(),
+							true).getResult());
 	}
 
 	@Override
