@@ -30,7 +30,8 @@ public class ToolSword extends ToolBase {
 
 		this.vanillaEquivalent = new ItemSword(ToolMaterial.EMERALD) {
 		};
-		this.vanillaEquivalent.setUnlocalizedName("swordDiamond").setTextureName("diamond_sword");
+		this.vanillaEquivalent.setUnlocalizedName("swordDiamond")
+				.setTextureName("diamond_sword");
 		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_sword");
 	}
 
@@ -52,11 +53,6 @@ public class ToolSword extends ToolBase {
 	@Override
 	public int getItemDamageOnBreak() {
 		return 2;
-	}
-
-	@Override
-	public float getEffectiveBlockSpeed() {
-		return 15.0f;
 	}
 
 	@Override

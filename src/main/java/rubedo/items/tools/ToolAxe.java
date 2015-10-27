@@ -23,9 +23,10 @@ public class ToolAxe extends ToolBase {
 	public ToolAxe() {
 		super();
 
-		this.vanillaEquivalent = new ItemAxe(ToolMaterial.EMERALD){
+		this.vanillaEquivalent = new ItemAxe(ToolMaterial.EMERALD) {
 		};
-		this.vanillaEquivalent.setUnlocalizedName("hatchetDiamond").setTextureName("diamond_axe");
+		this.vanillaEquivalent.setUnlocalizedName("hatchetDiamond")
+				.setTextureName("diamond_axe");
 		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_axe");
 	}
 
@@ -47,11 +48,6 @@ public class ToolAxe extends ToolBase {
 	@Override
 	public int getItemDamageOnBreak() {
 		return 1;
-	}
-
-	@Override
-	public float getEffectiveBlockSpeed() {
-		return 2.0F;
 	}
 
 	@Override

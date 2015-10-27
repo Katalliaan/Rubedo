@@ -186,7 +186,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Multimap;
@@ -239,7 +238,7 @@ public class RemapHelper {
 
 		private static void alterDelegate(Object obj, Object repl) {
 
-			if (obj instanceof Item) {
+			if (obj instanceof Item && DelegateClass != null) {
 				RegistryDelegate<Item> delegate = ((Item) obj).delegate;
 				cpw.mods.fml.relauncher.ReflectionHelper.setPrivateValue(
 						DelegateClass, delegate, repl, "referant");
@@ -255,7 +254,6 @@ public class RemapHelper {
 				DelegateClass = (Class<RegistryDelegate<?>>) Class
 						.forName("cpw.mods.fml.common.registry.RegistryDelegate$Delegate");
 			} catch (Throwable e) {
-				Throwables.propagate(e);
 			}
 		}
 	}

@@ -51,12 +51,6 @@ public abstract class ToolBase extends MultiItem {
 
 	public abstract int getItemDamageOnBreak();
 
-	public abstract float getEffectiveBlockSpeed();
-
-	public float getEffectiveMaterialSpeed() {
-		return 1.5F;
-	}
-
 	public float getBaseSpeed() {
 		return 1.0f;
 	}
@@ -78,8 +72,23 @@ public abstract class ToolBase extends MultiItem {
 	// with preset harvestlevels
 	@Override
 	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-		return par1Block.getHarvestLevel(0) <= this
-				.getToolProperties(itemStack).getMiningLevel();
+		ToolProperties tool = this.getToolProperties(itemStack);
+
+		if (par1Block.getHarvestLevel(0) <= tool.getMiningLevel()) {
+			for (int i = 0; i < tool.getItem().getEffectiveBlocks().length; i++) {
+				if (tool.getItem().getEffectiveBlocks()[i] == par1Block) {
+					return true;
+				}
+			}
+
+			for (int i = 0; i < tool.getItem().getEffectiveMaterials().length; i++) {
+				if (tool.getItem().getEffectiveMaterials()[i] == par1Block
+						.getMaterial()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

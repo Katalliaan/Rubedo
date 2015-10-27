@@ -23,7 +23,8 @@ public class ToolShovel extends ToolBase {
 
 		this.vanillaEquivalent = new ItemSpade(ToolMaterial.EMERALD) {
 		};
-		this.vanillaEquivalent.setUnlocalizedName("shovelDiamond").setTextureName("diamond_shovel");
+		this.vanillaEquivalent.setUnlocalizedName("shovelDiamond")
+				.setTextureName("diamond_shovel");
 		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_shovel");
 	}
 
@@ -45,11 +46,6 @@ public class ToolShovel extends ToolBase {
 	@Override
 	public int getItemDamageOnBreak() {
 		return 1;
-	}
-
-	@Override
-	public float getEffectiveBlockSpeed() {
-		return 4.0F;
 	}
 
 	@Override

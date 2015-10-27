@@ -34,7 +34,8 @@ public class ToolScythe extends ToolBase {
 
 		this.vanillaEquivalent = new ItemHoe(ToolMaterial.EMERALD) {
 		};
-		this.vanillaEquivalent.setUnlocalizedName("hoeDiamond").setTextureName("diamond_hoe");
+		this.vanillaEquivalent.setUnlocalizedName("hoeDiamond").setTextureName(
+				"diamond_hoe");
 		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_hoe");
 	}
 
@@ -59,11 +60,6 @@ public class ToolScythe extends ToolBase {
 	}
 
 	@Override
-	public float getEffectiveBlockSpeed() {
-		return 2.0F;
-	}
-
-	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase hitEntity,
 			EntityLivingBase attackingEntity) {
 		ToolProperties properties = this.getToolProperties(stack);
@@ -83,7 +79,7 @@ public class ToolScythe extends ToolBase {
 
 			@SuppressWarnings("unchecked")
 			Map<Integer, Integer> enchants = EnchantmentHelper
-			.getEnchantments(stack);
+					.getEnchantments(stack);
 			int smiteLevel = 0;
 			int sharpnessLevel = 0;
 			int baneLevel = 0;
@@ -125,17 +121,17 @@ public class ToolScythe extends ToolBase {
 									-MathHelper.sin(attackingEntity.rotationYaw
 											* (float) Math.PI / 180.0F)
 											* knockbackLevel * 0.5F,
-											0.1D,
-											MathHelper.cos(attackingEntity.rotationYaw
-													* (float) Math.PI / 180.0F)
-													* knockbackLevel * 0.5F);
+									0.1D,
+									MathHelper.cos(attackingEntity.rotationYaw
+											* (float) Math.PI / 180.0F)
+											* knockbackLevel * 0.5F);
 							attackingEntity.motionX *= 0.6D;
 							attackingEntity.motionZ *= 0.6D;
 						}
 
 						entity.attackEntityFrom(
 								DamageSource
-								.causePlayerDamage((EntityPlayer) attackingEntity),
+										.causePlayerDamage((EntityPlayer) attackingEntity),
 								attackDamage);
 
 						mobsHit++;

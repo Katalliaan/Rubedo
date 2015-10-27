@@ -92,14 +92,17 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 
 	public float getAttackDamage() {
 		if (!this.isBroken())
-			return this.item.getWeaponDamage() + this.getHeadMaterial().damage * this.getCapMaterial().modDamage;
+			return (this.item.getWeaponDamage() + this.getHeadMaterial().damage)
+					* this.getCapMaterial().modDamage;
 		else
 			return 0;
 	}
-	
+
 	public void updateAttackDamage() {
-		if (this.getAttackDamage() != ((NBTTagList) this.baseTags.getTagList("AttributeModifiers", 10)).getCompoundTagAt(0).getDouble("Amount")) {
-			generateAttackDamageNBT();
+		if (this.getAttackDamage() != this.baseTags
+				.getTagList("AttributeModifiers", 10).getCompoundTagAt(0)
+				.getDouble("Amount")) {
+			this.generateAttackDamageNBT();
 		}
 	}
 

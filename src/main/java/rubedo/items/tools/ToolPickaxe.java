@@ -23,9 +23,10 @@ public class ToolPickaxe extends ToolBase {
 	public ToolPickaxe() {
 		super();
 
-		this.vanillaEquivalent = new ItemPickaxe(ToolMaterial.EMERALD){
+		this.vanillaEquivalent = new ItemPickaxe(ToolMaterial.EMERALD) {
 		};
-		this.vanillaEquivalent.setUnlocalizedName("pickaxeDiamond").setTextureName("diamond_pickaxe");
+		this.vanillaEquivalent.setUnlocalizedName("pickaxeDiamond")
+				.setTextureName("diamond_pickaxe");
 		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_pickaxe");
 	}
 
@@ -47,11 +48,6 @@ public class ToolPickaxe extends ToolBase {
 	@Override
 	public int getItemDamageOnBreak() {
 		return 1;
-	}
-
-	@Override
-	public float getEffectiveBlockSpeed() {
-		return 4.0F;
 	}
 
 	@Override
