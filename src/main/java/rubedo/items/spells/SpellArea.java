@@ -50,6 +50,9 @@ public class SpellArea extends SpellBase {
 			SoulNetworkHandler.syphonAndDamageFromNetwork(itemStack,
 					entityPlayer, properties.getCost());
 			SpellEffects.hitEntity(world, entityPlayer, properties);
+			
+			if (entityPlayer.getHealth() <= 0)
+				break;
 		}
 
 		if (SpellEffects.hitsBlocks(effectType)) {
@@ -80,6 +83,9 @@ public class SpellArea extends SpellBase {
 						entityPlayer, properties.getCost());
 				SpellEffects.hitBlock(world, properties, pos.chunkPosX,
 						pos.chunkPosY, pos.chunkPosZ, 1);
+				
+				if (entityPlayer.getHealth() <= 0)
+					break;
 			}
 		}
 	}
