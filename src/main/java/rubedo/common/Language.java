@@ -1,6 +1,7 @@
 package rubedo.common;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -72,7 +73,7 @@ public class Language {
 
 		private Formatter(String formatted) {
 			this.formatted = formatted;
-			this.parameters = new HashMap<String, String>();
+			this.parameters = new LinkedHashMap<String, String>();
 			this.formatting = new HashMap<String, Formatting>();
 		}
 
