@@ -79,7 +79,7 @@ public abstract class MaterialMultiItem {
 		public Flint() {
 			this.name = "flint";
 			this.durability = 60;
-			this.damage = 0;
+			this.damage = 1;
 			this.speed = 4.0f;
 			this.miningLevel = 0;
 			this.headMaterial = new ItemStack(Items.flint, 1, 0);
@@ -126,7 +126,7 @@ public abstract class MaterialMultiItem {
 			this.mundaneLevel = 1;
 			this.modDamage = 0.8f;
 			this.arcaneLevel = 3;
-			this.damage = 1;
+			this.damage = 0;
 			this.speed = 2.0f;
 			this.miningLevel = 1;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
@@ -149,7 +149,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 2;
 			this.damage = 2;
 			this.speed = 6.0f;
-			this.miningLevel = 2;
+			this.miningLevel = 1;
 			this.headMaterial = new ItemStack(Items.iron_ingot, 1, 0);
 			this.capMaterial = new ItemStack(Items.iron_ingot);
 			this.baseMaterial = new ItemStack(Items.iron_ingot);
@@ -184,7 +184,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 3;
 			this.damage = 2;
 			this.speed = 4.0f;
-			this.miningLevel = 1;
+			this.miningLevel = 2;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("orichalcum_ingot"));
 		}
