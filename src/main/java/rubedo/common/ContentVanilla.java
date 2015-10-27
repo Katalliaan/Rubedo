@@ -93,13 +93,12 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 			// Make sure ForgeHooks has finished initializing
 			ReflectionHelper.initialize(ForgeHooks.class);
 
-			Blocks.obsidian.setHarvestLevel("pickaxe", 2);
-			Blocks.netherrack.setHarvestLevel("pickaxe", 3);
+			Blocks.netherrack.setHarvestLevel("pickaxe", 4);
 			Blocks.netherrack.setHardness(1.5F);
-			Blocks.quartz_ore.setHarvestLevel("pickaxe", 3);
+			Blocks.quartz_ore.setHarvestLevel("pickaxe", 4);
 			Blocks.quartz_ore.setHardness(3.0F);
-			Blocks.nether_brick.setHarvestLevel("pickaxe", 3);
-			Blocks.end_stone.setHarvestLevel("pickaxe", 4);
+			Blocks.nether_brick.setHarvestLevel("pickaxe", 4);
+			Blocks.end_stone.setHarvestLevel("pickaxe", 5);
 		}
 	}
 

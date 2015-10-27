@@ -149,7 +149,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 2;
 			this.damage = 2;
 			this.speed = 6.0f;
-			this.miningLevel = 1;
+			this.miningLevel = 2;
 			this.headMaterial = new ItemStack(Items.iron_ingot, 1, 0);
 			this.capMaterial = new ItemStack(Items.iron_ingot);
 			this.baseMaterial = new ItemStack(Items.iron_ingot);
@@ -184,7 +184,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 3;
 			this.damage = 2;
 			this.speed = 4.0f;
-			this.miningLevel = 2;
+			this.miningLevel = 3;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("orichalcum_ingot"));
 		}
@@ -220,7 +220,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 4;
 			this.damage = 3;
 			this.speed = 9.0f;
-			this.miningLevel = 3;
+			this.miningLevel = 4;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("steel_ingot"));
 		}
@@ -236,7 +236,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 5;
 			this.damage = 1;
 			this.speed = 12.0f;
-			this.miningLevel = 4;
+			this.miningLevel = 5;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("mythril_ingot"));
 		}
@@ -252,7 +252,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 6;
 			this.damage = 3;
 			this.speed = 10.0f;
-			this.miningLevel = 4;
+			this.miningLevel = 5;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("hepatizon_ingot"));
 		}
