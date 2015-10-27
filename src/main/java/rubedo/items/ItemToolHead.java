@@ -30,7 +30,7 @@ public class ItemToolHead extends Item {
 				for (MaterialMultiItem material : content.getMaterials()) {
 					if (material.headMaterial != null) {
 						String toolName = kindName + "_head_" + material.name;
-						ItemToolHead head = new ItemToolHead(toolName);
+						ItemToolHead head = new ItemToolHead(toolName, kind);
 						head.material = material;
 						headMap.put(toolName, head);
 					}
@@ -41,8 +41,9 @@ public class ItemToolHead extends Item {
 				if (material.headMaterial != null) {
 					String toolName = "_head_" + material.name;
 					ItemToolHead unrefined = new ItemToolHead("unrefined"
-							+ toolName);
-					ItemToolHead hot = new ItemToolHead("hot" + toolName);
+							+ toolName, ToolBase.class);
+					ItemToolHead hot = new ItemToolHead("hot" + toolName,
+							ToolBase.class);
 					unrefined.material = material;
 					hot.material = material;
 					headMap.put("unrefined" + toolName, unrefined);
@@ -55,6 +56,7 @@ public class ItemToolHead extends Item {
 	}
 
 	protected String name;
+	protected Class<? extends ToolBase> kind;
 	protected MaterialMultiItem material;
 
 	public String getName() {
@@ -68,8 +70,9 @@ public class ItemToolHead extends Item {
 	protected IIcon icon;
 	protected static Map<String, String> textureNames = new LinkedHashMap<String, String>();
 
-	public ItemToolHead(String name) {
+	public ItemToolHead(String name, Class<? extends ToolBase> kind) {
 		this.name = name;
+		this.kind = kind;
 		this.setCreativeTab(RubedoCore.creativeTab);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(false);
@@ -78,6 +81,10 @@ public class ItemToolHead extends Item {
 		String type = name.split("_")[0];
 
 		textureNames.put(name, material + " tools.type." + type);
+	}
+
+	public Class<? extends ToolBase> getKind() {
+		return this.kind;
 	}
 
 	@Override
