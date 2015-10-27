@@ -12,7 +12,13 @@ import rubedo.items.ItemSpellBase;
 import rubedo.items.ItemToolHead;
 
 public abstract class MaterialMultiItem {
+	public enum MaterialType {
+		OTHER, METAL_MUNDANE, METAL_ARCANE, METAL_BRONZE
+	}
+
 	public String name;
+
+	public MaterialType type = MaterialType.OTHER;
 
 	public boolean isColdWorkable = true;
 	public int durability;
@@ -115,6 +121,7 @@ public abstract class MaterialMultiItem {
 	public static class Copper extends MaterialMultiItem {
 		public Copper() {
 			this.name = "copper";
+			this.type = MaterialType.METAL_MUNDANE;
 			this.durability = 130;
 			this.mundaneLevel = 1;
 			this.modDamage = 0.8f;
@@ -134,6 +141,7 @@ public abstract class MaterialMultiItem {
 	public static class Iron extends MaterialMultiItem {
 		public Iron() {
 			this.name = "iron";
+			this.type = MaterialType.METAL_MUNDANE;
 			this.isColdWorkable = false;
 			this.durability = 250;
 			this.mundaneLevel = 3;
@@ -151,6 +159,7 @@ public abstract class MaterialMultiItem {
 	public static class Gold extends MaterialMultiItem {
 		public Gold() {
 			this.name = "gold";
+			this.type = MaterialType.METAL_ARCANE;
 			this.isColdWorkable = false;
 			this.durability = 35;
 			this.mundaneLevel = 0;
@@ -168,6 +177,7 @@ public abstract class MaterialMultiItem {
 	public static class Orichalcum extends MaterialMultiItem {
 		public Orichalcum() {
 			this.name = "orichalcum";
+			this.type = MaterialType.METAL_BRONZE;
 			this.isColdWorkable = false;
 			this.durability = 200;
 			this.mundaneLevel = 3;
@@ -183,6 +193,7 @@ public abstract class MaterialMultiItem {
 	public static class Silver extends MaterialMultiItem {
 		public Silver() {
 			this.name = "silver";
+			this.type = MaterialType.METAL_ARCANE;
 			this.isColdWorkable = false;
 			this.durability = 75;
 			this.mundaneLevel = 2;
@@ -202,6 +213,7 @@ public abstract class MaterialMultiItem {
 	public static class Steel extends MaterialMultiItem {
 		public Steel() {
 			this.name = "steel";
+			this.type = MaterialType.METAL_MUNDANE;
 			this.isColdWorkable = false;
 			this.durability = 1500;
 			this.mundaneLevel = 2;
@@ -217,6 +229,7 @@ public abstract class MaterialMultiItem {
 	public static class Mythril extends MaterialMultiItem {
 		public Mythril() {
 			this.name = "mythril";
+			this.type = MaterialType.METAL_BRONZE;
 			this.isColdWorkable = false;
 			this.durability = 500;
 			this.mundaneLevel = 4;
@@ -232,6 +245,7 @@ public abstract class MaterialMultiItem {
 	public static class Hepatizon extends MaterialMultiItem {
 		public Hepatizon() {
 			this.name = "hepatizon";
+			this.type = MaterialType.METAL_BRONZE;
 			this.isColdWorkable = false;
 			this.durability = 750;
 			this.mundaneLevel = 5;
