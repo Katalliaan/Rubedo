@@ -71,10 +71,12 @@ import static enhancedbiomes.world.biome.EnhancedBiomesWoodland.biomeWoodLandHil
 import static enhancedbiomes.world.biome.EnhancedBiomesWoodland.biomeWoodLands;
 import static enhancedbiomes.world.biome.EnhancedBiomesWoodland.biomeWoodlandField;
 
+import java.lang.reflect.Field;
 import java.util.Random;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 import rubedo.integration.enhancedbiomes.ReplaceBiomeBlocksHandler;
 import ttftcuts.atg.api.ATGBiomes;
@@ -479,6 +481,17 @@ public class ATGIntegration {
 		@Override
 		public double noiseFactor() {
 			return 20.0;
+		}
+	}
+
+	public static void onGuiInit(InitGuiEvent event) {
+		try {
+			Field f = event.gui.getClass().getDeclaredField("field_146331_K");
+			f.setAccessible(true);
+			f.set(event.gui, rubedoWorldType.getWorldTypeID());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
