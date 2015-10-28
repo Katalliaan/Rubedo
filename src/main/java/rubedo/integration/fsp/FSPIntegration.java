@@ -33,6 +33,8 @@ public class FSPIntegration {
 
 	public static void preInit() {
 		if (Loader.isModLoaded("rubedo")) {
+			MaterialIntegration.preInit();
+
 			if (flaxbeard.steamcraft.Config.enableMold) {
 				Item toolHeadMold = new ItemToolHeadMold();
 				GameRegistry.registerItem(toolHeadMold, "moldToolHead");
@@ -110,6 +112,10 @@ public class FSPIntegration {
 				}
 			}
 		}
+	}
+
+	public static void postInit() {
+		MaterialIntegration.postInit();
 	}
 
 	public static CrucibleFormula getFormula(String liquid) {

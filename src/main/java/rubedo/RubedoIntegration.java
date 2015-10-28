@@ -5,6 +5,7 @@ import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 import rubedo.integration.atg.ATGIntegration;
 import rubedo.integration.fsp.FSPIntegration;
+import rubedo.integration.thaumcraft.ThaumcraftIntegration;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -14,7 +15,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@Mod(modid = RubedoIntegration.modid, name = RubedoIntegration.name, version = RubedoIntegration.version, dependencies = "after:rubedo; after:ATG; after:enhancedbiomes; after:Steamcraft;")
+@Mod(modid = RubedoIntegration.modid, name = RubedoIntegration.name, version = RubedoIntegration.version, dependencies = "after:rubedo; after:ATG; after:enhancedbiomes; after:Steamcraft; after:Thaumcraft;")
 public class RubedoIntegration {
 	public static final String modid = "rubedoIntegration";
 	public static final String name = "@NAME@";
@@ -33,6 +34,9 @@ public class RubedoIntegration {
 
 		if (Loader.isModLoaded("Steamcraft"))
 			FSPIntegration.preInit();
+
+		if (Loader.isModLoaded("Thaumcraft"))
+			ThaumcraftIntegration.preInit();
 	}
 
 	@EventHandler
@@ -48,6 +52,12 @@ public class RubedoIntegration {
 	public void postInit(FMLPostInitializationEvent event) {
 		if (Loader.isModLoaded("ATG"))
 			ATGIntegration.postInit();
+
+		if (Loader.isModLoaded("Thaumcraft"))
+			ThaumcraftIntegration.postInit();
+
+		if (Loader.isModLoaded("Steamcraft"))
+			FSPIntegration.postInit();
 	}
 
 	@SubscribeEvent
