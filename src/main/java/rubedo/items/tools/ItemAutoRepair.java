@@ -50,8 +50,7 @@ public class ItemAutoRepair extends Item {
 						&& properties.getMaterialType() == MaterialType.METAL_ARCANE
 						&& stack.getItemDamage() > DUR_PER_LEVEL) {
 					((EntityPlayer) holdingEntity).addExperienceLevel(-1);
-					stack.setItemDamage(stack.getItemDamage()
-							- Math.min(stack.getItemDamage(), DUR_PER_LEVEL));
+					stack.setItemDamage(stack.getItemDamage() - DUR_PER_LEVEL);
 				}
 			}
 		}
