@@ -1,6 +1,5 @@
 package rubedo.ai;
 
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
@@ -21,6 +20,7 @@ import rubedo.common.materials.MaterialMultiItem.Wood;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolBase;
 import rubedo.items.tools.ToolSword;
+import rubedo.util.ReflectionHelper;
 import rubedo.util.Singleton;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -33,9 +33,8 @@ public class MobEquipmentHandler {
 
 			EntityMob entity = (EntityMob) event.entityLiving;
 
-			float[] equipmentDropChances = cpw.mods.fml.relauncher.ReflectionHelper
-					.getPrivateValue(EntityLiving.class, entity,
-							"equipmentDropChances");
+			float[] equipmentDropChances = (float[]) ReflectionHelper.getField(
+					entity, "equipmentDropChances");
 
 			// This is so you can't throw a tool head at a mob and get a tool
 			// out of it

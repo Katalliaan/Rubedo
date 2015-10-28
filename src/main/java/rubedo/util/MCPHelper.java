@@ -54,5 +54,8 @@ public class MCPHelper {
 
 		// EntityAnimal.class
 		fieldMap.put("inLove", "field_70881_d");
+
+		// EntityLiving.class
+		fieldMap.put("equipmentDropChances", "field_82174_bp");
 	}
 }
