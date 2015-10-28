@@ -51,6 +51,8 @@ public class ItemAutoRepair extends Item {
 						&& stack.getItemDamage() > DUR_PER_LEVEL) {
 					((EntityPlayer) holdingEntity).addExperienceLevel(-1);
 					stack.setItemDamage(stack.getItemDamage() - DUR_PER_LEVEL);
+					
+					((EntityPlayer) holdingEntity).inventoryContainer.detectAndSendChanges();
 				}
 			}
 		}
