@@ -2,8 +2,11 @@ package rubedo.items.tools;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.S2FPacketSetSlot;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import rubedo.RubedoCore;
@@ -39,20 +42,29 @@ public class ItemAutoRepair extends Item {
 	public void onUpdate(ItemStack itemStack, World world,
 			Entity holdingEntity, int p_77663_4_, boolean inHand) {
 		if (!world.isRemote && holdingEntity instanceof EntityPlayer) {
-			ItemStack stack = ((EntityPlayer) holdingEntity).getHeldItem();
+			EntityPlayer player = (EntityPlayer) holdingEntity;
+			ItemStack stack = player.getHeldItem();
 
 			if (stack != null && stack.getItem() instanceof ToolBase
-					&& ((EntityPlayer) holdingEntity).experienceLevel > 0) {
+					&& player.experienceLevel > 0) {
 				ToolProperties properties = ((ToolBase) stack.getItem())
 						.getToolProperties(stack);
 
 				if (!properties.isBroken()
 						&& properties.getMaterialType() == MaterialType.METAL_ARCANE
 						&& stack.getItemDamage() > DUR_PER_LEVEL) {
-					((EntityPlayer) holdingEntity).addExperienceLevel(-1);
+					player.addExperienceLevel(-1);
 					stack.setItemDamage(stack.getItemDamage() - DUR_PER_LEVEL);
-					
-					((EntityPlayer) holdingEntity).inventoryContainer.detectAndSendChanges();
+
+					// get the actual inventory Slot:
+					Slot slot = player.openContainer.getSlotFromInventory(
+							player.inventory, player.inventory.currentItem);
+					// send S2FPacketSetSlot to the player with the new /
+					// changed stack (or null)
+					((EntityPlayerMP) player).playerNetServerHandler
+							.sendPacket(new S2FPacketSetSlot(
+									player.openContainer.windowId,
+									slot.slotNumber, stack));
 				}
 			}
 		}
