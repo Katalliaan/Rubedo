@@ -3,7 +3,7 @@
   "modid": "rubedoIntegration",
   "name": "Rubedo Integration",
   "description": "This mod adds integration between Rubedo and other mods as part of the official Rubedo Modpack",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "mcversion": "10.13.4.1448-1.7.10",
   "url": "https://github.com/Katalliaan/Rubedo/tree/mod-integration",
   "updateUrl": "https://github.com/Katalliaan/Rubedo/releases",
