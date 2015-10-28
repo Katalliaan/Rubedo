@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import rubedo.common.ContentTools;
 import rubedo.common.materials.MaterialMultiItem;
+import rubedo.common.materials.MaterialMultiItem.MaterialType;
 import rubedo.items.MultiItemProperties;
 import rubedo.util.Singleton;
 
@@ -127,5 +128,9 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 			return this.getCapMaterial().mundaneLevel;
 		else
 			return 0;
+	}
+	
+	public MaterialType getMaterialType() {
+		return this.getHeadMaterial().type;
 	}
 }

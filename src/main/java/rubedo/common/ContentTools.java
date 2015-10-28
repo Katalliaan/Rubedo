@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import rubedo.RubedoCore;
 import rubedo.client.ToolBaseRenderer;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.common.materials.MaterialMultiItem.Wood;
@@ -38,6 +40,8 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 		public static boolean addUnrefinedRecipes = true;
 	}
 
+	public static ItemAutoRepair itemAutoRepair;
+	
 	protected ContentTools() {
 		super(ContentTools.class);
 
@@ -145,18 +149,28 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 			this.registerMaterial(material.getClass());
 		}
 
-		ItemAutoRepair itemAutoRepair = new ItemAutoRepair();
+		itemAutoRepair = new ItemAutoRepair();
 		GameRegistry.registerItem(itemAutoRepair, "itemautorepair");
 	}
 
 	@Override
 	public void registerDerivatives() {
 		this.registerToolRecipes();
+
+		this.registerAutoRepairRecipe();
 	}
 
 	@Override
 	public void tweak() {
 		MinecraftForge.EVENT_BUS.register(new ToolEnchantmentRecipes());
+	}
+
+	private void registerAutoRepairRecipe() {
+//		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.apple), " I ", "IGI", " I ", 'I',
+//				"ingotGold", 'G', "ingotIron"));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ContentTools.itemAutoRepair), " I ", "IGI", " I ", 'I',
+				"ingotGold", 'G', "gemCopper"));
 	}
 
 	private void registerToolRecipes() {

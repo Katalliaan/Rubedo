@@ -148,6 +148,10 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 		// Register metals
 		for (Metal metal : metals)
 			this.registerMetal(metal);
+		
+		// Register cuprite
+		OreDictionary.registerOre("gemCopper", new ItemStack(metalItems, 1,
+				metalItems.getTextureIndex("copper_gem")));
 
 		// Iron nugget recipes
 		OreDictionary.registerOre("nuggetIron", new ItemStack(metalItems, 1,

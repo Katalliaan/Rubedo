@@ -27,6 +27,8 @@ rubedo.materials.nuggetName=$material Nugget
 rubedo.materials.ingotName=$material Ingot
 rubedo.materials.blockName=$material Block
 
+rubedo.tools.autorepair=Gilded Cuprite
+
 rubedo.tools.toolHead=$material $tool.type Head
 rubedo.tools.toolName=$material $tool.type
 rubedo.tools.toolNameBroken=Broken $material $tool.type
