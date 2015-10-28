@@ -14,6 +14,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemAutoRepair extends Item {
 	protected IIcon icon;
 
+	private static final int DUR_PER_LEVEL = 5;
+
 	public ItemAutoRepair() {
 		this.setHasSubtypes(false);
 		this.setMaxDamage(0);
@@ -46,10 +48,10 @@ public class ItemAutoRepair extends Item {
 
 				if (!properties.isBroken()
 						&& properties.getMaterialType() == MaterialType.METAL_ARCANE
-						&& stack.getItemDamage() > 5) {
+						&& stack.getItemDamage() > DUR_PER_LEVEL) {
 					((EntityPlayer) holdingEntity).addExperienceLevel(-1);
 					stack.setItemDamage(stack.getItemDamage()
-							- Math.min(stack.getItemDamage(), 5));
+							- Math.min(stack.getItemDamage(), DUR_PER_LEVEL));
 				}
 			}
 		}
