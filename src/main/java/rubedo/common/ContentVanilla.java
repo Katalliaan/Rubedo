@@ -151,8 +151,10 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 							+ material.getKey().name;
 
 					if (material.getKey().name == "wood")
-						ItemToolHead.getHeadMap().put(name,
-								new ItemToolHead(name, kind.getClass()));
+						ItemToolHead.getHeadMap().put(
+								name,
+								new ItemToolHead(name, kind.getClass(),
+										material.getKey()));
 
 					Item item = ItemToolHead.getHeadMap().get(name);
 
