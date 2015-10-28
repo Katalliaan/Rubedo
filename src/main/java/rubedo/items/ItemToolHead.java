@@ -72,6 +72,7 @@ public class ItemToolHead extends Item {
 			MaterialMultiItem material) {
 		this.name = name;
 		this.kind = kind;
+		this.material = material;
 		this.setCreativeTab(RubedoCore.creativeTab);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(false);
