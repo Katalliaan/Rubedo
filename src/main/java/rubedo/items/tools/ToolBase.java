@@ -322,11 +322,25 @@ public abstract class ToolBase extends MultiItem {
 						.put("$material2",
 								"materials." + properties.getRodMaterial().name,
 								Formatting.LOWERCASE).getResult());
+
 		list.add("");
+
+		if (this.getName().equals("pickaxe")) {
+			list.add("Mining Level " + properties.getMiningLevel());
+		}
+
 		list.add("Durability: " + properties.getDurability());
 		list.add("Speed: "
 				+ new DecimalFormat("#.##").format(properties.getHeadMaterial().speed
 						* properties.getRodMaterial().modSpeed));
+
+		list.add("");
+
+		list.add("Enchantable "
+				+ Language.getFormattedLocalization(
+						"tools.special.level."
+								+ properties.getHeadMaterial().arcaneLevel,
+						true).getResult());
 
 		if (!this.getName().equals("shovel") && !this.getName().equals("sword")
 				&& properties.getSpecial() > 0)

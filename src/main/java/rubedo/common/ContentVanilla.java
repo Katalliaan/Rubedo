@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.common.materials.MaterialMultiItem.Wood;
@@ -39,6 +40,7 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 		public static boolean removeRecipes = true;
 		public static boolean changeMiningProgression = true;
 		public static boolean addFlintRecipe = true;
+		public static boolean changeEnchTableRecipe = true;
 	}
 
 	@Override
@@ -55,6 +57,9 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 		Config.addFlintRecipe = config.get("Vanilla Changes", "AddFlintRecipe",
 				Config.addFlintRecipe, "Add alternate flint recipe?")
 				.getBoolean();
+		Config.changeEnchTableRecipe = config.get("Vanilla Changes",
+				"ChangeEnchantmentTableRecipe", Config.changeEnchTableRecipe,
+				"Remove obsidian from enchantment table recipe?").getBoolean();
 	}
 
 	@Override
@@ -86,6 +91,18 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 					Blocks.gravel)));
 
 			FMLCommonHandler.instance().bus().register(new MakeGravelEvent());
+		}
+
+		if (Config.changeEnchTableRecipe) {
+			RemapHelper.removeAnyRecipe(new ItemStack(Blocks.enchanting_table));
+
+			GameRegistry.addRecipe(new ShapedOreRecipe( //
+					new ItemStack(Blocks.enchanting_table), //
+					" b ", "dWd", "WcW", //
+					'b', new ItemStack(Items.book), //
+					'd', new ItemStack(Items.diamond), //
+					'W', "plankWood", //
+					'c', "gemCopper"));
 		}
 	}
 

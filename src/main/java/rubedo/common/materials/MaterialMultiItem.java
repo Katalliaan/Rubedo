@@ -186,7 +186,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 3;
 			this.damage = 2;
 			this.speed = 4.0f;
-			this.miningLevel = 3;
+			this.miningLevel = 2;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("orichalcum_ingot"));
 		}
@@ -238,7 +238,7 @@ public abstract class MaterialMultiItem {
 			this.arcaneLevel = 5;
 			this.damage = 1;
 			this.speed = 12.0f;
-			this.miningLevel = 5;
+			this.miningLevel = 4;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("mythril_ingot"));
 		}

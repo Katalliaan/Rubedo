@@ -117,9 +117,12 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	}
 
 	public int getMiningLevel() {
-		if (this.isValid() && !this.isBroken())
-			return this.getHeadMaterial().miningLevel;
-		else
+		if (this.isValid() && !this.isBroken()) {
+			int boosted = (this.getStack().isItemEnchanted() && this
+					.getHeadMaterial().type == MaterialType.METAL_BRONZE) ? 1
+					: 0;
+			return this.getHeadMaterial().miningLevel + boosted;
+		} else
 			return -1;
 	}
 
@@ -129,7 +132,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		else
 			return 0;
 	}
-	
+
 	public MaterialType getMaterialType() {
 		return this.getHeadMaterial().type;
 	}
