@@ -158,6 +158,9 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 
 					Item item = ItemToolHead.getHeadMap().get(name);
 
+					material.getKey().setToolHead(kind.getName(),
+							new ItemStack(item, 1));
+
 					String refName = material.getValue() + "_"
 							+ this.toVanillaKind(kind.getName());
 

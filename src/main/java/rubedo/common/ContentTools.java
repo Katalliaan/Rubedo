@@ -5,7 +5,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -14,7 +13,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import rubedo.RubedoCore;
 import rubedo.client.ToolBaseRenderer;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.common.materials.MaterialMultiItem.Wood;
@@ -41,7 +39,7 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 	}
 
 	public static ItemAutoRepair itemAutoRepair;
-	
+
 	protected ContentTools() {
 		super(ContentTools.class);
 
@@ -121,14 +119,17 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 					String name = kind.getName() + "_head_" + material.name;
 					Item item = ItemToolHead.getHeadMap().get(name);
 					GameRegistry.registerItem(item, name);
+					material.setToolHead(kind.getName(), new ItemStack(item, 1));
 				}
 			}
 			if (!material.isColdWorkable) {
 				String name = "_head_" + material.name;
 				Item item = ItemToolHead.getHeadMap().get("unrefined" + name);
 				GameRegistry.registerItem(item, "unrefined" + name);
+				material.setToolHead("unrefined", new ItemStack(item, 1));
 				item = ItemToolHead.getHeadMap().get("hot" + name);
 				GameRegistry.registerItem(item, "hot" + name);
+				material.setToolHead("hot", new ItemStack(item, 1));
 			}
 		}
 	}
@@ -166,10 +167,12 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 	}
 
 	private void registerAutoRepairRecipe() {
-//		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.apple), " I ", "IGI", " I ", 'I',
-//				"ingotGold", 'G', "ingotIron"));
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ContentTools.itemAutoRepair), " I ", "IGI", " I ", 'I',
+		// GameRegistry.addRecipe(new ShapedOreRecipe(new
+		// ItemStack(Items.apple), " I ", "IGI", " I ", 'I',
+		// "ingotGold", 'G', "ingotIron"));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
+				ContentTools.itemAutoRepair), " I ", "IGI", " I ", 'I',
 				"ingotGold", 'G', "gemCopper"));
 	}
 
@@ -207,7 +210,8 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 					// Pick heads
 					GameRegistry.addRecipe(new ShapedOreRecipe(material
 							.getToolHead("pickaxe"), "XXX", 'X', headMaterial));
-				} else if (Config.addUnrefinedRecipes) {
+				} else if (Config.addUnrefinedRecipes
+						&& !(material instanceof Wood)) {
 					GameRegistry.addRecipe(new ShapelessOreRecipe(material
 							.getToolHead("unrefined"), headMaterial,
 							headMaterial, headMaterial));
