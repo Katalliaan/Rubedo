@@ -39,7 +39,7 @@ public class MaterialIntegration {
 			this.arcaneLevel = 3;
 			this.damage = 3;
 			this.speed = 6.0f;
-			this.miningLevel = 2;
+			this.miningLevel = 1;
 			this.headMaterial = new ItemStack(Items.iron_ingot, 1, 0);
 		}
 	}
