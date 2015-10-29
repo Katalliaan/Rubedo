@@ -7,14 +7,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import rubedo.RubedoCore;
 import rubedo.common.ContentWorld;
-import rubedo.items.ItemSpellBase;
-import rubedo.items.ItemToolHead;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class MaterialMultiItem {
 	public enum MaterialType {
 		OTHER, METAL_MUNDANE, METAL_ARCANE, METAL_BRONZE
 	}
+
+	public String modid = RubedoCore.modid;
 
 	public String name;
 
@@ -44,15 +46,19 @@ public abstract class MaterialMultiItem {
 
 	public ItemStack getToolHead(String tool) {
 		if (this.headMaterial != null && !this.toolHeads.containsKey(tool))
-			this.toolHeads.put(tool, new ItemStack(ItemToolHead.getHeadMap()
-					.get(tool + "_head_" + this.name), 1));
+			this.toolHeads.put(
+					tool,
+					new ItemStack(GameRegistry.findItem(this.modid, tool
+							+ "_head_" + this.name), 1));
 		return this.toolHeads.get(tool);
 	}
 
 	public ItemStack getSpellPart(String part) {
 		if (this.headMaterial != null && !this.toolHeads.containsKey(part))
-			this.spellParts.put(part, new ItemStack(ItemSpellBase.getBaseMap()
-					.get(part + "_" + this.name), 1));
+			this.spellParts.put(
+					part,
+					new ItemStack(GameRegistry.findItem(this.modid, part + "_"
+							+ this.name), 1));
 		return this.spellParts.get(part);
 	}
 
