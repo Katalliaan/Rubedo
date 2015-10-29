@@ -21,6 +21,7 @@ import rubedo.items.tools.ToolSword;
 import rubedo.util.ReflectionHelper;
 import rubedo.util.RemapHelper;
 import rubedo.util.Singleton;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ContentVanilla extends Singleton<ContentVanilla> implements
@@ -79,11 +80,13 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 	@Override
 	public void registerDerivatives() {
 		// Backup flint recipe
-		if (Config.addFlintRecipe)
+		if (Config.addFlintRecipe) {
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(
-					Items.flint), new ItemStack(Items.bowl
-					.setContainerItem(Items.bowl)),
+					Items.flint), new ItemStack(Items.bowl),
 					new ItemStack(Blocks.gravel)));
+			
+			FMLCommonHandler.instance().bus().register(new makeGravelEvent()); 
+		}
 	}
 
 	@Override
