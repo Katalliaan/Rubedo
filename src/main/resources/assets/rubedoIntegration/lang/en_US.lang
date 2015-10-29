@@ -6,6 +6,6 @@ item.rubedoPlate.Silver.name=Silver Plate
 item.rubedoPlate.Mythril.name=Mythril Plate
 item.rubedoPlate.Hepatizon.name=Hepatizon Plate
 
-rubedo.materials.Thaumium
-rubedo.materials.Brass
-rubedo.materials.Gilded
+rubedo.materials.thaumium=Thaumium
+rubedo.materials.brass=Brass
+rubedo.materials.gilded=Gilded
