@@ -3,7 +3,6 @@ package rubedo.integration.thaumcraft;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import rubedo.RubedoIntegration;
 import rubedo.common.ContentTools;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
@@ -24,7 +23,6 @@ public class ThaumcraftIntegration {
 					.get(0);
 
 			this.name = "thaumium";
-			this.modid = RubedoIntegration.modid;
 			this.type = MaterialType.METAL_BRONZE;
 			this.isColdWorkable = false;
 			this.durability = 250;
@@ -124,6 +122,7 @@ public class ThaumcraftIntegration {
 				ItemToolHead toolHead = new ItemToolHead(name, kind.getClass(),
 						material);
 				GameRegistry.registerItem(toolHead, name);
+				material.setToolHead(kind.getName(), new ItemStack(toolHead, 1));
 			}
 			if (!material.isColdWorkable) {
 				String name = "_head_" + material.name;
@@ -135,6 +134,9 @@ public class ThaumcraftIntegration {
 
 				GameRegistry.registerItem(unrefined, "unrefined" + name);
 				GameRegistry.registerItem(hot, "hot" + name);
+
+				material.setToolHead("unrefined", new ItemStack(unrefined, 1));
+				material.setToolHead("hot", new ItemStack(hot, 1));
 			}
 		}
 	}
