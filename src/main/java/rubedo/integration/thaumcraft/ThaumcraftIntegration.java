@@ -3,6 +3,7 @@ package rubedo.integration.thaumcraft;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import rubedo.RubedoIntegration;
 import rubedo.common.ContentTools;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
@@ -23,6 +24,7 @@ public class ThaumcraftIntegration {
 					.get(0);
 
 			this.name = "thaumium";
+			this.modid = RubedoIntegration.modid;
 			this.type = MaterialType.METAL_BRONZE;
 			this.isColdWorkable = false;
 			this.durability = 250;
@@ -52,6 +54,8 @@ public class ThaumcraftIntegration {
 		RemapHelper.removeAnyRecipe(new ItemStack(ConfigItems.itemHoeThaumium));
 		RemapHelper
 				.removeAnyRecipe(new ItemStack(ConfigItems.itemSwordThaumium));
+
+		ItemStack axe = material.getToolHead("axe");
 
 		ThaumcraftApi.addInfusionCraftingRecipe("ELEMENTALAXE", new ItemStack(
 				ConfigItems.itemAxeElemental), 1,

@@ -2,6 +2,7 @@ package rubedo.integration.fsp;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import rubedo.RubedoIntegration;
 import rubedo.common.ContentTools;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
@@ -15,6 +16,7 @@ public class MaterialIntegration {
 	public static class Gilded extends MaterialMultiItem {
 		public Gilded() {
 			this.name = "gilded";
+			this.modid = RubedoIntegration.modid;
 			this.type = MaterialType.METAL_ARCANE;
 			this.isColdWorkable = false;
 			this.durability = 250;
@@ -31,6 +33,7 @@ public class MaterialIntegration {
 	public static class Brass extends MaterialMultiItem {
 		public Brass() {
 			this.name = "brass";
+			this.modid = RubedoIntegration.modid;
 			this.type = MaterialType.METAL_BRONZE;
 			this.isColdWorkable = false;
 			this.durability = 200;
