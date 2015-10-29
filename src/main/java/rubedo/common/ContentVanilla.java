@@ -82,10 +82,10 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 		// Backup flint recipe
 		if (Config.addFlintRecipe) {
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(
-					Items.flint), new ItemStack(Items.bowl),
-					new ItemStack(Blocks.gravel)));
-			
-			FMLCommonHandler.instance().bus().register(new makeGravelEvent()); 
+					Items.flint), new ItemStack(Items.bowl), new ItemStack(
+					Blocks.gravel)));
+
+			FMLCommonHandler.instance().bus().register(new MakeGravelEvent());
 		}
 	}
 
