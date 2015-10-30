@@ -20,6 +20,7 @@ import rubedo.RubedoCore;
 import rubedo.common.ContentTools;
 import rubedo.common.Language;
 import rubedo.common.Language.Formatting;
+import rubedo.common.materials.MaterialMultiItem.MaterialType;
 import rubedo.items.MultiItem;
 import rubedo.util.Singleton;
 import cpw.mods.fml.relauncher.Side;
@@ -323,10 +324,38 @@ public abstract class ToolBase extends MultiItem {
 								"materials." + properties.getRodMaterial().name,
 								Formatting.LOWERCASE).getResult());
 
+		switch (properties.getHeadMaterial().type) {
+		case METAL_MUNDANE:
+			list.add(Language.FormatterCodes.RED.toString()
+					+ Language
+							.getFormattedLocalization("materials.metal", true)
+							.put("$type", "materials.types.mundane")
+							.getResult());
+			break;
+		case METAL_ARCANE:
+			list.add(Language.FormatterCodes.YELLOW.toString()
+					+ Language
+							.getFormattedLocalization("materials.metal", true)
+							.put("$type", "materials.types.arcane").getResult());
+			break;
+		case METAL_BRONZE:
+			list.add(Language.FormatterCodes.GOLD.toString()
+					+ Language
+							.getFormattedLocalization("materials.metal", true)
+							.put("$type", "materials.types.bronze").getResult());
+		default:
+			break;
+		}
+
 		list.add("");
 
 		if (this.getName().equals("pickaxe")) {
-			list.add("Mining Level " + properties.getMiningLevel());
+			String color = "";
+			if (properties.getHeadMaterial().type == MaterialType.METAL_BRONZE
+					&& properties.getStack().isItemEnchanted()) {
+				color = Language.FormatterCodes.GOLD.toString();
+			}
+			list.add(color + "Mining Level " + properties.getMiningLevel());
 		}
 
 		list.add("Durability: " + properties.getDurability());

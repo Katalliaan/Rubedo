@@ -4,6 +4,11 @@ itemGroup.RubedoSpells=Rubedo Spells
 
 tile.magma_furnace.name=Magma Furnace
 
+rubedo.materials.metal=$type Metal
+rubedo.materials.types.mundane=Mundane
+rubedo.materials.types.arcane=Arcane
+rubedo.materials.types.bronze=Bronze
+
 rubedo.materials.flint=Flint
 rubedo.materials.copper=Copper
 rubedo.materials.iron=Iron
