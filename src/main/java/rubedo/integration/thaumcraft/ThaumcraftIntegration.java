@@ -31,7 +31,7 @@ public class ThaumcraftIntegration {
 			this.arcaneLevel = 4;
 			this.damage = 2;
 			this.speed = 6.0f;
-			this.miningLevel = 3;
+			this.miningLevel = 2;
 			this.headMaterial = ingotThaumium;
 		}
 	}
