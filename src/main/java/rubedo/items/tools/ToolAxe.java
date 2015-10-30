@@ -1,11 +1,8 @@
 package rubedo.items.tools;
 
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
@@ -28,6 +25,8 @@ public class ToolAxe extends ToolBase {
 		this.vanillaEquivalent.setUnlocalizedName("hatchetDiamond")
 				.setTextureName("diamond_axe");
 		GameRegistry.registerItem(this.vanillaEquivalent, "dummy_axe");
+
+		this.allowedEnchants.add(EnumEnchantmentType.digger);
 	}
 
 	@Override
@@ -74,20 +73,6 @@ public class ToolAxe extends ToolBase {
 	@Override
 	public Block[] getEffectiveBlocks() {
 		return new Block[0];
-	}
-
-	@Override
-	public List<Integer> getAllowedEnchantments() {
-		Integer[] allowedEnchants = new Integer[] {
-				Enchantment.efficiency.effectId, Enchantment.fortune.effectId,
-				Enchantment.silkTouch.effectId,
-				Enchantment.unbreaking.effectId,
-
-				Enchantment.sharpness.effectId, Enchantment.smite.effectId,
-				Enchantment.baneOfArthropods.effectId,
-				Enchantment.knockback.effectId,
-				Enchantment.fireAspect.effectId, Enchantment.looting.effectId };
-		return Arrays.asList(allowedEnchants);
 	}
 
 	@Override

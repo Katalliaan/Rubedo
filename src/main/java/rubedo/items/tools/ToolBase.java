@@ -1,12 +1,14 @@
 package rubedo.items.tools;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -31,6 +33,8 @@ public abstract class ToolBase extends MultiItem {
 	private static ContentTools content = Singleton
 			.getInstance(ContentTools.class);
 
+	protected List<EnumEnchantmentType> allowedEnchants = new ArrayList<EnumEnchantmentType>();
+
 	public ToolBase() {
 		super();
 		this.setUnlocalizedName("ToolBase");
@@ -40,6 +44,10 @@ public abstract class ToolBase extends MultiItem {
 		this.maxStackSize = 1;
 		this.setNoRepair();
 		this.canRepair = false;
+
+		this.allowedEnchants.add(EnumEnchantmentType.all);
+		this.allowedEnchants.add(EnumEnchantmentType.breakable);
+		this.allowedEnchants.add(EnumEnchantmentType.weapon);
 	}
 
 	public abstract String getName();
@@ -60,7 +68,9 @@ public abstract class ToolBase extends MultiItem {
 
 	public abstract Block[] getEffectiveBlocks();
 
-	public abstract List<Integer> getAllowedEnchantments();
+	public List<EnumEnchantmentType> getAllowedEnchantments() {
+		return this.allowedEnchants;
+	};
 
 	public ToolProperties getToolProperties(ItemStack stack) {
 		if (!(stack.getItem() instanceof ToolBase))

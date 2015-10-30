@@ -161,8 +161,12 @@ public class ToolEnchantmentRecipes implements IRecipe {
 			NBTTagCompound bookEnchant = bookList.getCompoundTagAt(iBook);
 
 			// Check the tool for allowed enchants
-			if (!this.tool.getItem().getAllowedEnchantments()
-					.contains((int) bookEnchant.getShort("id")))
+			if (!this.tool
+					.getItem()
+					.getAllowedEnchantments()
+					.contains(
+							Enchantment.enchantmentsList[bookEnchant
+									.getShort("id")].type))
 				continue;
 
 			// Check if the enchant already exists

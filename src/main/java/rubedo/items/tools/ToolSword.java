@@ -1,12 +1,8 @@
 package rubedo.items.tools;
 
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -64,16 +60,6 @@ public class ToolSword extends ToolBase {
 	@Override
 	public Block[] getEffectiveBlocks() {
 		return new Block[] { Blocks.web };
-	}
-
-	@Override
-	public List<Integer> getAllowedEnchantments() {
-		Integer[] allowedEnchants = new Integer[] {
-				Enchantment.sharpness.effectId, Enchantment.smite.effectId,
-				Enchantment.baneOfArthropods.effectId,
-				Enchantment.knockback.effectId,
-				Enchantment.fireAspect.effectId, Enchantment.looting.effectId };
-		return Arrays.asList(allowedEnchants);
 	}
 
 	@Override
