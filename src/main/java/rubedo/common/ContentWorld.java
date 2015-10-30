@@ -58,11 +58,11 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 							new int[] {}),
 					new Metal("steel", 2, false, 0, 0, 0, 0, false,
 							new int[] {}),
-					new Metal("silver", 3, true, 64, 0.5, 0, 128, false,
+					new Metal("silver", 4, true, 64, 0.5, 0, 128, false,
 							new int[] { -1 }),
-					new Metal("mythril", 3, false, 0, 0, 0, 0, false,
+					new Metal("mythril", 4, false, 0, 0, 0, 0, false,
 							new int[] {}),
-					new Metal("hepatizon", 3, false, 0, 0, 0, 0, false,
+					new Metal("hepatizon", 4, false, 0, 0, 0, 0, false,
 							new int[] {}) });
 
 	@Override
@@ -148,7 +148,7 @@ public class ContentWorld extends Singleton<ContentWorld> implements IContent {
 		// Register metals
 		for (Metal metal : metals)
 			this.registerMetal(metal);
-		
+
 		// Register cuprite
 		OreDictionary.registerOre("gemCopper", new ItemStack(metalItems, 1,
 				metalItems.getTextureIndex("copper_gem")));
