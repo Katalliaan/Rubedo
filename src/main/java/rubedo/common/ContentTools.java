@@ -11,6 +11,8 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.client.ToolBaseRenderer;
@@ -179,6 +181,8 @@ public class ContentTools extends ContentMultiItem<ToolBase> implements
 	private void registerToolRecipes() {
 		// GameRegistry.addRecipe(new ToolEnchantmentRecipes());
 		GameRegistry.addRecipe(new ToolRepairRecipes());
+		RecipeSorter.register("rubedo:toolrepair", ToolRepairRecipes.class,
+				Category.SHAPELESS, "");
 
 		// Tool recipes
 		for (MaterialMultiItem material : this.getMaterials()) {

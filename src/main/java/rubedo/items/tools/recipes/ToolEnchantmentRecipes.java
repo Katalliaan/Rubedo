@@ -29,6 +29,7 @@ public class ToolEnchantmentRecipes implements IRecipe {
 
 			ToolBase tool = (ToolBase) event.left.getItem();
 
+			// Check if it's an ingot repair
 			if (!tool.getToolProperties(event.left).isBroken()
 					&& tool.getToolProperties(event.left).getHeadMaterial().headMaterial
 							.getItem() == event.right.getItem()) {
@@ -52,19 +53,28 @@ public class ToolEnchantmentRecipes implements IRecipe {
 				event.materialCost = this.cost;
 				return;
 
-			} else if (event.right.getItem() instanceof ItemToolHead) {
+			}
+
+			// Check if it's a new toolhead
+			else if (event.right.getItem() instanceof ItemToolHead) {
 				ToolRepairRecipes recipe = new ToolRepairRecipes();
 
+				// Use the standard tool head repair
 				if (recipe.matches(event.left, event.right)) {
 					event.output = recipe.getCraftingResult();
 
 					NBTTagList toolList = getEnchantmentTagList(event.left);
 					if (toolList.tagCount() > 0) {
 						this.enchantedBook = new ItemStack(Items.enchanted_book);
+						this.enchantedBook.setTagCompound(new NBTTagCompound());
 						this.enchantedBook.getTagCompound().setTag("ench",
 								toolList);
+
 						if (this.matches(event.left, this.enchantedBook)) {
-							event.output = this.getCraftingResult();
+							ItemStack output = this.getCraftingResult();
+
+							if (output != null)
+								event.output = output;
 						}
 					}
 				}
@@ -73,7 +83,10 @@ public class ToolEnchantmentRecipes implements IRecipe {
 				event.cost = 5;
 				return;
 
-			} else if (this.matches(event.left, event.right)) {
+			}
+
+			// Check if it's an enchantment with book recipe
+			else if (this.matches(event.left, event.right)) {
 				event.output = this.getCraftingResult();
 				event.cost = this.cost;
 				return;
