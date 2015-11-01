@@ -205,8 +205,6 @@ public abstract class MaterialMultiItem {
 			this.miningLevel = 2;
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
-			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
-					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 			this.baseMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 		}
