@@ -375,11 +375,13 @@ public abstract class ToolBase extends MultiItem {
 
 		list.add("");
 
-		list.add("Enchantable "
-				+ Language.getFormattedLocalization(
-						"tools.special.level."
-								+ properties.getHeadMaterial().arcaneLevel,
-						true).getResult());
+		if (properties.getHeadMaterial().arcaneLevel > 0) {
+			list.add("Enchantable "
+					+ Language.getFormattedLocalization(
+							"tools.special.level."
+									+ properties.getHeadMaterial().arcaneLevel,
+							true).getResult());
+		}
 
 		if (!this.getName().equals("shovel") && !this.getName().equals("sword")
 				&& properties.getSpecial() > 0)
