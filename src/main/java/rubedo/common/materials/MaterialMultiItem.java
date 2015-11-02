@@ -97,6 +97,7 @@ public abstract class MaterialMultiItem {
 			this.modSpeed = 0.6f;
 			this.rodMaterial = new ItemStack(Items.bone);
 			this.spellEffectMaterial = new ItemStack(Items.bone);
+			this.spellEffectType = "life";
 		}
 	}
 
