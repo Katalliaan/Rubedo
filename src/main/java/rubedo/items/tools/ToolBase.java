@@ -104,7 +104,7 @@ public abstract class ToolBase extends MultiItem {
 
 	@Override
 	public int getHarvestLevel(ItemStack stack, String toolClass) {
-		if (!toolClass.equals(this.getName()))
+		if (toolClass == null || !toolClass.equals(this.getName()))
 			return -1;
 
 		ToolProperties properties = this.getToolProperties(stack);
