@@ -103,6 +103,7 @@ public abstract class MaterialMultiItem {
 			this.modSpeed = 0.6f;
 			this.rodMaterial = new ItemStack(Items.bone);
 			this.spellEffectMaterial = new ItemStack(Items.bone);
+			this.spellEffectType = "life";
 		}
 	}
 
@@ -209,8 +210,6 @@ public abstract class MaterialMultiItem {
 			this.damage = 1;
 			this.speed = 8.0f;
 			this.miningLevel = 2;
-			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
-					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 			this.headMaterial = new ItemStack(ContentWorld.metalItems, 1,
 					ContentWorld.metalItems.getTextureIndex("silver_ingot"));
 			this.baseMaterial = new ItemStack(ContentWorld.metalItems, 1,
