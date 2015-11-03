@@ -40,7 +40,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		if (this.isValid() && head.headMaterial != null)
 			return head;
 		else
-			return null;
+			return content.getMaterial("invalid");
 	}
 
 	public void setHeadMaterial(MaterialMultiItem head) {
@@ -53,7 +53,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		if (this.isValid() && rod.rodMaterial != null)
 			return rod;
 		else
-			return null;
+			return content.getMaterial("invalid");
 	}
 
 	public void setRodMaterial(MaterialMultiItem rod) {
@@ -66,7 +66,7 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		if (this.isValid() && cap.capMaterial != null)
 			return cap;
 		else
-			return null;
+			return content.getMaterial("invalid");
 	}
 
 	public void setCapMaterial(MaterialMultiItem cap) {

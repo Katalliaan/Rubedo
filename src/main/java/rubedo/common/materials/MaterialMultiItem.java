@@ -57,6 +57,12 @@ public abstract class MaterialMultiItem {
 					.get(part + "_" + this.name), 1));
 		return this.spellParts.get(part);
 	}
+	
+	public static class Invalid extends MaterialMultiItem {
+		public Invalid() {
+			this.name = "invalid";
+		}
+	}
 
 	public static class Wood extends MaterialMultiItem {
 		public Wood() {
