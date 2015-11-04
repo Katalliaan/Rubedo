@@ -1,5 +1,6 @@
 package rubedo.common;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,7 +39,6 @@ public class ContentAI extends Singleton<ContentAI> implements IContent {
 	}
 
 	@Override
-	@SideOnly(Side.SERVER)
 	public void tweak() {
 		// Adding AI EventHandlers
 		if (this.animalsEatOffTheGround)
