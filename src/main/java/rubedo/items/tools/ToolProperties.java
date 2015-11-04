@@ -35,12 +35,15 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	}
 
 	public MaterialMultiItem getHeadMaterial() {
-		MaterialMultiItem head = content
-				.getMaterial(this.tag.getString("head"));
-		if (this.isValid() && head.headMaterial != null)
-			return head;
-		else
-			return content.getMaterial("invalid");
+		if (this.isValid()) {
+			MaterialMultiItem head = content
+					.getMaterial(this.tag.getString("head"));
+		
+			if (head.headMaterial != null)			
+				return head;
+		}
+		
+		return content.getMaterial("invalid");
 	}
 
 	public void setHeadMaterial(MaterialMultiItem head) {
@@ -49,11 +52,14 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	}
 
 	public MaterialMultiItem getRodMaterial() {
-		MaterialMultiItem rod = content.getMaterial(this.tag.getString("rod"));
-		if (this.isValid() && rod.rodMaterial != null)
-			return rod;
-		else
-			return content.getMaterial("invalid");
+		if (this.isValid()) {
+			MaterialMultiItem rod = content.getMaterial(this.tag.getString("rod"));
+			
+			if(rod.rodMaterial != null)
+				return rod;
+		}
+
+		return content.getMaterial("invalid");
 	}
 
 	public void setRodMaterial(MaterialMultiItem rod) {
@@ -62,11 +68,15 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 	}
 
 	public MaterialMultiItem getCapMaterial() {
-		MaterialMultiItem cap = content.getMaterial(this.tag.getString("cap"));
-		if (this.isValid() && cap.capMaterial != null)
-			return cap;
-		else
-			return content.getMaterial("invalid");
+		
+		if (this.isValid()) { 
+			MaterialMultiItem cap = content.getMaterial(this.tag.getString("cap"));
+			
+			if(cap.capMaterial != null)
+				return cap;
+		}
+		
+		return content.getMaterial("invalid");
 	}
 
 	public void setCapMaterial(MaterialMultiItem cap) {
