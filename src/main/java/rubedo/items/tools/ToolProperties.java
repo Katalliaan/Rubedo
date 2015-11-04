@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagList;
 import rubedo.common.ContentTools;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.common.materials.MaterialMultiItem.MaterialType;
+import rubedo.common.materials.MaterialMultiItem.Wood;
 import rubedo.items.MultiItemProperties;
 import rubedo.util.Singleton;
 
@@ -20,6 +21,12 @@ public class ToolProperties extends MultiItemProperties<ToolBase> {
 		if (stack.getItem() instanceof ToolBase && this.baseTags != null
 				&& this.baseTags.hasKey("RubedoTool")) {
 			this.tag = this.baseTags.getCompoundTag("RubedoTool");
+		}
+		else
+		{
+			tool.buildTool(stack, content.getMaterial(Wood.class),
+					content.getMaterial(Wood.class),
+					content.getMaterial(Wood.class));
 		}
 	}
 
