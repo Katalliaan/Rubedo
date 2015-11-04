@@ -47,7 +47,7 @@ public class TileEntityMagmaFurnace extends TileEntityInventory implements
 
 	@Override
 	public String getInventoryName() {
-		return "rubedo.blocks.magma_furnace";
+		return "tile.magma_furnace.name";
 	}
 
 	private void updateMeta(Block block, int meta) {
