@@ -16,7 +16,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@Mod(modid = RubedoIntegration.modid, name = RubedoIntegration.name, version = RubedoIntegration.version, dependencies = "after:rubedo; after:ATG; after:enhancedbiomes; after:Steamcraft; after:Thaumcraft; after:Oceancraft;")
+@Mod(modid = RubedoIntegration.modid, name = RubedoIntegration.name, version = RubedoIntegration.version, dependencies = "after:rubedo; after:ATG; after:enhancedbiomes; after:Steamcraft; after:Thaumcraft; after:Oceancraft; after:WitchingGadgets; after:ForbiddenMagic; after:ThaumicTinkerer")
 public class RubedoIntegration {
 	public static final String modid = "rubedoIntegration";
 	public static final String name = "@NAME@";

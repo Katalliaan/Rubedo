@@ -14,10 +14,13 @@ import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolBase;
 import rubedo.util.Singleton;
+import scala.actors.threadpool.Arrays;
 import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.InfusionRecipe;
+import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -41,6 +44,16 @@ public class ThaumcraftIntegration {
 			this.headMaterial = ingotThaumium;
 		}
 	}
+
+	static ContentTools contentTools = Singleton
+			.getInstance(ContentTools.class);
+
+	static ItemStack thaumiumTools[] = {
+			new ItemStack(ConfigItems.itemAxeThaumium),
+			new ItemStack(ConfigItems.itemShovelThaumium),
+			new ItemStack(ConfigItems.itemPickThaumium),
+			new ItemStack(ConfigItems.itemHoeThaumium),
+			new ItemStack(ConfigItems.itemSwordThaumium) };
 
 	public static void preInit() {
 		registerMaterial(Thaumium.class);
@@ -98,10 +111,7 @@ public class ThaumcraftIntegration {
 				new ItemStack(ConfigItems.itemPickThaumium),
 				new ItemStack(ConfigItems.itemHoeThaumium),
 				new ItemStack(ConfigItems.itemSwordThaumium) };
-		ItemStack thaumiumHeads[] = { material.getToolHead("axe"),
-				material.getToolHead("shovel"),
-				material.getToolHead("pickaxe"),
-				material.getToolHead("scythe"), material.getToolHead("sword") };
+
 		ArrayList craftingRecipes = new ArrayList<Object>(
 				ThaumcraftApi.getCraftingRecipes());
 
@@ -115,19 +125,14 @@ public class ThaumcraftIntegration {
 				boolean changed = false;
 
 				for (int i = 0; i < thaumiumTools.length; i++) {
-					if (infusion.areItemStacksEqual(thaumiumTools[i],
-							infusion.getRecipeInput(), false)) {
-						input = thaumiumHeads[i];
+					if (matchesThaumiumTool(infusion.getRecipeInput(), i)) {
+						input = getThaumiumHead(i);
 						changed = true;
-					}
-					if (components == null) {
-						boolean help = true;
 					}
 
 					for (ItemStack component : components) {
-						if (infusion.areItemStacksEqual(thaumiumTools[i],
-								component, false)) {
-							component = thaumiumHeads[i];
+						if (matchesThaumiumTool(component, i)) {
+							component = getThaumiumHead(i);
 							changed = true;
 						}
 					}
@@ -139,8 +144,87 @@ public class ThaumcraftIntegration {
 							infusion.getInstability(), infusion.getAspects(),
 							input, components);
 				}
+			} else if (recipe instanceof ShapedArcaneRecipe) {
+				ShapedArcaneRecipe shaped = (ShapedArcaneRecipe) recipe;
+
+				Object[] input = shaped.getInput();
+				boolean changed = false;
+				
+				for (int i = 0; i < input.length; i++) {
+					if (input[i] instanceof ItemStack) {
+						for (int j = 0; j < thaumiumTools.length; j++) {
+							if (matchesThaumiumTool((ItemStack)input[i], j)) {
+								input[i] = getThaumiumHead(j);
+								changed = true;
+							}
+						}
+					}
+				}
+
+				for (Object thing : input) {
+					if (thing instanceof ItemStack) {
+						ItemStack stack = (ItemStack) thing;
+						for (int i = 0; i < thaumiumTools.length; i++) {
+							if (matchesThaumiumTool(stack, i)) {
+								stack = getThaumiumHead(i);
+								changed = true;
+							}
+						}
+					}
+				}
+
+				if (changed) {
+					ArrayList<Object> uniqueItems = new ArrayList<Object>();
+					String shape[] = new String[shaped.height];
+					char symbol = 'A';
+
+					for (int y = 0; y < shaped.height; y++) {
+						shape[y] = "";
+						
+						for (int x = 0; x < shaped.width; x++) {
+							if (input[y * shaped.height + x] == null) {
+								shape[y] = shape[y] + " ";
+							} else {
+								if (uniqueItems.contains(input[y
+										* shaped.height + x])) {
+									shape[y] = shape[y]
+											+ uniqueItems
+													.get(uniqueItems
+															.indexOf(input[y
+																	* shaped.height
+																	+ x]) - 1);
+								} else {
+									uniqueItems.add(symbol);
+									shape[y] = shape[y] + symbol;
+									symbol++;
+									uniqueItems
+											.add(input[y * shaped.height + x]);
+								}
+							}
+						}
+					}
+
+					ThaumcraftApi.addArcaneCraftingRecipe(shaped.getResearch(),
+							shaped.getRecipeOutput(), shaped.getAspects(),
+							shape, uniqueItems.toArray());
+				}
 			}
 		}
+	}
+
+	private static boolean matchesThaumiumTool(ItemStack input, int i) {
+		return InfusionRecipe
+				.areItemStacksEqual(thaumiumTools[i], input, false);
+	}
+
+	private static ItemStack getThaumiumHead(int i) {
+		MaterialMultiItem material = contentTools.getMaterial(Thaumium.class);
+		ItemStack thaumiumHeads[] = { material.getToolHead("axe"),
+				material.getToolHead("shovel"),
+				material.getToolHead("pickaxe"),
+				material.getToolHead("scythe"), material.getToolHead("sword") };
+
+		return thaumiumHeads[i];
 	}
 
 	public static void registerAspects() {
