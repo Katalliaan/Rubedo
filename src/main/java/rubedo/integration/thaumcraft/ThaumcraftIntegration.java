@@ -3,6 +3,7 @@ package rubedo.integration.thaumcraft;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import rubedo.common.ContentBlackSmith;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;
 import rubedo.common.materials.MaterialMultiItem;
@@ -147,6 +148,7 @@ public class ThaumcraftIntegration {
 	public static void registerAspects() {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ContentWorld contentWorld = Singleton.getInstance(ContentWorld.class);
+		ContentBlackSmith contentBS = Singleton.getInstance(ContentBlackSmith.class);
 		
 		for ( MaterialMultiItem material : contentTools.getMaterials())
 		{
@@ -159,5 +161,6 @@ public class ThaumcraftIntegration {
 		}
 		
 		ThaumcraftApi.registerObjectTag(new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("copper_gem")), new AspectList().add(Aspect.CRYSTAL, 4).add(Aspect.MAGIC, 5));
+		ThaumcraftApi.registerObjectTag(contentBS.magma_furnace.getDefaultBlock(), new AspectList().add(Aspect.FIRE, 10).add(Aspect.EARTH, 10).add(Aspect.METAL, 8).add(Aspect.ENERGY, 5));
 	}
 }
