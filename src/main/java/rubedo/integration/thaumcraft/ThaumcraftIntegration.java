@@ -4,6 +4,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import rubedo.common.ContentTools;
+import rubedo.common.ContentWorld;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolBase;
@@ -145,6 +146,7 @@ public class ThaumcraftIntegration {
 	
 	public static void registerAspects() {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
+		ContentWorld contentWorld = Singleton.getInstance(ContentWorld.class);
 		
 		for ( MaterialMultiItem material : contentTools.getMaterials())
 		{
@@ -155,5 +157,7 @@ public class ThaumcraftIntegration {
 			ThaumcraftApi.registerObjectTag(material.getToolHead("shovel"), new AspectList().add(Aspect.TOOL, material.miningLevel + 1));
 			ThaumcraftApi.registerObjectTag(material.getToolHead("axe"), new AspectList().add(Aspect.TOOL, material.miningLevel + 1));
 		}
+		
+		ThaumcraftApi.registerObjectTag(new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("copper_gem")), new AspectList().add(Aspect.CRYSTAL, 4).add(Aspect.MAGIC, 5));
 	}
 }
