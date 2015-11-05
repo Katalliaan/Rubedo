@@ -1,6 +1,9 @@
 package rubedo.integration.thaumcraft;
 
+import java.util.ArrayList;
+
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import rubedo.common.ContentBlackSmith;
@@ -14,6 +17,7 @@ import rubedo.util.Singleton;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.crafting.InfusionRecipe;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -43,69 +47,9 @@ public class ThaumcraftIntegration {
 	}
 
 	public static void postInit() {
-		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
-		MaterialMultiItem material = contentTools.getMaterial(Thaumium.class);
+		addRecipes();
 
-		RemapHelper.removeAnyRecipe(new ItemStack(ConfigItems.itemAxeThaumium));
-		RemapHelper
-				.removeAnyRecipe(new ItemStack(ConfigItems.itemPickThaumium));
-		RemapHelper.removeAnyRecipe(new ItemStack(
-				ConfigItems.itemShovelThaumium));
-		RemapHelper.removeAnyRecipe(new ItemStack(ConfigItems.itemHoeThaumium));
-		RemapHelper
-				.removeAnyRecipe(new ItemStack(ConfigItems.itemSwordThaumium));
-
-		ItemStack axe = material.getToolHead("axe");
-
-		ThaumcraftApi.addInfusionCraftingRecipe("ELEMENTALAXE", new ItemStack(
-				ConfigItems.itemAxeElemental), 1,
-				new AspectList().add(Aspect.WATER, 16).add(Aspect.TREE, 8),
-				material.getToolHead("axe"), new ItemStack[] {
-						new ItemStack(ConfigItems.itemShard, 1, 2),
-						new ItemStack(ConfigItems.itemShard, 1, 2),
-						new ItemStack(Items.diamond),
-						new ItemStack(ConfigBlocks.blockMagicalLog, 1, 0) });
-
-		ThaumcraftApi.addInfusionCraftingRecipe(
-				"ELEMENTALPICK",
-				new ItemStack(ConfigItems.itemPickElemental),
-				1,
-				new AspectList().add(Aspect.FIRE, 8).add(Aspect.MINE, 8)
-						.add(Aspect.SENSES, 8),
-				material.getToolHead("pickaxe"), new ItemStack[] {
-						new ItemStack(ConfigItems.itemShard, 1, 1),
-						new ItemStack(ConfigItems.itemShard, 1, 1),
-						new ItemStack(Items.diamond),
-						new ItemStack(ConfigBlocks.blockMagicalLog, 1, 0) });
-
-		ThaumcraftApi.addInfusionCraftingRecipe("ELEMENTALSHOVEL",
-				new ItemStack(ConfigItems.itemShovelElemental), 1,
-				new AspectList().add(Aspect.EARTH, 16).add(Aspect.CRAFT, 8),
-				material.getToolHead("shovel"), new ItemStack[] {
-						new ItemStack(ConfigItems.itemShard, 1, 3),
-						new ItemStack(ConfigItems.itemShard, 1, 3),
-						new ItemStack(Items.diamond),
-						new ItemStack(ConfigBlocks.blockMagicalLog, 1, 0) });
-
-		ThaumcraftApi.addInfusionCraftingRecipe("ELEMENTALHOE", new ItemStack(
-				ConfigItems.itemHoeElemental), 1,
-				new AspectList().add(Aspect.HARVEST, 8).add(Aspect.PLANT, 8)
-						.add(Aspect.EARTH, 8), material.getToolHead("scythe"),
-				new ItemStack[] { new ItemStack(ConfigItems.itemShard, 1, 4),
-						new ItemStack(ConfigItems.itemShard, 1, 5),
-						new ItemStack(Items.diamond),
-						new ItemStack(ConfigBlocks.blockMagicalLog, 1, 0) });
-
-		ThaumcraftApi.addInfusionCraftingRecipe(
-				"ELEMENTALSWORD",
-				new ItemStack(ConfigItems.itemSwordElemental),
-				1,
-				new AspectList().add(Aspect.AIR, 8).add(Aspect.MOTION, 8)
-						.add(Aspect.ENERGY, 8), material.getToolHead("sword"),
-				new ItemStack[] { new ItemStack(ConfigItems.itemShard, 1, 0),
-						new ItemStack(ConfigItems.itemShard, 1, 0),
-						new ItemStack(Items.diamond),
-						new ItemStack(ConfigBlocks.blockMagicalLog, 1, 0) });
+		registerAspects();
 	}
 
 	public static void registerMaterial(
@@ -139,28 +83,82 @@ public class ThaumcraftIntegration {
 
 				material.setToolHead("unrefined", new ItemStack(unrefined, 1));
 				material.setToolHead("hot", new ItemStack(hot, 1));
-				
-				registerAspects();
+
 			}
 		}
 	}
-	
+
+	public static void addRecipes() {
+		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
+		MaterialMultiItem material = contentTools.getMaterial(Thaumium.class);
+
+		ItemStack thaumiumTools[] = {
+				new ItemStack(ConfigItems.itemAxeThaumium),
+				new ItemStack(ConfigItems.itemShovelThaumium),
+				new ItemStack(ConfigItems.itemPickThaumium),
+				new ItemStack(ConfigItems.itemHoeThaumium),
+				new ItemStack(ConfigItems.itemSwordThaumium) };
+		ItemStack thaumiumHeads[] = { material.getToolHead("axe"),
+				material.getToolHead("shovel"),
+				material.getToolHead("pickaxe"),
+				material.getToolHead("scythe"), material.getToolHead("sword") };
+		ArrayList craftingRecipes = new ArrayList<Object>(
+				ThaumcraftApi.getCraftingRecipes());
+
+		// TODO: make this work for the outer pedestals as well
+		for (Object recipe : craftingRecipes) {
+			if (recipe instanceof InfusionRecipe) {
+				InfusionRecipe infusion = (InfusionRecipe) recipe;
+
+				for (int i = 0; i < thaumiumTools.length; i++) {
+					if (infusion.areItemStacksEqual(thaumiumTools[i],
+							infusion.getRecipeInput(), false)) {
+						RemapHelper.removeAnyRecipe(thaumiumTools[i]);
+						ThaumcraftApi.addInfusionCraftingRecipe(
+								infusion.getResearch(),
+								infusion.getRecipeOutput(),
+								infusion.getInstability(),
+								infusion.getAspects(), thaumiumHeads[i],
+								infusion.getComponents());
+					}
+				}
+			}
+		}
+	}
+
 	public static void registerAspects() {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		ContentWorld contentWorld = Singleton.getInstance(ContentWorld.class);
-		ContentBlackSmith contentBS = Singleton.getInstance(ContentBlackSmith.class);
-		
-		for ( MaterialMultiItem material : contentTools.getMaterials())
-		{
-			ThaumcraftApi.registerObjectTag(material.getToolHead("sword"), new AspectList().add(Aspect.WEAPON, material.damage + 1));
-			ThaumcraftApi.registerObjectTag(material.getToolHead("pickaxe"), new AspectList().add(Aspect.MINE, material.miningLevel + 1));
-			ThaumcraftApi.registerObjectTag(material.getToolHead("scythe"), new AspectList().add(Aspect.HARVEST, material.miningLevel + 1));
-			
-			ThaumcraftApi.registerObjectTag(material.getToolHead("shovel"), new AspectList().add(Aspect.TOOL, material.miningLevel + 1));
-			ThaumcraftApi.registerObjectTag(material.getToolHead("axe"), new AspectList().add(Aspect.TOOL, material.miningLevel + 1));
+		ContentBlackSmith contentBS = Singleton
+				.getInstance(ContentBlackSmith.class);
+
+		for (MaterialMultiItem material : contentTools.getMaterials()) {
+			ThaumcraftApi.registerObjectTag(material.getToolHead("sword"),
+					new AspectList().add(Aspect.WEAPON, material.damage + 1));
+			ThaumcraftApi
+					.registerObjectTag(material.getToolHead("pickaxe"),
+							new AspectList().add(Aspect.MINE,
+									material.miningLevel + 1));
+			ThaumcraftApi.registerObjectTag(material.getToolHead("scythe"),
+					new AspectList().add(Aspect.HARVEST,
+							material.miningLevel + 1));
+
+			ThaumcraftApi
+					.registerObjectTag(material.getToolHead("shovel"),
+							new AspectList().add(Aspect.TOOL,
+									material.miningLevel + 1));
+			ThaumcraftApi
+					.registerObjectTag(material.getToolHead("axe"),
+							new AspectList().add(Aspect.TOOL,
+									material.miningLevel + 1));
 		}
-		
-		ThaumcraftApi.registerObjectTag(new ItemStack(ContentWorld.metalItems, 1, ContentWorld.metalItems.getTextureIndex("copper_gem")), new AspectList().add(Aspect.CRYSTAL, 4).add(Aspect.MAGIC, 5));
-		ThaumcraftApi.registerObjectTag(contentBS.magma_furnace.getDefaultBlock(), new AspectList().add(Aspect.FIRE, 10).add(Aspect.EARTH, 10).add(Aspect.METAL, 8).add(Aspect.ENERGY, 5));
+
+		ThaumcraftApi.registerObjectTag(new ItemStack(ContentWorld.metalItems,
+				1, ContentWorld.metalItems.getTextureIndex("copper_gem")),
+				new AspectList().add(Aspect.CRYSTAL, 4).add(Aspect.MAGIC, 5));
+		ThaumcraftApi.registerObjectTag(
+				contentBS.magma_furnace.getDefaultBlock(),
+				new AspectList().add(Aspect.FIRE, 10).add(Aspect.EARTH, 10)
+						.add(Aspect.METAL, 8).add(Aspect.ENERGY, 5));
 	}
 }
