@@ -9,17 +9,27 @@ import rubedo.util.Singleton;
 public class SpellProperties extends MultiItemProperties<SpellBase> {
 	private static ContentSpells content = Singleton
 			.getInstance(ContentSpells.class);
-	
+
 	public SpellProperties(ItemStack stack, SpellBase spell) {
 		super(stack, spell);
 
-		if (this.baseTags != null) {
+		if (stack.getItem() instanceof SpellBase && this.baseTags != null
+				&& this.baseTags.hasKey("RubedoSpell")) {
 			this.tag = this.baseTags.getCompoundTag("RubedoSpell");
+		} else {
+			spell.buildSpell(stack, content.getMaterial("invalid"),
+					content.getMaterial("invalid"),
+					content.getMaterial("invalid"));
 		}
 	}
 
+	// TODO: rewrite getBaseMaterial(), getFocusMaterial(), and
+	// getEffectMaterial() to return MaterialMultiItem
 	public String getBaseMaterial() {
-		return tag.getString("base");
+		if (this.isValid() && tag.getString("base") != null)
+			return tag.getString("base");
+		else
+			return content.getMaterial("invalid").name;
 	}
 
 	public void setBaseMaterial(MaterialMultiItem base) {
@@ -27,7 +37,10 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	}
 
 	public String getFocusMaterial() {
-		return tag.getString("focus");
+		if (this.isValid() && tag.getString("focus") != null)
+			return tag.getString("focus");
+		else
+			return content.getMaterial("invalid").name;
 	}
 
 	public void setFocusMaterial(MaterialMultiItem focus) {
@@ -35,7 +48,10 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	}
 
 	public String getEffectMaterial() {
-		return tag.getString("effect");
+		if (this.isValid() && tag.getString("focus") != null)
+			return tag.getString("effect");
+		else
+			return content.getMaterial("invalid").name;
 	}
 
 	public void setEffectMaterial(MaterialMultiItem effect) {
@@ -45,7 +61,7 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	public int getPower() {
 		return content.getMaterial(getBaseMaterial()).arcaneLevel;
 	}
-	
+
 	public int getMundane() {
 		return content.getMaterial(getBaseMaterial()).mundaneLevel;
 	}
@@ -61,19 +77,19 @@ public class SpellProperties extends MultiItemProperties<SpellBase> {
 	public int getMiningLevel() {
 		return content.getMaterial(getBaseMaterial()).miningLevel;
 	}
-	
+
 	public int getCost() {
 		float power = getPower();
 		float mundane = getMundane();
-		
+
 		// Avoiding div0 errors and free spells
 		if (power == 0)
 			power = 0.5f;
 		if (mundane == 0)
 			mundane = 0.5f;
-		
+
 		int cost = (int) (1000 / power * mundane);
-		
+
 		return cost;
 	}
 }
