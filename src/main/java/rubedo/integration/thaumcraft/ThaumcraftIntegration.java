@@ -137,7 +137,23 @@ public class ThaumcraftIntegration {
 
 				material.setToolHead("unrefined", new ItemStack(unrefined, 1));
 				material.setToolHead("hot", new ItemStack(hot, 1));
+				
+				registerAspects();
 			}
+		}
+	}
+	
+	public static void registerAspects() {
+		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
+		
+		for ( MaterialMultiItem material : contentTools.getMaterials())
+		{
+			ThaumcraftApi.registerObjectTag(material.getToolHead("sword"), new AspectList().add(Aspect.WEAPON, material.damage + 1));
+			ThaumcraftApi.registerObjectTag(material.getToolHead("pickaxe"), new AspectList().add(Aspect.MINE, material.miningLevel + 1));
+			ThaumcraftApi.registerObjectTag(material.getToolHead("scythe"), new AspectList().add(Aspect.HARVEST, material.miningLevel + 1));
+			
+			ThaumcraftApi.registerObjectTag(material.getToolHead("shovel"), new AspectList().add(Aspect.TOOL, material.miningLevel + 1));
+			ThaumcraftApi.registerObjectTag(material.getToolHead("axe"), new AspectList().add(Aspect.TOOL, material.miningLevel + 1));
 		}
 	}
 }
