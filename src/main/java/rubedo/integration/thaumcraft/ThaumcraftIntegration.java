@@ -6,13 +6,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import rubedo.RubedoCore;
 import rubedo.common.ContentBlackSmith;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentWorld;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.ItemToolHead;
 import rubedo.items.tools.ToolBase;
-import rubedo.util.RemapHelper;
 import rubedo.util.Singleton;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
@@ -105,22 +105,39 @@ public class ThaumcraftIntegration {
 		ArrayList craftingRecipes = new ArrayList<Object>(
 				ThaumcraftApi.getCraftingRecipes());
 
-		// TODO: make this work for the outer pedestals as well
 		for (Object recipe : craftingRecipes) {
-			if (recipe instanceof InfusionRecipe) {
+			if (recipe instanceof InfusionRecipe
+					&& ((InfusionRecipe) recipe).getRecipeOutput() instanceof ItemStack) {
 				InfusionRecipe infusion = (InfusionRecipe) recipe;
+
+				ItemStack input = infusion.getRecipeInput();
+				ItemStack components[] = infusion.getComponents();
+				boolean changed = false;
 
 				for (int i = 0; i < thaumiumTools.length; i++) {
 					if (infusion.areItemStacksEqual(thaumiumTools[i],
 							infusion.getRecipeInput(), false)) {
-						RemapHelper.removeAnyRecipe(thaumiumTools[i]);
-						ThaumcraftApi.addInfusionCraftingRecipe(
-								infusion.getResearch(),
-								infusion.getRecipeOutput(),
-								infusion.getInstability(),
-								infusion.getAspects(), thaumiumHeads[i],
-								infusion.getComponents());
+						input = thaumiumHeads[i];
+						changed = true;
 					}
+					if (components == null) {
+						boolean help = true;
+					}
+
+					for (ItemStack component : components) {
+						if (infusion.areItemStacksEqual(thaumiumTools[i],
+								component, false)) {
+							component = thaumiumHeads[i];
+							changed = true;
+						}
+					}
+				}
+
+				if (changed) {
+					ThaumcraftApi.addInfusionCraftingRecipe(
+							infusion.getResearch(), infusion.getRecipeOutput(),
+							infusion.getInstability(), infusion.getAspects(),
+							input, components);
 				}
 			}
 		}
