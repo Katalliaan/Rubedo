@@ -161,22 +161,10 @@ public class ThaumcraftIntegration {
 					}
 				}
 
-				for (Object thing : input) {
-					if (thing instanceof ItemStack) {
-						ItemStack stack = (ItemStack) thing;
-						for (int i = 0; i < thaumiumTools.length; i++) {
-							if (matchesThaumiumTool(stack, i)) {
-								stack = getThaumiumHead(i);
-								changed = true;
-							}
-						}
-					}
-				}
-
 				if (changed) {
 					ArrayList<Object> uniqueItems = new ArrayList<Object>();
 					String shape[] = new String[shaped.height];
-					char symbol = 'A';
+					Character symbol = new Character('A');
 
 					for (int y = 0; y < shaped.height; y++) {
 						shape[y] = "";
@@ -203,10 +191,18 @@ public class ThaumcraftIntegration {
 							}
 						}
 					}
+					Object[] recipeItems = new Object[shape.length + uniqueItems.size()];
+					
+					for (int i = 0; i < shape.length; i++) {
+						recipeItems[i] = shape[i];
+					}
+					
+					for (int i = shape.length; i < shape.length + uniqueItems.size(); i++) {
+						recipeItems[i] = uniqueItems.get(i - shape.length);
+					}
 
 					ThaumcraftApi.addArcaneCraftingRecipe(shaped.getResearch(),
-							shaped.getRecipeOutput(), shaped.getAspects(),
-							shape, uniqueItems.toArray());
+							shaped.getRecipeOutput(), shaped.getAspects(), recipeItems);
 				}
 			}
 		}
