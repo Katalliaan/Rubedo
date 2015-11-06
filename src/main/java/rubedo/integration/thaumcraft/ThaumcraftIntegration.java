@@ -21,6 +21,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.InfusionRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
+import thaumcraft.api.crafting.ShapelessArcaneRecipe;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -149,11 +150,11 @@ public class ThaumcraftIntegration {
 
 				Object[] input = shaped.getInput();
 				boolean changed = false;
-				
+
 				for (int i = 0; i < input.length; i++) {
 					if (input[i] instanceof ItemStack) {
 						for (int j = 0; j < thaumiumTools.length; j++) {
-							if (matchesThaumiumTool((ItemStack)input[i], j)) {
+							if (matchesThaumiumTool((ItemStack) input[i], j)) {
 								input[i] = getThaumiumHead(j);
 								changed = true;
 							}
@@ -168,7 +169,7 @@ public class ThaumcraftIntegration {
 
 					for (int y = 0; y < shaped.height; y++) {
 						shape[y] = "";
-						
+
 						for (int x = 0; x < shaped.width; x++) {
 							if (input[y * shaped.height + x] == null) {
 								shape[y] = shape[y] + " ";
@@ -191,18 +192,44 @@ public class ThaumcraftIntegration {
 							}
 						}
 					}
-					Object[] recipeItems = new Object[shape.length + uniqueItems.size()];
-					
+					Object[] recipeItems = new Object[shape.length
+							+ uniqueItems.size()];
+
 					for (int i = 0; i < shape.length; i++) {
 						recipeItems[i] = shape[i];
 					}
-					
-					for (int i = shape.length; i < shape.length + uniqueItems.size(); i++) {
+
+					for (int i = shape.length; i < shape.length
+							+ uniqueItems.size(); i++) {
 						recipeItems[i] = uniqueItems.get(i - shape.length);
 					}
 
 					ThaumcraftApi.addArcaneCraftingRecipe(shaped.getResearch(),
-							shaped.getRecipeOutput(), shaped.getAspects(), recipeItems);
+							shaped.getRecipeOutput(), shaped.getAspects(),
+							recipeItems);
+				}
+			} else if (recipe instanceof ShapelessArcaneRecipe) {
+				ShapelessArcaneRecipe shapeless = (ShapelessArcaneRecipe) recipe;
+
+				ArrayList input = shapeless.getInput();
+				boolean changed = false;
+
+				for (int i = 0; i < input.size(); i++) {
+					if (input.get(i) instanceof ItemStack) {
+						for (int j = 0; j < thaumiumTools.length; j++) {
+							if (matchesThaumiumTool((ItemStack) input.get(i), j)) {
+								input.set(i, getThaumiumHead(j));
+								changed = true;
+							}
+						}
+					}
+				}
+
+				if (changed) {
+					ThaumcraftApi.addShapelessArcaneCraftingRecipe(
+							shapeless.getResearch(),
+							shapeless.getRecipeOutput(),
+							shapeless.getAspects(), input.toArray());
 				}
 			}
 		}
