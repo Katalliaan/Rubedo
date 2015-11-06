@@ -105,7 +105,7 @@ public class ThaumcraftIntegration {
 	public static void addRecipes() {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		MaterialMultiItem material = contentTools.getMaterial(Thaumium.class);
-
+		
 		ItemStack thaumiumTools[] = {
 				new ItemStack(ConfigItems.itemAxeThaumium),
 				new ItemStack(ConfigItems.itemShovelThaumium),
@@ -147,8 +147,11 @@ public class ThaumcraftIntegration {
 				}
 			} else if (recipe instanceof ShapedArcaneRecipe) {
 				ShapedArcaneRecipe shaped = (ShapedArcaneRecipe) recipe;
+				
+				Object[] input = new Object[shaped.getInput().length];
+				for (int i = 0; i < input.length; i++)
+					input[i] = shaped.getInput()[i];
 
-				Object[] input = shaped.getInput();
 				boolean changed = false;
 
 				for (int i = 0; i < input.length; i++) {
@@ -210,8 +213,11 @@ public class ThaumcraftIntegration {
 				}
 			} else if (recipe instanceof ShapelessArcaneRecipe) {
 				ShapelessArcaneRecipe shapeless = (ShapelessArcaneRecipe) recipe;
-
-				ArrayList input = shapeless.getInput();
+				
+				ArrayList input = new ArrayList();
+				for (int i = 0; i < shapeless.getInput().size(); i++)
+					input.add(shapeless.getInput().get(i));
+				
 				boolean changed = false;
 
 				for (int i = 0; i < input.size(); i++) {
