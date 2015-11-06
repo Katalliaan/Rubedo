@@ -5,6 +5,7 @@ import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 import rubedo.integration.atg.ATGIntegration;
 import rubedo.integration.fsp.FSPIntegration;
+import rubedo.integration.hee.HEEIntegration;
 import rubedo.integration.oceancraft.OceancraftIntegration;
 import rubedo.integration.thaumcraft.ThaumcraftIntegration;
 import cpw.mods.fml.common.Loader;
@@ -16,7 +17,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@Mod(modid = RubedoIntegration.modid, name = RubedoIntegration.name, version = RubedoIntegration.version, dependencies = "after:rubedo; after:ATG; after:enhancedbiomes; after:Steamcraft; after:Thaumcraft; after:Oceancraft; after:WitchingGadgets; after:ForbiddenMagic; after:ThaumicTinkerer")
+@Mod(modid = RubedoIntegration.modid, name = RubedoIntegration.name, version = RubedoIntegration.version, dependencies = "after:rubedo; after:ATG; after:enhancedbiomes; after:Steamcraft; after:Thaumcraft; after:Oceancraft; after:WitchingGadgets; after:ForbiddenMagic; after:ThaumicTinkerer; after:HardcoreEnderExpansion")
 public class RubedoIntegration {
 	public static final String modid = "rubedoIntegration";
 	public static final String name = "@NAME@";
@@ -65,6 +66,9 @@ public class RubedoIntegration {
 
 		if (Loader.isModLoaded("Oceancraft"))
 			OceancraftIntegration.postInit();
+		
+		if (Loader.isModLoaded("HardcoreEnderExpansion"))
+			HEEIntegration.postInit();
 	}
 
 	@SubscribeEvent
