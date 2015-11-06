@@ -1,7 +1,6 @@
 package rubedo.integration.hee;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
 
 public class HEEIntegration {
 	
@@ -16,8 +15,7 @@ public class HEEIntegration {
 		};
 		
 		for ( String blockName : blockNames) {
-			Block foo = GameRegistry.findBlock("HardcoreEnderExpansion", blockName);
-			foo.setHarvestLevel("pickaxe", 5);
+			GameRegistry.findBlock("HardcoreEnderExpansion", blockName).setHarvestLevel("pickaxe", 5);
 		}
 			
 	}
