@@ -10,7 +10,7 @@ gradlew eclipse
 Eclipse Run configuration:
 
   Main class: GradleStart  
-  Program Arguments: --version 1.6 --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --accessToken FML --userProperties {} --assetIndex 1.7.10 --assetsDir %userprofile%\.gradle\caches\minecraft\assets  
+  Program Arguments: --version 1.7 --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --accessToken FML --userProperties {} --assetIndex 1.7.10 --assetsDir C:\Users\Simon\.gradle\caches\minecraft\assets  
   VM Arguments: -Dfml.ignoreInvalidMinecraftCertificates=true -Xincgc -Xmx1024M -Xms1024M
 
 ##Build it
