@@ -29,6 +29,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ThaumcraftIntegration {
 	public static class Thaumium extends MaterialMultiItem {
 		public Thaumium() {
+			// ThaumcraftApi.exists doesn't recognize this as thaumium
 			ItemStack ingotThaumium = OreDictionary.getOres("ingotThaumium")
 					.get(0);
 
@@ -299,7 +300,7 @@ public class ThaumcraftIntegration {
 		for (MaterialMultiItem material : contentTools.getMaterials()) {
 			if (material.headMaterial != null) {
 				if (ThaumcraftApi.exists(material.headMaterial.getItem(),
-						material.headMaterial.getItemDamage())) {
+						material.headMaterial.getItemDamage()) || material.name == "thaumium") {
 					AspectList shared = new AspectList();
 
 					for (Aspect as : ThaumcraftApiHelper.getObjectAspects(
