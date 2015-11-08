@@ -300,23 +300,7 @@ public class ThaumcraftIntegration {
 			if (material.headMaterial != null) {
 				if (ThaumcraftApi.exists(material.headMaterial.getItem(),
 						material.headMaterial.getItemDamage())) {
-					AspectList shared;
-					if (material.headMaterial.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-						shared = ThaumcraftApiHelper
-								.getObjectAspects(
-										OreDictionary
-												.getOres(
-														OreDictionary
-																.getOreID(material.headMaterial))
-												.get(0)).copy();
-					} else {
-						shared = ThaumcraftApiHelper.getObjectAspects(
-								material.headMaterial).copy();
-					}
-
-					for (Aspect as : shared.getAspects()) {
-						shared.remove(as, (int) (shared.getAmount(as) * 0.25F));
-					}
+					AspectList shared = new AspectList();
 
 					for (Aspect as : ThaumcraftApiHelper.getObjectAspects(
 							material.headMaterial).getAspects()) {
