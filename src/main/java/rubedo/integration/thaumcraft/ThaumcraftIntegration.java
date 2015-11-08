@@ -105,7 +105,7 @@ public class ThaumcraftIntegration {
 	public static void addRecipes() {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		MaterialMultiItem material = contentTools.getMaterial(Thaumium.class);
-		
+
 		ItemStack thaumiumTools[] = {
 				new ItemStack(ConfigItems.itemAxeThaumium),
 				new ItemStack(ConfigItems.itemShovelThaumium),
@@ -147,7 +147,7 @@ public class ThaumcraftIntegration {
 				}
 			} else if (recipe instanceof ShapedArcaneRecipe) {
 				ShapedArcaneRecipe shaped = (ShapedArcaneRecipe) recipe;
-				
+
 				Object[] input = new Object[shaped.getInput().length];
 				for (int i = 0; i < input.length; i++)
 					input[i] = shaped.getInput()[i];
@@ -213,11 +213,11 @@ public class ThaumcraftIntegration {
 				}
 			} else if (recipe instanceof ShapelessArcaneRecipe) {
 				ShapelessArcaneRecipe shapeless = (ShapelessArcaneRecipe) recipe;
-				
+
 				ArrayList input = new ArrayList();
 				for (int i = 0; i < shapeless.getInput().size(); i++)
 					input.add(shapeless.getInput().get(i));
-				
+
 				boolean changed = false;
 
 				for (int i = 0; i < input.size(); i++) {
@@ -262,33 +262,92 @@ public class ThaumcraftIntegration {
 		ContentBlackSmith contentBS = Singleton
 				.getInstance(ContentBlackSmith.class);
 
-		for (MaterialMultiItem material : contentTools.getMaterials()) {
-			ThaumcraftApi.registerObjectTag(material.getToolHead("sword"),
-					new AspectList().add(Aspect.WEAPON, material.damage + 1));
-			ThaumcraftApi
-					.registerObjectTag(material.getToolHead("pickaxe"),
-							new AspectList().add(Aspect.MINE,
-									material.miningLevel + 1));
-			ThaumcraftApi.registerObjectTag(material.getToolHead("scythe"),
-					new AspectList().add(Aspect.HARVEST,
-							material.miningLevel + 1));
-
-			ThaumcraftApi
-					.registerObjectTag(material.getToolHead("shovel"),
-							new AspectList().add(Aspect.TOOL,
-									material.miningLevel + 1));
-			ThaumcraftApi
-					.registerObjectTag(material.getToolHead("axe"),
-							new AspectList().add(Aspect.TOOL,
-									material.miningLevel + 1));
-		}
-
-		ThaumcraftApi.registerObjectTag(new ItemStack(ContentWorld.metalItems,
-				1, ContentWorld.metalItems.getTextureIndex("copper_gem")),
+		ThaumcraftApi.registerObjectTag("gemCopper",
 				new AspectList().add(Aspect.CRYSTAL, 4).add(Aspect.MAGIC, 5));
 		ThaumcraftApi.registerObjectTag(
 				contentBS.magma_furnace.getDefaultBlock(),
 				new AspectList().add(Aspect.FIRE, 10).add(Aspect.EARTH, 10)
 						.add(Aspect.METAL, 8).add(Aspect.ENERGY, 5));
+
+		ItemStack copperBlock = new ItemStack(ContentWorld.metalBlocks, 1,
+				ContentWorld.metalBlocks.getBehavior().getTextureMeta(
+						"copper_block"));
+		ThaumcraftApi.registerObjectTag(copperBlock,
+				new AspectList().add(Aspect.METAL, 20).add(Aspect.EXCHANGE, 6));
+
+		ThaumcraftApi.registerObjectTag("ingotOrichalcum",
+				new AspectList().add(Aspect.METAL, 3).add(Aspect.EXCHANGE, 1)
+						.add(Aspect.GREED, 2));
+		ThaumcraftApi.registerObjectTag(
+				new ItemStack(ContentWorld.metalItems, 1,
+						ContentWorld.metalItems
+								.getTextureIndex("orichalcum_nugget")),
+				new AspectList().add(Aspect.METAL, 1));
+
+		ThaumcraftApi.registerObjectTag("ingotMythril",
+				new AspectList().add(Aspect.METAL, 3).add(Aspect.EXCHANGE, 1)
+						.add(Aspect.GREED, 1));
+		ThaumcraftApi.registerObjectTag("nuggetMythril",
+				new AspectList().add(Aspect.METAL, 1));
+
+		ThaumcraftApi.registerObjectTag("ingotHepatizon",
+				new AspectList().add(Aspect.METAL, 3).add(Aspect.EXCHANGE, 2)
+						.add(Aspect.GREED, 3).add(Aspect.ELDRITCH, 1));
+		ThaumcraftApi.registerObjectTag("nuggetHepatizon",
+				new AspectList().add(Aspect.METAL, 1));
+
+		for (MaterialMultiItem material : contentTools.getMaterials()) {
+			if (material.headMaterial != null) {
+				if (ThaumcraftApi.exists(material.headMaterial.getItem(),
+						material.headMaterial.getItemDamage())) {
+					AspectList shared;
+					if (material.headMaterial.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+						shared = ThaumcraftApiHelper
+								.getObjectAspects(
+										OreDictionary
+												.getOres(
+														OreDictionary
+																.getOreID(material.headMaterial))
+												.get(0)).copy();
+					} else {
+						shared = ThaumcraftApiHelper.getObjectAspects(
+								material.headMaterial).copy();
+					}
+
+					for (Aspect as : shared.getAspects()) {
+						shared.remove(as, (int) (shared.getAmount(as) * 0.25F));
+					}
+
+					for (Aspect as : ThaumcraftApiHelper.getObjectAspects(
+							material.headMaterial).getAspects()) {
+						shared.add(as, (int) (ThaumcraftApiHelper
+								.getObjectAspects(material.headMaterial)
+								.getAmount(as) * 2.25F));
+					}
+
+					AspectList sword = shared.copy().add(Aspect.WEAPON,
+							material.damage + 1);
+					AspectList pickaxe = shared.copy().add(Aspect.MINE,
+							material.miningLevel + 1);
+					AspectList scythe = shared.copy().add(Aspect.HARVEST,
+							material.miningLevel + 1);
+					AspectList other = shared.copy().add(Aspect.TOOL,
+							material.miningLevel + 1);
+
+					ThaumcraftApi.registerObjectTag(
+							material.getToolHead("sword"), sword);
+					ThaumcraftApi.registerObjectTag(
+							material.getToolHead("pickaxe"), pickaxe);
+					ThaumcraftApi.registerObjectTag(
+							material.getToolHead("scythe"), scythe);
+
+					ThaumcraftApi.registerObjectTag(
+							material.getToolHead("shovel"), other);
+					ThaumcraftApi.registerObjectTag(
+							material.getToolHead("axe"), other);
+
+				}
+			}
+		}
 	}
 }
