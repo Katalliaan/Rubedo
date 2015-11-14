@@ -7,7 +7,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
@@ -40,6 +42,7 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 		public static boolean removeRecipes = true;
 		public static boolean changeMiningProgression = true;
 		public static boolean addFlintRecipe = true;
+		public static boolean addFlintDrop = true;
 		public static boolean changeEnchTableRecipe = true;
 	}
 
@@ -57,6 +60,9 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 		Config.addFlintRecipe = config.get("Vanilla Changes", "AddFlintRecipe",
 				Config.addFlintRecipe, "Add alternate flint recipe?")
 				.getBoolean();
+		Config.addFlintDrop = config.get("Vanilla Changes", "AddFlintDrop",
+				Config.addFlintDrop, "Add flint drop to stone?")
+				.getBoolean();
 		Config.changeEnchTableRecipe = config.get("Vanilla Changes",
 				"ChangeEnchantmentTableRecipe", Config.changeEnchTableRecipe,
 				"Remove obsidian from enchantment table recipe?").getBoolean();
@@ -66,20 +72,6 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 	public void registerBase() {
 		// Remap vanilla tools
 		this.remapToolHeads();
-
-		// TODO: figure out how Nether Portals are made
-		/*
-		 * BlockPortal portal = new BlockPortal() {
-		 * 
-		 * @Override public boolean tryToCreatePortal(World world, int x, int y,
-		 * int z) { //return super.tryToCreatePortal(world, x, y, z); return
-		 * false; } };
-		 * portal.setHardness(-1.0F).setStepSound(Block.soundTypeGlass
-		 * ).setLightLevel
-		 * (0.75F).setBlockName("portal").setBlockTextureName("portal");
-		 * 
-		 * ReflectionHelper.setStatic(Block.class, "portal", portal);
-		 */
 	}
 
 	@Override
@@ -119,6 +111,11 @@ public class ContentVanilla extends Singleton<ContentVanilla> implements
 			Blocks.quartz_ore.setHardness(3.0F);
 			Blocks.nether_brick.setHarvestLevel("pickaxe", 4);
 			Blocks.end_stone.setHarvestLevel("pickaxe", 5);
+		}
+		
+		// Flint from stone
+		if (Config.addFlintDrop) {
+			MinecraftForge.EVENT_BUS.register(new rubedo.ai.BreakEventHandler());
 		}
 	}
 
