@@ -13,6 +13,7 @@ import amerifrance.guideapi.api.util.BookBuilder;
 import amerifrance.guideapi.categories.CategoryItemStack;
 import amerifrance.guideapi.entries.EntryUniText;
 import amerifrance.guideapi.pages.PageIRecipe;
+import amerifrance.guideapi.pages.PageUnlocText;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -70,11 +71,13 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 
 	private void createToolEntries() {
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
-
-		List<EntryAbstract> entries = new ArrayList<EntryAbstract>();
-
 		MaterialMultiItem flint = contentTools.getMaterial("flint");
+
+		List<EntryAbstract> earlyToolsEntries = new ArrayList<EntryAbstract>();
+
+		// Entry: Tool Heads
 		ArrayList<IPage> toolHeads = new ArrayList<IPage>();
+		toolHeads.add(new PageUnlocText("rubedo.guide.earlyTools.toolHeads.explanation"));
 		toolHeads.add(new PageIRecipe(new ShapedOreRecipe(flint
 				.getToolHead("sword"), "X", "X", 'X', flint.headMaterial)));
 		toolHeads.add(new PageIRecipe(new ShapedOreRecipe(flint
@@ -88,18 +91,21 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 				flint.headMaterial)));
 		toolHeads.add(new PageIRecipe(new ShapedOreRecipe(flint
 				.getToolHead("pickaxe"), "XXX", 'X', flint.headMaterial)));
-		entries.add(new EntryUniText(toolHeads,
+		earlyToolsEntries.add(new EntryUniText(toolHeads,
 				"rubedo.guide.earlyTools.toolHeads"));
 
+		// Entry: Tool Crafting
 		ArrayList<IPage> earlyTools = new ArrayList<IPage>();
+		earlyTools.add(new PageUnlocText("rubedo.guide.earlyTools.toolCrafting.explanation"));
 		earlyTools.add(new PageIRecipe(new ShapelessOreRecipe(contentTools
 				.getItem(ToolPickaxe.class).buildTool(flint,
 						contentTools.getMaterial("wood"),
 						contentTools.getMaterial("wood")), flint
 				.getToolHead("pickaxe"), "stickWood", "plankWood")));
-		entries.add(new EntryUniText(earlyTools, "rubedo.guide.earlyTools.toolCrafting"));
+		earlyToolsEntries.add(new EntryUniText(earlyTools, "rubedo.guide.earlyTools.toolCrafting"));
 
-		categories.add(new CategoryItemStack(entries,
+		// Category: First Tools
+		categories.add(new CategoryItemStack(earlyToolsEntries,
 				"rubedo.guide.earlyTools", contentTools.getItem(
 						ToolPickaxe.class).buildTool(
 						contentTools.getMaterial("flint"),

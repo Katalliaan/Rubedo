@@ -79,4 +79,6 @@ rubedo.guide.title=Rubedo Guide
 rubedo.guide.description=A guide to all things Rubedo
 rubedo.guide.earlyTools=First Tools
 rubedo.guide.earlyTools.toolHeads=Tool Heads
+rubedo.guide.earlyTools.toolHeads.explanation=The first step in crafting a tool is making its head. Tool heads are usually made of metal, but you can make crude ones out of flint.
 rubedo.guide.earlyTools.toolCrafting=Tool Crafting
+rubedo.guide.earlyTools.toolCrafting.explanation=Every tool requires a head, rod, and cap. The material you use for the head will determine most of the detailss of the tool. However, the tool rod affects the tool's speed and durability, and the cap affects the tool's damage or improves it in other ways.
