@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import amerifrance.guideapi.api.GuideRegistry;
 import amerifrance.guideapi.api.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.abstraction.EntryAbstract;
@@ -18,6 +20,7 @@ import amerifrance.guideapi.pages.PageUnlocText;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -70,6 +73,16 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 		rubedoGuide = builder.build();
 
 		GuideRegistry.registerBook(rubedoGuide);
+		GameRegistry.addShapelessRecipe(GuideRegistry
+				.getItemStackForBook(rubedoGuide), new ItemStack(Items.flint),
+				new ItemStack(Items.book));
+
+		if (Config.giveBookOnCraft) {
+			MinecraftForge.EVENT_BUS
+					.register(new rubedo.ai.BookEventsHandler());
+			FMLCommonHandler.instance().bus()
+					.register(new rubedo.ai.BookEventsHandler());
+		}
 	}
 
 	private void createToolEntries() {
