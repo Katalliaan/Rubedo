@@ -13,7 +13,9 @@ import amerifrance.guideapi.api.util.BookBuilder;
 import amerifrance.guideapi.categories.CategoryItemStack;
 import amerifrance.guideapi.entries.EntryUniText;
 import amerifrance.guideapi.pages.PageIRecipe;
+import amerifrance.guideapi.pages.PageUnlocItemStack;
 import amerifrance.guideapi.pages.PageUnlocText;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -21,6 +23,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
 import rubedo.items.tools.ToolPickaxe;
+import rubedo.items.tools.ToolProperties;
 import rubedo.util.Singleton;
 
 public class ContentBook extends Singleton<ContentBook> implements IContent {
@@ -70,14 +73,22 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 	}
 
 	private void createToolEntries() {
+		ContentBlackSmith contentBS = Singleton
+				.getInstance(ContentBlackSmith.class);
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		MaterialMultiItem flint = contentTools.getMaterial("flint");
+		MaterialMultiItem wood = contentTools.getMaterial("wood");
+		MaterialMultiItem copper = contentTools.getMaterial("copper");
+		MaterialMultiItem leather = contentTools.getMaterial("leather");
+		MaterialMultiItem iron = contentTools.getMaterial("iron");
 
 		List<EntryAbstract> earlyToolsEntries = new ArrayList<EntryAbstract>();
+		List<EntryAbstract> blacksmithEntries = new ArrayList<EntryAbstract>();
 
 		// Entry: Tool Heads
 		ArrayList<IPage> toolHeads = new ArrayList<IPage>();
-		toolHeads.add(new PageUnlocText("rubedo.guide.earlyTools.toolHeads.explanation"));
+		toolHeads.add(new PageUnlocText(
+				"rubedo.guide.earlyTools.toolHeads.explanation"));
 		toolHeads.add(new PageIRecipe(new ShapedOreRecipe(flint
 				.getToolHead("sword"), "X", "X", 'X', flint.headMaterial)));
 		toolHeads.add(new PageIRecipe(new ShapedOreRecipe(flint
@@ -96,20 +107,83 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 
 		// Entry: Tool Crafting
 		ArrayList<IPage> earlyTools = new ArrayList<IPage>();
-		earlyTools.add(new PageUnlocText("rubedo.guide.earlyTools.toolCrafting.explanation"));
+		earlyTools.add(new PageUnlocText(
+				"rubedo.guide.earlyTools.toolCrafting.explanation"));
 		earlyTools.add(new PageIRecipe(new ShapelessOreRecipe(contentTools
-				.getItem(ToolPickaxe.class).buildTool(flint,
-						contentTools.getMaterial("wood"),
-						contentTools.getMaterial("wood")), flint
-				.getToolHead("pickaxe"), "stickWood", "plankWood")));
-		earlyToolsEntries.add(new EntryUniText(earlyTools, "rubedo.guide.earlyTools.toolCrafting"));
+				.getItem(ToolPickaxe.class).buildTool(flint, wood, wood), flint
+				.getToolHead("pickaxe"), wood.rodMaterial, wood.capMaterial)));
+		earlyToolsEntries.add(new EntryUniText(earlyTools,
+				"rubedo.guide.earlyTools.toolCrafting"));
+
+		// Entry: Replacing Tool Parts
+		ArrayList<IPage> replaceParts = new ArrayList<IPage>();
+		ItemStack flintPick = contentTools.getItem(ToolPickaxe.class)
+				.buildTool(flint, wood, wood);
+		ToolProperties flintPickProperties = new ToolProperties(flintPick,
+				contentTools.getItem(ToolPickaxe.class));
+		flintPickProperties.setBroken(true);
+		replaceParts.add(new PageUnlocItemStack(
+				"rubedo.guide.earlyTools.replaceParts.explanation",
+				contentTools.getItem(ToolPickaxe.class).buildTool(copper,
+						leather, copper)));
+		replaceParts.add(new PageIRecipe(new ShapelessOreRecipe(contentTools
+				.getItem(ToolPickaxe.class).buildTool(copper, wood, wood),
+				flintPick, copper.getToolHead("pickaxe"))));
+		replaceParts.add(new PageIRecipe(new ShapelessOreRecipe(contentTools
+				.getItem(ToolPickaxe.class).buildTool(copper, leather, wood),
+				contentTools.getItem(ToolPickaxe.class).buildTool(copper, wood,
+						wood), leather.rodMaterial)));
+		replaceParts.add(new PageIRecipe(new ShapelessOreRecipe(contentTools
+				.getItem(ToolPickaxe.class).buildTool(copper, leather, copper),
+				contentTools.getItem(ToolPickaxe.class).buildTool(copper,
+						leather, wood), copper.capMaterial)));
+		earlyToolsEntries.add(new EntryUniText(replaceParts,
+				"rubedo.guide.earlyTools.replaceParts"));
 
 		// Category: First Tools
 		categories.add(new CategoryItemStack(earlyToolsEntries,
 				"rubedo.guide.earlyTools", contentTools.getItem(
 						ToolPickaxe.class).buildTool(
-						contentTools.getMaterial("flint"),
-						contentTools.getMaterial("wood"),
-						contentTools.getMaterial("wood"))));
+						contentTools.getMaterial("flint"), wood, wood)));
+
+		// Entry: Advanced Tool Heads
+		ArrayList<IPage> advancedHeads = new ArrayList<IPage>();
+		advancedHeads.add(new PageUnlocItemStack(
+				"rubedo.guide.blacksmith.advancedHeads.explanation", iron
+						.getToolHead("unrefined")));
+		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+				.getToolHead("sword"), "X", "X", "Y", 'X', new ItemStack(
+				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+				.getToolHead("shovel"), "XXY", "XX ", 'X', new ItemStack(
+				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+				.getToolHead("axe"), true, "XX", " X", " Y", 'X',
+				new ItemStack(Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+				.getToolHead("scythe"), true, "XXX", "XY ", 'X', new ItemStack(
+				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+				.getToolHead("pickaxe"), "XXX", " Y ", 'X', new ItemStack(
+				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+		blacksmithEntries.add(new EntryUniText(advancedHeads,
+				"rubedo.guide.blacksmith.advancedHeads"));
+
+		// Entry: Magma Furnace
+		ArrayList<IPage> magmaFurnace = new ArrayList<IPage>();
+		magmaFurnace.add(new PageUnlocItemStack(
+				"rubedo.guide.blacksmith.magmaFurnace.explanation",
+				contentBS.magma_furnace.getDefaultBlock()));
+		magmaFurnace.add(new PageIRecipe(new ShapedOreRecipe(
+				contentBS.magma_furnace.getDefaultBlock(), "CCC", "CBC", "bbb",
+				'C', "ingotCopper", 'B', new ItemStack(Blocks.coal_block), 'b',
+				new ItemStack(Items.brick))));
+		blacksmithEntries.add(new EntryUniText(magmaFurnace,
+				"rubedo.guide.blacksmith.magmaFurnace"));
+
+		// Category: Blacksmithing
+		categories.add(new CategoryItemStack(blacksmithEntries,
+				"rubedo.guide.blacksmith", new ItemStack(Blocks.anvil)));
+
 	}
 }
