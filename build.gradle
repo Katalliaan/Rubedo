@@ -44,6 +44,18 @@ minecraft {
     replaceIn "rubedo/RubedoCore.java"
 }
 
+repositories {
+	maven { 
+		name 'TehNut Repo'
+		url "http://tehnut.info/maven/"
+	}
+}
+
+dependencies {
+	compile "info.amerifrance.guideapi:Guide-API:1.7.10-1.0.1-20:deobf"
+	compile fileTree(dir: 'libs', include: '*.jar')
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.

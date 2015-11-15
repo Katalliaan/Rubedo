@@ -5,6 +5,7 @@
 !.gitignore
 !gradlew*
 !/gradle/
+/libs/*
 !build.gradle
 !version.properties
 !/LICENSE

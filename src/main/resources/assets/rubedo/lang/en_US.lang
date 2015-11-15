@@ -74,3 +74,9 @@ rubedo.spells.effects.blazerod=Fire
 rubedo.spells.effects.snow=Water
 rubedo.spells.effects.flint=Break
 rubedo.spells.effects.bone=Life
+
+rubedo.guide.title=Rubedo Guide
+rubedo.guide.description=A guide to all things Rubedo
+rubedo.guide.earlyTools=First Tools
+rubedo.guide.earlyTools.toolHeads=Tool Heads
+rubedo.guide.earlyTools.toolCrafting=Tool Crafting

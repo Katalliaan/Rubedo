@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import rubedo.common.ConfigFile;
 import rubedo.common.ContentAI;
 import rubedo.common.ContentBlackSmith;
+import rubedo.common.ContentBook;
 import rubedo.common.ContentSpells;
 import rubedo.common.ContentTools;
 import rubedo.common.ContentVanilla;
@@ -24,11 +25,12 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = RubedoCore.modid, name = RubedoCore.name, version = RubedoCore.version)
+@Mod(modid = RubedoCore.modid, name = RubedoCore.name, version = RubedoCore.version, dependencies = RubedoCore.dependencies)
 public class RubedoCore {
 	public static final String modid = "rubedo";
 	public static final String name = "@NAME@";
 	public static final String version = "@VERSION@";
+	public static final String dependencies = "required-after:guideapi";
 
 	// The instance of your mod that Forge uses.
 	@Instance(value = "rubedo")
@@ -83,6 +85,8 @@ public class RubedoCore {
 				Singleton.getInstance(ContentAI.class));
 		this.contentUnits.put(ContentBlackSmith.class,
 				Singleton.getInstance(ContentBlackSmith.class));
+		this.contentUnits.put(ContentBook.class,
+				Singleton.getInstance(ContentBook.class));
 
 		// Load the configs
 		ConfigFile.load(event, this.contentUnits.values());
