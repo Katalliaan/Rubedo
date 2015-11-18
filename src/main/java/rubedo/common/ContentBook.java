@@ -182,6 +182,13 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 		blacksmithEntries.add(new EntryUniText(advancedHeads,
 				"rubedo.guide.blacksmith.advancedHeads"));
 
+		// Entry: Alloys
+		ArrayList<IPage> alloys = new ArrayList<IPage>();
+		alloys.add(new PageUnlocText(
+				"rubedo.guide.blacksmith.alloys.explanation"));
+		blacksmithEntries.add(new EntryUniText(alloys,
+				"rubedo.guide.blacksmith.alloys"));
+
 		// Entry: Magma Furnace
 		ArrayList<IPage> magmaFurnace = new ArrayList<IPage>();
 		magmaFurnace.add(new PageUnlocItemStack(
@@ -207,12 +214,11 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 				'W', "plankWood", 'c', "gemCopper")));
 		blacksmithEntries.add(new EntryUniText(enchanting,
 				"rubedo.guide.blacksmith.enchanting"));
-		
+
 		// Entry: Anvils
 		ArrayList<IPage> anvils = new ArrayList<IPage>();
 		anvils.add(new PageUnlocItemStack(
-				"rubedo.guide.blacksmith.anvils.explanation",
-				Blocks.anvil));
+				"rubedo.guide.blacksmith.anvils.explanation", Blocks.anvil));
 		blacksmithEntries.add(new EntryUniText(anvils,
 				"rubedo.guide.blacksmith.anvils"));
 
