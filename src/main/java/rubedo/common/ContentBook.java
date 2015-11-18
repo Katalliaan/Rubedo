@@ -194,9 +194,30 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 		blacksmithEntries.add(new EntryUniText(magmaFurnace,
 				"rubedo.guide.blacksmith.magmaFurnace"));
 
+		// Entry: Enchanting
+		ArrayList<IPage> enchanting = new ArrayList<IPage>();
+		enchanting.add(new PageUnlocItemStack(
+				"rubedo.guide.blacksmith.enchanting.explanation.1",
+				Blocks.enchanting_table));
+		enchanting.add(new PageUnlocText(
+				"rubedo.guide.blacksmith.enchanting.explanation.2"));
+		enchanting.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(
+				Blocks.enchanting_table), " b ", "dWd", "WcW", 'b',
+				new ItemStack(Items.book), 'd', new ItemStack(Items.diamond),
+				'W', "plankWood", 'c', "gemCopper")));
+		blacksmithEntries.add(new EntryUniText(enchanting,
+				"rubedo.guide.blacksmith.enchanting"));
+		
+		// Entry: Anvils
+		ArrayList<IPage> anvils = new ArrayList<IPage>();
+		anvils.add(new PageUnlocItemStack(
+				"rubedo.guide.blacksmith.anvils.explanation",
+				Blocks.anvil));
+		blacksmithEntries.add(new EntryUniText(anvils,
+				"rubedo.guide.blacksmith.anvils"));
+
 		// Category: Blacksmithing
 		categories.add(new CategoryItemStack(blacksmithEntries,
 				"rubedo.guide.blacksmith", new ItemStack(Blocks.anvil)));
-
 	}
 }
