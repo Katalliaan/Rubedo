@@ -22,6 +22,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rubedo.common.materials.MaterialMultiItem;
@@ -186,6 +187,29 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 		ArrayList<IPage> alloys = new ArrayList<IPage>();
 		alloys.add(new PageUnlocText(
 				"rubedo.guide.blacksmith.alloys.explanation"));
+		if (ContentWorld.Config.addAlloyRecipes) {
+			alloys.add(new PageIRecipe(new ShapelessOreRecipe(OreDictionary
+					.getOres("ingotSteel").get(0), "ingotIron",
+					new ItemStack(Items.blaze_rod))));
+			
+			ItemStack orichalcum = OreDictionary.getOres("ingotOrichalcum")
+					.get(0).copy();
+			orichalcum.stackSize = 2;
+			alloys.add(new PageIRecipe(new ShapelessOreRecipe(orichalcum,
+						"ingotCopper", "ingotGold")));
+			
+			ItemStack mythril = OreDictionary.getOres("ingotMythril")
+					.get(0).copy();
+			mythril.stackSize = 2;
+			alloys.add(new PageIRecipe(new ShapelessOreRecipe(mythril,
+						"ingotCopper", "ingotSilver")));
+			
+			ItemStack hepatizon = OreDictionary.getOres("ingotHepatizon")
+					.get(0);
+			alloys.add(new PageIRecipe(new ShapelessOreRecipe(hepatizon,
+						"ingotOrichalcum", "ingotMythril", new ItemStack(
+								Blocks.end_stone))));
+		}
 		blacksmithEntries.add(new EntryUniText(alloys,
 				"rubedo.guide.blacksmith.alloys"));
 
