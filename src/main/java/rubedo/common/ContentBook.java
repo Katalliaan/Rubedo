@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import amerifrance.guideapi.api.GuideRegistry;
 import amerifrance.guideapi.api.abstraction.CategoryAbstract;
@@ -165,6 +166,16 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 		advancedHeads.add(new PageUnlocItemStack(
 				"rubedo.guide.blacksmith.advancedHeads.explanation", iron
 						.getToolHead("unrefined")));
+		if (Loader.isModLoaded("Steamcraft")
+				&& Loader.isModLoaded("rubedoIntegration")) {
+			advancedHeads
+					.add(new PageUnlocItemStack(
+							"rubedo.guide.blacksmith.advancedHeads.steamcraft.explanation",
+							GameRegistry.findItemStack("rubedoIntegration", "moldToolHead", 1)));
+			advancedHeads.add(new PageIRecipe(new ShapelessOreRecipe(
+					GameRegistry.findItemStack("Steamcraft", "book", 1),
+					Items.book, "oreCopper", "oreZinc")));
+		}
 		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
 				.getToolHead("sword"), "X", "X", "Y", 'X', new ItemStack(
 				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
@@ -189,26 +200,26 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 				"rubedo.guide.blacksmith.alloys.explanation"));
 		if (ContentWorld.Config.addAlloyRecipes) {
 			alloys.add(new PageIRecipe(new ShapelessOreRecipe(OreDictionary
-					.getOres("ingotSteel").get(0), "ingotIron",
-					new ItemStack(Items.blaze_rod))));
-			
+					.getOres("ingotSteel").get(0), "ingotIron", new ItemStack(
+					Items.blaze_rod))));
+
 			ItemStack orichalcum = OreDictionary.getOres("ingotOrichalcum")
 					.get(0).copy();
 			orichalcum.stackSize = 2;
 			alloys.add(new PageIRecipe(new ShapelessOreRecipe(orichalcum,
-						"ingotCopper", "ingotGold")));
-			
-			ItemStack mythril = OreDictionary.getOres("ingotMythril")
-					.get(0).copy();
+					"ingotCopper", "ingotGold")));
+
+			ItemStack mythril = OreDictionary.getOres("ingotMythril").get(0)
+					.copy();
 			mythril.stackSize = 2;
 			alloys.add(new PageIRecipe(new ShapelessOreRecipe(mythril,
-						"ingotCopper", "ingotSilver")));
-			
+					"ingotCopper", "ingotSilver")));
+
 			ItemStack hepatizon = OreDictionary.getOres("ingotHepatizon")
 					.get(0);
 			alloys.add(new PageIRecipe(new ShapelessOreRecipe(hepatizon,
-						"ingotOrichalcum", "ingotMythril", new ItemStack(
-								Blocks.end_stone))));
+					"ingotOrichalcum", "ingotMythril", new ItemStack(
+							Blocks.end_stone))));
 		}
 		blacksmithEntries.add(new EntryUniText(alloys,
 				"rubedo.guide.blacksmith.alloys"));

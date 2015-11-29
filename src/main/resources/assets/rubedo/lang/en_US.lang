@@ -87,6 +87,7 @@ rubedo.guide.earlyTools.replaceParts.explanation=The three parts of a tool can b
 rubedo.guide.blacksmith=Blacksmithing
 rubedo.guide.blacksmith.advancedHeads=Advanced Tool Heads
 rubedo.guide.blacksmith.advancedHeads.explanation=Most metals are not cold-workable. That is, an unrefined tool head must be made from three ingots and then heated up to a workable state. However, the standard furnace cannot reach the proper temperatures; you must use the magma furnace.
+rubedo.guide.blacksmith.advancedHeads.steamcraft.explanation=To prepare the metals, you must use a crucible and tool head mold from Flaxbeard's Steam Power, which will give you an unrefined tool head.
 rubedo.guide.blacksmith.magmaFurnace=Magma Furnace
 rubedo.guide.blacksmith.magmaFurnace.explanation=The magma furnace consumes the lava below it, however it works twice as fast as the normal furnace and will create byproducts when smelting ores. The temperatures inside are great enough to heat unrefined tool heads to a workable state.
 rubedo.guide.blacksmith.alloys=Alloys
