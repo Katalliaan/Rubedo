@@ -65,6 +65,7 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 	@Override
 	public void tweak() {
 		createToolEntries();
+		createBlacksmithingEntries();
 
 		BookBuilder builder = new BookBuilder();
 		builder.setCategories(categories);
@@ -88,17 +89,13 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 	}
 
 	private void createToolEntries() {
-		ContentBlackSmith contentBS = Singleton
-				.getInstance(ContentBlackSmith.class);
 		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
 		MaterialMultiItem flint = contentTools.getMaterial("flint");
 		MaterialMultiItem wood = contentTools.getMaterial("wood");
 		MaterialMultiItem copper = contentTools.getMaterial("copper");
 		MaterialMultiItem leather = contentTools.getMaterial("leather");
-		MaterialMultiItem iron = contentTools.getMaterial("iron");
 
 		List<EntryAbstract> earlyToolsEntries = new ArrayList<EntryAbstract>();
-		List<EntryAbstract> blacksmithEntries = new ArrayList<EntryAbstract>();
 
 		// Entry: Tool Heads
 		ArrayList<IPage> toolHeads = new ArrayList<IPage>();
@@ -160,105 +157,114 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 				"rubedo.guide.earlyTools", contentTools.getItem(
 						ToolPickaxe.class).buildTool(
 						contentTools.getMaterial("flint"), wood, wood)));
-
+	}
+	
+	private void createBlacksmithingEntries() {
+		ContentBlackSmith contentBS = Singleton
+				.getInstance(ContentBlackSmith.class);
+		ContentTools contentTools = Singleton.getInstance(ContentTools.class);
+		MaterialMultiItem iron = contentTools.getMaterial("iron");
+		
+		List<EntryAbstract> blacksmithEntries = new ArrayList<EntryAbstract>();
+		
 		// Entry: Advanced Tool Heads
-		ArrayList<IPage> advancedHeads = new ArrayList<IPage>();
-		advancedHeads.add(new PageUnlocItemStack(
-				"rubedo.guide.blacksmith.advancedHeads.explanation", iron
-						.getToolHead("unrefined")));
-		if (Loader.isModLoaded("Steamcraft")
-				&& Loader.isModLoaded("rubedoIntegration")) {
-			advancedHeads
-					.add(new PageUnlocItemStack(
-							"rubedo.guide.blacksmith.advancedHeads.steamcraft.explanation",
-							GameRegistry.findItemStack("rubedoIntegration", "moldToolHead", 1)));
-			advancedHeads.add(new PageIRecipe(new ShapelessOreRecipe(
-					GameRegistry.findItemStack("Steamcraft", "book", 1),
-					Items.book, "oreCopper", "oreZinc")));
-		}
-		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
-				.getToolHead("sword"), "X", "X", "Y", 'X', new ItemStack(
-				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
-		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
-				.getToolHead("shovel"), "XXY", "XX ", 'X', new ItemStack(
-				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
-		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
-				.getToolHead("axe"), true, "XX", " X", " Y", 'X',
-				new ItemStack(Items.clay_ball), 'Y', iron.getToolHead("hot"))));
-		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
-				.getToolHead("scythe"), true, "XXX", "XY ", 'X', new ItemStack(
-				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
-		advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
-				.getToolHead("pickaxe"), "XXX", " Y ", 'X', new ItemStack(
-				Items.clay_ball), 'Y', iron.getToolHead("hot"))));
-		blacksmithEntries.add(new EntryUniText(advancedHeads,
-				"rubedo.guide.blacksmith.advancedHeads"));
+				ArrayList<IPage> advancedHeads = new ArrayList<IPage>();
+				advancedHeads.add(new PageUnlocItemStack(
+						"rubedo.guide.blacksmith.advancedHeads.explanation", iron
+								.getToolHead("unrefined")));
+				if (Loader.isModLoaded("Steamcraft")
+						&& Loader.isModLoaded("rubedoIntegration")) {
+					advancedHeads
+							.add(new PageUnlocItemStack(
+									"rubedo.guide.blacksmith.advancedHeads.steamcraft.explanation",
+									GameRegistry.findItemStack("rubedoIntegration", "moldToolHead", 1)));
+					advancedHeads.add(new PageIRecipe(new ShapelessOreRecipe(
+							GameRegistry.findItemStack("Steamcraft", "book", 1),
+							Items.book, "oreCopper", "oreZinc")));
+				}
+				advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+						.getToolHead("sword"), "X", "X", "Y", 'X', new ItemStack(
+						Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+				advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+						.getToolHead("shovel"), "XXY", "XX ", 'X', new ItemStack(
+						Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+				advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+						.getToolHead("axe"), true, "XX", " X", " Y", 'X',
+						new ItemStack(Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+				advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+						.getToolHead("scythe"), true, "XXX", "XY ", 'X', new ItemStack(
+						Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+				advancedHeads.add(new PageIRecipe(new ShapedOreRecipe(iron
+						.getToolHead("pickaxe"), "XXX", " Y ", 'X', new ItemStack(
+						Items.clay_ball), 'Y', iron.getToolHead("hot"))));
+				blacksmithEntries.add(new EntryUniText(advancedHeads,
+						"rubedo.guide.blacksmith.advancedHeads"));
 
-		// Entry: Alloys
-		ArrayList<IPage> alloys = new ArrayList<IPage>();
-		alloys.add(new PageUnlocText(
-				"rubedo.guide.blacksmith.alloys.explanation"));
-		if (ContentWorld.Config.addAlloyRecipes) {
-			alloys.add(new PageIRecipe(new ShapelessOreRecipe(OreDictionary
-					.getOres("ingotSteel").get(0), "ingotIron", new ItemStack(
-					Items.blaze_rod))));
+				// Entry: Alloys
+				ArrayList<IPage> alloys = new ArrayList<IPage>();
+				alloys.add(new PageUnlocText(
+						"rubedo.guide.blacksmith.alloys.explanation"));
+				if (ContentWorld.Config.addAlloyRecipes) {
+					alloys.add(new PageIRecipe(new ShapelessOreRecipe(OreDictionary
+							.getOres("ingotSteel").get(0), "ingotIron", new ItemStack(
+							Items.blaze_rod))));
 
-			ItemStack orichalcum = OreDictionary.getOres("ingotOrichalcum")
-					.get(0).copy();
-			orichalcum.stackSize = 2;
-			alloys.add(new PageIRecipe(new ShapelessOreRecipe(orichalcum,
-					"ingotCopper", "ingotGold")));
+					ItemStack orichalcum = OreDictionary.getOres("ingotOrichalcum")
+							.get(0).copy();
+					orichalcum.stackSize = 2;
+					alloys.add(new PageIRecipe(new ShapelessOreRecipe(orichalcum,
+							"ingotCopper", "ingotGold")));
 
-			ItemStack mythril = OreDictionary.getOres("ingotMythril").get(0)
-					.copy();
-			mythril.stackSize = 2;
-			alloys.add(new PageIRecipe(new ShapelessOreRecipe(mythril,
-					"ingotCopper", "ingotSilver")));
+					ItemStack mythril = OreDictionary.getOres("ingotMythril").get(0)
+							.copy();
+					mythril.stackSize = 2;
+					alloys.add(new PageIRecipe(new ShapelessOreRecipe(mythril,
+							"ingotCopper", "ingotSilver")));
 
-			ItemStack hepatizon = OreDictionary.getOres("ingotHepatizon")
-					.get(0);
-			alloys.add(new PageIRecipe(new ShapelessOreRecipe(hepatizon,
-					"ingotOrichalcum", "ingotMythril", new ItemStack(
-							Blocks.end_stone))));
-		}
-		blacksmithEntries.add(new EntryUniText(alloys,
-				"rubedo.guide.blacksmith.alloys"));
+					ItemStack hepatizon = OreDictionary.getOres("ingotHepatizon")
+							.get(0);
+					alloys.add(new PageIRecipe(new ShapelessOreRecipe(hepatizon,
+							"ingotOrichalcum", "ingotMythril", new ItemStack(
+									Blocks.end_stone))));
+				}
+				blacksmithEntries.add(new EntryUniText(alloys,
+						"rubedo.guide.blacksmith.alloys"));
 
-		// Entry: Magma Furnace
-		ArrayList<IPage> magmaFurnace = new ArrayList<IPage>();
-		magmaFurnace.add(new PageUnlocItemStack(
-				"rubedo.guide.blacksmith.magmaFurnace.explanation",
-				contentBS.magma_furnace.getDefaultBlock()));
-		magmaFurnace.add(new PageIRecipe(new ShapedOreRecipe(
-				contentBS.magma_furnace.getDefaultBlock(), "CCC", "CBC", "bbb",
-				'C', "ingotCopper", 'B', new ItemStack(Blocks.coal_block), 'b',
-				new ItemStack(Items.brick))));
-		blacksmithEntries.add(new EntryUniText(magmaFurnace,
-				"rubedo.guide.blacksmith.magmaFurnace"));
+				// Entry: Magma Furnace
+				ArrayList<IPage> magmaFurnace = new ArrayList<IPage>();
+				magmaFurnace.add(new PageUnlocItemStack(
+						"rubedo.guide.blacksmith.magmaFurnace.explanation",
+						contentBS.magma_furnace.getDefaultBlock()));
+				magmaFurnace.add(new PageIRecipe(new ShapedOreRecipe(
+						contentBS.magma_furnace.getDefaultBlock(), "CCC", "CBC", "bbb",
+						'C', "ingotCopper", 'B', new ItemStack(Blocks.coal_block), 'b',
+						new ItemStack(Items.brick))));
+				blacksmithEntries.add(new EntryUniText(magmaFurnace,
+						"rubedo.guide.blacksmith.magmaFurnace"));
 
-		// Entry: Enchanting
-		ArrayList<IPage> enchanting = new ArrayList<IPage>();
-		enchanting.add(new PageUnlocItemStack(
-				"rubedo.guide.blacksmith.enchanting.explanation.1",
-				Blocks.enchanting_table));
-		enchanting.add(new PageUnlocText(
-				"rubedo.guide.blacksmith.enchanting.explanation.2"));
-		enchanting.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(
-				Blocks.enchanting_table), " b ", "dWd", "WcW", 'b',
-				new ItemStack(Items.book), 'd', new ItemStack(Items.diamond),
-				'W', "plankWood", 'c', "gemCopper")));
-		blacksmithEntries.add(new EntryUniText(enchanting,
-				"rubedo.guide.blacksmith.enchanting"));
+				// Entry: Enchanting
+				ArrayList<IPage> enchanting = new ArrayList<IPage>();
+				enchanting.add(new PageUnlocItemStack(
+						"rubedo.guide.blacksmith.enchanting.explanation.1",
+						Blocks.enchanting_table));
+				enchanting.add(new PageUnlocText(
+						"rubedo.guide.blacksmith.enchanting.explanation.2"));
+				enchanting.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(
+						Blocks.enchanting_table), " b ", "dWd", "WcW", 'b',
+						new ItemStack(Items.book), 'd', new ItemStack(Items.diamond),
+						'W', "plankWood", 'c', "gemCopper")));
+				blacksmithEntries.add(new EntryUniText(enchanting,
+						"rubedo.guide.blacksmith.enchanting"));
 
-		// Entry: Anvils
-		ArrayList<IPage> anvils = new ArrayList<IPage>();
-		anvils.add(new PageUnlocItemStack(
-				"rubedo.guide.blacksmith.anvils.explanation", Blocks.anvil));
-		blacksmithEntries.add(new EntryUniText(anvils,
-				"rubedo.guide.blacksmith.anvils"));
+				// Entry: Anvils
+				ArrayList<IPage> anvils = new ArrayList<IPage>();
+				anvils.add(new PageUnlocItemStack(
+						"rubedo.guide.blacksmith.anvils.explanation", Blocks.anvil));
+				blacksmithEntries.add(new EntryUniText(anvils,
+						"rubedo.guide.blacksmith.anvils"));
 
-		// Category: Blacksmithing
-		categories.add(new CategoryItemStack(blacksmithEntries,
-				"rubedo.guide.blacksmith", new ItemStack(Blocks.anvil)));
+				// Category: Blacksmithing
+				categories.add(new CategoryItemStack(blacksmithEntries,
+						"rubedo.guide.blacksmith", new ItemStack(Blocks.anvil)));
 	}
 }
