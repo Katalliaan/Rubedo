@@ -104,3 +104,5 @@ rubedo.guide.nether.obsidian.explanation.thaumcraft=The first step in reaching t
 rubedo.guide.nether.terrain=Hellish Terrain
 rubedo.guide.nether.terrain.explanation.1=The blocks of the nether are much tougher than normal. You'll need something native to it to start mining. Blaze rods should strengthen an iron tool head enough to get started.
 rubedo.guide.nether.terrain.explanation.2=The pigmen seem to be carrying a different kind of metal here. Instead of their normal gold, they carry swords made of this silvery metal whose ore you can see scattered around the nether. On its own, it may not be good, but it should make for a good bronze.
+rubedo.guide.nether.magmaFurnace=Magma Furnace Redux
+rubedo.guide.nether.magmaFurnace.explanation=This place is very hot. Hot enough, you realize, that the mere presence of a lava block below your magma furnace should be enough to fuel it, without the lava needing to be consumed.

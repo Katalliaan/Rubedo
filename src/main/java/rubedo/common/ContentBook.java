@@ -271,8 +271,10 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 	}
 
 	private void createNetherEntries() {
+		ContentBlackSmith contentBS = Singleton
+				.getInstance(ContentBlackSmith.class);
 		ContentWorld contentWorld = Singleton.getInstance(ContentWorld.class);
-		
+
 		List<EntryAbstract> netherEntries = new ArrayList<EntryAbstract>();
 
 		// Entry: Obsidian
@@ -288,13 +290,22 @@ public class ContentBook extends Singleton<ContentBook> implements IContent {
 
 		// Entry: Nether Terrain
 		ArrayList<IPage> terrain = new ArrayList<IPage>();
-		terrain.add(new PageUnlocItemStack("rubedo.guide.nether.terrain.explanation.1",
-				Blocks.netherrack));
-		terrain.add(new PageUnlocItemStack("rubedo.guide.nether.terrain.explanation.2",
-				new ItemStack(contentWorld.oreBlocks, 1, contentWorld.oreBlocks.getBehavior()
-						.getTextureMeta("silver_ore"))));
+		terrain.add(new PageUnlocItemStack(
+				"rubedo.guide.nether.terrain.explanation.1", Blocks.netherrack));
+		terrain.add(new PageUnlocItemStack(
+				"rubedo.guide.nether.terrain.explanation.2", new ItemStack(
+						contentWorld.oreBlocks, 1, contentWorld.oreBlocks
+								.getBehavior().getTextureMeta("silver_ore"))));
 		netherEntries.add(new EntryUniText(terrain,
 				"rubedo.guide.nether.terrain"));
+
+		// Entry: Magma Furnace
+		ArrayList<IPage> magmaFurnace = new ArrayList<IPage>();
+		magmaFurnace.add(new PageUnlocItemStack(
+				"rubedo.guide.nether.magmaFurnace.explanation",
+				contentBS.magma_furnace.getDefaultBlock()));
+		netherEntries.add(new EntryUniText(magmaFurnace,
+				"rubedo.guide.nether.magmaFurnace"));
 
 		categories.add(new CategoryItemStack(netherEntries,
 				"rubedo.guide.nether", new ItemStack(Blocks.portal)));
