@@ -226,7 +226,7 @@ public class TileEntityMagmaFurnace extends TileEntityInventory implements
 		case DOWN:
 			return new int[] {};
 		default:
-			return new int[] { ContainerMagmaFurnace.SLOT_COOKED };
+			return new int[] { ContainerMagmaFurnace.SLOT_COOKED, ContainerMagmaFurnace.SLOT_EXTRA };
 		}
 	}
 
@@ -249,7 +249,7 @@ public class TileEntityMagmaFurnace extends TileEntityInventory implements
 		case DOWN:
 			return false;
 		default:
-			return slot == ContainerMagmaFurnace.SLOT_COOKED;
+			return (slot == ContainerMagmaFurnace.SLOT_COOKED || slot == ContainerMagmaFurnace.SLOT_EXTRA);
 		}
 	}
 
