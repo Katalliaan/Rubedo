@@ -15,10 +15,30 @@ public class BreakEventHandler {
 	@SubscribeEvent
 	public void blockBroken(BreakEvent event) {	
 		// TODO: replace stone check with check against OreDictionary
-		if (event.block == Blocks.stone && !event.getPlayer().capabilities.isCreativeMode && event.getPlayer().getHeldItem() == null)
+		ItemStack blockStack = new ItemStack(event.world.getBlock(event.x, event.y, event.z), 1, event.blockMetadata);
+		 
+		if (isStone(blockStack) && !event.getPlayer().capabilities.isCreativeMode && event.getPlayer().getHeldItem() == null)
 		{
 			EntityItem flint = new EntityItem(event.world, event.x, event.y, event.z, new ItemStack(Items.flint));
 			event.world.spawnEntityInWorld(flint);
 		}
+	}
+	
+	public boolean isStone(ItemStack stack)
+	{
+		if (stack == null || stack.getItem() == null)
+			return false;
+		
+		for (ItemStack oreStack : OreDictionary.getOres("stone"))
+		{
+			ItemStack copyStack = oreStack.copy();
+			if (copyStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+				copyStack.setItemDamage(stack.getItemDamage());
+			
+			if (stack.isItemEqual(copyStack))
+				return true;
+		}
+		
+		return false;
 	}
 }
