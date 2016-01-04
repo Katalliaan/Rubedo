@@ -14,7 +14,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public class BreakEventHandler {
 	@SubscribeEvent
 	public void blockBroken(BreakEvent event) {	
-		// TODO: replace stone check with check against OreDictionary
 		ItemStack blockStack = new ItemStack(event.world.getBlock(event.x, event.y, event.z), 1, event.blockMetadata);
 		 
 		if (isStone(blockStack) && !event.getPlayer().capabilities.isCreativeMode && event.getPlayer().getHeldItem() == null)
