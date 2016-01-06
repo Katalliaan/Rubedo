@@ -1,5 +1,7 @@
 # Rubedo
 
+If you want to know what this is about, join us on EsperNET #rubedo
+
 ![Screenshot](http://i.imgur.com/j7HJ1Vt.png)
 
 ##Make it
